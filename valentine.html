@@ -231,8 +231,9 @@
 
 <body>
     <div class="container">
-        <div class="heart">❤️</div>
-        <h2>Mau Di Bunuh?</h2>
+        <!-- <div class="heart">❤️</div> -->
+        <div class="heart">💀</div>
+        <h2>Mau Di Siram Air?</h2>
         <!-- <h2>Mau hangout berdua di Hari Valentine? 💕</h2> -->
         <div class="button-container">
             <button id="yes">Yes 💖</button>
@@ -314,7 +315,8 @@
         // Efek hati melayang
         function createHeart() {
             const heart = document.createElement("div");
-            heart.innerHTML = "❤️";
+            // heart.innerHTML = "❤️";
+            heart.innerHTML = "💧";
             heart.classList.add("heart-float");
             heart.style.left = Math.random() * 100 + "vw";
             heart.style.fontSize = Math.random() * 30 + 15 + "px";

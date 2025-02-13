@@ -1,4 +1,42 @@
 <!DOCTYPE html>
+<style>
+    .star {
+        position: fixed;
+        width: 2px;
+        height: 2px;
+        background: white;
+        animation: twinkle 1s infinite;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+
+    @keyframes twinkle {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.3;
+        }
+    }
+</style>
+<script>
+    function createStars() {
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
+            document.body.appendChild(star);
+        }
+
+    }
+    window.onload = createStars;
+</script>
 <html lang="id">
 
 <head>
@@ -22,6 +60,10 @@
             margin: 0;
             padding: 30px;
             box-sizing: border-box;
+            /* user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none; */
         }
 
         /* Container utama dengan efek glassmorphism */
@@ -34,12 +76,20 @@
             width: 95%;
             max-width: 600px;
             margin: 0 auto;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         h2 {
             font-size: clamp(24px, 6vw, 36px);
             margin-bottom: 25px;
             padding: 0 15px;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         /* Efek hati berdenyut */
@@ -47,6 +97,10 @@
             font-size: clamp(60px, 10vw, 80px);
             animation: heartbeat 1.5s infinite;
             margin-bottom: 20px;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         @keyframes heartbeat {
@@ -69,6 +123,10 @@
             gap: 24px;
             margin-top: 25px;
             flex-wrap: wrap;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         /* Styling tombol */
@@ -83,6 +141,10 @@
             outline: none;
             min-width: 150px;
             touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         #yes {
@@ -133,6 +195,10 @@
             left: 0;
             overflow: hidden;
             pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         .heart-float {
@@ -141,6 +207,10 @@
             opacity: 0.7;
             font-size: clamp(20px, 5vw, 30px);
             animation: float 5s infinite ease-in;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         /* Modal styling */
@@ -155,6 +225,10 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         .modal-content {
@@ -166,6 +240,10 @@
             max-width: 80%;
             color: #ff4d79;
             animation: modalPop 0.5s ease-out;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         @keyframes modalPop {
@@ -187,6 +265,10 @@
             background-color: #f0f;
             position: absolute;
             animation: confetti 5s ease-in infinite;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         @keyframes confetti {
@@ -226,10 +308,26 @@
                 padding: 12px 24px;
             }
         }
+
+
+        .containerAji {
+            position: absolute;
+            top: 10%;
+            height: 100%;
+            color: transparent;
+            /* user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none; */
+        }
     </style>
 </head>
 
 <body>
+    <div class="containerAji">
+        <h1>🐷 Aji Babi 🐷</h1>
+    </div>
+
     <div class="container">
         <!-- <div class="heart">❤️</div> -->
         <div class="heart">💀</div>
@@ -253,7 +351,8 @@
 
     <script>
         let noClickCount = 0;
-        const maxNoClicks = 7;
+        const maxNoClicks = 6;
+        let confettiInterval;
 
         document.getElementById("no").addEventListener("click", function () {
             let yesButton = document.getElementById("yes");
@@ -286,15 +385,21 @@
             const modal = document.getElementById("celebrationModal");
             modal.style.display = "flex";
 
-            // Create confetti
-            for (let i = 0; i < 50; i++) {
-                createConfetti();
-            }
+            // Start continuous confetti
+            confettiInterval = setInterval(() => {
+                for (let i = 0; i < 10; i++) {
+                    createConfetti();
+                }
+            }, 500);
 
             // Close modal when clicking outside
             modal.addEventListener("click", function (e) {
                 if (e.target === modal) {
                     modal.style.display = "none";
+                    // Stop confetti when modal closes
+                    clearInterval(confettiInterval);
+                    // Remove all existing confetti
+                    document.querySelectorAll('.confetti').forEach(c => c.remove());
                 }
             });
         });

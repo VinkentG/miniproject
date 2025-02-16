@@ -2,6 +2,18 @@
     function tooltip($input){
       echo '<i class="bi bi-question-circle" data-toggle="tooltip" data-placement="right" title="'.$input.'"></i>';
     }
+
+    function colLable(){
+      echo 'col-md-3';
+    }
+
+    function colInput(){
+      echo 'col-md-9';
+    }
+
+    function gapBetweenRow(){
+        echo 'mb-4';
+    }
 ?>
 
 <!DOCTYPE html>
@@ -135,6 +147,13 @@
         .select-option.no-results:hover {
             background-color: transparent;
         }
+
+        .dash-line{
+            width: 50%;
+            height: 2.5px;
+            background: black;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
@@ -143,42 +162,66 @@
         <form name="formData">
             <h3 class="mb-4">Informasi Internal Organisasi</h3>
 
-            <div class="mb-3">
-                <label class="form-label required">PT</label>
-                <div class="select-search" id="ptSelect">
-                    <input type="text" name="ptSelect" class="form-control" placeholder="Select PT" data-value="" onblur="onBlur(this)">
-                    <span class="select-clear">&times;</span>
-                    <div class="select-options">
-                        <div class="select-option" data-value="pt1" onclick="selectOption(this)">PT Maju Jaya</div>
-                        <div class="select-option" data-value="pt2" onclick="selectOption(this)">PT Sukses Makmur</div>
-                        <div class="select-option no-results" style="display: none">No matches found</div>
+            <div class="<?php gapBetweenRow() ?>">
+                <div class="row">
+                    <div class="<?php colLable() ?>">
+                        <label class="form-label required">PT</label>
                     </div>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label required">Departemen</label>
-                <div class="select-search" id="deptSelect">
-                    <input type="text" name="deptSelect" class="form-control" placeholder="Select Departemen" data-value="" onblur="onBlur(this)">
-                    <span class="select-clear">&times;</span>
-                    <div class="select-options">
-                        <div class="select-option" data-value="dept1" onclick="selectOption(this)">IT Department</div>
-                        <div class="select-option" data-value="dept2" onclick="selectOption(this)">Human Resources</div>
-                        <div class="select-option no-results" style="display: none">No matches found</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label required">Posisi Dalam Perusahaan (Job Position)</label>
-                <div class="select-search" id="posSelect">
-                    <input type="text" name="posSelect" class="form-control" placeholder="Select Posisi" data-value="" onblur="onBlur(this)">
-                    <span class="select-clear">&times;</span>
-                    <div class="select-options">
-                        <div class="select-option" data-value="pos1" onclick="selectOption(this)">Software Engineer
+                    <div class="<?php colInput() ?>">
+                        <div class="select-search" id="ptSelect">
+                            <input type="text" 
+                                   name="ptSelect" 
+                                   class="form-control" 
+                                   placeholder="Select PT" 
+                                   data-value="" 
+                                   onblur="onBlur(this)">
+                            <span class="select-clear">&times;</span>
+                            <div class="select-options">
+                                <div class="select-option" data-value="pt1" onclick="selectOption(this)">
+                                    PT Maju Jaya</div>
+                                <div class="select-option" data-value="pt2" onclick="selectOption(this)">
+                                    PT Sukses Makmur</div>
+                                <div class="select-option no-results" style="display: none">No matches found</div>
+                            </div>
                         </div>
-                        <div class="select-option" data-value="pos2" onclick="selectOption(this)">HR Manager</div>
-                        <div class="select-option no-results" style="display: none">No matches found</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="<?php gapBetweenRow() ?>">
+                <div class="row">
+                    <div class="<?php colLable() ?>">
+                        <label class="form-label required">Departemen</label>
+                    </div>
+                    <div class="<?php colInput() ?>">
+                        <div class="select-search" id="deptSelect">
+                            <input type="text" name="deptSelect" class="form-control" placeholder="Select Departemen" data-value="" onblur="onBlur(this)">
+                            <span class="select-clear">&times;</span>
+                            <div class="select-options">
+                                <div class="select-option" data-value="dept1" onclick="selectOption(this)">IT Department</div>
+                                <div class="select-option" data-value="dept2" onclick="selectOption(this)">Human Resources</div>
+                                <div class="select-option no-results" style="display: none">No matches found</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="<?php gapBetweenRow() ?>">
+                <div class="row">
+                    <div class="<?php colLable() ?>">
+                        <label class="form-label required">Peran Dalam Perusahaan Pemrosesan Data Pribadi</label>
+                    </div>
+                    <div class="<?php colInput() ?>">
+                        <div class="select-search" id="posSelect">
+                            <input type="text" name="posSelect" class="form-control" placeholder="Select Posisi" data-value="" onblur="onBlur(this)">
+                            <span class="select-clear">&times;</span>
+                            <div class="select-options">
+                                <div class="select-option" data-value="pos1" onclick="selectOption(this)">Software Engineer</div>
+                                <div class="select-option" data-value="pos2" onclick="selectOption(this)">HR Manager</div>
+                                <div class="select-option no-results" style="display: none">No matches found</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -329,17 +372,17 @@
                             highlightedIndex = Math.max(highlightedIndex - 1, 0);
                             highlightOption(highlightedIndex);
                             break;
-                        case 'Enter':
-                            e.preventDefault();
-                            if (highlightedIndex >= 0 && visibleOptions[highlightedIndex]) {
-                                visibleOptions[highlightedIndex].click();
-                                const selectedOption = visibleOptions[highlightedIndex];
-                                if (selectedOption) {
-                                    input.value = selectedOption.textContent.trim();
-                                    input.dataset.value = selectedOption.dataset.value;
+                            case 'Enter':
+                                e.preventDefault();
+                                if (highlightedIndex >= 0 && visibleOptions[highlightedIndex]) {
+                                    visibleOptions[highlightedIndex].click();
+                                    const selectedOption = visibleOptions[highlightedIndex];
+                                    if (selectedOption) {
+                                        input.value = selectedOption.textContent.trim();
+                                        input.dataset.value = selectedOption.dataset.value;
+                                    }
                                 }
-                            }
-                            break;
+                                break;
                         case 'Escape':
                             hideOptions();
                             break;
@@ -397,13 +440,28 @@
         // ===============================================================================================================
           function onBlur(input) {
             input.style.borderColor = "";
-            const errorText = input.parentNode.querySelector('span[name="errorText"]');
-            if (errorText) {
-                errorText.style.display = 'none';
+
+            const parentNode = input.parentNode;
+            const grandparentNode = input.parentNode.parentNode;
+
+            if (parentNode.querySelector('i')) {
+                const errorText = grandparentNode.querySelector('span[name="errorText"]');
+                if (errorText) {
+                    errorText.style.display = 'none';
+                }
+            } else {
+                const errorText = parentNode.querySelector('span[name="errorText"]');
+                if (errorText) {
+                    errorText.style.display = 'none';
+                }
             }
           }
         
           function validateInput(input) {
+            const existingErrorText = input.parentNode.querySelector('span[name="errorText"]') || input.parentNode.parentNode.querySelector('span[name="errorText"]');
+            if (existingErrorText) {
+                existingErrorText.remove();
+            }
             if (input.value.trim() === "") {
                 input.style.borderColor = "red";
                 const errorText = document.createElement('span');
@@ -424,18 +482,20 @@
 
         function saveAsDraft(){
         const formData = new FormData(document.forms['formData']);
-        console.log('Form Data:', Object.fromEntries(formData.entries())); 
-        console.log({tableValue})
+        // console.log('Form Data:', Object.fromEntries(formData.entries())); 
+        // console.log({tableValue})
 
         for (let [key, value] of formData.entries()) {
-            if (value.trim() === "") {
+            // console.log(value)
+            if (value?.trim() === "") {
                 const inputElement = document.querySelector(`[name="${key}"]`);
                 if (inputElement) {
+                    onBlur(inputElement);
                     validateInput(inputElement);
+                    }
                 }
-            }
-        }   
-        }   
+            }   
+        }  
     </script>
 </body>
 

@@ -129,6 +129,12 @@
             font-size: 25px;
             cursor: pointer;
             display: none;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+
+        .select-clear:hover {
+            color: red;
         }
 
         .select-search input:not([value=''])~.select-clear {

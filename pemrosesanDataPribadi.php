@@ -39,7 +39,7 @@
                 <div class="col-md-2">
                     <input name="masaRetensi" type="number" class="form-control" value="2" onblur="onBlur(this)">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 align-content-center">
                     <span>Tahun</span>
                 </div>
             </div>
@@ -159,7 +159,7 @@
            
         tableValueNegaraLokasiPenyimpananDataPribadi.filter((data) => !data.isRender).forEach((data, index) => {
             const newRow = document.createElement('div');
-            newRow.className = 'd-flex align-items-center gap-2 mb-2';
+            newRow.className = 'd-flex gap-2 mb-2';
             newRow.innerHTML = `
                     <div style="width: 30%;">
                         <div class="select-search" id="negara${data.key}">
@@ -172,14 +172,14 @@
                             </div>
                         </div>
                     </div>
-                    <div style="width: 50px; justify-items: center; height: 100%;">
+                    <div style="margin-top: 18px; width: 50px; justify-items: center; height: 100%;">
                         <div class="dash-line"></div>
                     </div>
                     <div style="width: 30%;">
                         <input type="text" name="entryLokasi${data.key}" class="form-control" placeholder="Entry Lokasi" onblur="onBlur(this)">
                         <span name="errorText"></span>
                     </div>
-                    ${!isFirstRender ? "" : `<button class="btn btn-sm btn-primary" type="button" onclick="addRowNegaraLokasiPenyimpananDataPribadi()">Add</button>`}`
+                    ${!isFirstRender ? "" : `<button style="height: 38px;" class="btn btn-sm btn-primary" type="button" onclick="addRowNegaraLokasiPenyimpananDataPribadi()">Add</button>`}`
         
             if(!isFirstRender){
                 newRow.innerHTML += `<div key="${data.key}" class="col-md-1"><button class="btn btn-danger" onclick="deleteRowNegaraLokasiPenyimpananDataPribadi(this)">Delete</button></div>`

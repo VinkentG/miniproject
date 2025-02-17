@@ -82,6 +82,7 @@
                                class="form-control" 
                                placeholder="Select Pihak Pihak Lain Yang Memiliki Akses ke Data Pribadi" 
                                data-value="" 
+                               autocomplete="off"
                                onblur="onBlur(this)">
                         <span class="select-clear">&times;</span>
                         <div class="select-options">
@@ -162,7 +163,7 @@
             newRow.innerHTML = `
                     <div style="width: 30%;">
                         <div class="select-search" id="negara${data.key}">
-                            <input type="text" name="negara${data.key}" class="form-control" placeholder="Select Negara" data-value="" onblur="onBlur(this)">
+                            <input type="text" name="negara${data.key}" class="form-control" placeholder="Select Negara" data-value="" autocomplete="off" onblur="onBlur(this)">
                             <span class="select-clear">&times;</span>
                             <div class="select-options">
                                 <div class="select-option" data-value="pt1" onclick="selectOption(this)">PT Maju Jaya</div>

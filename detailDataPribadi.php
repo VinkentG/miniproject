@@ -42,10 +42,11 @@
                                            class="form-control" 
                                            placeholder="Select Peran" 
                                            data-value="" 
+                                           autocomplete="off"
                                            onblur="onBlur(this)">
                                     <?php tooltip('test') ?>
+                                    <span class="select-clear" style="margin-right: 25px;">&times;</span>   
                                 </div>
-                                <span class="select-clear">&times;</span>
                                 <div class="select-options">
                                     <div class="select-option" data-value="pt1" onclick="selectOption(this)">
                                         PT Maju Jaya
@@ -111,7 +112,7 @@
 
                 cell1.innerHTML = `<input type="text" name="jenisDataPribadi${data.key}" class="form-control" value="${data.jenisDataPribadi}" onblur="onBlur(this)">`;
                 cell2.innerHTML = `<div class="select-search" id="sifatDataPribadi${data.key}">
-                                        <input type="text" name="sifatDataPribadi${data.key}" class="form-control" placeholder="Select Sifat Data Pribadi" data-value="" onblur="onBlur(this)">
+                                        <input type="text" name="sifatDataPribadi${data.key}" class="form-control" placeholder="Select Sifat Data Pribadi" data-value="" autocomplete="off" onblur="onBlur(this)">
                                         <span class="select-clear">&times;</span>
                                         <div class="select-options">
                                             <div class="select-option" data-value="pt1" onclick="selectOption(this)">PT Maju Jaya</div>

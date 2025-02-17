@@ -8,7 +8,7 @@
                 </div>
                 <div class="<?php colInput() ?>">
                     <div class="select-search" id="hakSubjekData">
-                    <input type="text" name="hakSubjekData" class="form-control" placeholder="Select Hak Subjek Data" data-value="" onblur="onBlur(this)">
+                    <input type="text" name="hakSubjekData" class="form-control" placeholder="Select Hak Subjek Data" data-value="" autocomplete="off" onblur="onBlur(this)">
                     <span class="select-clear">&times;</span>
                     <div class="select-options">
                         <div class="select-option" data-value="dept1" onclick="selectOption(this)">Option 1</div>

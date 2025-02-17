@@ -174,7 +174,8 @@
                                    class="form-control" 
                                    placeholder="Select PT" 
                                    data-value="" 
-                                   onblur="onBlur(this)">
+                                   autocomplete="off"
+                                   onblur="onBlur(this)" >
                             <span class="select-clear">&times;</span>
                             <div class="select-options">
                                 <div class="select-option" data-value="pt1" onclick="selectOption(this)">
@@ -195,7 +196,7 @@
                     </div>
                     <div class="<?php colInput() ?>">
                         <div class="select-search" id="deptSelect">
-                            <input type="text" name="deptSelect" class="form-control" placeholder="Select Departemen" data-value="" onblur="onBlur(this)">
+                            <input type="text" name="deptSelect" class="form-control" placeholder="Select Departemen" data-value="" autocomplete="off" onblur="onBlur(this)">
                             <span class="select-clear">&times;</span>
                             <div class="select-options">
                                 <div class="select-option" data-value="dept1" onclick="selectOption(this)">IT Department</div>
@@ -214,7 +215,7 @@
                     </div>
                     <div class="<?php colInput() ?>">
                         <div class="select-search" id="posSelect">
-                            <input type="text" name="posSelect" class="form-control" placeholder="Select Posisi" data-value="" onblur="onBlur(this)">
+                            <input type="text" name="posSelect" class="form-control" placeholder="Select Posisi" data-value="" autocomplete="off" onblur="onBlur(this)">
                             <span class="select-clear">&times;</span>
                             <div class="select-options">
                                 <div class="select-option" data-value="pos1" onclick="selectOption(this)">Software Engineer</div>

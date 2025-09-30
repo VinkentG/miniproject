@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCP vs HTTP di NestJS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            animation: slideIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-header {
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        p, li {
+            color: #333;
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .comparison-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .comparison-box.http {
+            border-left-color: #e74c3c;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .highlight {
+            background: #ffd93d;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        ul {
+            margin-left: 30px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .feature-list li {
+            padding-left: 30px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .logo {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <h1 style="font-size: 4em; margin-bottom: 30px;">TCP di NestJS</h1>
+                <h2 style="color: #764ba2; font-size: 2em;">Memahami Perbedaan dengan HTTP Protocol</h2>
+                <p style="margin-top: 50px; font-size: 1.3em; color: #666;">Panduan Lengkap untuk Microservices</p>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 2: Apa itu TCP? -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Apa itu TCP di NestJS?</h2>
+            </div>
+            <div style="flex: 1;">
+                <p><strong>TCP (Transmission Control Protocol)</strong> adalah protokol transport layer yang menyediakan komunikasi dua arah yang dapat diandalkan antara aplikasi.</p>
+                
+                <h3 style="margin-top: 30px;">Di NestJS:</h3>
+                <ul class="feature-list">
+                    <li><strong>Microservices Transport Layer</strong> - Salah satu opsi transportasi untuk komunikasi antar microservices</li>
+                    <li><strong>Connection-Oriented</strong> - Membangun koneksi persistent antara client dan server</li>
+                    <li><strong>Bidirectional Communication</strong> - Mendukung komunikasi dua arah secara simultan</li>
+                    <li><strong>Binary Protocol</strong> - Mengirim data dalam format binary untuk efisiensi</li>
+                </ul>
+
+                <div class="code-block" style="margin-top: 30px;">
+// Contoh TCP Microservice di NestJS
+const app = await NestFactory.createMicroservice(AppModule, {
+  transport: Transport.TCP,
+  options: { host: 'localhost', port: 3001 }
+});
+                </div>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 3: HTTP Protocol -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>HTTP Protocol di NestJS</h2>
+            </div>
+            <div style="flex: 1;">
+                <p><strong>HTTP (HyperText Transfer Protocol)</strong> adalah protokol application layer yang digunakan untuk komunikasi web standar.</p>
+                
+                <h3 style="margin-top: 30px;">Karakteristik HTTP:</h3>
+                <ul class="feature-list">
+                    <li><strong>Request-Response Model</strong> - Client mengirim request, server mengirim response</li>
+                    <li><strong>Stateless</strong> - Setiap request independen, tidak menyimpan state</li>
+                    <li><strong>Text-Based Protocol</strong> - Menggunakan format text yang human-readable</li>
+                    <li><strong>RESTful Architecture</strong> - Standar untuk API web modern</li>
+                </ul>
+
+                <div class="code-block" style="margin-top: 30px;">
+// Contoh HTTP Controller di NestJS
+@Controller('users')
+export class UsersController {
+  @Get()
+  findAll() { return this.usersService.findAll(); }
+}
+                </div>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 4: Perbandingan TCP vs HTTP -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>TCP vs HTTP: Perbandingan Utama</h2>
+            </div>
+            <div class="content-grid" style="flex: 1;">
+                <div class="comparison-box">
+                    <h3>🔵 TCP</h3>
+                    <ul>
+                        <li><strong>Layer:</strong> Transport Layer</li>
+                        <li><strong>Koneksi:</strong> Persistent, long-lived</li>
+                        <li><strong>Komunikasi:</strong> Bidirectional</li>
+                        <li><strong>Format:</strong> Binary</li>
+                        <li><strong>Overhead:</strong> Rendah</li>
+                        <li><strong>Kecepatan:</strong> Lebih cepat</li>
+                        <li><strong>Use Case:</strong> Microservices internal</li>
+                    </ul>
+                </div>
+                <div class="comparison-box http">
+                    <h3>🔴 HTTP</h3>
+                    <ul>
+                        <li><strong>Layer:</strong> Application Layer</li>
+                        <li><strong>Koneksi:</strong> Short-lived (atau keep-alive)</li>
+                        <li><strong>Komunikasi:</strong> Request-Response</li>
+                        <li><strong>Format:</strong> Text (JSON, XML)</li>
+                        <li><strong>Overhead:</strong> Lebih tinggi</li>
+                        <li><strong>Kecepatan:</strong> Lebih lambat</li>
+                        <li><strong>Use Case:</strong> Public API, Web</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 5: Kapan Menggunakan TCP? -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Kapan Menggunakan TCP?</h2>
+            </div>
+            <div style="flex: 1;">
+                <h3>✅ Gunakan TCP Ketika:</h3>
+                <ul style="margin-bottom: 40px;">
+                    <li>Komunikasi <span class="highlight">internal antar microservices</span></li>
+                    <li>Membutuhkan <span class="highlight">performa tinggi dan low latency</span></li>
+                    <li>Frekuensi komunikasi <span class="highlight">sangat tinggi</span></li>
+                    <li>Tidak perlu <span class="highlight">human-readable format</span></li>
+                    <li>Memerlukan <span class="highlight">koneksi persistent</span></li>
+                </ul>
+
+                <h3>❌ Hindari TCP Ketika:</h3>
+                <ul>
+                    <li>Membangun <span class="highlight">public-facing API</span></li>
+                    <li>Client adalah <span class="highlight">browser web</span></li>
+                    <li>Memerlukan <span class="highlight">caching dan CDN</span></li>
+                    <li>Perlu <span class="highlight">debugging yang mudah</span></li>
+                </ul>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 6: Implementasi TCP Server -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Implementasi TCP Server</h2>
+            </div>
+            <div style="flex: 1; overflow-y: auto;">
+                <h3>main.ts - TCP Microservice</h3>
+                <div class="code-block">
+import { NestFactory } from '@nestjs/core';
+import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.createMicroservice&lt;MicroserviceOptions&gt;(
+    AppModule,
+    {
+      transport: Transport.TCP,
+      options: {
+        host: '0.0.0.0',
+        port: 3001,
+      },
+    },
+  );
+  await app.listen();
+  console.log('TCP Microservice running on port 3001');
+}
+bootstrap();
+                </div>
+
+                <h3>Controller dengan TCP Pattern</h3>
+                <div class="code-block">
+import { Controller } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
+
+@Controller()
+export class AppController {
+  @MessagePattern({ cmd: 'get_user' })
+  getUser(data: { id: number }) {
+    return { id: data.id, name: 'John Doe', email: 'john@example.com' };
+  }
+}
+                </div>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 7: Implementasi TCP Client -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Implementasi TCP Client</h2>
+            </div>
+            <div style="flex: 1; overflow-y: auto;">
+                <h3>Module Configuration</h3>
+                <div class="code-block">
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+
+@Module({
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'USER_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          host: 'localhost',
+          port: 3001,
+        },
+      },
+    ]),
+  ],
+})
+export class AppModule {}
+                </div>
+
+                <h3>Service - Memanggil TCP Microservice</h3>
+                <div class="code-block">
+import { Injectable, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+
+@Injectable()
+export class UserService {
+  constructor(@Inject('USER_SERVICE') private client: ClientProxy) {}
+
+  async getUser(id: number) {
+    return this.client.send({ cmd: 'get_user' }, { id }).toPromise();
+  }
+}
+                </div>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 8: Perbandingan HTTP Implementation -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Perbandingan: HTTP Implementation</h2>
+            </div>
+            <div style="flex: 1; overflow-y: auto;">
+                <h3>HTTP REST API (Untuk Perbandingan)</h3>
+                <div class="code-block">
+import { Controller, Get, Param } from '@nestjs/common';
+
+@Controller('users')
+export class UsersController {
+  @Get(':id')
+  getUser(@Param('id') id: string) {
+    return { 
+      id: parseInt(id), 
+      name: 'John Doe', 
+      email: 'john@example.com' 
+    };
+  }
+}
+
+// Client mengakses via HTTP:
+// GET http://localhost:3000/users/1
+// Response: JSON format
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Perbedaan Utama:</strong></p>
+                <ul>
+                    <li>HTTP: Menggunakan <span class="highlight">decorators REST</span> (@Get, @Post, dll)</li>
+                    <li>TCP: Menggunakan <span class="highlight">@MessagePattern</span> dengan command patterns</li>
+                    <li>HTTP: Response otomatis di-serialize ke JSON</li>
+                    <li>TCP: Data dikirim dalam format binary, lebih efisien</li>
+                </ul>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 9: Keuntungan TCP -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Keuntungan Menggunakan TCP</h2>
+            </div>
+            <div style="flex: 1;">
+                <div class="content-grid">
+                    <div>
+                        <h3>⚡ Performance</h3>
+                        <ul>
+                            <li>Overhead protokol minimal</li>
+                            <li>Binary serialization lebih cepat</li>
+                            <li>Koneksi persistent mengurangi latency</li>
+                        </ul>
+
+                        <h3 style="margin-top: 30px;">🔒 Reliability</h3>
+                        <ul>
+                            <li>Guaranteed delivery</li>
+                            <li>Automatic retry mechanism</li>
+                            <li>Error detection built-in</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>📊 Scalability</h3>
+                        <ul>
+                            <li>Efisien untuk high-throughput scenarios</li>
+                            <li>Connection pooling support</li>
+                            <li>Load balancing capabilities</li>
+                        </ul>
+
+                        <h3 style="margin-top: 30px;">🔧 Flexibility</h3>
+                        <ul>
+                            <li>Custom message patterns</li>
+                            <li>Event-based communication</li>
+                            <li>Bidirectional data flow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 10: Best Practices -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Best Practices</h2>
+            </div>
+            <div style="flex: 1;">
+                <h3>🎯 Untuk TCP Microservices:</h3>
+                <ul style="margin-bottom: 30px;">
+                    <li>Gunakan <span class="highlight">message patterns yang jelas</span> dan konsisten</li>
+                    <li>Implementasikan <span class="highlight">proper error handling</span></li>
+                    <li>Tambahkan <span class="highlight">timeout configuration</span></li>
+                    <li>Gunakan <span class="highlight">connection pooling</span> untuk performa optimal</li>
+                    <li>Monitor <span class="highlight">connection health</span></li>
+                </ul>
+
+                <h3>🏗️ Arsitektur:</h3>
+                <ul>
+                    <li>Gunakan <span class="highlight">API Gateway (HTTP)</span> untuk external clients</li>
+                    <li>Gunakan <span class="highlight">TCP</span> untuk komunikasi internal microservices</li>
+                    <li>Implementasikan <span class="highlight">circuit breaker pattern</span></li>
+                    <li>Logging dan monitoring yang comprehensive</li>
+                </ul>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 11: Kesimpulan -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2>Kesimpulan</h2>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <div class="comparison-box" style="margin-bottom: 30px;">
+                    <h3>TCP adalah pilihan tepat untuk:</h3>
+                    <p style="font-size: 1.1em;">Komunikasi <strong>internal microservices</strong> yang membutuhkan <strong>performa tinggi</strong>, <strong>low latency</strong>, dan <strong>komunikasi persistent</strong>.</p>
+                </div>
+
+                <div class="comparison-box http">
+                    <h3>HTTP tetap menjadi standar untuk:</h3>
+                    <p style="font-size: 1.1em;"><strong>Public-facing APIs</strong>, <strong>web applications</strong>, dan scenarios yang membutuhkan <strong>compatibility</strong> dengan berbagai clients.</p>
+                </div>
+
+                <p style="text-align: center; margin-top: 50px; font-size: 1.4em; color: #667eea; font-weight: bold;">
+                    Gunakan kedua protokol secara strategis untuk membangun arsitektur yang optimal! 🚀
+                </p>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+
+        <!-- Slide 12: Terima Kasih -->
+        <div class="slide">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <h1 style="font-size: 4em; color: #667eea; margin-bottom: 30px;">Terima Kasih! 🙏</h1>
+                <h2 style="color: #764ba2; font-size: 2em;">Pertanyaan?</h2>
+                <p style="margin-top: 50px; font-size: 1.3em; color: #666;">Happy Coding with NestJS!</p>
+            </div>
+            <div class="logo">NestJS</div>
+        </div>
+    </div>
+
+    <div class="slide-number">
+        <span id="current-slide">1</span> / <span id="total-slides">12</span>
+    </div>
+
+    <div class="controls">
+        <button id="prev-btn" onclick="prevSlide()">← Previous</button>
+        <button id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = n + 1;
+            document.getElementById('prev-btn').disabled = n === 0;
+            document.getElementById('next-btn').disabled = n === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

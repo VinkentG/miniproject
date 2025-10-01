@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Shannia</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(180deg, #0a1628 0%, #15314b 25%, #1e4a6f 50%, #2a6f97 75%, #3d8fb8 100%);
+            min-height: 100vh;
+            position: relative;
+            color: #fff;
+        }
+
+        .ocean-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .wave-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: waveMove 20s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: -10s;
+            opacity: 0.5;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50%) translateY(20px); }
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: gentleRise linear infinite;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes gentleRise {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                bottom: 110vh;
+                opacity: 0;
+            }
+        }
+
+        .dolphin-elegant {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.2;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            animation: elegantSwim 25s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes elegantSwim {
+            0% {
+                left: -100px;
+                top: 15%;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                left: 110%;
+                top: 20%;
+                opacity: 0;
+            }
+        }
+
+        .dolphin-elegant:nth-child(2) {
+            animation-delay: 12s;
+            animation-duration: 30s;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 80px 60px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent, rgba(255, 255, 255, 0.1));
+            border-radius: 40px;
+            opacity: 0;
+            animation: borderGlow 4s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.5; }
+        }
+
+        .ornament {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .ornament.top-left { top: 30px; left: 30px; }
+        .ornament.top-right { top: 30px; right: 30px; }
+        .ornament.bottom-left { bottom: 30px; left: 30px; }
+        .ornament.bottom-right { bottom: 30px; right: 30px; }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5em;
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ffffff, #c2e9fb, #a1c4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 30px 0;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .divider {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+            margin: 30px auto;
+        }
+
+        .message-container {
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .message {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2em;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+            max-width: 500px;
+        }
+
+        .message.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message.fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .message.fade-in-prep {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .icon-decoration {
+            font-size: 2em;
+            opacity: 0.6;
+            margin: 0 15px;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+        }
+
+        .footer-icons {
+            margin-top: 50px;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .surprise-element {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            font-size: 120px;
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.8));
+        }
+
+        .surprise-element.active {
+            animation: elegantSurprise 4s ease-out;
+        }
+
+        @keyframes elegantSurprise {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+            }
+            15% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
+            }
+            85% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(360deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5) rotate(540deg);
+            }
+        }
+
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .particle.active {
+            animation: particleFloat 4s ease-out;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(-50px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-300px) scale(0.5);
+            }
+        }
+
+        .glow-ring {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .glow-ring.active {
+            animation: ringExpand 3s ease-out;
+        }
+
+        @keyframes ringExpand {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            20% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(3);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 60px 30px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .name {
+                font-size: 3.5em;
+            }
+            
+            .message {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ocean-bg" id="ocean">
+        <div class="wave-layer">
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+    </div>
+
+    <svg class="dolphin-elegant" viewBox="0 0 100 100">
+        <path d="M20,50 Q30,30 50,35 T80,50 Q70,60 50,55 T20,50" fill="currentColor" opacity="0.3"/>
+        <circle cx="45" cy="40" r="3" fill="currentColor" opacity="0.5"/>
+    </svg>
+    <svg class="dolphin-elegant" viewBox="0 0 100 100">
+        <path d="M20,50 Q30,30 50,35 T80,50 Q70,60 50,55 T20,50" fill="currentColor" opacity="0.3"/>
+        <circle cx="45" cy="40" r="3" fill="currentColor" opacity="0.5"/>
+    </svg>
+
+    <div class="surprise-element" id="surprise"></div>
+    <div class="glow-ring" id="glowRing"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="ornament top-left">✦</div>
+            <div class="ornament top-right">✦</div>
+            <div class="ornament bottom-left">✦</div>
+            <div class="ornament bottom-right">✦</div>
+
+            <h1>Happy Birthday</h1>
+            
+            <div class="name">Shannia</div>
+            
+            <div class="divider"></div>
+            
+            <div class="message-container">
+                <div class="message active" id="message1">
+                    May your special day be filled with endless joy<br>
+                    as vast as the ocean and as beautiful as marine life
+                </div>
+                <div class="message" id="message2">
+                    Like dolphins dancing gracefully in the sea,<br>
+                    may your life be filled with elegance and wonder
+                </div>
+                <div class="message" id="message3">
+                    In the depths of the beautiful ocean,<br>
+                    may all your dreams become magnificent realities
+                </div>
+                <div class="message" id="message4">
+                    Wishing you a year ahead filled with<br>
+                    boundless happiness and extraordinary moments
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="footer-icons">
+                <span class="icon-decoration">◇</span>
+                <span class="icon-decoration">✧</span>
+                <span class="icon-decoration">◇</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ocean = document.getElementById('ocean');
+        const surprise = document.getElementById('surprise');
+        const glowRing = document.getElementById('glowRing');
+        const messages = [
+            document.getElementById('message1'),
+            document.getElementById('message2'),
+            document.getElementById('message3'),
+            document.getElementById('message4')
+        ];
+        
+        let currentMessageIndex = 0;
+        const surpriseIcons = ['✦', '◆', '✧', '❋', '✵', '◇', '✹', '※'];
+
+        // Create elegant bubbles
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            const size = Math.random() * 40 + 20;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            
+            const duration = Math.random() * 15 + 15;
+            bubble.style.animationDuration = duration + 's';
+            
+            ocean.appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.remove();
+            }, duration * 1000);
+        }
+
+        // Create floating particles
+        function createParticles() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const distance = 100;
+                    const x = 50 + Math.cos(angle) * distance;
+                    const y = 50 + Math.sin(angle) * distance;
+                    
+                    particle.style.left = x + '%';
+                    particle.style.top = y + '%';
+                    
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.classList.add('active'), 50);
+                    
+                    setTimeout(() => particle.remove(), 4000);
+                }, i * 50);
+            }
+        }
+
+        // Message transition
+        function changeMessage() {
+            const current = messages[currentMessageIndex];
+            const next = messages[(currentMessageIndex + 1) % messages.length];
+            
+            current.classList.add('fade-out');
+            current.classList.remove('active');
+            
+            setTimeout(() => {
+                next.classList.add('fade-in-prep');
+                setTimeout(() => {
+                    next.classList.remove('fade-in-prep');
+                    next.classList.add('active');
+                    current.classList.remove('fade-out');
+                }, 50);
+            }, 1500);
+            
+            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+        }
+
+        // Elegant surprise animation
+        function showSurprise() {
+            const icon = surpriseIcons[Math.floor(Math.random() * surpriseIcons.length)];
+            surprise.textContent = icon;
+            surprise.classList.add('active');
+            glowRing.classList.add('active');
+            
+            createParticles();
+            
+            setTimeout(() => {
+                surprise.classList.remove('active');
+                glowRing.classList.remove('active');
+            }, 4000);
+        }
+
+        // Generate bubbles
+        setInterval(createBubble, 800);
+        
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createBubble, i * 400);
+        }
+
+        // Change message every 10 seconds
+        setInterval(changeMessage, 10000);
+
+        // Show surprise every 10 seconds (aligned with message change)
+        setTimeout(() => {
+            showSurprise();
+            setInterval(showSurprise, 10000);
+        }, 10000);
+    </script>
+</body>
+</html>

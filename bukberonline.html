@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIST BUKBER ONLINE</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:#e63232;--blue:#1a5fd4;--pink:#e8178a;--black:#1a1a1a;
+    --yellow:#f5c400;--green:#1a8c2a;--gold:#c9a227;--ink:#111;
+    --panel-border:4px solid #111;
+    --halftone:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle cx='2' cy='2' r='1.2' fill='rgba(0,0,0,0.12)'/%3E%3C/svg%3E");
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#f0e8d0;background-image:var(--halftone);font-family:'Comic Neue',cursive;overflow-x:hidden;}
+
+  /* HEADER */
+  header{background:#111;padding:24px 16px 16px;text-align:center;border-bottom:6px solid #f5c400;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,.03) 8px,rgba(255,255,255,.03) 16px);}
+  header h1{font-family:'Bangers',cursive;font-size:clamp(2.2rem,8vw,5rem);color:#f5c400;letter-spacing:4px;position:relative;text-shadow:4px 4px 0 #e63232,8px 8px 0 rgba(0,0,0,.5);}
+
+  /* COUNTDOWN */
+  .countdown-bar{display:flex;justify-content:center;align-items:center;gap:clamp(8px,2vw,20px);background:#f5c400;border-bottom:4px solid #111;padding:10px 16px;flex-wrap:wrap;}
+  .countdown-label{font-family:'Bangers',cursive;font-size:clamp(1rem,3vw,1.3rem);letter-spacing:2px;color:#111;}
+  .countdown-units{display:flex;gap:8px;}
+  .c-unit{display:flex;flex-direction:column;align-items:center;background:#111;color:#f5c400;border-radius:4px;padding:4px 10px;min-width:52px;border:3px solid #111;box-shadow:3px 3px 0 #555;}
+  .c-num{font-family:'Bangers',cursive;font-size:clamp(1.4rem,4vw,2rem);line-height:1;}
+  .c-lbl{font-family:'Comic Neue',cursive;font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#aaa;}
+
+  /* SEATS */
+  .seats-bar{background:#e63232;padding:8px 16px;text-align:center;border-bottom:4px solid #111;position:relative;overflow:hidden;}
+  .seats-bar::before{content:'';position:absolute;inset:0;background:var(--halftone);}
+  .seats-text{font-family:'Bangers',cursive;font-size:clamp(.9rem,3vw,1.2rem);color:#fff;letter-spacing:2px;position:relative;}
+  .seats-text span{color:#f5c400;font-size:1.3em;}
+
+  /* VOTE LEADER */
+  .vote-summary{max-width:1100px;margin:20px auto 0;padding:0 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .vote-summary-title{font-family:'Bangers',cursive;font-size:1rem;letter-spacing:1px;color:#111;white-space:nowrap;}
+  #vote-leader{font-family:'Bangers',cursive;font-size:1.2rem;letter-spacing:2px;background:#111;color:#f5c400;padding:3px 14px;border:3px solid #111;box-shadow:3px 3px 0 #111;transition:all .3s;}
+  .total-votes{font-family:'Comic Neue',cursive;font-size:.85rem;font-weight:700;color:#555;}
+
+  /* MAIN */
+  main{max-width:1100px;margin:0 auto;padding:20px 24px 60px;}
+
+  /* RANGER CARD */
+  .ranger-card{margin-bottom:14px;border:var(--panel-border);border-radius:4px;overflow:visible;box-shadow:6px 6px 0 #111;cursor:pointer;user-select:none;transition:transform .15s,box-shadow .15s;position:relative;}
+  .ranger-card>*{overflow:hidden;}
+  .ranger-card:nth-child(odd){margin-left:0;margin-right:8%;}
+  .ranger-card:nth-child(even){margin-left:8%;margin-right:0;}
+  .ranger-card:nth-child(4n+1){transform:skewY(-0.6deg);}
+  .ranger-card:nth-child(4n+2){transform:skewY(0.6deg);}
+  .ranger-card:nth-child(4n+3){transform:skewY(-0.4deg);}
+  .ranger-card:nth-child(4n+4){transform:skewY(0.4deg);}
+  .ranger-card:hover{transform:skewY(0) translate(-3px,-3px) scale(1.01);box-shadow:10px 10px 0 #111;z-index:2;}
+  .ranger-card:active{transform:skewY(0) translate(2px,2px);box-shadow:3px 3px 0 #111;}
+  .ranger-card.open{transform:skewY(0)!important;z-index:3;}
+
+  .ranger-card+.ranger-card{clip-path:polygon(0 6px,2% 0,4% 6px,6% 0,8% 6px,10% 0,12% 6px,14% 0,16% 6px,18% 0,20% 6px,22% 0,24% 6px,26% 0,28% 6px,30% 0,32% 6px,34% 0,36% 6px,38% 0,40% 6px,42% 0,44% 6px,46% 0,48% 6px,50% 0,52% 6px,54% 0,56% 6px,58% 0,60% 6px,62% 0,64% 6px,66% 0,68% 6px,70% 0,72% 6px,74% 0,76% 6px,78% 0,80% 6px,82% 0,84% 6px,86% 0,88% 6px,90% 0,92% 6px,94% 0,96% 6px,98% 0,100% 6px,100% 100%,0 100%);margin-top:-4px;}
+
+  /* CARD HEADER */
+  .card-header{display:flex;align-items:stretch;min-height:90px;position:relative;}
+  .food-side{flex:1;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:14px 16px 14px 18px;position:relative;overflow:hidden;}
+  .food-side::after{content:'';position:absolute;inset:0;background:var(--halftone);pointer-events:none;}
+  .meal-tag{font-family:'Bangers',cursive;font-size:clamp(.75rem,2.2vw,1rem);letter-spacing:1px;color:#111;}
+  .meal-name{font-family:'Bangers',cursive;font-size:clamp(1.1rem,4vw,1.7rem);line-height:1;color:#111;}
+  .meal-sub{font-family:'Comic Neue',cursive;font-size:clamp(.7rem,2vw,.88rem);font-weight:700;color:rgba(0,0,0,.65);}
+  .lightning-div{width:26px;min-width:26px;background:#111;clip-path:polygon(0 0,100% 0,55% 50%,100% 50%,0 100%,45% 50%,0 50%);align-self:stretch;}
+  .ranger-side{flex:0 0 auto;width:clamp(80px,20vw,130px);display:flex;align-items:center;justify-content:center;padding:8px;position:relative;border-left:var(--panel-border);overflow:hidden;}
+  .ranger-emoji{filter:drop-shadow(2px 3px 0 rgba(0,0,0,.4));font-size:clamp(2.2rem,7vw,4rem);}
+
+  .ranger-side.voted-glow::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:3px solid gold;animation:pulseRing .8s ease-out forwards;}
+  @keyframes pulseRing{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.4)}}
+
+  .name-badge{font-family:'Bangers',cursive;font-size:clamp(.65rem,2vw,.85rem);background:#111;color:#fff;padding:2px 8px;letter-spacing:1px;text-align:center;border-top:3px solid rgba(255,255,255,.2);}
+  .arrow-ind{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:'Bangers',cursive;font-size:1.4rem;transition:transform .25s;color:#111;pointer-events:none;}
+  .ranger-card.open .arrow-ind{transform:translateY(-50%) rotate(90deg);}
+
+  /* VOTE STRIP */
+  .vote-strip{display:flex;align-items:center;gap:10px;padding:6px 14px;background:rgba(255,255,255,.7);border-top:3px solid #111;position:relative;}
+  .vote-btn{font-family:'Bangers',cursive;font-size:.85rem;letter-spacing:1px;border:3px solid #111;background:#fff;padding:2px 12px;cursor:pointer;box-shadow:2px 2px 0 #111;transition:transform .1s,box-shadow .1s;white-space:nowrap;}
+  .vote-btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 #111;}
+  .vote-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #111;}
+  .vote-btn.voted{color:#fff;transform:translate(1px,1px);box-shadow:1px 1px 0 #111;}
+  .vote-progress-wrap{flex:1;height:14px;background:#ddd;border:2px solid #111;border-radius:2px;overflow:hidden;}
+  .vote-progress-fill{height:100%;width:0%;transition:width .5s cubic-bezier(.4,0,.2,1);}
+  .vote-count{font-family:'Bangers',cursive;font-size:.95rem;min-width:28px;text-align:right;color:#111;}
+
+  /* DETAIL PANEL */
+  .detail-panel{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1);border-top:0 solid #111;}
+  .ranger-card.open .detail-panel{max-height:1000px;border-top:var(--panel-border);}
+  .detail-inner{padding:20px 18px 22px;display:grid;grid-template-columns:1fr 1fr;gap:20px;background:#fff;background-image:var(--halftone);position:relative;}
+  @media(max-width:520px){.detail-inner{grid-template-columns:1fr;}}
+  .detail-inner::before{content:'';position:absolute;inset:0;background:var(--halftone);pointer-events:none;opacity:.7;}
+  .detail-box{border:3px solid #111;border-radius:4px;overflow:hidden;position:relative;box-shadow:4px 4px 0 #111;}
+  .detail-box-title{font-family:'Bangers',cursive;font-size:1.05rem;letter-spacing:1px;padding:6px 12px;background:#111;color:#fff;}
+  .detail-box-body{padding:12px 14px;font-size:.88rem;line-height:1.55;background:rgba(255,255,255,.85);}
+  .detail-box-body strong{font-family:'Permanent Marker',cursive;font-size:.95rem;}
+  .food-item{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;}
+  .food-item-text{flex:1;}
+  .food-like-btn{font-size:1rem;background:none;border:2px solid #111;border-radius:4px;padding:2px 6px;cursor:pointer;transition:transform .15s;white-space:nowrap;box-shadow:2px 2px 0 #111;}
+  .food-like-btn:hover{transform:scale(1.15);}
+  .food-like-btn.liked{background:#f5c400;}
+  .sfx{display:inline-block;font-family:'Bangers',cursive;font-size:1.3rem;letter-spacing:2px;transform:rotate(-4deg) skewX(-6deg);padding:2px 10px;border:3px solid #111;box-shadow:3px 3px 0 #111;background:#f5c400;color:#111;margin-top:10px;}
+
+  /* EXPLOSION */
+  .sfx-pop{position:fixed;pointer-events:none;z-index:9999;font-family:'Bangers',cursive;font-size:2.5rem;letter-spacing:3px;color:#f5c400;text-shadow:3px 3px 0 #111,-2px -2px 0 #e63232;animation:sfxBurst .7s ease-out forwards;transform-origin:center;}
+  @keyframes sfxBurst{0%{opacity:1;transform:scale(.3) rotate(-10deg);}40%{opacity:1;transform:scale(1.3) rotate(5deg);}70%{opacity:.8;transform:scale(1.1) rotate(-3deg);}100%{opacity:0;transform:scale(1.4) rotate(0deg) translateY(-30px);}}
+  .particle{position:fixed;pointer-events:none;z-index:9998;width:8px;height:8px;border-radius:2px;animation:particleFly .6s ease-out forwards;}
+  @keyframes particleFly{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0);}}
+
+  /* COLORS */
+  .r-red .food-side{background:#ffe5e5}.r-red .ranger-side{background:var(--red)}.r-red .name-badge{background:var(--red)}.r-red .lightning-div{background:var(--red)}.r-red .sfx{background:var(--red);color:#fff}.r-red .vote-btn.voted{background:var(--red)}.r-red .vote-progress-fill{background:var(--red)}.r-red .detail-box-title{background:var(--red)}
+  .r-blue .food-side{background:#ddeeff}.r-blue .ranger-side{background:var(--blue)}.r-blue .name-badge{background:var(--blue)}.r-blue .lightning-div{background:var(--blue)}.r-blue .sfx{background:var(--blue);color:#fff}.r-blue .vote-btn.voted{background:var(--blue)}.r-blue .vote-progress-fill{background:var(--blue)}.r-blue .detail-box-title{background:var(--blue)}
+  .r-pink .food-side{background:#ffe0f4}.r-pink .ranger-side{background:var(--pink)}.r-pink .name-badge{background:var(--pink)}.r-pink .lightning-div{background:var(--pink)}.r-pink .sfx{background:var(--pink);color:#fff}.r-pink .vote-btn.voted{background:var(--pink)}.r-pink .vote-progress-fill{background:var(--pink)}.r-pink .detail-box-title{background:var(--pink)}
+  .r-black .food-side{background:#e8e8e8}.r-black .ranger-side{background:#222}.r-black .name-badge{background:#222}.r-black .lightning-div{background:#222}.r-black .sfx{background:#222;color:#f5c400}.r-black .vote-btn.voted{background:#444;color:#f5c400}.r-black .vote-progress-fill{background:#444}.r-black .detail-box-title{background:#222;color:#f5c400}
+  .r-yellow .food-side{background:#fff8d0}.r-yellow .ranger-side{background:var(--yellow)}.r-yellow .name-badge{background:#c49b00}.r-yellow .lightning-div{background:var(--yellow)}.r-yellow .sfx{background:var(--yellow)}.r-yellow .vote-btn.voted{background:#c49b00;color:#fff}.r-yellow .vote-progress-fill{background:#c49b00}.r-yellow .detail-box-title{background:#c49b00}
+  .r-green .food-side{background:#d8f5de}.r-green .ranger-side{background:var(--green)}.r-green .name-badge{background:var(--green)}.r-green .lightning-div{background:var(--green)}.r-green .sfx{background:var(--green);color:#fff}.r-green .vote-btn.voted{background:var(--green);color:#fff}.r-green .vote-progress-fill{background:var(--green)}.r-green .detail-box-title{background:var(--green)}
+  .r-white .food-side{background:#f5f5f0}.r-white .ranger-side{background:#c8c8c8}.r-white .name-badge{background:#888}.r-white .lightning-div{background:#888}.r-white .sfx{background:#888;color:#fff}.r-white .vote-btn.voted{background:#888;color:#fff}.r-white .vote-progress-fill{background:#888}.r-white .detail-box-title{background:#555}
+  .r-gold .food-side{background:#fff5d0}.r-gold .ranger-side{background:var(--gold)}.r-gold .name-badge{background:#8a6b00}.r-gold .lightning-div{background:var(--gold)}.r-gold .sfx{background:var(--gold)}.r-gold .vote-btn.voted{background:#8a6b00;color:#fff}.r-gold .vote-progress-fill{background:var(--gold)}.r-gold .detail-box-title{background:#8a6b00}
+
+  .new-badge{display:inline-block;font-family:'Bangers',cursive;font-size:.7rem;background:#e63232;color:#fff;padding:1px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;letter-spacing:1px;border:2px solid #111;}
+
+  /* SCROLL REVEAL — pakai transition biasa, bukan animation */
+  .ranger-card{
+    opacity:0;
+    translate:0 28px;
+    transition:opacity .45s ease, translate .45s ease, transform .15s, box-shadow .15s;
+  }
+  .ranger-card.visible{
+    opacity:1;
+    translate:0 0;
+  }
+
+  footer{text-align:center;font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:3px;color:#888;padding:24px 0 40px;}
+
+  @media(max-width:600px){
+    .ranger-card:nth-child(odd){margin-right:3%;}
+    .ranger-card:nth-child(even){margin-left:3%;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ LIST BUKBER ONLINE ⚡</h1>
+</header>
+
+<div class="countdown-bar">
+  <span class="countdown-label">⏳ BUKBER DIMULAI DALAM:</span>
+  <div class="countdown-units">
+    <div class="c-unit"><span class="c-num" id="cd-h">00</span><span class="c-lbl">Jam</span></div>
+    <div class="c-unit"><span class="c-num" id="cd-m">00</span><span class="c-lbl">Menit</span></div>
+    <div class="c-unit"><span class="c-num" id="cd-s">00</span><span class="c-lbl">Detik</span></div>
+  </div>
+</div>
+
+<div class="seats-bar">
+  <span class="seats-text">🔥 KURSI TERSISA: <span id="seats-left">5</span> dari 8 — DAFTAR SEKARANG!</span>
+</div>
+
+<div class="vote-summary">
+  <span class="vote-summary-title">🏆 MENU TERFAVORIT:</span>
+  <span id="vote-leader">— BELUM ADA VOTE —</span>
+  <span class="total-votes" id="total-votes-txt"></span>
+</div>
+
+<main id="rangers-list"></main>
+<footer>— GO GO THE COWOS! —</footer>
+
+<script>
+const rangers=[
+  {color:'red',  name:'Red Ranger',     emoji:'🔴',mainMeal:'POWER SNACK!',   subMeal:'Heatwave Bites',     sfx:'ZAP!',   badge:false,power:'Fire Power 🔥',      zord:'Tyrannosaurus Dinozord',seats:3,
+   description:'Pemimpin tim yang tangguh! Makanannya sekuat semangatnya — panas, berani, dan penuh energi untuk pertempuran.',
+   foods:[{name:'🍔 Double Smash Burger',desc:'Burger daging dua patty dengan saus pedas volcano, tomat segar, dan selada renyah.'},{name:'🍕 Pizza Heatwave',desc:'Pizza pepperoni extra pedas dengan cabai jalapeño dan saus tomat bakar.'},{name:'🍟 Chili Cheese Fries',desc:'Kentang goreng renyah ditaburi keju leleh dan saus chili merah membara.'}]},
+  {color:'blue', name:'Blue Ranger',    emoji:'🔵',mainMeal:'OCEAN FEAST!',   subMeal:'Wave Breaker Noodles',sfx:'YUM!',  badge:false,power:'Water Power 💧',     zord:'Triceratops Dinozord', seats:1,
+   description:'Ahli strategi dan sains tim. Menu pilihannya terinspirasi dari kedalaman samudra — segar, sehat, dan penuh nutrisi.',
+   foods:[{name:'🍣 Sushi Deluxe Platter',desc:'Aneka roll sushi salmon, tuna, dan udang dengan wasabi premium dan kecap asin.'},{name:'🍜 Wave Ramen',desc:'Ramen kaldu tonkotsu 12 jam dengan chashu babi, telur rebus, nori, dan minyak bawang.'},{name:'🦞 Ocean Noodles',desc:'Mie seafood dengan udang, cumi, kerang, dan kuah biru nila pedas manis.'}]},
+  {color:'pink', name:'Pink Ranger',    emoji:'🩷',mainMeal:'SWEET TREAT!',   subMeal:'Pixie Dust Desserts',sfx:'MUNCH!',badge:false,power:'Wind Power 🌸',      zord:'Pterodactyl Dinozord', seats:4,
+   description:'Ahli bela diri yang lembut namun mematikan. Punya selera manis yang tak tertandingi — dessert-nya seperti sihir di lidah!',
+   foods:[{name:'🍨 Rainbow Sundae',desc:'Parfait ice cream tiga warna dengan saus stroberi, topping macaroon, dan whipped cream fluffy.'},{name:'🍰 Sakura Cheesecake',desc:'Cheesecake Jepang dengan bunga sakura, strawberry segar, dan glaze cermin pink.'},{name:'🍬 Pixie Macarons',desc:'Box macarons aneka rasa: rose lychee, raspberry, bubblegum, dan lavender honey.'}]},
+  {color:'black',name:'Black Ranger',   emoji:'⚫',mainMeal:"BOLD BITE!",     subMeal:'Smoke-House Hits',   sfx:'CRUNCH!',badge:true, power:'Mastodon Power 🦣',  zord:'Mastodon Dinozord',    seats:2,
+   description:'Prajurit baja yang serius. Menu pilihannya bold dan smoky — diasapi pelan-pelan hingga sempurna untuk hasil yang dahsyat.',
+   foods:[{name:'🥩 BBQ Beef Ribs',desc:'Iga sapi 12 jam smoke dengan rub rempah hitam dan saus molasses manis-asam.'},{name:'🥘 Smoked Brisket Stew',desc:'Semur brisket asap dengan bean hitam, tomat, dan kuah kental berbumbu smoky.'},{name:'🧆 Black Garlic Tofu',desc:'Tofu goreng crispy dengan saus bawang hitam fermentasi dan taburan wijen.'}]},
+  {color:'yellow',name:'Yellow Ranger', emoji:'🟡',mainMeal:'GOLDEN GALORE!', subMeal:'Tropical Rush',      sfx:'GULP!',  badge:true, power:'Lightning Power ⚡',  zord:'Sabertooth Tiger Dinozord',seats:0,
+   description:'Pejuang cepat dan energik! Doyan makanan tropis segar yang memberi tenaga kilat sebelum pertarungan sengit.',
+   foods:[{name:'🥭 Tropical Fruit Bowl',desc:'Mangga harum manis, nanas segar, pepaya madu, dan buah naga merah disajikan dalam mangkuk es.'},{name:'🧇 Golden Waffle Stack',desc:'Waffle berlapis madu lebah hutan dengan buah beri segar dan sirup maple.'},{name:'🥤 Yellow Burst Smoothie',desc:'Smoothie mangga-nanas-jeruk dengan topping granola dan chia seed untuk stamina ekstra.'}]},
+  {color:'green',name:'Green Ranger',   emoji:'🟢',mainMeal:'WILD GRUB!',     subMeal:'Dragon Scale Snacks',sfx:'SNAP!',  badge:true, power:'Dragon Power 🐉',    zord:'Dragonzord',           seats:3,
+   description:'Pendekar naga yang misterius dan kuat. Menu pilihannya terinspirasi oleh hutan purba — hijau, segar, dan penuh vitalitas.',
+   foods:[{name:'🥑 Dragon Guacamole Platter',desc:'Guacamole alpukat chunky dengan nacho hijau taro, pico de gallo segar, dan sour cream.'},{name:'🍔 Green Matcha Burger',desc:'Burger patty wagyu dengan bun matcha, selada hijau, dan saus wasabi mayo yang unik.'},{name:'🥗 Forest Power Bowl',desc:'Bowl edamame, broccoli panggang, kale crispy, quinoa hijau, dan dressing miso-ginger.'}]},
+  {color:'white',name:'White Ranger',   emoji:'⚪',mainMeal:'REGAL REPAST!',  subMeal:"Tiger's Treasure",   sfx:'WOW!',   badge:true, power:'Tiger Power 🐯',     zord:'White Tigerzord',      seats:2,
+   description:"Pemimpin terpilih dengan kekuatan Zeo yang murni. Menu kebangsawanan yang elegan dan canggih — mewah di setiap suapan.",
+   foods:[{name:'🥩 White Truffle Steak',desc:'Tenderloin A5 dengan saus truffle putih, asparagus panggang, dan potato gratin creamy.'},{name:'🎂 White Velvet Cake',desc:'Kue tiga tingkat white velvet dengan frosting vanilla Swiss meringue dan hiasan edible gold.'},{name:'☕ Tiger Latte',desc:'Kopi susu dengan tiger stripe motif, caramel swirl, dan whipped cream vanilla premium.'}]},
+  {color:'gold', name:'Gold Zeo Ranger',emoji:'🟨',mainMeal:'GOLDEN BANQUET!',subMeal:'Zeonic Feast',       sfx:'DELISH!',badge:true, power:'Golden Staff ⚡👑',   zord:'Pyramidas',            seats:1,
+   description:"Prajurit emas dari planet Triforia yang memiliki tiga jiwa. Menu pestanya mencerminkan kekayaan budaya tiga dunia sekaligus!",
+   foods:[{name:'🫕 Moroccan Lamb Tagine',desc:"Semur domba slow-cook dengan kurma, rempah za'atar, dan couscous emas."},{name:'🥘 Stuffed Grape Leaves',desc:'Dolma daun anggur isi nasi rempah, kismis, dan kacang pinus dengan saus lemon.'},{name:'🍚 Saffron Royal Rice',desc:'Nasi safron Persia dengan almond panggang, barberry merah, dan daging ayam panggang berbumbu royal.'}]},
+];
+
+const votes={};
+rangers.forEach(r=>votes[r.color]=0);
+const SFX_WORDS=['POW!','BAM!','ZAP!','BOOM!','WHAM!','KAPOW!','CRUNCH!','SNAP!','YUM!','DELISH!'];
+const COLORS=['#e63232','#f5c400','#1a5fd4','#e8178a','#1a8c2a','#c9a227'];
+
+/* COUNTDOWN */
+function initCountdown(){
+  const now=new Date(),target=new Date(now);
+  target.setHours(19,0,0,0);
+  if(now>=target)target.setDate(target.getDate()+1);
+  function tick(){
+    const d=target-new Date();
+    if(d<=0){['cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');return;}
+    document.getElementById('cd-h').textContent=String(Math.floor(d/3600000)).padStart(2,'0');
+    document.getElementById('cd-m').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+    document.getElementById('cd-s').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+}
+
+/* SEATS */
+function initSeats(){
+  let s=5;
+  [8000,18000,30000,45000,65000].forEach(ms=>setTimeout(()=>{
+    s=Math.max(0,s-1);
+    const el=document.getElementById('seats-left');
+    el.textContent=s;
+    el.style.animation='none';el.offsetWidth;el.style.animation='seatPop .3s ease-out';
+    if(s===0)document.querySelector('.seats-bar').style.background='#111';
+  },ms));
+}
+
+/* VOTE LEADER */
+function updateLeader(){
+  const total=Object.values(votes).reduce((a,b)=>a+b,0);
+  if(!total){document.getElementById('vote-leader').textContent='— BELUM ADA VOTE —';document.getElementById('total-votes-txt').textContent='';return;}
+  const top=Object.entries(votes).sort((a,b)=>b[1]-a[1])[0];
+  const r=rangers.find(x=>x.color===top[0]);
+  document.getElementById('vote-leader').textContent=`${r.emoji} ${r.mainMeal} (${top[1]} suara)`;
+  document.getElementById('total-votes-txt').textContent=`Total: ${total} vote`;
+  rangers.forEach(r=>{
+    const fill=document.querySelector(`.r-${r.color} .vote-progress-fill`);
+    const cnt=document.querySelector(`.r-${r.color} .vote-count`);
+    if(fill)fill.style.width=(total>0?votes[r.color]/total*100:0)+'%';
+    if(cnt)cnt.textContent=votes[r.color];
+  });
+}
+
+/* SFX */
+function spawnSFX(x,y,word){
+  const el=document.createElement('div');
+  el.className='sfx-pop';el.textContent=word;
+  el.style.left=(x-60)+'px';el.style.top=(y-40)+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),800);
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const a=(i/12)*Math.PI*2,d=40+Math.random()*70;
+    p.style.setProperty('--tx',Math.cos(a)*d+'px');
+    p.style.setProperty('--ty',Math.sin(a)*d+'px');
+    p.style.left=x+'px';p.style.top=y+'px';
+    p.style.background=COLORS[i%COLORS.length];
+    p.style.animationDelay=(Math.random()*.1)+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),700);
+  }
+}
+
+/* BUILD CARD */
+function buildCard(r,idx){
+  const isOdd=idx%2!==0;
+  const card=document.createElement('div');
+  card.className=`ranger-card r-${r.color}`;
+  const seatsHtml=r.seats===0
+    ?`<span style="font-family:Bangers,cursive;font-size:.8rem;background:#e63232;color:#fff;padding:1px 8px;border:2px solid #111;letter-spacing:1px">FULL!</span>`
+    :`<span style="font-family:Comic Neue,cursive;font-size:.78rem;font-weight:700;color:#555">${r.seats} kursi tersisa</span>`;
+
+  card.innerHTML=`
+    <div class="card-header" style="${isOdd?'flex-direction:row-reverse':''}">
+      <div class="food-side" style="${isOdd?'align-items:flex-end;text-align:right':''}">
+        <span class="meal-tag">${r.name}${r.badge?'<span class="new-badge">NEW</span>':''}</span>
+        <span class="meal-name">${r.mainMeal}</span>
+        <span class="meal-sub">${r.subMeal}</span>
+        ${seatsHtml}
+      </div>
+      <div class="lightning-div"></div>
+      <div class="ranger-side" id="rs-${r.color}">
+        <span class="ranger-emoji">${r.emoji}</span>
+      </div>
+      <span class="arrow-ind">▶</span>
+    </div>
+    <div class="name-badge">${r.name.toUpperCase()} — ${r.power}</div>
+    <div class="vote-strip">
+      <button class="vote-btn" id="vb-${r.color}">👍 VOTE</button>
+      <div class="vote-progress-wrap"><div class="vote-progress-fill"></div></div>
+      <span class="vote-count">0</span>
+    </div>
+    <div class="detail-panel">
+      <div class="detail-inner">
+        <div class="detail-box">
+          <div class="detail-box-title">📖 TENTANG RANGER</div>
+          <div class="detail-box-body">
+            <p>${r.description}</p><br>
+            <p><strong>Zord:</strong> ${r.zord}</p>
+            <span class="sfx">${r.sfx}</span>
+          </div>
+        </div>
+        <div class="detail-box">
+          <div class="detail-box-title">🍽️ MENU SPESIAL</div>
+          <div class="detail-box-body">
+            ${r.foods.map((f,fi)=>`
+              <div class="food-item">
+                <div class="food-item-text"><strong>${f.name}</strong><br>${f.desc}</div>
+                <button class="food-like-btn" id="fl-${r.color}-${fi}">❤️ <span>0</span></button>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // toggle open on header + badge
+  [card.querySelector('.card-header'),card.querySelector('.name-badge')].forEach(el=>{
+    el.addEventListener('click',e=>{
+      e.stopPropagation();
+      const wasOpen=card.classList.contains('open');
+      card.classList.toggle('open');
+      if(!wasOpen){
+        const rect=el.getBoundingClientRect();
+        spawnSFX(rect.left+rect.width/2,rect.top+rect.height/2,r.sfx);
+      }
+    });
+  });
+
+  // vote
+  const vBtn=card.querySelector(`#vb-${r.color}`);
+  let hasVoted=false;
+  vBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(hasVoted){votes[r.color]--;hasVoted=false;vBtn.classList.remove('voted');vBtn.textContent='👍 VOTE';}
+    else{votes[r.color]++;hasVoted=true;vBtn.classList.add('voted');vBtn.textContent='✅ VOTED!';
+      const rect=vBtn.getBoundingClientRect();
+      spawnSFX(rect.left+rect.width/2,rect.top,SFX_WORDS[Math.floor(Math.random()*SFX_WORDS.length)]);
+      const rs=document.getElementById(`rs-${r.color}`);
+      rs.classList.remove('voted-glow');void rs.offsetWidth;rs.classList.add('voted-glow');
+      setTimeout(()=>rs.classList.remove('voted-glow'),900);
+    }
+    updateLeader();
+  });
+
+  // food likes
+  r.foods.forEach((_,fi)=>{
+    const btn=card.querySelector(`#fl-${r.color}-${fi}`);
+    let liked=false,count=0;
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      liked=!liked;count+=liked?1:-1;
+      btn.classList.toggle('liked',liked);
+      btn.querySelector('span').textContent=count;
+      if(liked){const rect=btn.getBoundingClientRect();spawnSFX(rect.left+rect.width/2,rect.top,'❤️');}
+    });
+  });
+
+  return card;
+}
+
+/* SCROLL REVEAL */
+function initReveal(){
+  const cards=Array.from(document.querySelectorAll('.ranger-card'));
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const i=cards.indexOf(e.target);
+        e.target.style.transitionDelay=(i*0.06)+'s';
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+        // after reveal done, clear delay so open/close isn't delayed
+        setTimeout(()=>{ e.target.style.transitionDelay='0s'; }, i*60+500);
+      }
+    });
+  },{threshold:0.08});
+  cards.forEach(c=>obs.observe(c));
+}
+
+/* INIT */
+const list=document.getElementById('rangers-list');
+rangers.forEach((r,i)=>list.appendChild(buildCard(r,i)));
+initCountdown();initSeats();initReveal();updateLeader();
+</script>
+</body>
+</html>

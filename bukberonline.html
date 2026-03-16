@@ -2436,6 +2436,343 @@
             padding: 4px 10px;
             border: 2px solid #111;
         }
+
+        /* FAREWELL SECTION */
+        .farewell-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 80px
+        }
+
+        .farewell-title-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0 28px
+        }
+
+        .farewell-title {
+            display: inline-block;
+            font-family: 'Bangers', cursive;
+            font-size: clamp(1.3rem, 4.5vw, 2.4rem);
+            letter-spacing: 4px;
+            color: #fff;
+            background: linear-gradient(90deg, #e63232, #c49b00, #1a5fd4, #800080);
+            border: 5px solid #111;
+            box-shadow: 6px 6px 0 #111;
+            padding: 10px 22px;
+            transform: rotate(-1.2deg);
+            text-align: center;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, .4)
+        }
+
+        .farewell-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 18px
+        }
+
+        .farewell-card {
+            border: 4px solid #111;
+            box-shadow: 6px 6px 0 #111;
+            overflow: hidden;
+            background: #fff;
+            background-image: var(--halftone);
+            opacity: 0;
+            translate: 0 28px;
+            transition: opacity .4s ease, translate .4s ease, transform .15s, box-shadow .15s
+        }
+
+        .farewell-card.visible {
+            opacity: 1;
+            translate: 0 0
+        }
+
+        .farewell-card:hover {
+            transform: translate(-2px, -2px) scale(1.01);
+            box-shadow: 8px 8px 0 #111;
+            z-index: 2
+        }
+
+        .farewell-card-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-bottom: 4px solid #111
+        }
+
+        .farewell-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, .5);
+            flex-shrink: 0;
+            object-fit: cover;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .4))
+        }
+
+        .farewell-avatar-emoji {
+            font-size: 2.8rem;
+            flex-shrink: 0;
+            filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, .3))
+        }
+
+        .farewell-head-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .farewell-name {
+            font-family: 'Bangers', cursive;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: #fff;
+            line-height: 1.1;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, .4);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .farewell-mood {
+            font-family: 'Bangers', cursive;
+            font-size: .72rem;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, .22);
+            color: #fff;
+            padding: 2px 8px;
+            border: 2px solid rgba(255, 255, 255, .4);
+            margin-top: 4px;
+            display: inline-block
+        }
+
+        .farewell-body {
+            padding: 14px 14px 4px
+        }
+
+        .farewell-bubble {
+            position: relative;
+            background: rgba(255, 255, 255, .93);
+            padding: 12px 14px 12px 16px;
+            margin-left: 8px;
+            border: 3px solid #111;
+            box-shadow: 3px 3px 0 #111
+        }
+
+        .farewell-bubble::before {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 14px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 12px solid #111
+        }
+
+        .farewell-bubble::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 16px;
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 10px solid rgba(255, 255, 255, .93)
+        }
+
+        .farewell-text {
+            font-size: .85rem;
+            font-weight: 700;
+            line-height: 1.65;
+            color: #222;
+            font-style: italic
+        }
+
+        .farewell-card-foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 14px 12px;
+            border-top: 2px solid rgba(0, 0, 0, .08)
+        }
+
+        .farewell-sig {
+            font-family: 'Permanent Marker', cursive;
+            font-size: .8rem;
+            color: #888
+        }
+
+        .farewell-heart {
+            font-size: 1rem
+        }
+
+        @media(max-width:600px) {
+            .farewell-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* VILLAIN ROAST CLOSING SECTION */
+        .roast-wrap {
+            position: relative;
+            overflow: hidden;
+            background: none;
+            padding: 80px 0 120px;
+        }
+
+        .roast-wrap::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(45deg, transparent, transparent 18px, rgba(230, 50, 50, .05) 18px, rgba(230, 50, 50, .05) 19px),
+                repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(200, 150, 0, .04) 18px, rgba(200, 150, 0, .04) 19px);
+            pointer-events: none;
+        }
+
+        .roast-center {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 0 24px;
+        }
+
+        .roast-shard {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: min(92vw, 700px);
+            min-height: 220px;
+            padding: 40px 60px;
+            background: linear-gradient(135deg, #e63232 0%, #c49b00 35%, #e63232 70%, #8a0000 100%);
+            clip-path: polygon(5% 0%, 18% 3%, 32% 0%, 47% 4%, 61% 0%, 74% 2%, 88% 0%, 95% 5%, 100% 14%, 97% 28%, 100% 42%, 96% 57%, 100% 71%, 97% 85%, 100% 95%, 91% 100%, 76% 97%, 62% 100%, 48% 96%, 33% 100%, 19% 97%, 6% 100%, 0% 93%, 3% 78%, 0% 63%, 4% 48%, 0% 33%, 3% 18%, 0% 5%);
+            text-align: center;
+            animation: shardPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes shardPulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 18px rgba(230, 50, 50, .7)) drop-shadow(0 0 40px rgba(196, 155, 0, .4));
+                transform: scale(1);
+            }
+
+            50% {
+                filter: drop-shadow(0 0 36px rgba(230, 50, 50, 1)) drop-shadow(0 0 64px rgba(196, 155, 0, .8));
+                transform: scale(1.02) rotate(.3deg);
+            }
+        }
+
+        .roast-main-text {
+            font-family: "Bangers", cursive;
+            font-size: clamp(1.7rem, 6vw, 3.4rem);
+            letter-spacing: 5px;
+            color: #fff;
+            text-shadow: 3px 3px 0 #111, 0 0 20px rgba(255, 220, 0, .6);
+            line-height: 1.25;
+        }
+
+        .roast-sub-text {
+            font-family: "Bangers", cursive;
+            font-size: clamp(.95rem, 3vw, 1.5rem);
+            letter-spacing: 3px;
+            color: #ffe566;
+            text-shadow: 2px 2px 0 #111;
+            margin-top: 10px;
+        }
+
+        .roast-shards-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            max-width: 860px;
+        }
+
+        .roast-mini-shard {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 20px;
+            font-family: "Bangers", cursive;
+            font-size: clamp(.78rem, 2.2vw, 1.05rem);
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+            border: 3px solid #111;
+            box-shadow: 4px 4px 0 #111;
+            text-align: center;
+            opacity: 0;
+            translate: 0 30px;
+            transition: opacity .4s ease, translate .4s ease, transform .15s, box-shadow .15s;
+        }
+
+        .roast-mini-shard.visible {
+            opacity: 1;
+            translate: 0 0;
+        }
+
+        .roast-mini-shard:hover {
+            transform: translate(-2px, -3px) rotate(-1deg);
+            box-shadow: 6px 6px 0 #111;
+        }
+
+        .roast-jjs-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            translate: 0 40px;
+            transition: opacity .6s ease .2s, translate .6s ease .2s;
+        }
+
+        .roast-jjs-wrap.visible {
+            opacity: 1;
+            translate: 0 0;
+        }
+
+        .roast-jjs-emoji {
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            animation: jjsCry 1.4s ease-in-out infinite;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .6));
+        }
+
+        @keyframes jjsCry {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-3deg)
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(3deg)
+            }
+        }
+
+        .roast-jjs-caption {
+            font-family: "Bangers", cursive;
+            font-size: clamp(.8rem, 2.5vw, 1.1rem);
+            letter-spacing: 3px;
+            color: #ff6b6b;
+            text-shadow: 1px 1px 0 #000;
+            background: rgba(0, 0, 0, .55);
+            padding: 4px 14px;
+            border: 2px solid #ff6b6b;
+        }
+
+        @media(max-width:600px) {
+            .roast-shard {
+                padding: 30px 28px;
+            }
+        }
     </style>
 </head>
 
@@ -2679,343 +3016,367 @@
         </div>
     </section>
 
+    <!-- FAREWELL SECTION -->
+    <section class="farewell-section">
+        <div class="farewell-title-wrap">
+            <div class="farewell-title">🎤 KATA-KATA TERAKHIR PARA RANGER 🎤</div>
+        </div>
+        <div class="farewell-grid" id="farewell-grid"></div>
+    </section>
+    <!-- VILLAIN ROAST CLOSING SECTION -->
+    <section class="roast-wrap" id="roast-section">
+        <div class="roast-center">
+            <div class="roast-jjs-wrap" id="roast-jjs">
+                <div class="roast-jjs-emoji">&#128557;</div>
+                <div class="roast-jjs-caption">JJS DETECTED</div>
+            </div>
+            <div class="roast-shard">
+                <div>
+                    <div class="roast-main-text">SIAPA SURUH<br>GAK AJAK BUKBER?!</div>
+                    <div class="roast-sub-text">&#128128; NEXT TIME YOU YOU GW GW! &#128128;</div>
+                </div>
+            </div>
+            <div class="roast-shards-row" id="roast-mini-row"></div>
+        </div>
+    </section>
+
     <footer>— GO GO THE COWOS! —</footer>
 
     <script>
-        //  const rangers = [{
-        //                 color: 'red',
-        //                 name: 'Red Ranger (Wira)',
-        //                 emoji: '🔴',
-        //                 mainMeal: 'POWER SNACK!',
-        //                 subMeal: 'Heatwave Bites',
-        //                 sfx: 'ZAP!',
-        //                 badge: false,
-        //                 power: 'Fire Power 🔥',
-        //                 zord: 'Tyrannosaurus Dinozord',
-        //                 seats: 3,
-        //                 description: 'Pemimpin tim yang tangguh! Makanannya sekuat semangatnya — panas, berani, dan penuh energi untuk pertempuran.',
-        //                 foods: [{
-        //                         name: '🍔 Double Smash Burger',
-        //                         desc: 'Burger daging dua patty dengan saus pedas volcano, tomat segar, dan selada renyah.'
-        //                     },
-        //                     {
-        //                         name: '🍕 Pizza Heatwave',
-        //                         desc: 'Pizza pepperoni extra pedas dengan cabai jalapeño dan saus tomat bakar.'
-        //                     },
-        //                     {
-        //                         name: '🍟 Chili Cheese Fries',
-        //                         desc: 'Kentang goreng renyah ditaburi keju leleh dan saus chili merah membara.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '🔥',
-        //                     move: 'VOLCANO STRIKE!',
-        //                     effect: '🔥 INFERNO!',
-        //                     desc: 'Wira melempar bola api super panas langsung ke muka JJS — hangus seketika, niat JJS ikut terbakar habis.',
-        //                     headBg: '#e63232',
-        //                     sfxTextColor: '#fff',
-        //                     beamColor: 'linear-gradient(90deg,#e63232,#ff9900,#fff)',
-        //                     jjsDmg: 18,
-        //                     megaDmg: 5
-        //                 }
+        // const rangers = [{
+        //         color: 'red',
+        //         name: 'Red Ranger (Wira)',
+        //         emoji: '🔴',
+        //         mainMeal: 'POWER SNACK!',
+        //         subMeal: 'Heatwave Bites',
+        //         sfx: 'ZAP!',
+        //         badge: false,
+        //         power: 'Fire Power 🔥',
+        //         zord: 'Tyrannosaurus Dinozord',
+        //         seats: 3,
+        //         description: 'Pemimpin tim yang tangguh! Makanannya sekuat semangatnya — panas, berani, dan penuh energi untuk pertempuran.',
+        //         foods: [{
+        //                 name: '🍔 Double Smash Burger',
+        //                 desc: 'Burger daging dua patty dengan saus pedas volcano, tomat segar, dan selada renyah.'
         //             },
         //             {
-        //                 color: 'blue',
-        //                 name: 'Blue Ranger (Vinkent)',
-        //                 emoji: '🔵',
-        //                 mainMeal: 'OCEAN FEAST!',
-        //                 subMeal: 'Wave Breaker Noodles',
-        //                 sfx: 'YUM!',
-        //                 badge: false,
-        //                 power: 'Water Power 💧',
-        //                 zord: 'Triceratops Dinozord',
-        //                 seats: 1,
-        //                 description: 'Ahli strategi dan sains tim. Menu pilihannya terinspirasi dari kedalaman samudra — segar, sehat, dan penuh nutrisi.',
-        //                 foods: [{
-        //                         name: '🍣 Sushi Deluxe Platter',
-        //                         desc: 'Aneka roll sushi salmon, tuna, dan udang dengan wasabi premium dan kecap asin.'
-        //                     },
-        //                     {
-        //                         name: '🍜 Wave Ramen',
-        //                         desc: 'Ramen kaldu tonkotsu 12 jam dengan chashu babi, telur rebus, nori, dan minyak bawang.'
-        //                     },
-        //                     {
-        //                         name: '🦞 Ocean Noodles',
-        //                         desc: 'Mie seafood dengan udang, cumi, kerang, dan kuah biru nila pedas manis.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '🌊',
-        //                     move: 'TSUNAMI BLAST!',
-        //                     effect: '💧 FLOOD!',
-        //                     desc: 'Vinkent memanggil gelombang raksasa yang menyapu JJS hingga terseret jauh tak tahu arah — sama kayak rutenya yang selalu ngablu.',
-        //                     headBg: '#1a5fd4',
-        //                     sfxTextColor: '#fff',
-        //                     beamColor: 'linear-gradient(90deg,#1a5fd4,#00cfff,#fff)',
-        //                     jjsDmg: 22,
-        //                     megaDmg: 8
-        //                 }
+        //                 name: '🍕 Pizza Heatwave',
+        //                 desc: 'Pizza pepperoni extra pedas dengan cabai jalapeño dan saus tomat bakar.'
         //             },
         //             {
-        //                 color: 'pink',
-        //                 name: 'Pink Ranger (Arif)',
-        //                 emoji: '🩷',
-        //                 mainMeal: 'SWEET TREAT!',
-        //                 subMeal: 'Pixie Dust Desserts',
-        //                 sfx: 'MUNCH!',
-        //                 badge: false,
-        //                 power: 'Wind Power 🌸',
-        //                 zord: 'Pterodactyl Dinozord',
-        //                 seats: 4,
-        //                 description: 'Ahli bela diri yang lembut namun mematikan. Punya selera manis yang tak tertandingi — dessert-nya seperti sihir di lidah!',
-        //                 foods: [{
-        //                         name: '🍨 Rainbow Sundae',
-        //                         desc: 'Parfait ice cream tiga warna dengan saus stroberi, topping macaroon, dan whipped cream fluffy.'
-        //                     },
-        //                     {
-        //                         name: '🍰 Sakura Cheesecake',
-        //                         desc: 'Cheesecake Jepang dengan bunga sakura, strawberry segar, dan glaze cermin pink.'
-        //                     },
-        //                     {
-        //                         name: '🍬 Pixie Macarons',
-        //                         desc: 'Box macarons aneka rasa: rose lychee, raspberry, bubblegum, dan lavender honey.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '🌸',
-        //                     move: 'PIXIE STORM!',
-        //                     effect: '🌸 SCATTER!',
-        //                     desc: 'Arif melepas badai manis berisi macarons dan glitter yang bikin JJS bingung dan malu sepanjang jalan.',
-        //                     headBg: '#e8178a',
-        //                     sfxTextColor: '#fff',
-        //                     beamColor: 'linear-gradient(90deg,#e8178a,#ff99dd,#fff)',
-        //                     jjsDmg: 20,
-        //                     megaDmg: 4
-        //                 }
+        //                 name: '🍟 Chili Cheese Fries',
+        //                 desc: 'Kentang goreng renyah ditaburi keju leleh dan saus chili merah membara.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '🔥',
+        //             move: 'VOLCANO STRIKE!',
+        //             effect: '🔥 INFERNO!',
+        //             desc: 'Wira melempar bola api super panas langsung ke muka JJS — hangus seketika, niat JJS ikut terbakar habis.',
+        //             headBg: '#e63232',
+        //             sfxTextColor: '#fff',
+        //             beamColor: 'linear-gradient(90deg,#e63232,#ff9900,#fff)',
+        //             jjsDmg: 18,
+        //             megaDmg: 5
+        //         }
+        //     },
+        //     {
+        //         color: 'blue',
+        //         name: 'Blue Ranger (Vinkent)',
+        //         emoji: '🔵',
+        //         mainMeal: 'OCEAN FEAST!',
+        //         subMeal: 'Wave Breaker Noodles',
+        //         sfx: 'YUM!',
+        //         badge: false,
+        //         power: 'Water Power 💧',
+        //         zord: 'Triceratops Dinozord',
+        //         seats: 1,
+        //         description: 'Ahli strategi dan sains tim. Menu pilihannya terinspirasi dari kedalaman samudra — segar, sehat, dan penuh nutrisi.',
+        //         foods: [{
+        //                 name: '🍣 Sushi Deluxe Platter',
+        //                 desc: 'Aneka roll sushi salmon, tuna, dan udang dengan wasabi premium dan kecap asin.'
         //             },
         //             {
-        //                 color: 'black',
-        //                 name: 'Black Ranger (Rasid)',
-        //                 emoji: '⚫',
-        //                 mainMeal: 'BOLD BITE!',
-        //                 subMeal: 'Smoke-House Hits',
-        //                 sfx: 'CRUNCH!',
-        //                 badge: true,
-        //                 power: 'Mastodon Power 🦣',
-        //                 zord: 'Mastodon Dinozord',
-        //                 seats: 2,
-        //                 description: 'Prajurit baja yang serius. Menu pilihannya bold dan smoky — diasapi pelan-pelan hingga sempurna untuk hasil yang dahsyat.',
-        //                 foods: [{
-        //                         name: '🥩 BBQ Beef Ribs',
-        //                         desc: 'Iga sapi 12 jam smoke dengan rub rempah hitam dan saus molasses manis-asam.'
-        //                     },
-        //                     {
-        //                         name: '🥘 Smoked Brisket Stew',
-        //                         desc: 'Semur brisket asap dengan bean hitam, tomat, dan kuah kental berbumbu smoky.'
-        //                     },
-        //                     {
-        //                         name: '🧆 Black Garlic Tofu',
-        //                         desc: 'Tofu goreng crispy dengan saus bawang hitam fermentasi dan taburan wijen.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '🥩',
-        //                     move: 'SMOKE CRUSHER!',
-        //                     effect: '💨 SMOKED!',
-        //                     desc: 'Rasid menghajar JJS dengan kepalan berasap smoky, membungkamnya sebelum sempat ngomong "ayo ngopi bentar".',
-        //                     headBg: '#222',
-        //                     sfxTextColor: '#f5c400',
-        //                     beamColor: 'linear-gradient(90deg,#444,#aaa,#fff)',
-        //                     jjsDmg: 25,
-        //                     megaDmg: 6
-        //                 }
+        //                 name: '🍜 Wave Ramen',
+        //                 desc: 'Ramen kaldu tonkotsu 12 jam dengan chashu babi, telur rebus, nori, dan minyak bawang.'
         //             },
         //             {
-        //                 color: 'yellow',
-        //                 name: 'Yellow Ranger (Ilham)',
-        //                 emoji: '🟡',
-        //                 mainMeal: 'GOLDEN GALORE!',
-        //                 subMeal: 'Tropical Rush',
-        //                 sfx: 'GULP!',
-        //                 badge: true,
-        //                 power: 'Lightning Power ⚡',
-        //                 zord: 'Sabertooth Tiger Dinozord',
-        //                 seats: 0,
-        //                 description: 'Pejuang cepat dan energik! Doyan makanan tropis segar yang memberi tenaga kilat sebelum pertarungan sengit.',
-        //                 foods: [{
-        //                         name: '🥭 Tropical Fruit Bowl',
-        //                         desc: 'Mangga harum manis, nanas segar, pepaya madu, dan buah naga merah disajikan dalam mangkuk es.'
-        //                     },
-        //                     {
-        //                         name: '🧇 Golden Waffle Stack',
-        //                         desc: 'Waffle berlapis madu lebah hutan dengan buah beri segar dan sirup maple.'
-        //                     },
-        //                     {
-        //                         name: '🥤 Yellow Burst Smoothie',
-        //                         desc: 'Smoothie mangga-nanas-jeruk dengan topping granola dan chia seed untuk stamina ekstra.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '⚡',
-        //                     move: 'GOLDEN THUNDER!',
-        //                     effect: '⚡ JOLT!',
-        //                     desc: 'Ilham menghantam JJS dengan petir emas berkecepatan kilat — dalam 0.01 detik, JJS sudah terbang entah ke mana.',
-        //                     headBg: '#c49b00',
-        //                     sfxTextColor: '#111',
-        //                     beamColor: 'linear-gradient(90deg,#c49b00,#f5c400,#fff)',
-        //                     jjsDmg: 30,
-        //                     megaDmg: 3
-        //                 }
+        //                 name: '🦞 Ocean Noodles',
+        //                 desc: 'Mie seafood dengan udang, cumi, kerang, dan kuah biru nila pedas manis.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '🌊',
+        //             move: 'TSUNAMI BLAST!',
+        //             effect: '💧 FLOOD!',
+        //             desc: 'Vinkent memanggil gelombang raksasa yang menyapu JJS hingga terseret jauh tak tahu arah — sama kayak rutenya yang selalu ngablu.',
+        //             headBg: '#1a5fd4',
+        //             sfxTextColor: '#fff',
+        //             beamColor: 'linear-gradient(90deg,#1a5fd4,#00cfff,#fff)',
+        //             jjsDmg: 22,
+        //             megaDmg: 8
+        //         }
+        //     },
+        //     {
+        //         color: 'pink',
+        //         name: 'Pink Ranger (Arif)',
+        //         emoji: '🩷',
+        //         mainMeal: 'SWEET TREAT!',
+        //         subMeal: 'Pixie Dust Desserts',
+        //         sfx: 'MUNCH!',
+        //         badge: false,
+        //         power: 'Wind Power 🌸',
+        //         zord: 'Pterodactyl Dinozord',
+        //         seats: 4,
+        //         description: 'Ahli bela diri yang lembut namun mematikan. Punya selera manis yang tak tertandingi — dessert-nya seperti sihir di lidah!',
+        //         foods: [{
+        //                 name: '🍨 Rainbow Sundae',
+        //                 desc: 'Parfait ice cream tiga warna dengan saus stroberi, topping macaroon, dan whipped cream fluffy.'
         //             },
         //             {
-        //                 color: 'green',
-        //                 name: 'Green Ranger (Joy)',
-        //                 emoji: '🟢',
-        //                 mainMeal: 'WILD GRUB!',
-        //                 subMeal: 'Dragon Scale Snacks',
-        //                 sfx: 'SNAP!',
-        //                 badge: true,
-        //                 power: 'Dragon Power 🐉',
-        //                 zord: 'Dragonzord',
-        //                 seats: 3,
-        //                 description: 'Pendekar naga yang misterius dan kuat. Menu pilihannya terinspirasi oleh hutan purba — hijau, segar, dan penuh vitalitas.',
-        //                 foods: [{
-        //                         name: '🥑 Dragon Guacamole Platter',
-        //                         desc: 'Guacamole alpukat chunky dengan nacho hijau taro, pico de gallo segar, dan sour cream.'
-        //                     },
-        //                     {
-        //                         name: '🍔 Green Matcha Burger',
-        //                         desc: 'Burger patty wagyu dengan bun matcha, selada hijau, dan saus wasabi mayo yang unik.'
-        //                     },
-        //                     {
-        //                         name: '🥗 Forest Power Bowl',
-        //                         desc: 'Bowl edamame, broccoli panggang, kale crispy, quinoa hijau, dan dressing miso-ginger.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '🐉',
-        //                     move: 'DRAGON FANG SLAM!',
-        //                     effect: '🐉 FANG!',
-        //                     desc: 'Joy melepaskan taring naga hijau yang mengunci JJS di tempat — tidak kemana-mana, bukber aman!',
-        //                     headBg: '#1a8c2a',
-        //                     sfxTextColor: '#fff',
-        //                     beamColor: 'linear-gradient(90deg,#1a8c2a,#55dd66,#fff)',
-        //                     jjsDmg: 20,
-        //                     megaDmg: 5
-        //                 }
+        //                 name: '🍰 Sakura Cheesecake',
+        //                 desc: 'Cheesecake Jepang dengan bunga sakura, strawberry segar, dan glaze cermin pink.'
         //             },
         //             {
-        //                 color: 'white',
-        //                 name: 'White Ranger (Windy)',
-        //                 emoji: '⚪',
-        //                 mainMeal: 'REGAL REPAST!',
-        //                 subMeal: "Tiger's Treasure",
-        //                 sfx: 'WOW!',
-        //                 badge: true,
-        //                 power: 'Tiger Power 🐯',
-        //                 zord: 'White Tigerzord',
-        //                 seats: 2,
-        //                 description: 'Pemimpin terpilih dengan kekuatan Zeo yang murni. Menu kebangsawanan yang elegan dan canggih — mewah di setiap suapan.',
-        //                 foods: [{
-        //                         name: '🥩 White Truffle Steak',
-        //                         desc: 'Tenderloin A5 dengan saus truffle putih, asparagus panggang, dan potato gratin creamy.'
-        //                     },
-        //                     {
-        //                         name: '🎂 White Velvet Cake',
-        //                         desc: 'Kue tiga tingkat white velvet dengan frosting vanilla Swiss meringue dan hiasan edible gold.'
-        //                     },
-        //                     {
-        //                         name: '☕ Tiger Latte',
-        //                         desc: 'Kopi susu dengan tiger stripe motif, caramel swirl, dan whipped cream vanilla premium.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '🐯',
-        //                     move: 'TIGER SLASH!',
-        //                     effect: '🐯 SLASH!',
-        //                     desc: 'Windy memutar Saba Sword dengan elegan dan memotong semua rayuan JJS sebelum sempat diucapkan.',
-        //                     headBg: '#666',
-        //                     sfxTextColor: '#fff',
-        //                     beamColor: 'linear-gradient(90deg,#888,#ddd,#fff)',
-        //                     jjsDmg: 18,
-        //                     megaDmg: 4
-        //                 }
+        //                 name: '🍬 Pixie Macarons',
+        //                 desc: 'Box macarons aneka rasa: rose lychee, raspberry, bubblegum, dan lavender honey.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '🌸',
+        //             move: 'PIXIE STORM!',
+        //             effect: '🌸 SCATTER!',
+        //             desc: 'Arif melepas badai manis berisi macarons dan glitter yang bikin JJS bingung dan malu sepanjang jalan.',
+        //             headBg: '#e8178a',
+        //             sfxTextColor: '#fff',
+        //             beamColor: 'linear-gradient(90deg,#e8178a,#ff99dd,#fff)',
+        //             jjsDmg: 20,
+        //             megaDmg: 4
+        //         }
+        //     },
+        //     {
+        //         color: 'black',
+        //         name: 'Black Ranger (Rasid)',
+        //         emoji: '⚫',
+        //         mainMeal: 'BOLD BITE!',
+        //         subMeal: 'Smoke-House Hits',
+        //         sfx: 'CRUNCH!',
+        //         badge: true,
+        //         power: 'Mastodon Power 🦣',
+        //         zord: 'Mastodon Dinozord',
+        //         seats: 2,
+        //         description: 'Prajurit baja yang serius. Menu pilihannya bold dan smoky — diasapi pelan-pelan hingga sempurna untuk hasil yang dahsyat.',
+        //         foods: [{
+        //                 name: '🥩 BBQ Beef Ribs',
+        //                 desc: 'Iga sapi 12 jam smoke dengan rub rempah hitam dan saus molasses manis-asam.'
         //             },
         //             {
-        //                 color: 'gold',
-        //                 name: 'Gold Zeo Ranger (Ryu)',
-        //                 emoji: '🟨',
-        //                 mainMeal: 'GOLDEN BANQUET!',
-        //                 subMeal: 'Zeonic Feast',
-        //                 sfx: 'DELISH!',
-        //                 badge: true,
-        //                 power: 'Golden Staff ⚡👑',
-        //                 zord: 'Pyramidas',
-        //                 seats: 1,
-        //                 description: 'Prajurit emas dari planet Triforia yang memiliki tiga jiwa. Menu pestanya mencerminkan kekayaan budaya tiga dunia sekaligus!',
-        //                 foods: [{
-        //                         name: '🫕 Moroccan Lamb Tagine',
-        //                         desc: "Semur domba slow-cook dengan kurma, rempah za'atar, dan couscous emas."
-        //                     },
-        //                     {
-        //                         name: '🥘 Stuffed Grape Leaves',
-        //                         desc: 'Dolma daun anggur isi nasi rempah, kismis, dan kacang pinus dengan saus lemon.'
-        //                     },
-        //                     {
-        //                         name: '🍚 Saffron Royal Rice',
-        //                         desc: 'Nasi safron Persia dengan almond panggang, barberry merah, dan daging ayam panggang berbumbu royal.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '👑',
-        //                     move: 'GOLDEN STAFF SMASH!',
-        //                     effect: '👑 ROYAL HIT!',
-        //                     desc: 'Ryu menghantam JJS dengan Golden Power Staff tiga kali lipat — satu dari setiap jiwanya. Triple combo!',
-        //                     headBg: '#8a6b00',
-        //                     sfxTextColor: '#111',
-        //                     beamColor: 'linear-gradient(90deg,#8a6b00,#c9a227,#fff)',
-        //                     jjsDmg: 22,
-        //                     megaDmg: 3
-        //                 }
+        //                 name: '🥘 Smoked Brisket Stew',
+        //                 desc: 'Semur brisket asap dengan bean hitam, tomat, dan kuah kental berbumbu smoky.'
         //             },
         //             {
-        //                 color: 'purple',
-        //                 name: 'Purple Ranger (Bona)',
-        //                 emoji: '🟪',
-        //                 mainMeal: 'PURPLE FEST!',
-        //                 subMeal: 'Lavender Enchantment',
-        //                 sfx: 'MAGIC!',
-        //                 badge: true,
-        //                 power: 'Mystic Force ✨',
-        //                 zord: 'Violet Dragonzord',
-        //                 seats: 2,
-        //                 description: 'Ranger misterius penuh keanggunan dan kekuatan magis. Pilihan menu serba ungu yang memanjakan dan memesona para tamu.',
-        //                 foods: [{
-        //                         name: '🍆 Eggplant Parmesan',
-        //                         desc: 'Terong lapis keju parmesan panggang, saus marinara, dan basil ungu segar.'
-        //                     },
-        //                     {
-        //                         name: '🫐 Blueberry Lavender Tart',
-        //                         desc: 'Tart renyah isian blueberry dan krim lavender, dihias edible violet.'
-        //                     },
-        //                     {
-        //                         name: '🥤 Ube Milk Tea',
-        //                         desc: 'Minuman boba ube ungu manis, susu segar dan taburan kelapa parut.'
-        //                     }
-        //                 ],
-        //                 attack: {
-        //                     emoji: '✨',
-        //                     move: 'MYSTIC BURST!',
-        //                     effect: '✨ HEX!',
-        //                     desc: 'Bona melepas sihir ungu misterius yang mengutuk JJS agar selalu tepat waktu — hukuman terberat untuknya.',
-        //                     headBg: '#800080',
-        //                     sfxTextColor: '#fff',
-        //                     beamColor: 'linear-gradient(90deg,#800080,#cc66ff,#fff)',
-        //                     jjsDmg: 20,
-        //                     megaDmg: 4
-        //                 }
+        //                 name: '🧆 Black Garlic Tofu',
+        //                 desc: 'Tofu goreng crispy dengan saus bawang hitam fermentasi dan taburan wijen.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '🥩',
+        //             move: 'SMOKE CRUSHER!',
+        //             effect: '💨 SMOKED!',
+        //             desc: 'Rasid menghajar JJS dengan kepalan berasap smoky, membungkamnya sebelum sempat ngomong "ayo ngopi bentar".',
+        //             headBg: '#222',
+        //             sfxTextColor: '#f5c400',
+        //             beamColor: 'linear-gradient(90deg,#444,#aaa,#fff)',
+        //             jjsDmg: 25,
+        //             megaDmg: 6
+        //         }
+        //     },
+        //     {
+        //         color: 'yellow',
+        //         name: 'Yellow Ranger (Ilham)',
+        //         emoji: '🟡',
+        //         mainMeal: 'GOLDEN GALORE!',
+        //         subMeal: 'Tropical Rush',
+        //         sfx: 'GULP!',
+        //         badge: true,
+        //         power: 'Lightning Power ⚡',
+        //         zord: 'Sabertooth Tiger Dinozord',
+        //         seats: 0,
+        //         description: 'Pejuang cepat dan energik! Doyan makanan tropis segar yang memberi tenaga kilat sebelum pertarungan sengit.',
+        //         foods: [{
+        //                 name: '🥭 Tropical Fruit Bowl',
+        //                 desc: 'Mangga harum manis, nanas segar, pepaya madu, dan buah naga merah disajikan dalam mangkuk es.'
         //             },
-        //         ];
+        //             {
+        //                 name: '🧇 Golden Waffle Stack',
+        //                 desc: 'Waffle berlapis madu lebah hutan dengan buah beri segar dan sirup maple.'
+        //             },
+        //             {
+        //                 name: '🥤 Yellow Burst Smoothie',
+        //                 desc: 'Smoothie mangga-nanas-jeruk dengan topping granola dan chia seed untuk stamina ekstra.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '⚡',
+        //             move: 'GOLDEN THUNDER!',
+        //             effect: '⚡ JOLT!',
+        //             desc: 'Ilham menghantam JJS dengan petir emas berkecepatan kilat — dalam 0.01 detik, JJS sudah terbang entah ke mana.',
+        //             headBg: '#c49b00',
+        //             sfxTextColor: '#111',
+        //             beamColor: 'linear-gradient(90deg,#c49b00,#f5c400,#fff)',
+        //             jjsDmg: 30,
+        //             megaDmg: 3
+        //         }
+        //     },
+        //     {
+        //         color: 'green',
+        //         name: 'Green Ranger (Joy)',
+        //         emoji: '🟢',
+        //         mainMeal: 'WILD GRUB!',
+        //         subMeal: 'Dragon Scale Snacks',
+        //         sfx: 'SNAP!',
+        //         badge: true,
+        //         power: 'Dragon Power 🐉',
+        //         zord: 'Dragonzord',
+        //         seats: 3,
+        //         description: 'Pendekar naga yang misterius dan kuat. Menu pilihannya terinspirasi oleh hutan purba — hijau, segar, dan penuh vitalitas.',
+        //         foods: [{
+        //                 name: '🥑 Dragon Guacamole Platter',
+        //                 desc: 'Guacamole alpukat chunky dengan nacho hijau taro, pico de gallo segar, dan sour cream.'
+        //             },
+        //             {
+        //                 name: '🍔 Green Matcha Burger',
+        //                 desc: 'Burger patty wagyu dengan bun matcha, selada hijau, dan saus wasabi mayo yang unik.'
+        //             },
+        //             {
+        //                 name: '🥗 Forest Power Bowl',
+        //                 desc: 'Bowl edamame, broccoli panggang, kale crispy, quinoa hijau, dan dressing miso-ginger.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '🐉',
+        //             move: 'DRAGON FANG SLAM!',
+        //             effect: '🐉 FANG!',
+        //             desc: 'Joy melepaskan taring naga hijau yang mengunci JJS di tempat — tidak kemana-mana, bukber aman!',
+        //             headBg: '#1a8c2a',
+        //             sfxTextColor: '#fff',
+        //             beamColor: 'linear-gradient(90deg,#1a8c2a,#55dd66,#fff)',
+        //             jjsDmg: 20,
+        //             megaDmg: 5
+        //         }
+        //     },
+        //     {
+        //         color: 'white',
+        //         name: 'White Ranger (Windy)',
+        //         emoji: '⚪',
+        //         mainMeal: 'REGAL REPAST!',
+        //         subMeal: "Tiger's Treasure",
+        //         sfx: 'WOW!',
+        //         badge: true,
+        //         power: 'Tiger Power 🐯',
+        //         zord: 'White Tigerzord',
+        //         seats: 2,
+        //         description: 'Pemimpin terpilih dengan kekuatan Zeo yang murni. Menu kebangsawanan yang elegan dan canggih — mewah di setiap suapan.',
+        //         foods: [{
+        //                 name: '🥩 White Truffle Steak',
+        //                 desc: 'Tenderloin A5 dengan saus truffle putih, asparagus panggang, dan potato gratin creamy.'
+        //             },
+        //             {
+        //                 name: '🎂 White Velvet Cake',
+        //                 desc: 'Kue tiga tingkat white velvet dengan frosting vanilla Swiss meringue dan hiasan edible gold.'
+        //             },
+        //             {
+        //                 name: '☕ Tiger Latte',
+        //                 desc: 'Kopi susu dengan tiger stripe motif, caramel swirl, dan whipped cream vanilla premium.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '🐯',
+        //             move: 'TIGER SLASH!',
+        //             effect: '🐯 SLASH!',
+        //             desc: 'Windy memutar Saba Sword dengan elegan dan memotong semua rayuan JJS sebelum sempat diucapkan.',
+        //             headBg: '#666',
+        //             sfxTextColor: '#fff',
+        //             beamColor: 'linear-gradient(90deg,#888,#ddd,#fff)',
+        //             jjsDmg: 18,
+        //             megaDmg: 4
+        //         }
+        //     },
+        //     {
+        //         color: 'gold',
+        //         name: 'Gold Zeo Ranger (Ryu)',
+        //         emoji: '🟨',
+        //         mainMeal: 'GOLDEN BANQUET!',
+        //         subMeal: 'Zeonic Feast',
+        //         sfx: 'DELISH!',
+        //         badge: true,
+        //         power: 'Golden Staff ⚡👑',
+        //         zord: 'Pyramidas',
+        //         seats: 1,
+        //         description: 'Prajurit emas dari planet Triforia yang memiliki tiga jiwa. Menu pestanya mencerminkan kekayaan budaya tiga dunia sekaligus!',
+        //         foods: [{
+        //                 name: '🫕 Moroccan Lamb Tagine',
+        //                 desc: "Semur domba slow-cook dengan kurma, rempah za'atar, dan couscous emas."
+        //             },
+        //             {
+        //                 name: '🥘 Stuffed Grape Leaves',
+        //                 desc: 'Dolma daun anggur isi nasi rempah, kismis, dan kacang pinus dengan saus lemon.'
+        //             },
+        //             {
+        //                 name: '🍚 Saffron Royal Rice',
+        //                 desc: 'Nasi safron Persia dengan almond panggang, barberry merah, dan daging ayam panggang berbumbu royal.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '👑',
+        //             move: 'GOLDEN STAFF SMASH!',
+        //             effect: '👑 ROYAL HIT!',
+        //             desc: 'Ryu menghantam JJS dengan Golden Power Staff tiga kali lipat — satu dari setiap jiwanya. Triple combo!',
+        //             headBg: '#8a6b00',
+        //             sfxTextColor: '#111',
+        //             beamColor: 'linear-gradient(90deg,#8a6b00,#c9a227,#fff)',
+        //             jjsDmg: 22,
+        //             megaDmg: 3
+        //         }
+        //     },
+        //     {
+        //         color: 'purple',
+        //         name: 'Purple Ranger (Bona)',
+        //         emoji: '🟪',
+        //         mainMeal: 'PURPLE FEST!',
+        //         subMeal: 'Lavender Enchantment',
+        //         sfx: 'MAGIC!',
+        //         badge: true,
+        //         power: 'Mystic Force ✨',
+        //         zord: 'Violet Dragonzord',
+        //         seats: 2,
+        //         description: 'Ranger misterius penuh keanggunan dan kekuatan magis. Pilihan menu serba ungu yang memanjakan dan memesona para tamu.',
+        //         foods: [{
+        //                 name: '🍆 Eggplant Parmesan',
+        //                 desc: 'Terong lapis keju parmesan panggang, saus marinara, dan basil ungu segar.'
+        //             },
+        //             {
+        //                 name: '🫐 Blueberry Lavender Tart',
+        //                 desc: 'Tart renyah isian blueberry dan krim lavender, dihias edible violet.'
+        //             },
+        //             {
+        //                 name: '🥤 Ube Milk Tea',
+        //                 desc: 'Minuman boba ube ungu manis, susu segar dan taburan kelapa parut.'
+        //             }
+        //         ],
+        //         attack: {
+        //             emoji: '✨',
+        //             move: 'MYSTIC BURST!',
+        //             effect: '✨ HEX!',
+        //             desc: 'Bona melepas sihir ungu misterius yang mengutuk JJS agar selalu tepat waktu — hukuman terberat untuknya.',
+        //             headBg: '#800080',
+        //             sfxTextColor: '#fff',
+        //             beamColor: 'linear-gradient(90deg,#800080,#cc66ff,#fff)',
+        //             jjsDmg: 20,
+        //             megaDmg: 4
+        //         }
+        //     },
+        // ];
 
         const rangers = [{
                 color: 'red',
@@ -3999,6 +4360,191 @@
             });
         })();
 
+        // ── FAREWELL SECTION — kata-kata terakhir para ranger ──
+        (function () {
+            var fd = [{
+                    color: 'red',
+                    mood: '🔥 SUPER SEMANGAT!',
+                    moodBg: '#e63232',
+                    msg: 'Tim, ini bukan sekadar bukber biasa. Ini MISI yang kita jalankan bersama! Sebagai pemimpin, aku bangga banget sama kalian semua. POWER RANGERS — perut kenyang, hati bahagia, JALAN TERUS!! 💪🔥'
+                },
+                {
+                    color: 'blue',
+                    mood: '🥹 TERHARU DALAM HATI',
+                    moodBg: '#1a5fd4',
+                    msg: 'Secara perhitungan, probabilitas bukber ini sukses adalah 99.9%. Margin error 0.1% itu... *suara bergetar sedikit* ...karena aku tidak bisa menghitung betapa berartinya momen ini bagi seluruh tim. Terima kasih. *balik kacamata perlahan*'
+                },
+                {
+                    color: 'pink',
+                    mood: '💖 HARU BAHAGIA BANGET',
+                    moodBg: '#e8178a',
+                    msg: 'OMG OMG OMG!!! Ini toooo sweeet!! Aku udah bikin dessert spesial untuk semua orang dan aku... *nangis bahagia* ...kalian adalah bagian termanis dari hidup aku!! Makasih udah hadir semuanya!! 🌸💕✨'
+                },
+                {
+                    color: 'black',
+                    mood: '😤 (DIAM-DIAM TERHARU)',
+                    moodBg: '#333',
+                    msg: '...Hmm. Aku cuma mau bilang... bukber ini... *batuk pelan* ...penting. Buat kebersamaan. Itu doang. *diam sejenak* ...Senang ada di sini bareng kalian semua. *langsung kabur sebelum ketahuan nangis*'
+                },
+                {
+                    color: 'yellow',
+                    mood: '⚡ EUFORIA TOTAL PENUH',
+                    moodBg: '#c49b00',
+                    msg: 'YEAAHHHH!!! BUKBER TIME BUKBER TIME BUKBER TIME!!! *joget nonstop* Aku udah charge stamina full dari kemarin! GOLDEN THUNDER SIAP MAKAN SEMUA YANG ADA!! AYOOOO MULAIII SEKARANG JUGA!! ⚡🟡🎉'
+                },
+                {
+                    color: 'green',
+                    mood: '🐉 TENANG (TAPI LAPAR)',
+                    moodBg: '#1a8c2a',
+                    msg: '...Seperti naga yang menanti saat yang tepat, kita pun menunggu momen suci ini dengan sabar. *angin berhembus pelan* Bukber bukan soal makanan semata. Ini soal... *pause dramatis yang sangat panjang* ...perut kenyang bersama. Dan itu... sudah lebih dari cukup.'
+                },
+                {
+                    color: 'white',
+                    mood: '🐯 ANGGUN & ELEGAN',
+                    moodBg: '#555',
+                    msg: 'Dengan penuh keanggunan dan martabat, aku nyatakan — malam ini kita makan dengan elegan, berkelas, dan bermartabat tinggi. Tiger Slash... untuk meja makan! Selamat menikmati hidangan terbaik, para ranger terpilih! 🐯👑'
+                },
+                {
+                    color: 'gold',
+                    mood: '👑 TRIPLE DRAMATIS TOTAL',
+                    moodBg: '#8a6b00',
+                    msg: 'Jiwa pertamaku berkata: "Ini sungguh indah dan membahagiakan." Jiwa keduaku berkata: "Aku sudah lapar sejak dua jam yang lalu." Jiwa ketigaku berkata: "KENAPA BELUM MULAI DARI TADI SAJA?!" Tiga jiwa, satu tekad: BUKBER HARUS SEMPURNA DAN KENYANG!! 👑⚡'
+                },
+                {
+                    color: 'purple',
+                    mood: '✨ MISTERIUS & DRAMATIS',
+                    moodBg: '#800080',
+                    msg: 'Ramalan bintang telah menunjukkan... malam ini adalah malam penuh keajaiban dan sihir. *sihir ungu menyebar perlahan ke seluruh ruangan* Aku telah mengutuk semua orang agar bahagia selamanya dalam bukber ini. Kalian tidak bisa menolak keajaiban ungu. Sudah takdir semesta. ✨🔮🟪'
+                }
+            ];
+            var grid = document.getElementById('farewell-grid');
+            if (!grid) return;
+            fd.forEach(function (d, idx) {
+                var r = rangers.find(function (x) {
+                    return x.color === d.color;
+                });
+                if (!r) return;
+                var card = document.createElement('div');
+                card.className = 'farewell-card';
+                var av = r.emojiBase64 ?
+                    ('<img src="' + r.emojiBase64 + '" alt="' + r.name + '" class="farewell-avatar" />') :
+                    ('<span class="farewell-avatar-emoji">' + r.emoji + '</span>');
+                var shortName = r.name.replace(/.*\((.+)\)/, '$1');
+                card.innerHTML = '<div class="farewell-card-head" style="background:' + d.moodBg + '">' +
+                    av +
+                    '<div class="farewell-head-info">' +
+                    '<div class="farewell-name">' + r.name + '</div>' +
+                    '<div class="farewell-mood">' + d.mood + '</div>' +
+                    '</div></div>' +
+                    '<div class="farewell-body"><div class="farewell-bubble">' +
+                    '<p class="farewell-text">&ldquo;' + d.msg + '&rdquo;</p>' +
+                    '</div></div>' +
+                    '<div class="farewell-card-foot">' +
+                    '<span class="farewell-sig">— ' + shortName + '</span>' +
+                    '<span class="farewell-heart">' + r.emoji + '</span>' +
+                    '</div>';
+                grid.appendChild(card);
+            });
+            var cards = Array.from(grid.querySelectorAll('.farewell-card'));
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        var i = cards.indexOf(e.target);
+                        e.target.style.transitionDelay = (i * 0.09) + 's';
+                        e.target.classList.add('visible');
+                        obs.unobserve(e.target);
+                        setTimeout(function () {
+                            e.target.style.transitionDelay = '0s';
+                        }, (i * 90) + 500);
+                    }
+                });
+            }, {
+                threshold: 0.08
+            });
+            cards.forEach(function (c) {
+                obs.observe(c);
+            });
+        })();
+        // -- ROAST CLOSING SECTION --
+        (function () {
+            var lines = [{
+                    txt: 'GAK AJAK = SALAH SENDIRI',
+                    bg: '#e63232',
+                    rot: '-2deg'
+                },
+                {
+                    txt: 'TIDAK ADA NEXT TIME!!',
+                    bg: '#1a5fd4',
+                    rot: '1.5deg'
+                },
+                {
+                    txt: 'BUKBER TANPA JJS = AMAN SENTOSA',
+                    bg: '#1a8c2a',
+                    rot: '-1deg'
+                },
+                {
+                    txt: 'MAAF YA, KITA KEBURU KENYANG',
+                    bg: '#c49b00',
+                    rot: '2deg'
+                },
+                {
+                    txt: 'LESS VILLAIN = MORE ENAK',
+                    bg: '#800080',
+                    rot: '-2.5deg'
+                },
+                {
+                    txt: 'INVITE? EMANG KAMU LAYAK??',
+                    bg: '#333',
+                    rot: '1deg'
+                },
+                {
+                    txt: 'RANGER PARTY - NO VILLAINS ALLOWED',
+                    bg: '#e8178a',
+                    rot: '-1.5deg'
+                },
+                {
+                    txt: 'BESOK AJAK, MUNGKIN... MUNGKIN AJA',
+                    bg: '#555',
+                    rot: '2.5deg'
+                },
+                {
+                    txt: 'TAPI TADI ENAK BANGET SIH HEHEEE',
+                    bg: '#8a6b00',
+                    rot: '-1deg'
+                }
+            ];
+            var row = document.getElementById('roast-mini-row');
+            if (!row) return;
+            lines.forEach(function (l) {
+                var s = document.createElement('div');
+                s.className = 'roast-mini-shard';
+                s.style.cssText = 'background:' + l.bg + ';transform:rotate(' + l.rot +
+                    ');clip-path:polygon(4% 0%,96% 0%,100% 15%,98% 85%,96% 100%,4% 100%,0% 85%,2% 15%)';
+                s.textContent = l.txt;
+                row.appendChild(s);
+            });
+            var allEls = [document.getElementById('roast-jjs')].concat(
+                Array.from(row.querySelectorAll('.roast-mini-shard'))
+            );
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        var i = allEls.indexOf(e.target);
+                        e.target.style.transitionDelay = Math.max(0, i * 0.1) + 's';
+                        e.target.classList.add('visible');
+                        obs.unobserve(e.target);
+                        setTimeout(function () {
+                            e.target.style.transitionDelay = '0s';
+                        }, Math.max(0, i * 100) + 600);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            allEls.forEach(function (el) {
+                if (el) obs.observe(el);
+            });
+        })();
         initCountdown();
         initSeats();
         initReveal();

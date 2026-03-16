@@ -2532,9 +2532,6 @@
                 <div class="comic-panel-head">PANEL 1 • DARI KEJAUHAN</div>
                 <div class="comic-scene">
                     <div class="scene-stage">
-                        <span class="speed-line s1"></span>
-                        <span class="speed-line s2"></span>
-                        <span class="speed-line s3"></span>
                         <div class="far-bubble">HEHE... JJS DULU!</div>
                         <div class="comic-actor actor-villain-far">
                             <span class="actor-emoji" style="font-size:2.8rem;">😈</span>
@@ -2552,7 +2549,6 @@
                 <div class="comic-scene">
                     <div class="scene-stage">
                         <span class="speed-line s2"></span>
-                        <span class="speed-line s4"></span>
                         <div class="boom-badge">MENDESAT!</div>
                         <div class="comic-actor actor-ranger-guard">
                             <span class="actor-emoji" style="font-size:3rem;">🦸‍♂️</span>
@@ -3788,8 +3784,8 @@
                     ${
                         r.emojiBase64
                           ? (r.emojiBase64.startsWith('data:') 
-                              ? `<img src="${r.emojiBase64}" alt="${r.name}" class="combine-emoji" style="width:1.5em;height:1.5em;border-radius:50%;border:2px solid #ffd700;background:#fff;box-shadow:0 2px 8px #0002" />`
-                              : `<img src="${r.emojiBase64}" alt="${r.name}" class="combine-emoji" style="width:1.5em;height:1.5em;border-radius:50%;border:2px solid #ffd700;background:#fff;box-shadow:0 2px 8px #0002" />`
+                              ? `<img src="${r.emojiBase64}" alt="${r.name}" class="combine-emoji" style="width:1em;height:1em;border-radius:50%;border:2px solid #ffd700;background:#fff;box-shadow:0 2px 8px #0002" />`
+                              : `<img src="${r.emojiBase64}" alt="${r.name}" class="combine-emoji" style="width:1em;height:1em;border-radius:50%;border:2px solid #ffd700;background:#fff;box-shadow:0 2px 8px #0002" />`
                             )
                           : `<span class="combine-emoji">${r.emoji}</span>`
                     }

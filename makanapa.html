@@ -7,7 +7,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Makan Apa? 🐬</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Critical: prevent white flash before CSS loads -->
+<style>html,body{background:#0f1623!important;color:#f0f4ff!important}</style>
 <style>
 :root {
   --bg: #0f1623;
@@ -32,11 +36,16 @@
 }
 
 - { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html { scroll-behavior:smooth; }
+  html {
+  scroll-behavior:smooth;
+  background: #0f1623; /* fallback hardcoded so bg is never white */
+  }
   body {
+  background: #0f1623;
   background: var(–bg);
+  color: #f0f4ff;
   color: var(–ink);
-  font-family: ‘Outfit’, sans-serif;
+  font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
@@ -92,7 +101,7 @@ padding: 16px 20px 0;
 opacity: 0; animation: fadeDown .5s .05s ease forwards;
 }
 .logo {
-font-family: ‘Syne’, sans-serif; font-weight: 800; font-size: 1.1rem;
+font-family: ‘Syne’, Georgia, serif; font-weight: 800; font-size: 1.1rem;
 display: flex; align-items: center; gap: 6px; letter-spacing: -.5px;
 color: #ffffff;
 }
@@ -128,7 +137,7 @@ display: flex; align-items: center; gap: 6px;
 }
 .hero-kicker::before { content:’’; width:16px; height:2px; background:var(–blue); border-radius:2px; }
 .hero h1 {
-font-family: ‘Syne’, sans-serif;
+font-family: ‘Syne’, Georgia, serif;
 font-size: 2.6rem; font-weight: 800;
 line-height: .92; letter-spacing: -2px;
 color: #ffffff;
@@ -159,7 +168,7 @@ background: var(–surface); border: 1.5px solid var(–border2);
 border-radius: 50px; padding: 8px 16px;
 font-size: .8rem; font-weight: 500; color: var(–ink2);
 cursor: pointer; transition: all .22s cubic-bezier(.34,1.56,.64,1);
-white-space: nowrap; font-family: ‘Outfit’, sans-serif;
+white-space: nowrap; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
 }
 .mood-pill:hover { border-color: var(–blue); color: var(–blue2); }
 .mood-pill.active {
@@ -217,7 +226,7 @@ flex-shrink: 0; transition: background .4s, box-shadow .4s;
 @keyframes livePulse { 0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.2)}50%{box-shadow:0 0 0 7px rgba(34,197,94,.06)} }
 
 #resultName {
-font-family: ‘Syne’, sans-serif;
+font-family: ‘Syne’, Georgia, serif;
 font-size: clamp(2rem, 10vw, 3rem);
 font-weight: 800; letter-spacing: -1.5px; line-height: 1;
 position: relative; z-index: 1; min-height: 1.2em;
@@ -248,14 +257,14 @@ animation: fadeUp .3s ease;
 .veto-btn {
 background: none; border: 1.5px solid rgba(239,68,68,.3); color: var(–red);
 border-radius: 50px; padding: 7px 14px; font-size: .75rem; font-weight: 500;
-cursor: pointer; font-family: ‘Outfit’, sans-serif;
+cursor: pointer; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
 transition: all .2s; display: flex; align-items: center; gap: 5px;
 }
 .veto-btn:hover { background: rgba(239,68,68,.1); border-color: var(–red); }
 .fav-inline-btn {
 background: none; border: 1.5px solid rgba(245,158,11,.3); color: var(–orange);
 border-radius: 50px; padding: 7px 14px; font-size: .75rem; font-weight: 500;
-cursor: pointer; font-family: ‘Outfit’, sans-serif;
+cursor: pointer; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
 transition: all .2s; display: flex; align-items: center; gap: 5px;
 }
 .fav-inline-btn:hover { background: rgba(245,158,11,.1); border-color: var(–orange); }
@@ -272,7 +281,7 @@ display: flex; flex-direction: column; gap: 10px;
 .btn-spin {
 flex: 1; background: var(–blue); color: #fff; border: none;
 padding: 17px 20px; border-radius: 18px;
-font-family: ‘Outfit’, sans-serif; font-size: 1rem; font-weight: 700;
+font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; font-size: 1rem; font-weight: 700;
 cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
 box-shadow: var(–shadow-blue);
 transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s, opacity .2s;
@@ -293,7 +302,7 @@ transform: translateX(-100%); transition: transform .5s;
 .btn-lucky {
 background: linear-gradient(135deg,#f59e0b,#f97316); color: #fff; border: none;
 padding: 17px 18px; border-radius: 18px;
-font-family: ‘Outfit’, sans-serif; font-size: .85rem; font-weight: 700;
+font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; font-size: .85rem; font-weight: 700;
 cursor: pointer; box-shadow: 0 6px 20px rgba(245,158,11,.3);
 transition: transform .2s cubic-bezier(.34,1.56,.64,1), opacity .2s;
 display: flex; align-items: center; gap: 6px; white-space: nowrap;
@@ -305,7 +314,7 @@ display: flex; align-items: center; gap: 6px; white-space: nowrap;
 .btn-reset {
 flex: 1; background: var(–surface); color: var(–ink2); border: 1.5px solid var(–border2);
 padding: 14px 20px; border-radius: 18px;
-font-family: ‘Outfit’, sans-serif; font-size: .88rem; font-weight: 500;
+font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; font-size: .88rem; font-weight: 500;
 cursor: pointer; transition: all .2s;
 -webkit-tap-highlight-color: transparent;
 }
@@ -336,7 +345,7 @@ flex: 1; background: var(–surface); border: 1px solid var(–border2);
 border-radius: 18px; padding: 14px 16px;
 display: flex; flex-direction: column; gap: 2px;
 }
-.stat-num { font-family:‘Syne’,sans-serif; font-size:1.5rem; font-weight:800; color:var(–ink); letter-spacing:-1px; }
+.stat-num { font-family:‘Syne’,Georgia,serif; font-size:1.5rem; font-weight:800; color:var(–ink); letter-spacing:-1px; }
 .stat-lbl { font-size:.65rem; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; color:var(–grey); }
 /* ── HISTORY ── */
 .history-section {
@@ -401,7 +410,7 @@ font-size: .85rem; pointer-events: none;
 .search-input {
 width: 100%; background: var(–surface); border: 1.5px solid var(–border2);
 border-radius: 14px; padding: 12px 14px 12px 40px;
-font-size: .88rem; font-family: ‘Outfit’, sans-serif; color: var(–ink);
+font-size: .88rem; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; color: var(–ink);
 outline: none; transition: border-color .2s;
 }
 .search-input:focus { border-color: var(–blue); }
@@ -421,7 +430,7 @@ position: relative; overflow: hidden;
 }
 .f-card.loaded { opacity:1; transform:translateY(0); }
 .f-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:5px; }
-.f-card-num { font-family:‘Syne’,sans-serif; font-size:.58rem; font-weight:700; color:var(–grey-lt); letter-spacing:1px; }
+.f-card-num { font-family:‘Syne’,Georgia,serif; font-size:.58rem; font-weight:700; color:var(–grey-lt); letter-spacing:1px; }
 .f-card-star { font-size:.75rem; opacity:.4; cursor:pointer; transition:opacity .2s, transform .2s; }
 .f-card-star.on { opacity:1; animation:starPop .3s cubic-bezier(.34,1.56,.64,1); }
 @keyframes starPop { 0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)} }
@@ -473,14 +482,14 @@ opacity: 0; animation: fadeUp .6s ease forwards;
 display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;
 }
 .feat-icon { font-size: 1.6rem; line-height: 1; flex-shrink:0; }
-.feat-title { font-family:‘Syne’,sans-serif; font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; }
+.feat-title { font-family:‘Syne’,Georgia,serif; font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; }
 .feat-sub   { font-size:.75rem; color:var(–grey); margin-top:2px; }
 
 /* FEAT BUTTONS */
 .btn-feat {
 background: var(–blue); color: #fff; border: none;
 padding: 12px 20px; border-radius: 14px;
-font-family:‘Outfit’,sans-serif; font-size:.85rem; font-weight:700;
+font-family:‘Outfit’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif; font-size:.85rem; font-weight:700;
 cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;
 box-shadow: var(–shadow-blue); transition: transform .2s, opacity .2s;
 -webkit-tap-highlight-color:transparent;
@@ -490,7 +499,7 @@ box-shadow: var(–shadow-blue); transition: transform .2s, opacity .2s;
 .btn-feat-ghost {
 background: var(–surface2); color: var(–ink2); border: 1.5px solid var(–border2);
 padding: 11px 16px; border-radius: 14px;
-font-family:‘Outfit’,sans-serif; font-size:.82rem; font-weight:600;
+font-family:‘Outfit’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif; font-size:.82rem; font-weight:600;
 cursor:pointer; transition: all .2s; -webkit-tap-highlight-color:transparent;
 flex:1;
 }
@@ -516,16 +525,16 @@ transform: scale(1.04);
 opacity: .4; transform: scale(.96);
 }
 .battle-slot-num {
-font-family:‘Syne’,sans-serif; font-size:.6rem; font-weight:800;
+font-family:‘Syne’,Georgia,serif; font-size:.6rem; font-weight:800;
 color: var(–grey-lt); letter-spacing:2px;
 }
 .battle-slot.winner-slot .battle-slot-num { color:rgba(255,255,255,.7); }
 .battle-slot-name {
-font-family:‘Syne’,sans-serif; font-size:.95rem; font-weight:800;
+font-family:‘Syne’,Georgia,serif; font-size:.95rem; font-weight:800;
 color: #fff; line-height:1.2;
 }
 .battle-vs {
-font-family:‘Syne’,sans-serif; font-weight:800; font-size:1rem;
+font-family:‘Syne’,Georgia,serif; font-weight:800; font-size:1rem;
 color:var(–grey-lt); flex-shrink:0;
 }
 .battle-result {
@@ -543,7 +552,7 @@ border: 1px solid var(–border2);
 animation: fadeUp .3s ease both;
 }
 .planner-day {
-font-family:‘Syne’,sans-serif; font-size:.65rem; font-weight:800;
+font-family:‘Syne’,Georgia,serif; font-size:.65rem; font-weight:800;
 color: var(–blue2); letter-spacing:1px; width:28px; flex-shrink:0;
 }
 .planner-meal { font-size:.85rem; font-weight:600; color:#fff; flex:1; }
@@ -567,7 +576,7 @@ text-shadow: 0 2px 8px rgba(0,0,0,.5);
 filter: drop-shadow(0 0 6px rgba(59,130,246,.8));
 }
 .wheel-result {
-margin-top: 8px; font-family:‘Syne’,sans-serif; font-size:1.1rem;
+margin-top: 8px; font-family:‘Syne’,Georgia,serif; font-size:1.1rem;
 font-weight:800; color:#fff; text-align:center; min-height:28px;
 animation: fadeUp .4s ease both;
 }
@@ -602,9 +611,9 @@ cursor:pointer; display:flex; align-items:center; justify-content:center;
 transition:all .2s; -webkit-tap-highlight-color:transparent;
 }
 .counter-btn:active { background:var(–blue); border-color:var(–blue); }
-.counter-val { font-family:‘Syne’,sans-serif; font-size:1.2rem; font-weight:800; color:#fff; width:24px; text-align:center; }
+.counter-val { font-family:‘Syne’,Georgia,serif; font-size:1.2rem; font-weight:800; color:#fff; width:24px; text-align:center; }
 .budget-result-row { background:var(–surface2); border-radius:14px; padding:14px 16px; border:1px solid var(–border2); }
-.budget-range { font-family:‘Syne’,sans-serif; font-size:1.4rem; font-weight:800; color:var(–green); letter-spacing:-.5px; }
+.budget-range { font-family:‘Syne’,Georgia,serif; font-size:1.4rem; font-weight:800; color:var(–green); letter-spacing:-.5px; }
 .budget-note { font-size:.75rem; color:var(–grey); margin-top:4px; }
 
 /* ── VEGETARIAN QUOTES ── */
@@ -619,7 +628,7 @@ display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px;
 }
 .veg-icon { font-size: 2rem; line-height: 1; flex-shrink: 0; }
 .veg-title {
-font-family: ‘Syne’, sans-serif; font-size: .95rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: .95rem; font-weight: 800;
 color: #ffffff; letter-spacing: -.3px;
 }
 .veg-sub { font-size: .75rem; color: #4ade80; margin-top: 2px; }
@@ -637,7 +646,7 @@ position: relative; overflow: hidden;
 .vq-card::before {
 content: ‘”’;
 position: absolute; top: -8px; left: 12px;
-font-family: ‘Syne’, sans-serif; font-size: 4rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: 4rem; font-weight: 800;
 color: rgba(74,222,128,.15); line-height: 1; pointer-events: none;
 }
 @keyframes vegCardIn {
@@ -701,7 +710,7 @@ animation: healthRing 1.8s ease-out infinite;
 }
 .health-icon { font-size: 1.8rem; line-height: 1; position: relative; z-index: 1; }
 .health-title {
-font-family: ‘Syne’, sans-serif; font-size: .95rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: .95rem; font-weight: 800;
 color: #ffffff;
 }
 .health-sub { font-size: .72rem; color: #93c5fd; margin-top: 3px; }
@@ -724,7 +733,7 @@ position: relative; overflow: hidden;
 .hq-card::before {
 content: ‘”’;
 position: absolute; top: -12px; right: 16px;
-font-family: ‘Syne’, sans-serif; font-size: 6rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: 6rem; font-weight: 800;
 color: rgba(59,130,246,.08); line-height: 1; pointer-events: none;
 }
 
@@ -797,7 +806,7 @@ transition: all .2s; -webkit-tap-highlight-color: transparent;
 }
 .hq-nav-btn:active { background: #3b82f6; color: #fff; transform: scale(.92); }
 .hq-counter {
-font-family: ‘Syne’, sans-serif; font-size: .8rem; font-weight: 700;
+font-family: ‘Syne’, Georgia, serif; font-size: .8rem; font-weight: 700;
 color: #60a5fa; min-width: 48px; text-align: center;
 }
 
@@ -853,14 +862,14 @@ margin: 0 auto 20px;
 
 .modal-emoji { font-size:3.5rem; margin-bottom:14px; display:block; animation:emojiIn .5s .1s cubic-bezier(.34,1.56,.64,1) both; }
 @keyframes emojiIn { from{transform:scale(0) rotate(-20deg)} to{transform:scale(1) rotate(0)} }
-.modal-title { font-family:‘Syne’,sans-serif; font-size:1.6rem; font-weight:800; letter-spacing:-1px; color:#f87171; margin-bottom:10px; animation:fadeUp .35s .2s ease both; }
+.modal-title { font-family:‘Syne’,Georgia,serif; font-size:1.6rem; font-weight:800; letter-spacing:-1px; color:#f87171; margin-bottom:10px; animation:fadeUp .35s .2s ease both; }
 .modal-msg { font-size:.92rem; color:var(–ink2); line-height:1.7; margin-bottom:6px; animation:fadeUp .35s .28s ease both; }
 .modal-msg strong { color:var(–ink); }
 .modal-sub { font-size:.8rem; color:var(–grey); margin-bottom:28px; animation:fadeUp .35s .35s ease both; }
 .modal-btn {
 width:100%; background:var(–blue); color:#fff; border:none;
 padding:16px; border-radius:16px;
-font-family:‘Outfit’,sans-serif; font-size:.95rem; font-weight:700;
+font-family:‘Outfit’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif; font-size:.95rem; font-weight:700;
 cursor:pointer; box-shadow:var(–shadow-blue);
 transition:transform .2s; animation:fadeUp .35s .42s ease both;
 }

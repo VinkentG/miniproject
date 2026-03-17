@@ -7,36 +7,47 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Makan Apa? 🐬</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<!-- Critical: prevent white flash before CSS loads -->
+<style>html,body{background:#111114!important;color:#f0f0f5!important}</style>
 <style>
 :root {
-  --bg: #0f1623;
-  --surface: #1a2235;
-  --surface2: #222d42;
-  --card: #1e2a3e;
+  --bg: #111114;
+  --surface: #2a2a32;
+  --surface2: #323238;
+  --card: #2a2a32;
   --blue: #3b82f6;
   --blue2: #60a5fa;
   --blue-dim: rgba(59,130,246,0.15);
   --blue-glow: rgba(59,130,246,0.3);
-  --grey: #c8d3e8;
-  --grey-lt: #8899b8;
-  --border: rgba(59,130,246,0.18);
+  --grey: #c4c4cc;
+  --grey-lt: #9090a8;
+  --border: rgba(255,255,255,0.12);
   --border2: rgba(255,255,255,0.1);
-  --ink: #f0f4ff;
-  --ink2: #d0daf2;
+  --ink: #f0f0f5;
+  --ink2: #d0d0da;
   --green: #22c55e;
   --orange: #f59e0b;
   --red: #ef4444;
-  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow: 0 4px 24px rgba(0,0,0,0.6);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.7);
   --shadow-blue: 0 8px 32px rgba(59,130,246,0.25);
 }
 
 - { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html { scroll-behavior:smooth; }
+  html {
+  scroll-behavior:smooth;
+  background: #111114;
+  }
   body {
+  background: #111114;
   background: var(–bg);
+  color: #f0f0f5;
   color: var(–ink);
-  font-family: ‘Outfit’, sans-serif;
+  font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
@@ -48,13 +59,13 @@ position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
 }
 .bg-grad {
 position: absolute; inset: 0;
-background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59,130,246,0.18) 0%, transparent 70%),
-radial-gradient(ellipse 60% 40% at 90% 80%, rgba(30,58,138,0.2) 0%, transparent 60%),
-radial-gradient(ellipse 50% 50% at 10% 60%, rgba(15,23,42,0.8) 0%, transparent 80%);
+background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(100,110,130,0.18) 0%, transparent 70%),
+radial-gradient(ellipse 60% 40% at 90% 80%, rgba(59,130,246,0.08) 0%, transparent 60%),
+radial-gradient(ellipse 50% 50% at 10% 60%, rgba(80,80,90,0.25) 0%, transparent 80%);
 }
 .bg-dots {
 position: absolute; inset: 0;
-background-image: radial-gradient(rgba(59,130,246,0.08) 1px, transparent 1px);
+background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
 background-size: 28px 28px;
 }
 /* Floating dolphin particles */
@@ -80,6 +91,7 @@ margin: 0 auto;
 min-height: 100dvh;
 display: flex; flex-direction: column;
 padding-bottom: env(safe-area-inset-bottom, 24px);
+overflow: visible;
 }
 
 /* ── STATUS BAR SPACER ── */
@@ -92,11 +104,11 @@ padding: 16px 20px 0;
 opacity: 0; animation: fadeDown .5s .05s ease forwards;
 }
 .logo {
-font-family: ‘Syne’, sans-serif; font-weight: 800; font-size: 1.1rem;
+font-family: ‘Syne’, Georgia, serif; font-weight: 800; font-size: 1.1rem;
 display: flex; align-items: center; gap: 6px; letter-spacing: -.5px;
 color: #ffffff;
 }
-.logo-dot { color: var(–blue); }
+.logo-dot { color: #3b82f6; }
 .time-chip {
 font-size: .72rem; font-weight: 600;
 padding: 6px 12px; border-radius: 50px;
@@ -123,12 +135,12 @@ opacity: 0; animation: fadeUp .6s .15s ease forwards;
 }
 .hero-kicker {
 font-size: .68rem; font-weight: 600; letter-spacing: 3px;
-text-transform: uppercase; color: var(–blue); margin-bottom: 10px;
+text-transform: uppercase; color: #3b82f6; margin-bottom: 10px;
 display: flex; align-items: center; gap: 6px;
 }
-.hero-kicker::before { content:’’; width:16px; height:2px; background:var(–blue); border-radius:2px; }
+.hero-kicker::before { content:’’; width:16px; height:2px; background:#3b82f6; border-radius:2px; }
 .hero h1 {
-font-family: ‘Syne’, sans-serif;
+font-family: ‘Syne’, Georgia, serif;
 font-size: 2.6rem; font-weight: 800;
 line-height: .92; letter-spacing: -2px;
 color: #ffffff;
@@ -155,32 +167,32 @@ opacity: 0; animation: fadeUp .6s .25s ease forwards;
 .mood-scroll::-webkit-scrollbar { display: none; }
 .mood-pill {
 flex-shrink: 0;
-background: var(–surface); border: 1.5px solid var(–border2);
+background: #d1d5db; border: none;
 border-radius: 50px; padding: 8px 16px;
-font-size: .8rem; font-weight: 500; color: var(–ink2);
+font-size: .8rem; font-weight: 600; color: #1a1a22;
 cursor: pointer; transition: all .22s cubic-bezier(.34,1.56,.64,1);
-white-space: nowrap; font-family: ‘Outfit’, sans-serif;
+white-space: nowrap; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
 }
-.mood-pill:hover { border-color: var(–blue); color: var(–blue2); }
+.mood-pill:hover { background: #bfc4cc; color: #111114; }
 .mood-pill.active {
-background: var(–blue); color: #fff; border-color: var(–blue);
+background: #3b82f6; color: #fff; border-color: #3b82f6;
 box-shadow: 0 4px 16px rgba(59,130,246,.35);
 }
 
 /* ── MAIN SPIN CARD ── */
 .spin-card {
 margin-top: 16px;
-background: var(–surface);
-border: 1px solid var(–border);
+background: #2a2a32;
+border: 1.5px solid rgba(255,255,255,0.14);
 border-radius: 28px;
 overflow: hidden;
-box-shadow: var(–shadow);
+box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.07) inset;
 opacity: 0; animation: fadeUp .6s .3s ease forwards;
 position: relative;
 }
 .spin-card-inner {
 padding: 32px 28px 24px;
-background: linear-gradient(160deg, rgba(59,130,246,.07) 0%, transparent 60%);
+background: linear-gradient(160deg, rgba(255,255,255,.04) 0%, transparent 60%);
 position: relative; min-height: 200px;
 display: flex; flex-direction: column; justify-content: center;
 }
@@ -213,11 +225,11 @@ text-transform: uppercase; color: var(–grey); margin-bottom: 12px;
 width: 6px; height: 6px; border-radius: 50%; background: var(–grey-lt);
 flex-shrink: 0; transition: background .4s, box-shadow .4s;
 }
-.live-dot.on { background: var(–green); box-shadow: 0 0 0 3px rgba(34,197,94,.2); animation: livePulse 1.8s infinite; }
+.live-dot.on { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); animation: livePulse 1.8s infinite; }
 @keyframes livePulse { 0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.2)}50%{box-shadow:0 0 0 7px rgba(34,197,94,.06)} }
 
 #resultName {
-font-family: ‘Syne’, sans-serif;
+font-family: ‘Syne’, Georgia, serif;
 font-size: clamp(2rem, 10vw, 3rem);
 font-weight: 800; letter-spacing: -1.5px; line-height: 1;
 position: relative; z-index: 1; min-height: 1.2em;
@@ -246,35 +258,36 @@ animation: fadeUp .3s ease;
 }
 .veto-row.show { display: flex; }
 .veto-btn {
-background: none; border: 1.5px solid rgba(239,68,68,.3); color: var(–red);
-border-radius: 50px; padding: 7px 14px; font-size: .75rem; font-weight: 500;
-cursor: pointer; font-family: ‘Outfit’, sans-serif;
+background: rgba(239,68,68,.18); border: 1.5px solid rgba(239,68,68,.5); color: #fca5a5;
+border-radius: 50px; padding: 7px 14px; font-size: .75rem; font-weight: 700;
+cursor: pointer; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
 transition: all .2s; display: flex; align-items: center; gap: 5px;
 }
-.veto-btn:hover { background: rgba(239,68,68,.1); border-color: var(–red); }
+.veto-btn:active { background: rgba(239,68,68,.3); }
 .fav-inline-btn {
-background: none; border: 1.5px solid rgba(245,158,11,.3); color: var(–orange);
-border-radius: 50px; padding: 7px 14px; font-size: .75rem; font-weight: 500;
-cursor: pointer; font-family: ‘Outfit’, sans-serif;
+background: rgba(245,158,11,.18); border: 1.5px solid rgba(245,158,11,.5); color: #fcd34d;
+border-radius: 50px; padding: 7px 14px; font-size: .75rem; font-weight: 700;
+cursor: pointer; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
 transition: all .2s; display: flex; align-items: center; gap: 5px;
 }
-.fav-inline-btn:hover { background: rgba(245,158,11,.1); border-color: var(–orange); }
-.fav-inline-btn.starred { background: rgba(245,158,11,.15); border-color: var(–orange); color: var(–orange); }
+.fav-inline-btn:active { background: rgba(245,158,11,.3); }
+.fav-inline-btn.starred { background: rgba(245,158,11,.28); border-color: #f59e0b; color: #fcd34d; }
 
 /* SPIN ACTIONS */
 .spin-actions {
 padding: 16px 20px 20px;
-background: var(–surface2);
+background: #222228;
+border-top: 1px solid rgba(255,255,255,0.08);
 display: flex; flex-direction: column; gap: 10px;
 }
 .btn-row { display: flex; gap: 10px; }
 
 .btn-spin {
-flex: 1; background: var(–blue); color: #fff; border: none;
+flex: 1; background: #3b82f6; color: #fff; border: none;
 padding: 17px 20px; border-radius: 18px;
-font-family: ‘Outfit’, sans-serif; font-size: 1rem; font-weight: 700;
+font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; font-size: 1rem; font-weight: 700;
 cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-box-shadow: var(–shadow-blue);
+box-shadow: 0 8px 32px rgba(59,130,246,0.25);
 transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s, opacity .2s;
 position: relative; overflow: hidden;
 -webkit-tap-highlight-color: transparent;
@@ -293,7 +306,7 @@ transform: translateX(-100%); transition: transform .5s;
 .btn-lucky {
 background: linear-gradient(135deg,#f59e0b,#f97316); color: #fff; border: none;
 padding: 17px 18px; border-radius: 18px;
-font-family: ‘Outfit’, sans-serif; font-size: .85rem; font-weight: 700;
+font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; font-size: .85rem; font-weight: 700;
 cursor: pointer; box-shadow: 0 6px 20px rgba(245,158,11,.3);
 transition: transform .2s cubic-bezier(.34,1.56,.64,1), opacity .2s;
 display: flex; align-items: center; gap: 6px; white-space: nowrap;
@@ -303,13 +316,13 @@ display: flex; align-items: center; gap: 6px; white-space: nowrap;
 .btn-lucky:disabled { opacity:.45; pointer-events:none; }
 
 .btn-reset {
-flex: 1; background: var(–surface); color: var(–ink2); border: 1.5px solid var(–border2);
+flex: 1; background: #d1d5db; color: #111114; border: none;
 padding: 14px 20px; border-radius: 18px;
-font-family: ‘Outfit’, sans-serif; font-size: .88rem; font-weight: 500;
+font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; font-size: .88rem; font-weight: 700;
 cursor: pointer; transition: all .2s;
 -webkit-tap-highlight-color: transparent;
 }
-.btn-reset:active { background: var(–card); }
+.btn-reset:active { background: #b0b5bc; }
 
 /* Progress dots */
 .prog-row {
@@ -322,8 +335,8 @@ width: 8px; height: 8px; border-radius: 50%; background: var(–grey-lt);
 transition: background .3s cubic-bezier(.34,1.56,.64,1), transform .3s cubic-bezier(.34,1.56,.64,1);
 opacity: .4;
 }
-.prog-dot.on { background: var(–blue); transform: scale(1.3); opacity: 1; }
-.prog-dot.full { background: var(–red); transform: scale(1.3); opacity: 1; }
+.prog-dot.on { background: #3b82f6; transform: scale(1.3); opacity: 1; }
+.prog-dot.full { background: #ef4444; transform: scale(1.3); opacity: 1; }
 .prog-tally { font-size: .75rem; color: var(–ink2); font-weight: 500; }
 
 /* ── STATS STRIP ── */
@@ -332,11 +345,13 @@ display: flex; gap: 10px; margin-top: 14px;
 opacity: 0; animation: fadeUp .6s .4s ease forwards;
 }
 .stat-tile {
-flex: 1; background: var(–surface); border: 1px solid var(–border2);
+flex: 1; background: #2a2a32;
+border: 1.5px solid rgba(255,255,255,0.12);
 border-radius: 18px; padding: 14px 16px;
 display: flex; flex-direction: column; gap: 2px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.55);
 }
-.stat-num { font-family:‘Syne’,sans-serif; font-size:1.5rem; font-weight:800; color:var(–ink); letter-spacing:-1px; }
+.stat-num { font-family:‘Syne’,Georgia,serif; font-size:1.5rem; font-weight:800; color:var(–ink); letter-spacing:-1px; }
 .stat-lbl { font-size:.65rem; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; color:var(–grey); }
 /* ── HISTORY ── */
 .history-section {
@@ -359,8 +374,8 @@ font-size: .78rem; font-weight: 500; color: var(–ink);
 opacity: 0; transform: scale(.8); animation: chipPop .3s cubic-bezier(.34,1.56,.64,1) forwards;
 white-space: nowrap;
 }
-.chip.latest { background: var(–blue); color: #fff; border-color: var(–blue); box-shadow: 0 3px 10px rgba(59,130,246,.3); }
-.chip.lucky-chip { background: rgba(245,158,11,.2); color: var(–orange); border-color: rgba(245,158,11,.3); }
+.chip.latest { background: #3b82f6; color: #fff; border-color: #3b82f6; box-shadow: 0 3px 10px rgba(59,130,246,.3); }
+.chip.lucky-chip { background: rgba(245,158,11,.2); color: #f59e0b; border-color: rgba(245,158,11,.3); }
 @keyframes chipPop { to{opacity:1;transform:scale(1)} }
 
 /* ── FAVORITES ── */
@@ -376,14 +391,14 @@ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;
 .fav-tag {
 background: rgba(245,158,11,.12); border: 1.5px solid rgba(245,158,11,.25);
 border-radius: 50px; padding: 7px 14px; font-size: .78rem; font-weight: 600;
-color: var(–orange); display: flex; align-items: center; gap: 6px;
+color: #f59e0b; display: flex; align-items: center; gap: 6px;
 cursor: pointer; transition: all .2s;
 }
 .fav-tag:active { background: rgba(245,158,11,.2); }
 .fav-x { font-size: .6rem; opacity: .5; }
 
 /* ── FOOD LIST ── */
-.food-section { margin-top: 22px; opacity:0; animation:fadeUp .6s .5s ease forwards; }
+.food-section { margin-top: 22px; opacity:0; animation:fadeUp .6s .5s ease forwards; width: 100%; box-sizing: border-box; }
 .food-header {
 display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
 }
@@ -393,18 +408,22 @@ padding: 4px 12px; font-size: .72rem; font-weight: 600; color: var(–ink2);
 }
 .search-wrap {
 position: relative; margin-bottom: 12px;
+width: 100%; box-sizing: border-box;
 }
 .search-wrap::before {
 content: ‘🔍’; position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-font-size: .85rem; pointer-events: none;
+font-size: .85rem; pointer-events: none; z-index: 1;
 }
 .search-input {
-width: 100%; background: var(–surface); border: 1.5px solid var(–border2);
+width: 100%; box-sizing: border-box;
+background: #2a2a32; border: 1.5px solid rgba(255,255,255,0.12);
 border-radius: 14px; padding: 12px 14px 12px 40px;
-font-size: .88rem; font-family: ‘Outfit’, sans-serif; color: var(–ink);
+font-size: .88rem; font-family: ‘Outfit’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif; color: var(–ink);
 outline: none; transition: border-color .2s;
+box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+display: block;
 }
-.search-input:focus { border-color: var(–blue); }
+.search-input:focus { border-color: #3b82f6; }
 .search-input::placeholder { color: var(–grey); }
 
 /* Food grid — 2 col on mobile */
@@ -412,22 +431,23 @@ outline: none; transition: border-color .2s;
 display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
 }
 .f-card {
-background: var(–surface); border: 1.5px solid var(–border2); border-radius: 16px;
+background: #2a2a32; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px;
 padding: 14px 14px 12px; cursor: default;
 transition: all .25s cubic-bezier(.34,1.56,.64,1);
 opacity: 0; transform: translateY(12px);
 position: relative; overflow: hidden;
+box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 -webkit-tap-highlight-color: transparent;
 }
 .f-card.loaded { opacity:1; transform:translateY(0); }
 .f-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:5px; }
-.f-card-num { font-family:‘Syne’,sans-serif; font-size:.58rem; font-weight:700; color:var(–grey-lt); letter-spacing:1px; }
+.f-card-num { font-family:‘Syne’,Georgia,serif; font-size:.58rem; font-weight:700; color:var(–grey-lt); letter-spacing:1px; }
 .f-card-star { font-size:.75rem; opacity:.4; cursor:pointer; transition:opacity .2s, transform .2s; }
 .f-card-star.on { opacity:1; animation:starPop .3s cubic-bezier(.34,1.56,.64,1); }
 @keyframes starPop { 0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)} }
 .f-card-name { font-size:.88rem; font-weight:600; color:var(–ink); line-height:1.3; }
-.f-card::after { content:’’; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(–blue); transform:scaleX(0); transition:transform .2s; }
-.f-card.winner { background:var(–blue); border-color:var(–blue); box-shadow: 0 8px 28px rgba(59,130,246,.4); animation:winnerBounce .55s cubic-bezier(.34,1.56,.64,1) forwards; }
+.f-card::after { content:’’; position:absolute; bottom:0; left:0; right:0; height:2px; background:#3b82f6; transform:scaleX(0); transition:transform .2s; }
+.f-card.winner { background:#3b82f6; border-color:#3b82f6; box-shadow: 0 8px 28px rgba(59,130,246,.4); animation:winnerBounce .55s cubic-bezier(.34,1.56,.64,1) forwards; }
 .f-card.winner .f-card-num { color:rgba(255,255,255,.5); }
 .f-card.winner .f-card-name { color:#fff; }
 .f-card.winner .f-card-star { opacity:.6; }
@@ -459,9 +479,11 @@ font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
 
 /* FEAT CARD */
 .feat-card {
-background: var(–surface); border: 1px solid var(–border2);
+background: #2a2a32;
+border: 1.5px solid rgba(255,255,255,0.11);
 border-radius: 22px; padding: 20px; margin-bottom: 14px;
 opacity: 0; animation: fadeUp .6s ease forwards;
+box-shadow: 0 6px 32px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.06) inset;
 }
 .feat-card:nth-child(1){animation-delay:.1s}
 .feat-card:nth-child(2){animation-delay:.2s}
@@ -473,28 +495,28 @@ opacity: 0; animation: fadeUp .6s ease forwards;
 display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;
 }
 .feat-icon { font-size: 1.6rem; line-height: 1; flex-shrink:0; }
-.feat-title { font-family:‘Syne’,sans-serif; font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; }
+.feat-title { font-family:‘Syne’,Georgia,serif; font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; }
 .feat-sub   { font-size:.75rem; color:var(–grey); margin-top:2px; }
 
 /* FEAT BUTTONS */
 .btn-feat {
-background: var(–blue); color: #fff; border: none;
+background: #3b82f6; color: #fff; border: none;
 padding: 12px 20px; border-radius: 14px;
-font-family:‘Outfit’,sans-serif; font-size:.85rem; font-weight:700;
+font-family:‘Outfit’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif; font-size:.85rem; font-weight:700;
 cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;
-box-shadow: var(–shadow-blue); transition: transform .2s, opacity .2s;
+box-shadow: 0 8px 32px rgba(59,130,246,0.25); transition: transform .2s, opacity .2s;
 -webkit-tap-highlight-color:transparent;
 }
 .btn-feat:active { transform:scale(.96); }
 .btn-feat:disabled { opacity:.4; pointer-events:none; }
 .btn-feat-ghost {
-background: var(–surface2); color: var(–ink2); border: 1.5px solid var(–border2);
+background: #d1d5db; color: #111114; border: none;
 padding: 11px 16px; border-radius: 14px;
-font-family:‘Outfit’,sans-serif; font-size:.82rem; font-weight:600;
+font-family:‘Outfit’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif; font-size:.82rem; font-weight:700;
 cursor:pointer; transition: all .2s; -webkit-tap-highlight-color:transparent;
 flex:1;
 }
-.btn-feat-ghost:active { background:var(–card); }
+.btn-feat-ghost:active { background: #b0b5bc; }
 
 /* ── BATTLE MODE ── */
 .battle-arena {
@@ -508,7 +530,7 @@ min-height: 80px; display:flex; flex-direction:column;
 align-items:center; justify-content:center; gap:4px;
 }
 .battle-slot.winner-slot {
-background: var(–blue); border-color: var(–blue);
+background: #3b82f6; border-color: #3b82f6;
 box-shadow: 0 8px 24px rgba(59,130,246,.35);
 transform: scale(1.04);
 }
@@ -516,20 +538,20 @@ transform: scale(1.04);
 opacity: .4; transform: scale(.96);
 }
 .battle-slot-num {
-font-family:‘Syne’,sans-serif; font-size:.6rem; font-weight:800;
+font-family:‘Syne’,Georgia,serif; font-size:.6rem; font-weight:800;
 color: var(–grey-lt); letter-spacing:2px;
 }
 .battle-slot.winner-slot .battle-slot-num { color:rgba(255,255,255,.7); }
 .battle-slot-name {
-font-family:‘Syne’,sans-serif; font-size:.95rem; font-weight:800;
+font-family:‘Syne’,Georgia,serif; font-size:.95rem; font-weight:800;
 color: #fff; line-height:1.2;
 }
 .battle-vs {
-font-family:‘Syne’,sans-serif; font-weight:800; font-size:1rem;
+font-family:‘Syne’,Georgia,serif; font-weight:800; font-size:1rem;
 color:var(–grey-lt); flex-shrink:0;
 }
 .battle-result {
-text-align:center; font-size:.85rem; font-weight:600; color: var(–blue2);
+text-align:center; font-size:.85rem; font-weight:600; color: #60a5fa;
 min-height:20px;
 animation: fadeUp .3s ease;
 }
@@ -543,17 +565,17 @@ border: 1px solid var(–border2);
 animation: fadeUp .3s ease both;
 }
 .planner-day {
-font-family:‘Syne’,sans-serif; font-size:.65rem; font-weight:800;
-color: var(–blue2); letter-spacing:1px; width:28px; flex-shrink:0;
+font-family:‘Syne’,Georgia,serif; font-size:.65rem; font-weight:800;
+color: #60a5fa; letter-spacing:1px; width:28px; flex-shrink:0;
 }
 .planner-meal { font-size:.85rem; font-weight:600; color:#fff; flex:1; }
 .planner-mood { font-size:.8rem; }
 .planner-reroll {
-background:none; border:none; color:var(–grey-lt); cursor:pointer;
-font-size:.9rem; padding:2px; transition:transform .2s;
--webkit-tap-highlight-color:transparent;
+background: #d1d5db; border: none; color: #333340; cursor: pointer;
+font-size: .8rem; padding: 4px 8px; border-radius: 8px; transition: transform .2s, background .2s;
+-webkit-tap-highlight-color: transparent; font-weight: 700;
 }
-.planner-reroll:active { transform:rotate(180deg); }
+.planner-reroll:active { transform: rotate(180deg); background: #b0b5bc; }
 
 /* ── SPIN WHEEL ── */
 .wheel-wrap {
@@ -567,7 +589,7 @@ text-shadow: 0 2px 8px rgba(0,0,0,.5);
 filter: drop-shadow(0 0 6px rgba(59,130,246,.8));
 }
 .wheel-result {
-margin-top: 8px; font-family:‘Syne’,sans-serif; font-size:1.1rem;
+margin-top: 8px; font-family:‘Syne’,Georgia,serif; font-size:1.1rem;
 font-weight:800; color:#fff; text-align:center; min-height:28px;
 animation: fadeUp .4s ease both;
 }
@@ -584,7 +606,7 @@ font-size:.92rem; font-weight:500; color:#fff; line-height:1.55;
 animation: fadeUp .4s ease;
 }
 .dare-tag {
-display:inline-block; background:var(–blue); color:#fff;
+display:inline-block; background:#3b82f6; color:#fff;
 border-radius:50px; padding:3px 10px; font-size:.7rem; font-weight:700;
 margin-bottom:8px; letter-spacing:.5px;
 }
@@ -593,33 +615,34 @@ margin-bottom:8px; letter-spacing:.5px;
 .budget-body { display:flex; flex-direction:column; gap:12px; }
 .budget-row { display:flex; align-items:center; justify-content:space-between; }
 .budget-lbl { font-size:.8rem; color:var(–grey); font-weight:500; }
-.budget-place { font-size:.85rem; font-weight:700; color:var(–blue2); }
+.budget-place { font-size:.85rem; font-weight:700; color:#60a5fa; }
 .counter-wrap { display:flex; align-items:center; gap:12px; }
 .counter-btn {
-width:32px; height:32px; border-radius:50%; border:1.5px solid var(–border2);
-background:var(–surface2); color:#fff; font-size:1.1rem; font-weight:700;
+width:32px; height:32px; border-radius:50%; border: none;
+background: #d1d5db; color: #111114; font-size:1.1rem; font-weight:700;
 cursor:pointer; display:flex; align-items:center; justify-content:center;
 transition:all .2s; -webkit-tap-highlight-color:transparent;
 }
-.counter-btn:active { background:var(–blue); border-color:var(–blue); }
-.counter-val { font-family:‘Syne’,sans-serif; font-size:1.2rem; font-weight:800; color:#fff; width:24px; text-align:center; }
+.counter-btn:active { background:#3b82f6; color: #fff; }
+.counter-val { font-family:‘Syne’,Georgia,serif; font-size:1.2rem; font-weight:800; color:#fff; width:24px; text-align:center; }
 .budget-result-row { background:var(–surface2); border-radius:14px; padding:14px 16px; border:1px solid var(–border2); }
-.budget-range { font-family:‘Syne’,sans-serif; font-size:1.4rem; font-weight:800; color:var(–green); letter-spacing:-.5px; }
+.budget-range { font-family:‘Syne’,Georgia,serif; font-size:1.4rem; font-weight:800; color:#22c55e; letter-spacing:-.5px; }
 .budget-note { font-size:.75rem; color:var(–grey); margin-top:4px; }
 
 /* ── VEGETARIAN QUOTES ── */
 .veg-section {
-background: #0d1f14;
-border: 1.5px solid #22c55e;
+background: #1c2a20;
+border: 1.5px solid #4ade80;
 border-radius: 22px; padding: 20px; margin-bottom: 14px;
 opacity: 0; animation: fadeUp .6s .6s ease forwards;
+box-shadow: 0 6px 32px rgba(0,0,0,0.6);
 }
 .veg-header {
 display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px;
 }
 .veg-icon { font-size: 2rem; line-height: 1; flex-shrink: 0; }
 .veg-title {
-font-family: ‘Syne’, sans-serif; font-size: .95rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: .95rem; font-weight: 800;
 color: #ffffff; letter-spacing: -.3px;
 }
 .veg-sub { font-size: .75rem; color: #4ade80; margin-top: 2px; }
@@ -627,17 +650,18 @@ color: #ffffff; letter-spacing: -.3px;
 .veg-quotes { display: flex; flex-direction: column; gap: 10px; }
 
 .vq-card {
-background: #132210;
+background: #1e2a22;
 border: 1.5px solid #16a34a;
 border-radius: 16px; padding: 16px;
 opacity: 0; transform: translateY(12px);
 animation: vegCardIn .45s ease forwards;
 position: relative; overflow: hidden;
+box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 }
 .vq-card::before {
 content: ‘”’;
 position: absolute; top: -8px; left: 12px;
-font-family: ‘Syne’, sans-serif; font-size: 4rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: 4rem; font-weight: 800;
 color: rgba(74,222,128,.15); line-height: 1; pointer-events: none;
 }
 @keyframes vegCardIn {
@@ -646,7 +670,7 @@ to { opacity: 1; transform: translateY(0); }
 
 .vq-category {
 display: inline-flex; align-items: center; gap: 5px;
-background: #14532d;
+background: #2a3030;
 border: 1px solid #22c55e;
 border-radius: 50px; padding: 4px 12px;
 font-size: .65rem; font-weight: 700; letter-spacing: 1px;
@@ -663,23 +687,24 @@ color: #4ade80; display: flex; align-items: center; gap: 5px;
 .vq-author::before { content: ‘—’; opacity: .7; }
 
 .vq-highlight {
-background: #0f2d14;
+background: #1e2a20;
 border-color: #22c55e;
 border-width: 2px;
 }
 .vq-highlight .vq-category {
-background: #166534;
+background: #2e3535;
 border-color: #4ade80;
 color: #86efac;
 }
 
 /* ── HEALTH QUOTES ── */
 .health-section {
-background: #0f1a2e;
-border: 1.5px solid #3b82f6;
+background: #20202a;
+border: 1.5px solid rgba(59,130,246,.4);
 border-radius: 22px; padding: 20px;
 margin-bottom: 32px;
 opacity: 0; animation: fadeUp .6s .7s ease forwards;
+box-shadow: 0 6px 32px rgba(0,0,0,0.6);
 }
 
 .health-header {
@@ -701,18 +726,19 @@ animation: healthRing 1.8s ease-out infinite;
 }
 .health-icon { font-size: 1.8rem; line-height: 1; position: relative; z-index: 1; }
 .health-title {
-font-family: ‘Syne’, sans-serif; font-size: .95rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: .95rem; font-weight: 800;
 color: #ffffff;
 }
 .health-sub { font-size: .72rem; color: #93c5fd; margin-top: 3px; }
 
 /* Stage */
 .hq-stage {
-background: #162035;
-border: 1px solid rgba(59,130,246,.25);
+background: #1a1a22;
+border: 1px solid rgba(59,130,246,.2);
 border-radius: 18px;
 overflow: hidden;
 margin-bottom: 12px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 .hq-card {
@@ -724,7 +750,7 @@ position: relative; overflow: hidden;
 .hq-card::before {
 content: ‘”’;
 position: absolute; top: -12px; right: 16px;
-font-family: ‘Syne’, sans-serif; font-size: 6rem; font-weight: 800;
+font-family: ‘Syne’, Georgia, serif; font-size: 6rem; font-weight: 800;
 color: rgba(59,130,246,.08); line-height: 1; pointer-events: none;
 }
 
@@ -742,7 +768,7 @@ to   { opacity: 0; transform: translateX(-30px); }
 
 .hq-cat {
 display: inline-flex; align-items: center; gap: 5px;
-background: #1e3a6e; border: 1px solid #3b82f6;
+background: #2a2a38; border: 1px solid #3b82f6;
 border-radius: 50px; padding: 4px 12px;
 font-size: .63rem; font-weight: 700; letter-spacing: 1px;
 text-transform: uppercase; color: #93c5fd;
@@ -790,14 +816,14 @@ margin-bottom: 20px;
 }
 .hq-nav-btn {
 width: 36px; height: 36px; border-radius: 50%;
-background: #1e2d4a; border: 1.5px solid rgba(59,130,246,.3);
-color: #93c5fd; font-size: 1.3rem; font-weight: 700;
+background: #d1d5db; border: none;
+color: #111114; font-size: 1.3rem; font-weight: 700;
 cursor: pointer; display: flex; align-items: center; justify-content: center;
 transition: all .2s; -webkit-tap-highlight-color: transparent;
 }
 .hq-nav-btn:active { background: #3b82f6; color: #fff; transform: scale(.92); }
 .hq-counter {
-font-family: ‘Syne’, sans-serif; font-size: .8rem; font-weight: 700;
+font-family: ‘Syne’, Georgia, serif; font-size: .8rem; font-weight: 700;
 color: #60a5fa; min-width: 48px; text-align: center;
 }
 
@@ -810,14 +836,119 @@ text-transform: uppercase; color: #60a5fa; margin-bottom: 10px;
 display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
 }
 .tip-card {
-background: #162035; border: 1px solid rgba(59,130,246,.2);
+background: #1a1a22; border: 1px solid rgba(59,130,246,.18);
 border-radius: 14px; padding: 12px;
 opacity: 0; animation: fadeUp .4s ease forwards;
+box-shadow: 0 3px 12px rgba(0,0,0,0.4);
 }
 .tip-card:nth-child(odd)  { animation-delay: .05s; }
 .tip-card:nth-child(even) { animation-delay: .1s; }
 .tip-emoji { font-size: 1.4rem; margin-bottom: 6px; display: block; }
 .tip-text  { font-size: .78rem; font-weight: 500; color: #cbd5e1; line-height: 1.5; }
+
+/* ── OCEAN FOOTER ── */
+.ocean-footer {
+position: relative;
+width: 100%;
+height: 320px;
+overflow: hidden;
+flex-shrink: 0;
+background: linear-gradient(180deg, #111114 0%, #0a1628 35%, #0d2344 100%);
+}
+#oceanCanvas {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+}
+/* Dolphin pod — above canvas */
+.dolphin-pod {
+position: absolute;
+inset: 0;
+pointer-events: none;
+z-index: 2;
+}
+.pod-dolphin {
+position: absolute;
+/* size & position set by JS */
+filter: drop-shadow(0 4px 12px rgba(59,130,246,.35));
+}
+.ocean-text {
+position: absolute;
+bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+left: 0; right: 0;
+display: flex; flex-direction: column; align-items: center; gap: 4px;
+z-index: 3; pointer-events: none;
+}
+.ocean-logo {
+font-family: ‘Syne’, Georgia, serif;
+font-size: .95rem; font-weight: 800;
+color: #fff; letter-spacing: -.3px;
+}
+.ocean-tagline {
+font-size: .72rem; font-weight: 400; color: rgba(255,255,255,.5);
+letter-spacing: .5px;
+}
+
+/* ── WEATHER BAR ── */
+.weather-bar {
+padding: 8px 16px 10px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+.weather-label {
+font-size: .62rem; font-weight: 700; letter-spacing: 2px;
+text-transform: uppercase; color: #8899b8;
+}
+.weather-pills {
+display: flex;
+gap: 7px;
+overflow-x: auto;
+padding: 3px 2px 6px;
+scrollbar-width: none;
+-webkit-overflow-scrolling: touch;
+}
+.weather-pills::-webkit-scrollbar { display: none; }
+
+.wpill {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+padding: 7px 13px;
+border-radius: 50px;
+background: #2a2a32;
+border: 1.5px solid rgba(255,255,255,0.1);
+font-size: .8rem;
+font-weight: 600;
+color: #c4c4cc;
+cursor: pointer;
+flex-shrink: 0;
+transition: all .22s cubic-bezier(.34,1.56,.64,1);
+-webkit-tap-highlight-color: transparent;
+font-family: ‘Outfit’, -apple-system, sans-serif;
+white-space: nowrap;
+line-height: 1;
+}
+.wpill span {
+font-size: .72rem;
+font-weight: 600;
+letter-spacing: .2px;
+}
+.wpill:active { transform: scale(.93); opacity: .85; }
+.wpill.active {
+background: #3b82f6;
+border-color: #3b82f6;
+color: #ffffff;
+box-shadow: 0 4px 14px rgba(59,130,246,.4);
+}
+.wpill[data-theme=“none”] { color: #8899b8; }
+.wpill[data-theme=“none”].active {
+background: #374151;
+border-color: #4b5563;
+color: #d1d5db;
+box-shadow: none;
+}
 
 /* ── ── ── ── ── ── ── ── ── */
 
@@ -832,7 +963,7 @@ padding: 0;
 @keyframes backdropIn { from{opacity:0} to{opacity:1} }
 
 .modal-sheet {
-background: var(–surface); border-radius: 28px 28px 0 0;
+background: #242429; border-radius: 28px 28px 0 0;
 width: 100%; max-width: 430px;
 padding: 24px 28px calc(28px + env(safe-area-inset-bottom, 0px));
 text-align: center;
@@ -853,15 +984,15 @@ margin: 0 auto 20px;
 
 .modal-emoji { font-size:3.5rem; margin-bottom:14px; display:block; animation:emojiIn .5s .1s cubic-bezier(.34,1.56,.64,1) both; }
 @keyframes emojiIn { from{transform:scale(0) rotate(-20deg)} to{transform:scale(1) rotate(0)} }
-.modal-title { font-family:‘Syne’,sans-serif; font-size:1.6rem; font-weight:800; letter-spacing:-1px; color:#f87171; margin-bottom:10px; animation:fadeUp .35s .2s ease both; }
+.modal-title { font-family:‘Syne’,Georgia,serif; font-size:1.6rem; font-weight:800; letter-spacing:-1px; color:#f87171; margin-bottom:10px; animation:fadeUp .35s .2s ease both; }
 .modal-msg { font-size:.92rem; color:var(–ink2); line-height:1.7; margin-bottom:6px; animation:fadeUp .35s .28s ease both; }
 .modal-msg strong { color:var(–ink); }
 .modal-sub { font-size:.8rem; color:var(–grey); margin-bottom:28px; animation:fadeUp .35s .35s ease both; }
 .modal-btn {
-width:100%; background:var(–blue); color:#fff; border:none;
+width:100%; background:#3b82f6; color:#fff; border:none;
 padding:16px; border-radius:16px;
-font-family:‘Outfit’,sans-serif; font-size:.95rem; font-weight:700;
-cursor:pointer; box-shadow:var(–shadow-blue);
+font-family:‘Outfit’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif; font-size:.95rem; font-weight:700;
+cursor:pointer; box-shadow:0 8px 32px rgba(59,130,246,0.25);
 transition:transform .2s; animation:fadeUp .35s .42s ease both;
 }
 .modal-btn:active { transform:scale(.97); }
@@ -881,7 +1012,145 @@ backdrop-filter: blur(10px);
 }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-/* ── KEYFRAMES ── */
+/* ── TAB BAR ── */
+.tab-bar {
+display: flex; gap: 0;
+padding: 8px 16px 0;
+border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.tab-btn {
+flex: 1; padding: 10px 8px;
+background: none; border: none;
+font-family: ‘Outfit’, -apple-system, sans-serif;
+font-size: .85rem; font-weight: 600; color: #8899b8;
+cursor: pointer; position: relative;
+transition: color .2s;
+-webkit-tap-highlight-color: transparent;
+display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.tab-btn::after {
+content: ‘’; position: absolute; bottom: -1px; left: 20%; right: 20%;
+height: 2.5px; border-radius: 2px 2px 0 0;
+background: #3b82f6;
+transform: scaleX(0); transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.tab-btn.active { color: #ffffff; }
+.tab-btn.active::after { transform: scaleX(1); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── SNACK TAB ── */
+.snack-hero {
+padding: 22px 4px 16px;
+opacity: 0; animation: fadeUp .6s .1s ease forwards;
+}
+.snack-kicker {
+font-size: .68rem; font-weight: 600; letter-spacing: 3px;
+text-transform: uppercase; color: #f59e0b; margin-bottom: 10px;
+display: flex; align-items: center; gap: 6px;
+}
+.snack-kicker::before { content: ‘’; width: 16px; height: 2px; background: #f59e0b; border-radius: 2px; }
+.snack-hero h2 {
+font-family: ‘Syne’, Georgia, serif;
+font-size: clamp(2rem, 7vw, 2.8rem);
+font-weight: 800; line-height: .95; letter-spacing: -2px; color: #fff;
+}
+.snack-hero h2 em { font-style: normal; color: #f59e0b; }
+.snack-hero p { margin-top: 10px; font-size: .85rem; color: #c4c4cc; line-height: 1.6; }
+
+/* Snack spin card */
+.snack-card {
+margin-top: 16px; background: #2a2a32;
+border: 1.5px solid rgba(255,255,255,0.12);
+border-radius: 28px; overflow: hidden;
+box-shadow: 0 8px 40px rgba(0,0,0,.7), 0 1px 0 rgba(255,255,255,0.06) inset;
+opacity: 0; animation: fadeUp .6s .25s ease forwards;
+}
+.snack-card-inner {
+padding: 32px 28px 24px;
+background: linear-gradient(160deg, rgba(245,158,11,.07) 0%, transparent 60%);
+position: relative; min-height: 180px;
+display: flex; flex-direction: column; justify-content: center;
+}
+.snack-card-inner::before {
+content:’’; position:absolute; inset:0; pointer-events:none; border-radius:28px 28px 0 0;
+background: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘500’ height=‘160’%3E%3Cpath d=‘M0 60 Q125 30 250 60 Q375 90 500 60’ stroke=’%23f59e0b’ stroke-width=‘1’ fill=‘none’ opacity=’.09’/%3E%3Cpath d=‘M0 90 Q125 60 250 90 Q375 120 500 90’ stroke=’%23f59e0b’ stroke-width=‘1’ fill=‘none’ opacity=’.05’/%3E%3C/svg%3E”) center/cover no-repeat;
+}
+.snack-icon-bg { position:absolute; right:20px; bottom:12px; font-size:4rem; opacity:.08; line-height:1; }
+.snack-result-meta {
+display: flex; align-items: center; gap: 7px;
+font-size: .65rem; font-weight: 600; letter-spacing: 2px;
+text-transform: uppercase; color: #9090a8; margin-bottom: 12px;
+}
+.snack-live-dot {
+width: 6px; height: 6px; border-radius: 50%; background: #9090a8;
+flex-shrink: 0; transition: background .4s, box-shadow .4s;
+}
+.snack-live-dot.on { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.22); animation: snackPulse 1.8s infinite; }
+@keyframes snackPulse { 0%,100%{box-shadow:0 0 0 3px rgba(245,158,11,.22)}50%{box-shadow:0 0 0 7px rgba(245,158,11,.07)} }
+
+#snackResultName {
+font-family: ‘Syne’, Georgia, serif;
+font-size: clamp(1.8rem, 8vw, 2.8rem);
+font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+position: relative; z-index: 1; min-height: 1.2em; color: #ffffff;
+}
+#snackResultName.idle { color: rgba(255,255,255,.22); }
+#snackResultName.spinning { color: #fff; animation: blurSpin .1s ease-in-out infinite; }
+#snackResultName.revealed { animation: popReveal .5s cubic-bezier(.34,1.56,.64,1) forwards; }
+
+.snack-desc {
+margin-top: 8px; font-size: .8rem; color: #f59e0b;
+font-weight: 500; line-height: 1.5; min-height: 1.2em;
+opacity: 0; transition: opacity .3s;
+}
+.snack-desc.show { opacity: 1; }
+
+.snack-actions {
+padding: 16px 20px 20px;
+background: #222228;
+border-top: 1px solid rgba(255,255,255,0.07);
+display: flex; flex-direction: column; gap: 10px;
+}
+.btn-snack-spin {
+flex: 1; background: #f59e0b; color: #111114; border: none;
+padding: 17px 20px; border-radius: 18px;
+font-family: ‘Outfit’, -apple-system, sans-serif; font-size: 1rem; font-weight: 700;
+cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+box-shadow: 0 6px 24px rgba(245,158,11,.35);
+transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+-webkit-tap-highlight-color: transparent;
+}
+.btn-snack-spin:active { transform: scale(.96); }
+.btn-snack-spin:disabled { opacity: .45; pointer-events: none; }
+
+/* Snack grid */
+.snack-grid-wrap { margin-top: 22px; opacity: 0; animation: fadeUp .6s .4s ease forwards; }
+.snack-grid-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.snack-grid-title { font-family: ‘Syne’, Georgia, serif; font-size: 1rem; font-weight: 700; letter-spacing: -.4px; color: #fff; }
+.snack-count { background: #2a2a32; border: 1px solid rgba(255,255,255,.1); border-radius: 50px; padding: 4px 12px; font-size: .72rem; font-weight: 600; color: #c4c4cc; }
+.snack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.snack-tile {
+background: #2a2a32; border: 1.5px solid rgba(255,255,255,.1);
+border-radius: 16px; padding: 14px;
+box-shadow: 0 4px 16px rgba(0,0,0,.5);
+opacity: 0; transform: translateY(10px);
+transition: all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.snack-tile.loaded { opacity: 1; transform: translateY(0); }
+.snack-tile.winner {
+background: #f59e0b; border-color: #f59e0b;
+box-shadow: 0 8px 28px rgba(245,158,11,.4);
+animation: winnerBounce .55s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.snack-tile.winner .snack-tile-name { color: #111114; }
+.snack-tile.winner .snack-tile-loc  { color: rgba(17,17,20,.7); }
+.snack-tile-emoji { font-size: 1.3rem; margin-bottom: 6px; display: block; }
+.snack-tile-name  { font-size: .86rem; font-weight: 700; color: #fff; line-height: 1.3; }
+.snack-tile-loc   { font-size: .7rem; color: #9090a8; margin-top: 3px; font-weight: 500; }
+
+/* ── ── ── ── */
+
 @keyframes fadeUp   { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 @keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
 @keyframes cardShake {
@@ -935,8 +1204,33 @@ backdrop-filter: blur(10px);
     <div class="time-chip" id="timeChip">⏰ <span id="timeLabel">Saatnya makan!</span></div>
   </div>
 
-  <!-- SCROLL BODY -->
+  <!-- WEATHER SELECTOR -->
 
+  <div class="weather-bar">
+    <div class="weather-label">🌦 Pilih Cuaca</div>
+    <div class="weather-pills" id="weatherPills">
+      <button class="wpill" data-theme="rain"   onclick="setWeather('rain')">🌧<span>Hujan</span></button>
+      <button class="wpill" data-theme="sakura" onclick="setWeather('sakura')">🌸<span>Sakura</span></button>
+      <button class="wpill" data-theme="snow"   onclick="setWeather('snow')">❄️<span>Salju</span></button>
+      <button class="wpill" data-theme="sunny"  onclick="setWeather('sunny')">☀️<span>Cerah</span></button>
+      <button class="wpill" data-theme="storm"  onclick="setWeather('storm')">⛈<span>Badai</span></button>
+      <button class="wpill" data-theme="sunset" onclick="setWeather('sunset')">🌅<span>Senja</span></button>
+      <button class="wpill" data-theme="aurora" onclick="setWeather('aurora')">🌌<span>Aurora</span></button>
+      <button class="wpill" data-theme="none"   onclick="setWeather('none')">✖<span>Off</span></button>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab1Btn" onclick="switchTab(1)">🍽 Makan</button>
+    <button class="tab-btn" id="tab2Btn" onclick="switchTab(2)">🍿 Cemilan</button>
+  </div>
+
+  <!-- ═══ TAB 1: MAKAN ═══ -->
+
+  <div class="tab-content active" id="tab1">
+  <!-- SCROLL BODY -->
   <div class="scroll-body">
 
 ```
@@ -954,7 +1248,6 @@ backdrop-filter: blur(10px);
 <!-- SPIN CARD -->
 <div class="spin-card" id="mainCard">
   <div class="spin-card-inner">
-    <div class="spin-dolphin">🐬</div>
     <div class="lucky-badge" id="luckyBadge">⚡ Lucky!</div>
     <div class="result-meta">
       <div class="live-dot" id="liveDot"></div>
@@ -1195,6 +1488,72 @@ backdrop-filter: blur(10px);
 ```
 
   </div><!-- /scroll-body -->
+
+  <!-- 🐬 OCEAN FOOTER — Kawanan Lumba-lumba -->
+
+  <div class="ocean-footer" id="oceanFooter">
+    <canvas id="oceanCanvas"></canvas>
+    <!-- 6 lottie dolphins, positioned by JS -->
+    <div class="dolphin-pod" id="dolphinPod">
+      <div class="pod-dolphin" id="pod0"></div>
+      <div class="pod-dolphin" id="pod1"></div>
+      <div class="pod-dolphin" id="pod2"></div>
+      <div class="pod-dolphin" id="pod3"></div>
+      <div class="pod-dolphin" id="pod4"></div>
+      <div class="pod-dolphin" id="pod5"></div>
+    </div>
+    <div class="ocean-text">
+      <span class="ocean-logo">🐬 makan<span style="color:#60a5fa">.</span>apa</span>
+      <span class="ocean-tagline">Selamat makan & tetap sehat! 🌊</span>
+    </div>
+  </div>
+
+  </div><!-- /tab1 -->
+
+  <!-- ═══ TAB 2: CEMILAN ═══ -->
+
+  <div class="tab-content" id="tab2">
+  <div class="scroll-body">
+
+```
+<div class="snack-hero">
+  <div class="snack-kicker">Cemilan Vegetarian</div>
+  <h2>Cemilan<br><em>Apa</em><br>Hari Ini?</h2>
+  <p>Semua pilihan vegetarian-friendly 🌿 Enak, sehat, dan tersedia di mal!</p>
+</div>
+
+<!-- SNACK SPIN CARD -->
+<div class="snack-card" id="snackCard">
+  <div class="snack-card-inner">
+    <div class="snack-icon-bg" id="snackIconBg">🍿</div>
+    <div class="snack-result-meta">
+      <div class="snack-live-dot" id="snackDot"></div>
+      <span id="snackStatusTxt">Belum dipilih</span>
+    </div>
+    <div id="snackResultName" class="idle">Pilih dulu...</div>
+    <div class="snack-desc" id="snackDesc"></div>
+  </div>
+  <div class="snack-actions">
+    <button class="btn-snack-spin" id="snackSpinBtn" onclick="spinSnack()">
+      🎲 Pilihkan Cemilan!
+    </button>
+    <button class="btn-reset" onclick="resetSnack()">🔄 Reset</button>
+  </div>
+</div>
+
+<!-- SNACK GRID -->
+<div class="snack-grid-wrap">
+  <div class="snack-grid-head">
+    <div class="snack-grid-title">Semua Pilihan Cemilan</div>
+    <div class="snack-count" id="snackCount">0 cemilan</div>
+  </div>
+  <div class="snack-grid" id="snackGrid"></div>
+</div>
+```
+
+  </div><!-- /scroll-body snack -->
+  </div><!-- /tab2 -->
+
 </div><!-- /app -->
 
 <script>
@@ -2176,6 +2535,502 @@ function hqGoTo(idx) {
 }
 
 buildHealthSection();
+
+/* ═══════════════════════════════════════
+   🗂  TAB SYSTEM
+═══════════════════════════════════════ */
+function switchTab(n) {
+  document.getElementById('tab1').classList.toggle('active', n===1);
+  document.getElementById('tab2').classList.toggle('active', n===2);
+  document.getElementById('tab1Btn').classList.toggle('active', n===1);
+  document.getElementById('tab2Btn').classList.toggle('active', n===2);
+}
+
+/* ═══════════════════════════════════════
+   🍿  SNACK DATA — vegetarian friendly
+═══════════════════════════════════════ */
+const SNACKS = [
+  { name:"Wafflicious",    emoji:"🧇", loc:"Mall (berbagai cabang)",    desc:"Waffle crispy dengan topping Nutella, buah segar, atau ice cream. 100% vegetarian!" },
+  { name:"Creamery",       emoji:"🍦", loc:"Grand Indonesia & Pacific Place", desc:"Artisan ice cream premium dengan bahan alami. Banyak pilihan vegan juga tersedia." },
+  { name:"Auntie Anne's",  emoji:"🥨", loc:"Mall di seluruh Indonesia", desc:"Soft pretzel hangat dengan saus cheese atau kayu manis. Comfort snack klasik!" },
+  { name:"Chatime",        emoji:"🧋", loc:"Berbagai mall & ruko",      desc:"Bubble tea dengan pilihan topping lengkap. Minta tanpa susu untuk opsi vegan." },
+  { name:"Baskin Robbins", emoji:"🍨", loc:"Mall besar Indonesia",      desc:"31 rasa ice cream ikonik. Coba Oreo Cookies n' Cream atau Very Berry Strawberry!" },
+  { name:"Hokkaido Baked Cheese Tart", emoji:"🥧", loc:"Grand Indonesia, Senayan City", desc:"Cheese tart hangat yang meleleh di mulut. Best seller sepanjang waktu!" },
+  { name:"J.Co Donuts",    emoji:"🍩", loc:"Hampir semua mall",         desc:"Donut glazed original atau Oreology yang legendaris. Pas untuk snack sore!" },
+  { name:"Starbucks",      emoji:"☕", loc:"Tersebar di seluruh kota",  desc:"Frappuccino + cake pop atau sandwich vegetarian. Perfect afternoon snack!" },
+  { name:"Dippin' Dots",   emoji:"🔵", loc:"Timezone & entertainment center", desc:"Ice cream bola-bola unik yang dibekukan cryogenically. Pengalaman makan yang beda!" },
+  { name:"Garrett Popcorn",emoji:"🍿", loc:"Grand Indonesia, PIK Avenue", desc:"Chicago-style popcorn dengan caramel crisp atau cheese. Aroma-nya bikin kalap!" },
+  { name:"Tai Tai",        emoji:"🧁", loc:"PIK, Pantai Indah Kapuk",   desc:"Tart buah segar dan kue-kue Eropa yang cantik. Instagrammable banget!" },
+  { name:"Breadtalk",      emoji:"🥐", loc:"Mall di seluruh Indonesia", desc:"Roti freshly baked harian — floss bun, pandan, atau seasonal specials." },
+  { name:"Coolblog",       emoji:"🥤", loc:"Berbagai mall",             desc:"Minuman buah segar dengan grass jelly. Segar, murah, dan vegetarian-friendly!" },
+  { name:"Häagen-Dazs",    emoji:"🍧", loc:"Grand Indonesia, Plaza Indonesia", desc:"Premium ice cream Belgium chocolate atau macadamia. Treat dirimu yang terbaik!" },
+  { name:"Toast Box",      emoji:"🍞", loc:"Senayan City, SCBD",        desc:"Kaya toast dengan butter & coconut jam ala Singapura. Nostalgia street food Asia!" },
+  { name:"Boost Juice",    emoji:"🥤", loc:"Mall besar Jakarta",        desc:"Smoothie buah segar tanpa bahan artifisial. Sehat dan mengenyangkan!" },
+  { name:"Greyhound Café", emoji:"🥗", loc:"Central Park, Grand Indonesia", desc:"Avocado toast dan smoothie bowl trendy. Perfect untuk content creator!" },
+  { name:"Yumcha",         emoji:"🥟", loc:"Summarecon Mall & PIK",    desc:"Dim sum vegetarian pilihan — har gow sayuran, taro ball, dan egg tart." },
+  { name:"Pablo",          emoji:"🧀", loc:"Senayan City, Lippo Mall",  desc:"Cheese tart Jepang yang viral — semi-baked dengan isian keju yang lumer!" },
+  { name:"Snowflake",      emoji:"❄️", loc:"Berbagai kota Indonesia",   desc:"Shaved ice Taiwan dengan topping kacang merah, taro, dan grass jelly. Segar!" },
+  { name:"Mochiko",        emoji:"🍡", loc:"PIK, Kelapa Gading",        desc:"Mochi ice cream Jepang dengan berbagai rasa. Satu gigitan langsung jatuh cinta!" },
+  { name:"Excelso",        emoji:"☕", loc:"Mall Indonesia",            desc:"Kopi lokal premium dengan pastry. Coba cheese cake slice-nya yang creamy!" },
+  { name:"EATLAH",         emoji:"🍚", loc:"Summarecon Mall Serpong",   desc:"Indomie goreng loaded dengan telur dan topping sayuran. Guilty pleasure sejati!" },
+  { name:"Sushiro",        emoji:"🍣", loc:"Lippo Mall, Summarecon",    desc:"Conveyor belt sushi — inari, tamago, kappa maki. Banyak pilihan vegetarian!" },
+  { name:"Pepper Lunch",   emoji:"🔥", loc:"Berbagai mall",             desc:"Beef pepper rice bisa request tanpa daging, ganti extra corn butter. Delicious!" },
+];
+
+let snackWinner = -1;
+let snackSpinning = false;
+
+// Build snack grid
+const snackGrid = document.getElementById('snackGrid');
+document.getElementById('snackCount').textContent = `${SNACKS.length} cemilan`;
+
+SNACKS.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'snack-tile'; el.id = `sc${i}`;
+  el.innerHTML = `<span class="snack-tile-emoji">${s.emoji}</span><div class="snack-tile-name">${s.name}</div><div class="snack-tile-loc">${s.loc}</div>`;
+  snackGrid.appendChild(el);
+  setTimeout(() => el.classList.add('loaded'), 400 + i * 35);
+});
+
+function spinSnack() {
+  if (snackSpinning) return;
+  snackSpinning = true;
+  const btn = document.getElementById('snackSpinBtn');
+  const rName = document.getElementById('snackResultName');
+  const dot   = document.getElementById('snackDot');
+  const desc  = document.getElementById('snackDesc');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;animation:spin360 .5s linear infinite">⏳</span> Milih...';
+  dot.className = 'snack-live-dot';
+  document.getElementById('snackStatusTxt').textContent = 'Lagi milih...';
+  desc.classList.remove('show');
+
+  if (snackWinner >= 0) {
+    document.getElementById(`sc${snackWinner}`).classList.remove('winner');
+  }
+
+  rName.style.opacity = '.2'; rName.style.filter = 'blur(3px)';
+  setTimeout(() => {
+    rName.style.opacity = ''; rName.style.filter = '';
+    rName.className = 'spinning';
+
+    let f = 0, delay = 55;
+    function tick() {
+      const r = Math.floor(Math.random() * SNACKS.length);
+      rName.textContent = SNACKS[r].name;
+      document.getElementById('snackIconBg').textContent = SNACKS[r].emoji;
+      f++;
+      if (f >= 28) { finishSnack(Math.floor(Math.random() * SNACKS.length)); return; }
+      if (f > 20) delay = 55 + (f - 20) * 24;
+      setTimeout(tick, delay);
+    }
+    tick();
+  }, 140);
+}
+
+function finishSnack(idx) {
+  snackSpinning = false;
+  snackWinner = idx;
+  const s = SNACKS[idx];
+  const rName = document.getElementById('snackResultName');
+  const dot   = document.getElementById('snackDot');
+  const desc  = document.getElementById('snackDesc');
+
+  rName.className = 'revealed';
+  rName.textContent = s.name;
+  document.getElementById('snackIconBg').textContent = s.emoji;
+  dot.className = 'snack-live-dot on';
+  document.getElementById('snackStatusTxt').textContent = 'Sudah dipilih!';
+  desc.textContent = `📍 ${s.loc} — ${s.desc}`;
+  setTimeout(() => desc.classList.add('show'), 300);
+
+  document.getElementById(`sc${idx}`).classList.add('winner');
+
+  const btn = document.getElementById('snackSpinBtn');
+  btn.disabled = false;
+  btn.innerHTML = '🎲 Pilih Lagi!';
+  showToast(`🍿 ${s.name} — yuk cobain!`);
+}
+
+function resetSnack() {
+  if (snackWinner >= 0) document.getElementById(`sc${snackWinner}`).classList.remove('winner');
+  snackWinner = -1; snackSpinning = false;
+  const rName = document.getElementById('snackResultName');
+  rName.className = 'idle'; rName.textContent = 'Pilih dulu...';
+  rName.style.opacity = ''; rName.style.filter = '';
+  document.getElementById('snackDot').className = 'snack-live-dot';
+  document.getElementById('snackStatusTxt').textContent = 'Belum dipilih';
+  document.getElementById('snackDesc').classList.remove('show');
+  document.getElementById('snackIconBg').textContent = '🍿';
+  const btn = document.getElementById('snackSpinBtn');
+  btn.disabled = false; btn.innerHTML = '🎲 Pilihkan Cemilan!';
+}
+
+/* ═══════════════════════════════════════
+   🐬  KAWANAN LUMBA-LUMBA — 6 Lottie dolphins
+   Fetch JSON separately to avoid inline parse errors
+═══════════════════════════════════════ */
+(function() {
+  if (typeof lottie === 'undefined') return;
+
+  const PODS = [
+    { left: 2,  top: 5,  size: 130, delay: 0   },
+    { left: 18, top: 30, size: 95,  delay: 300  },
+    { left: 38, top: 8,  size: 150, delay: 600  },
+    { left: 56, top: 35, size: 80,  delay: 150  },
+    { left: 70, top: 10, size: 120, delay: 450  },
+    { left: 84, top: 28, size: 70,  delay: 750  },
+  ];
+
+  // Randomise slightly on each page load
+  PODS.forEach(p => {
+    p.left += (Math.random() - 0.5) * 10;
+    p.top  += (Math.random() - 0.5) * 12;
+    p.size += Math.round((Math.random() - 0.5) * 20);
+    p.left  = Math.max(0, Math.min(88, p.left));
+    p.top   = Math.max(0, Math.min(55, p.top));
+    p.size  = Math.max(55, p.size);
+  });
+
+  function spawnPod(animData) {
+    PODS.forEach((cfg, i) => {
+      const el = document.getElementById('pod' + i);
+      if (!el) return;
+      el.style.cssText = [
+        'position:absolute',
+        'left:' + cfg.left + '%',
+        'top:' + cfg.top + '%',
+        'width:' + cfg.size + 'px',
+        'height:' + cfg.size + 'px',
+        'pointer-events:none',
+        'filter:drop-shadow(0 4px 14px rgba(59,130,246,.4))',
+        'opacity:0',
+        'transition:opacity 0.6s ease',
+      ].join(';');
+
+      setTimeout(() => {
+        lottie.loadAnimation({
+          container: el,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          animationData: JSON.parse(JSON.stringify(animData)), // clone so each instance is independent
+        });
+        el.style.opacity = '1';
+      }, cfg.delay + 400);
+    });
+  }
+
+  // Use fetch to load JSON (avoids inline parse crash)
+  fetch('dolphin.json')
+    .then(r => r.json())
+    .then(data => spawnPod(data))
+    .catch(err => console.warn('Dolphin JSON load failed:', err));
+})();
+
+})();
+
+/* ═══════════════════════════════════════
+   🌦  WEATHER SYSTEM — particles only on screen
+   Ocean canvas stays at bottom (handled separately)
+═══════════════════════════════════════ */
+
+const THEMES_LIST = ['rain','sakura','snow','sunny','storm','sunset','aurora','none'];
+const THEME_LABELS = {rain:'🌧 Hujan',sakura:'🌸 Sakura',snow:'❄️ Salju',sunny:'☀️ Cerah',storm:'⛈ Badai',sunset:'🌅 Senja',aurora:'🌌 Aurora',none:'✖ Off'};
+
+let currentTheme = THEMES_LIST[Math.floor(Math.random() * 7)]; // random on load (never 'none')
+let weatherParticles = [];
+let weatherSpecial   = [];
+let weatherT = 0;
+let weatherRAF = null;
+
+/* ── Weather canvas — fixed fullscreen, ABOVE content but below modals ── */
+const wcv = document.createElement('canvas');
+wcv.id = 'weatherCv';
+wcv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;';
+document.body.appendChild(wcv);
+const wctx = wcv.getContext('2d');
+
+function resizeWcv() { wcv.width = window.innerWidth; wcv.height = window.innerHeight; }
+resizeWcv();
+window.addEventListener('resize', () => { resizeWcv(); rebuildParticles(); });
+
+/* ── Mark active pill ── */
+function syncPills(theme) {
+  document.querySelectorAll('.wpill').forEach(p => {
+    p.classList.toggle('active', p.dataset.theme === theme);
+  });
+}
+syncPills(currentTheme);
+
+/* ── Particle factories ── */
+function mkRain() {
+  return { x:Math.random()*wcv.width, y:-20-Math.random()*wcv.height,
+    len:10+Math.random()*16, speed:13+Math.random()*9,
+    alpha:.2+Math.random()*.3, w:.7+Math.random()*.5 };
+}
+function mkSnow() {
+  return { x:Math.random()*wcv.width, y:-10-Math.random()*wcv.height,
+    r:1.5+Math.random()*4, speed:.5+Math.random()*1.2,
+    drift:(Math.random()-.5)*.5, spin:Math.random()*Math.PI*2,
+    spinS:(Math.random()-.5)*.04, alpha:.5+Math.random()*.5,
+    type:Math.floor(Math.random()*3) };
+}
+function mkPetal(isSunset) {
+  const cols = isSunset
+    ? ['#ffb347','#ff7a6e','#ffd6a0','#ff9a6c','#ffc88a']
+    : ['#ffb7d5','#ffc8e0','#ffe0f0','#ff9ec4','#ffd6eb'];
+  return { x:Math.random()*wcv.width, y:-20-Math.random()*wcv.height,
+    r:4+Math.random()*6, speed:.7+Math.random()*1.1,
+    drift:(Math.random()-.5)*1.1, spin:Math.random()*Math.PI*2,
+    spinS:(Math.random()-.5)*.05, sway:Math.random()*Math.PI*2,
+    swayS:.02+Math.random()*.02, alpha:.55+Math.random()*.4,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    scaleX:.5+Math.random()*.5 };
+}
+function mkSunRay() {
+  return { angle:Math.random()*Math.PI*2, len:60+Math.random()*90,
+    speed:.002+Math.random()*.003, alpha:.03+Math.random()*.05, width:18+Math.random()*36 };
+}
+function mkLightning() {
+  return { x:.2+Math.random()*.6, timer:0, interval:80+Math.random()*140, alpha:0 };
+}
+function mkAuroraWave(i) {
+  const cols=['#00ff88','#00cfff','#9b59ff','#ff6fcf','#ffcf00'];
+  return { y:.12+i*.07, amp:.04+Math.random()*.04, freq:.003+Math.random()*.002,
+    speed:.0008+Math.random()*.001, color:cols[i%cols.length],
+    phase:Math.random()*Math.PI*2, width:16+Math.random()*22, alpha:.1+Math.random()*.09 };
+}
+
+function rebuildParticles() {
+  weatherParticles = [];
+  weatherSpecial   = [];
+  const W = wcv.width, H = wcv.height;
+  const COUNTS = { rain:Math.floor(W*.25), sakura:55, snow:80, sunny:0, storm:Math.floor(W*.3), sunset:45, aurora:25, none:0 };
+  const n = COUNTS[currentTheme] || 0;
+  for (let i=0; i<n; i++) {
+    if (currentTheme==='rain'||currentTheme==='storm') weatherParticles.push(mkRain());
+    else if (currentTheme==='snow'||currentTheme==='aurora') weatherParticles.push(mkSnow());
+    else if (currentTheme==='sakura') weatherParticles.push(mkPetal(false));
+    else if (currentTheme==='sunset') weatherParticles.push(mkPetal(true));
+  }
+  if (currentTheme==='sunny')  for(let i=0;i<12;i++) weatherSpecial.push(mkSunRay());
+  if (currentTheme==='storm')  for(let i=0;i<3;i++)  weatherSpecial.push(mkLightning());
+  if (currentTheme==='aurora') for(let i=0;i<6;i++)  weatherSpecial.push(mkAuroraWave(i));
+}
+
+rebuildParticles();
+
+/* ── Draw helpers ── */
+function drawSnowflake(p) {
+  wctx.save(); wctx.translate(p.x,p.y); wctx.rotate(p.spin);
+  wctx.globalAlpha=p.alpha; wctx.strokeStyle='#e8f4ff'; wctx.fillStyle='#ffffff'; wctx.lineWidth=1;
+  if(p.type===0){ wctx.beginPath(); wctx.arc(0,0,p.r,0,Math.PI*2); wctx.fill(); }
+  else if(p.type===1){
+    for(let a=0;a<6;a++){ wctx.save(); wctx.rotate(a*Math.PI/3);
+      wctx.beginPath(); wctx.moveTo(0,0); wctx.lineTo(0,-p.r*2); wctx.stroke();
+      wctx.beginPath(); wctx.moveTo(-p.r*.5,-p.r); wctx.lineTo(p.r*.5,-p.r); wctx.stroke();
+      wctx.restore(); }
+    wctx.beginPath(); wctx.arc(0,0,p.r*.4,0,Math.PI*2); wctx.fill();
+  } else {
+    wctx.beginPath();
+    for(let a=0;a<6;a++){ const ax=Math.cos(a*Math.PI/3)*p.r, ay=Math.sin(a*Math.PI/3)*p.r; a===0?wctx.moveTo(ax,ay):wctx.lineTo(ax,ay); }
+    wctx.closePath(); wctx.stroke();
+  }
+  wctx.restore();
+}
+
+function drawPetal(p) {
+  wctx.save(); wctx.translate(p.x,p.y); wctx.rotate(p.spin); wctx.scale(p.scaleX,1);
+  wctx.globalAlpha=p.alpha; wctx.fillStyle=p.color;
+  wctx.beginPath(); wctx.ellipse(0,0,p.r,p.r*.55,0,0,Math.PI*2); wctx.fill();
+  wctx.strokeStyle='rgba(255,255,255,.25)'; wctx.lineWidth=.6;
+  wctx.beginPath(); wctx.moveTo(-p.r*.7,0); wctx.lineTo(p.r*.7,0); wctx.stroke();
+  wctx.restore();
+}
+
+function drawSun() {
+  const cx=wcv.width*.78, cy=64;
+  const grd=wctx.createRadialGradient(cx,cy,5,cx,cy,110);
+  grd.addColorStop(0,'rgba(255,240,100,.18)'); grd.addColorStop(1,'transparent');
+  wctx.fillStyle=grd; wctx.beginPath(); wctx.arc(cx,cy,110,0,Math.PI*2); wctx.fill();
+  const sun=wctx.createRadialGradient(cx,cy,0,cx,cy,24);
+  sun.addColorStop(0,'rgba(255,255,180,.85)'); sun.addColorStop(.6,'rgba(255,220,50,.65)'); sun.addColorStop(1,'rgba(255,180,0,.2)');
+  wctx.fillStyle=sun; wctx.beginPath(); wctx.arc(cx,cy,24,0,Math.PI*2); wctx.fill();
+  for(const r of weatherSpecial){
+    r.angle+=r.speed; wctx.save(); wctx.translate(cx,cy); wctx.rotate(r.angle);
+    wctx.globalAlpha=r.alpha*(.6+.4*Math.sin(weatherT*.5+r.angle)); wctx.fillStyle='#fff8c0';
+    wctx.beginPath(); wctx.moveTo(0,-10); wctx.lineTo(r.width/2,-r.len); wctx.lineTo(-r.width/2,-r.len); wctx.closePath(); wctx.fill();
+    wctx.restore();
+  }
+}
+
+function drawStorm() {
+  const cg=wctx.createRadialGradient(wcv.width*.5,0,0,wcv.width*.5,0,wcv.height*.5);
+  cg.addColorStop(0,'rgba(15,15,28,.45)'); cg.addColorStop(1,'transparent');
+  wctx.fillStyle=cg; wctx.fillRect(0,0,wcv.width,wcv.height);
+  for(const l of weatherSpecial){
+    l.timer++;
+    if(l.timer>=l.interval){ l.timer=0; l.interval=80+Math.random()*140; l.alpha=1; l.x=.15+Math.random()*.7; }
+    if(l.alpha>0){
+      wctx.save(); wctx.globalAlpha=l.alpha*.85; wctx.strokeStyle='#c0d8ff'; wctx.lineWidth=1.5;
+      wctx.shadowColor='#a0c8ff'; wctx.shadowBlur=10;
+      wctx.beginPath(); let lx=l.x*wcv.width, ly=0; wctx.moveTo(lx,ly);
+      for(let s=0;s<8;s++){ lx+=(Math.random()-.5)*28; ly+=wcv.height*.12; wctx.lineTo(lx,ly); }
+      wctx.stroke(); wctx.restore(); l.alpha-=.1;
+    }
+  }
+}
+
+function drawAurora() {
+  for(const w of weatherSpecial){
+    wctx.save(); wctx.globalAlpha=w.alpha*(.7+.3*Math.sin(weatherT+w.phase));
+    wctx.strokeStyle=w.color; wctx.lineWidth=w.width; wctx.shadowColor=w.color; wctx.shadowBlur=24;
+    wctx.beginPath();
+    for(let x=0;x<=wcv.width;x+=4){
+      const nx=x/wcv.width;
+      const y=(w.y+Math.sin(nx*wcv.width*w.freq+weatherT*w.speed*60+w.phase)*w.amp)*wcv.height;
+      x===0?wctx.moveTo(x,y):wctx.lineTo(x,y);
+    }
+    wctx.stroke(); wctx.restore();
+  }
+}
+
+function drawSunset() {
+  const sg=wctx.createLinearGradient(0,0,0,wcv.height*.5);
+  sg.addColorStop(0,'rgba(255,80,20,.05)'); sg.addColorStop(1,'transparent');
+  wctx.fillStyle=sg; wctx.fillRect(0,0,wcv.width,wcv.height);
+  const sx=wcv.width*.5, sy=wcv.height*.3;
+  const sg2=wctx.createRadialGradient(sx,sy,0,sx,sy,80);
+  sg2.addColorStop(0,'rgba(255,180,40,.18)'); sg2.addColorStop(.5,'rgba(255,80,20,.07)'); sg2.addColorStop(1,'transparent');
+  wctx.fillStyle=sg2; wctx.beginPath(); wctx.arc(sx,sy,80,0,Math.PI*2); wctx.fill();
+}
+
+/* ── Main weather render loop ── */
+function weatherFrame() {
+  weatherRAF = requestAnimationFrame(weatherFrame);
+  const W=wcv.width, H=wcv.height;
+  weatherT += .016;
+  wctx.clearRect(0,0,W,H);
+
+  if(currentTheme==='none') return;
+
+  if(currentTheme==='sunny')  drawSun();
+  if(currentTheme==='storm')  drawStorm();
+  if(currentTheme==='aurora') drawAurora();
+  if(currentTheme==='sunset') drawSunset();
+
+  for(const p of weatherParticles){
+    if(currentTheme==='rain'||currentTheme==='storm'){
+      wctx.save(); wctx.globalAlpha=p.alpha;
+      wctx.strokeStyle=currentTheme==='storm'?'#8aabee':'#9cc4e8';
+      wctx.lineWidth=p.w; wctx.beginPath();
+      wctx.moveTo(p.x,p.y); wctx.lineTo(p.x-1.2,p.y+p.len); wctx.stroke(); wctx.restore();
+      p.y+=p.speed; p.x-=1.1;
+      if(p.y>H+20||p.x<-20){ p.y=-20; p.x=Math.random()*(W+40); }
+    } else if(currentTheme==='snow'||currentTheme==='aurora'){
+      drawSnowflake(p);
+      p.y+=p.speed; p.x+=p.drift+Math.sin(weatherT*.8+p.spin)*.3; p.spin+=p.spinS;
+      if(p.y>H+20){ p.y=-10; p.x=Math.random()*W; }
+    } else if(currentTheme==='sakura'||currentTheme==='sunset'){
+      drawPetal(p);
+      p.y+=p.speed; p.x+=p.drift+Math.sin(p.sway+weatherT*p.swayS*60)*.5;
+      p.spin+=p.spinS; p.sway+=p.swayS;
+      if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; }
+    }
+  }
+}
+weatherFrame();
+
+/* ── Public function to change weather ── */
+function setWeather(theme) {
+  currentTheme = theme;
+  syncPills(theme);
+  rebuildParticles();
+  weatherT = 0;
+}
+
+/* ═══════════════════════════════════════
+   🐬  OCEAN FOOTER (bottom canvas only)
+═══════════════════════════════════════ */
+(function(){
+  const oc = document.getElementById('oceanCanvas');
+  if(!oc) return;
+  const octx = oc.getContext('2d');
+
+  function resizeO(){ oc.width=oc.offsetWidth||window.innerWidth; oc.height=oc.offsetHeight||220; }
+  resizeO(); window.addEventListener('resize', resizeO);
+
+  const WAVE_PAL = {
+    rain:  ['rgba(25,60,140,.55)','rgba(15,45,120,.45)','rgba(8,35,100,.55)','rgba(5,25,80,.6)'],
+    sakura:['rgba(160,60,130,.5)','rgba(130,40,110,.45)','rgba(100,25,90,.5)','rgba(75,15,70,.55)'],
+    snow:  ['rgba(40,80,160,.5)','rgba(30,65,140,.45)','rgba(20,50,120,.5)','rgba(10,35,100,.55)'],
+    sunny: ['rgba(0,130,220,.5)','rgba(0,110,190,.45)','rgba(0,90,160,.5)','rgba(0,70,130,.55)'],
+    storm: ['rgba(15,25,55,.65)','rgba(10,20,45,.55)','rgba(8,15,35,.6)','rgba(5,10,28,.65)'],
+    sunset:['rgba(180,60,20,.5)','rgba(150,40,55,.45)','rgba(110,25,70,.5)','rgba(85,15,55,.55)'],
+    aurora:['rgba(0,75,95,.5)','rgba(0,55,75,.45)','rgba(0,38,58,.5)','rgba(0,22,42,.55)'],
+    none:  ['rgba(25,60,140,.55)','rgba(15,45,120,.45)','rgba(8,35,100,.55)','rgba(5,25,80,.6)'],
+  };
+  const SKY_TOP = {rain:'#111827',sakura:'#2d1040',snow:'#0d1835',sunny:'#0369a1',storm:'#060d18',sunset:'#7c2d12',aurora:'#05101a',none:'#111827'};
+  const SKY_BOT = {rain:'#0d1a2e',sakura:'#4a1060',snow:'#0f2040',sunny:'#0ea5e9',storm:'#040810',sunset:'#c2410c',aurora:'#0a1a24',none:'#0d1a2e'};
+  const MOON_COL= {rain:'#c8d8ff',sakura:'#ffd6f5',snow:'#e8f4ff',sunny:'#fffde0',storm:'#6080aa',sunset:'#ffa040',aurora:'#a0ffd0',none:'#c8d8ff'};
+
+  const waves = [
+    {y:.52,amp:14,freq:.018,speed:.012,dx:0},
+    {y:.62,amp:10,freq:.022,speed:.018,dx:1.5},
+    {y:.72,amp:7, freq:.028,speed:.025,dx:3},
+    {y:.82,amp:5, freq:.035,speed:.03, dx:5},
+  ];
+
+  let ot=0;
+
+  function drawWave(wave,W,H,pal){
+    const y0=wave.y*H;
+    octx.beginPath(); octx.moveTo(0,H);
+    for(let x=0;x<=W;x+=2){
+      const wy=y0+Math.sin(x/W*W*wave.freq+ot*wave.speed*60+wave.dx)*wave.amp+Math.sin(x/W*W*wave.freq*1.7+ot*wave.speed*40+wave.dx)*wave.amp*.4;
+      x===0?octx.moveTo(x,wy):octx.lineTo(x,wy);
+    }
+    octx.lineTo(W,H);octx.lineTo(0,H);octx.closePath();octx.fillStyle=pal;octx.fill();
+  }
+
+  function drawDolphin(d,W,H,pal){
+  function oceanFrame(){
+    ot+=.016;
+    const W=oc.width, H=oc.height;
+    const theme=currentTheme||'rain';
+    const pal=WAVE_PAL[theme]||WAVE_PAL.rain;
+    octx.clearRect(0,0,W,H);
+    // sky
+    const sky=octx.createLinearGradient(0,0,0,H*.55);
+    sky.addColorStop(0,SKY_TOP[theme]||'#111827');
+    sky.addColorStop(1,SKY_BOT[theme]||'#0d1a2e');
+    octx.fillStyle=sky; octx.fillRect(0,0,W,H*.6);
+    // stars
+    if(theme!=='sunny'&&theme!=='sunset'){
+      for(let i=0;i<28;i++){
+        const sx=((i*137.5)%1)*W, sy=((i*97.3)%1)*H*.45;
+        const tw=.3+Math.abs(Math.sin(ot*1.2+i))*.7;
+        octx.globalAlpha=tw*.65; octx.fillStyle='#fff';
+        octx.beginPath(); octx.arc(sx,sy,.5+((i%3)*.4),0,Math.PI*2); octx.fill();
+      }
+      octx.globalAlpha=1;
+    }
+    // moon/sun
+    const mx=W*.82, my=H*.14;
+    const glow=octx.createRadialGradient(mx,my,2,mx,my,20);
+    glow.addColorStop(0,'rgba(255,255,220,.18)'); glow.addColorStop(1,'transparent');
+    octx.fillStyle=glow; octx.beginPath(); octx.arc(mx,my,20,0,Math.PI*2); octx.fill();
+    octx.beginPath(); octx.arc(mx,my,10,0,Math.PI*2);
+    octx.fillStyle=MOON_COL[theme]||'#fffde0'; octx.fill();
+    // waves only — dolphins handled by Lottie above canvas
+    waves.forEach((w,i)=>drawWave(w,W,H,pal[i]));
+    requestAnimationFrame(oceanFrame);
+  }
+  oceanFrame();
+})();
+
 
 </script>
 

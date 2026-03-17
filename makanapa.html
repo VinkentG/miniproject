@@ -90,6 +90,7 @@ margin: 0 auto;
 min-height: 100dvh;
 display: flex; flex-direction: column;
 padding-bottom: env(safe-area-inset-bottom, 24px);
+overflow: visible;
 }
 
 /* ── STATUS BAR SPACER ── */
@@ -844,6 +845,98 @@ box-shadow: 0 3px 12px rgba(0,0,0,0.4);
 .tip-emoji { font-size: 1.4rem; margin-bottom: 6px; display: block; }
 .tip-text  { font-size: .78rem; font-weight: 500; color: #cbd5e1; line-height: 1.5; }
 
+/* ── OCEAN FOOTER ── */
+.ocean-footer {
+position: relative;
+width: 100%;
+height: 220px;
+overflow: hidden;
+flex-shrink: 0;
+background: linear-gradient(180deg, #111114 0%, #0a1628 40%, #0d2344 100%);
+}
+#oceanCanvas {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+}
+.ocean-text {
+position: absolute;
+bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+left: 0; right: 0;
+display: flex; flex-direction: column; align-items: center; gap: 4px;
+z-index: 2; pointer-events: none;
+}
+.ocean-logo {
+font-family: ‘Syne’, Georgia, serif;
+font-size: .95rem; font-weight: 800;
+color: #fff; letter-spacing: -.3px;
+}
+.ocean-tagline {
+font-size: .72rem; font-weight: 400; color: rgba(255,255,255,.5);
+letter-spacing: .5px;
+}
+
+/* ── WEATHER BAR ── */
+.weather-bar {
+padding: 8px 16px 10px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+.weather-label {
+font-size: .62rem; font-weight: 700; letter-spacing: 2px;
+text-transform: uppercase; color: #8899b8;
+}
+.weather-pills {
+display: flex;
+gap: 7px;
+overflow-x: auto;
+padding: 3px 2px 6px;
+scrollbar-width: none;
+-webkit-overflow-scrolling: touch;
+}
+.weather-pills::-webkit-scrollbar { display: none; }
+
+.wpill {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+padding: 7px 13px;
+border-radius: 50px;
+background: #2a2a32;
+border: 1.5px solid rgba(255,255,255,0.1);
+font-size: .8rem;
+font-weight: 600;
+color: #c4c4cc;
+cursor: pointer;
+flex-shrink: 0;
+transition: all .22s cubic-bezier(.34,1.56,.64,1);
+-webkit-tap-highlight-color: transparent;
+font-family: ‘Outfit’, -apple-system, sans-serif;
+white-space: nowrap;
+line-height: 1;
+}
+.wpill span {
+font-size: .72rem;
+font-weight: 600;
+letter-spacing: .2px;
+}
+.wpill:active { transform: scale(.93); opacity: .85; }
+.wpill.active {
+background: #3b82f6;
+border-color: #3b82f6;
+color: #ffffff;
+box-shadow: 0 4px 14px rgba(59,130,246,.4);
+}
+.wpill[data-theme=“none”] { color: #8899b8; }
+.wpill[data-theme=“none”].active {
+background: #374151;
+border-color: #4b5563;
+color: #d1d5db;
+box-shadow: none;
+}
+
 /* ── ── ── ── ── ── ── ── ── */
 
 .modal-backdrop {
@@ -958,6 +1051,22 @@ backdrop-filter: blur(10px);
   <div class="top-bar">
     <div class="logo">🐬 makan<span class="logo-dot">.</span>apa</div>
     <div class="time-chip" id="timeChip">⏰ <span id="timeLabel">Saatnya makan!</span></div>
+  </div>
+
+  <!-- WEATHER SELECTOR -->
+
+  <div class="weather-bar">
+    <div class="weather-label">🌦 Pilih Cuaca</div>
+    <div class="weather-pills" id="weatherPills">
+      <button class="wpill" data-theme="rain"   onclick="setWeather('rain')">🌧<span>Hujan</span></button>
+      <button class="wpill" data-theme="sakura" onclick="setWeather('sakura')">🌸<span>Sakura</span></button>
+      <button class="wpill" data-theme="snow"   onclick="setWeather('snow')">❄️<span>Salju</span></button>
+      <button class="wpill" data-theme="sunny"  onclick="setWeather('sunny')">☀️<span>Cerah</span></button>
+      <button class="wpill" data-theme="storm"  onclick="setWeather('storm')">⛈<span>Badai</span></button>
+      <button class="wpill" data-theme="sunset" onclick="setWeather('sunset')">🌅<span>Senja</span></button>
+      <button class="wpill" data-theme="aurora" onclick="setWeather('aurora')">🌌<span>Aurora</span></button>
+      <button class="wpill" data-theme="none"   onclick="setWeather('none')">✖<span>Off</span></button>
+    </div>
   </div>
 
   <!-- SCROLL BODY -->
@@ -1220,6 +1329,17 @@ backdrop-filter: blur(10px);
 ```
 
   </div><!-- /scroll-body -->
+
+  <!-- 🐬 OCEAN FOOTER -->
+
+  <div class="ocean-footer">
+    <canvas id="oceanCanvas"></canvas>
+    <div class="ocean-text">
+      <span class="ocean-logo">🐬 makan<span style="color:#60a5fa">.</span>apa</span>
+      <span class="ocean-tagline">Selamat makan & tetap sehat! 🌊</span>
+    </div>
+  </div>
+
 </div><!-- /app -->
 
 <script>
@@ -2201,6 +2321,353 @@ function hqGoTo(idx) {
 }
 
 buildHealthSection();
+
+
+/* ═══════════════════════════════════════
+   🌦  WEATHER SYSTEM — particles only on screen
+   Ocean canvas stays at bottom (handled separately)
+═══════════════════════════════════════ */
+
+const THEMES_LIST = ['rain','sakura','snow','sunny','storm','sunset','aurora','none'];
+const THEME_LABELS = {rain:'🌧 Hujan',sakura:'🌸 Sakura',snow:'❄️ Salju',sunny:'☀️ Cerah',storm:'⛈ Badai',sunset:'🌅 Senja',aurora:'🌌 Aurora',none:'✖ Off'};
+
+let currentTheme = THEMES_LIST[Math.floor(Math.random() * 7)]; // random on load (never 'none')
+let weatherParticles = [];
+let weatherSpecial   = [];
+let weatherT = 0;
+let weatherRAF = null;
+
+/* ── Weather canvas — fixed fullscreen, ABOVE content but below modals ── */
+const wcv = document.createElement('canvas');
+wcv.id = 'weatherCv';
+wcv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;';
+document.body.appendChild(wcv);
+const wctx = wcv.getContext('2d');
+
+function resizeWcv() { wcv.width = window.innerWidth; wcv.height = window.innerHeight; }
+resizeWcv();
+window.addEventListener('resize', () => { resizeWcv(); rebuildParticles(); });
+
+/* ── Mark active pill ── */
+function syncPills(theme) {
+  document.querySelectorAll('.wpill').forEach(p => {
+    p.classList.toggle('active', p.dataset.theme === theme);
+  });
+}
+syncPills(currentTheme);
+
+/* ── Particle factories ── */
+function mkRain() {
+  return { x:Math.random()*wcv.width, y:-20-Math.random()*wcv.height,
+    len:10+Math.random()*16, speed:13+Math.random()*9,
+    alpha:.2+Math.random()*.3, w:.7+Math.random()*.5 };
+}
+function mkSnow() {
+  return { x:Math.random()*wcv.width, y:-10-Math.random()*wcv.height,
+    r:1.5+Math.random()*4, speed:.5+Math.random()*1.2,
+    drift:(Math.random()-.5)*.5, spin:Math.random()*Math.PI*2,
+    spinS:(Math.random()-.5)*.04, alpha:.5+Math.random()*.5,
+    type:Math.floor(Math.random()*3) };
+}
+function mkPetal(isSunset) {
+  const cols = isSunset
+    ? ['#ffb347','#ff7a6e','#ffd6a0','#ff9a6c','#ffc88a']
+    : ['#ffb7d5','#ffc8e0','#ffe0f0','#ff9ec4','#ffd6eb'];
+  return { x:Math.random()*wcv.width, y:-20-Math.random()*wcv.height,
+    r:4+Math.random()*6, speed:.7+Math.random()*1.1,
+    drift:(Math.random()-.5)*1.1, spin:Math.random()*Math.PI*2,
+    spinS:(Math.random()-.5)*.05, sway:Math.random()*Math.PI*2,
+    swayS:.02+Math.random()*.02, alpha:.55+Math.random()*.4,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    scaleX:.5+Math.random()*.5 };
+}
+function mkSunRay() {
+  return { angle:Math.random()*Math.PI*2, len:60+Math.random()*90,
+    speed:.002+Math.random()*.003, alpha:.03+Math.random()*.05, width:18+Math.random()*36 };
+}
+function mkLightning() {
+  return { x:.2+Math.random()*.6, timer:0, interval:80+Math.random()*140, alpha:0 };
+}
+function mkAuroraWave(i) {
+  const cols=['#00ff88','#00cfff','#9b59ff','#ff6fcf','#ffcf00'];
+  return { y:.12+i*.07, amp:.04+Math.random()*.04, freq:.003+Math.random()*.002,
+    speed:.0008+Math.random()*.001, color:cols[i%cols.length],
+    phase:Math.random()*Math.PI*2, width:16+Math.random()*22, alpha:.1+Math.random()*.09 };
+}
+
+function rebuildParticles() {
+  weatherParticles = [];
+  weatherSpecial   = [];
+  const W = wcv.width, H = wcv.height;
+  const COUNTS = { rain:Math.floor(W*.25), sakura:55, snow:80, sunny:0, storm:Math.floor(W*.3), sunset:45, aurora:25, none:0 };
+  const n = COUNTS[currentTheme] || 0;
+  for (let i=0; i<n; i++) {
+    if (currentTheme==='rain'||currentTheme==='storm') weatherParticles.push(mkRain());
+    else if (currentTheme==='snow'||currentTheme==='aurora') weatherParticles.push(mkSnow());
+    else if (currentTheme==='sakura') weatherParticles.push(mkPetal(false));
+    else if (currentTheme==='sunset') weatherParticles.push(mkPetal(true));
+  }
+  if (currentTheme==='sunny')  for(let i=0;i<12;i++) weatherSpecial.push(mkSunRay());
+  if (currentTheme==='storm')  for(let i=0;i<3;i++)  weatherSpecial.push(mkLightning());
+  if (currentTheme==='aurora') for(let i=0;i<6;i++)  weatherSpecial.push(mkAuroraWave(i));
+}
+
+rebuildParticles();
+
+/* ── Draw helpers ── */
+function drawSnowflake(p) {
+  wctx.save(); wctx.translate(p.x,p.y); wctx.rotate(p.spin);
+  wctx.globalAlpha=p.alpha; wctx.strokeStyle='#e8f4ff'; wctx.fillStyle='#ffffff'; wctx.lineWidth=1;
+  if(p.type===0){ wctx.beginPath(); wctx.arc(0,0,p.r,0,Math.PI*2); wctx.fill(); }
+  else if(p.type===1){
+    for(let a=0;a<6;a++){ wctx.save(); wctx.rotate(a*Math.PI/3);
+      wctx.beginPath(); wctx.moveTo(0,0); wctx.lineTo(0,-p.r*2); wctx.stroke();
+      wctx.beginPath(); wctx.moveTo(-p.r*.5,-p.r); wctx.lineTo(p.r*.5,-p.r); wctx.stroke();
+      wctx.restore(); }
+    wctx.beginPath(); wctx.arc(0,0,p.r*.4,0,Math.PI*2); wctx.fill();
+  } else {
+    wctx.beginPath();
+    for(let a=0;a<6;a++){ const ax=Math.cos(a*Math.PI/3)*p.r, ay=Math.sin(a*Math.PI/3)*p.r; a===0?wctx.moveTo(ax,ay):wctx.lineTo(ax,ay); }
+    wctx.closePath(); wctx.stroke();
+  }
+  wctx.restore();
+}
+
+function drawPetal(p) {
+  wctx.save(); wctx.translate(p.x,p.y); wctx.rotate(p.spin); wctx.scale(p.scaleX,1);
+  wctx.globalAlpha=p.alpha; wctx.fillStyle=p.color;
+  wctx.beginPath(); wctx.ellipse(0,0,p.r,p.r*.55,0,0,Math.PI*2); wctx.fill();
+  wctx.strokeStyle='rgba(255,255,255,.25)'; wctx.lineWidth=.6;
+  wctx.beginPath(); wctx.moveTo(-p.r*.7,0); wctx.lineTo(p.r*.7,0); wctx.stroke();
+  wctx.restore();
+}
+
+function drawSun() {
+  const cx=wcv.width*.78, cy=64;
+  const grd=wctx.createRadialGradient(cx,cy,5,cx,cy,110);
+  grd.addColorStop(0,'rgba(255,240,100,.18)'); grd.addColorStop(1,'transparent');
+  wctx.fillStyle=grd; wctx.beginPath(); wctx.arc(cx,cy,110,0,Math.PI*2); wctx.fill();
+  const sun=wctx.createRadialGradient(cx,cy,0,cx,cy,24);
+  sun.addColorStop(0,'rgba(255,255,180,.85)'); sun.addColorStop(.6,'rgba(255,220,50,.65)'); sun.addColorStop(1,'rgba(255,180,0,.2)');
+  wctx.fillStyle=sun; wctx.beginPath(); wctx.arc(cx,cy,24,0,Math.PI*2); wctx.fill();
+  for(const r of weatherSpecial){
+    r.angle+=r.speed; wctx.save(); wctx.translate(cx,cy); wctx.rotate(r.angle);
+    wctx.globalAlpha=r.alpha*(.6+.4*Math.sin(weatherT*.5+r.angle)); wctx.fillStyle='#fff8c0';
+    wctx.beginPath(); wctx.moveTo(0,-10); wctx.lineTo(r.width/2,-r.len); wctx.lineTo(-r.width/2,-r.len); wctx.closePath(); wctx.fill();
+    wctx.restore();
+  }
+}
+
+function drawStorm() {
+  const cg=wctx.createRadialGradient(wcv.width*.5,0,0,wcv.width*.5,0,wcv.height*.5);
+  cg.addColorStop(0,'rgba(15,15,28,.45)'); cg.addColorStop(1,'transparent');
+  wctx.fillStyle=cg; wctx.fillRect(0,0,wcv.width,wcv.height);
+  for(const l of weatherSpecial){
+    l.timer++;
+    if(l.timer>=l.interval){ l.timer=0; l.interval=80+Math.random()*140; l.alpha=1; l.x=.15+Math.random()*.7; }
+    if(l.alpha>0){
+      wctx.save(); wctx.globalAlpha=l.alpha*.85; wctx.strokeStyle='#c0d8ff'; wctx.lineWidth=1.5;
+      wctx.shadowColor='#a0c8ff'; wctx.shadowBlur=10;
+      wctx.beginPath(); let lx=l.x*wcv.width, ly=0; wctx.moveTo(lx,ly);
+      for(let s=0;s<8;s++){ lx+=(Math.random()-.5)*28; ly+=wcv.height*.12; wctx.lineTo(lx,ly); }
+      wctx.stroke(); wctx.restore(); l.alpha-=.1;
+    }
+  }
+}
+
+function drawAurora() {
+  for(const w of weatherSpecial){
+    wctx.save(); wctx.globalAlpha=w.alpha*(.7+.3*Math.sin(weatherT+w.phase));
+    wctx.strokeStyle=w.color; wctx.lineWidth=w.width; wctx.shadowColor=w.color; wctx.shadowBlur=24;
+    wctx.beginPath();
+    for(let x=0;x<=wcv.width;x+=4){
+      const nx=x/wcv.width;
+      const y=(w.y+Math.sin(nx*wcv.width*w.freq+weatherT*w.speed*60+w.phase)*w.amp)*wcv.height;
+      x===0?wctx.moveTo(x,y):wctx.lineTo(x,y);
+    }
+    wctx.stroke(); wctx.restore();
+  }
+}
+
+function drawSunset() {
+  const sg=wctx.createLinearGradient(0,0,0,wcv.height*.5);
+  sg.addColorStop(0,'rgba(255,80,20,.05)'); sg.addColorStop(1,'transparent');
+  wctx.fillStyle=sg; wctx.fillRect(0,0,wcv.width,wcv.height);
+  const sx=wcv.width*.5, sy=wcv.height*.3;
+  const sg2=wctx.createRadialGradient(sx,sy,0,sx,sy,80);
+  sg2.addColorStop(0,'rgba(255,180,40,.18)'); sg2.addColorStop(.5,'rgba(255,80,20,.07)'); sg2.addColorStop(1,'transparent');
+  wctx.fillStyle=sg2; wctx.beginPath(); wctx.arc(sx,sy,80,0,Math.PI*2); wctx.fill();
+}
+
+/* ── Main weather render loop ── */
+function weatherFrame() {
+  weatherRAF = requestAnimationFrame(weatherFrame);
+  const W=wcv.width, H=wcv.height;
+  weatherT += .016;
+  wctx.clearRect(0,0,W,H);
+
+  if(currentTheme==='none') return;
+
+  if(currentTheme==='sunny')  drawSun();
+  if(currentTheme==='storm')  drawStorm();
+  if(currentTheme==='aurora') drawAurora();
+  if(currentTheme==='sunset') drawSunset();
+
+  for(const p of weatherParticles){
+    if(currentTheme==='rain'||currentTheme==='storm'){
+      wctx.save(); wctx.globalAlpha=p.alpha;
+      wctx.strokeStyle=currentTheme==='storm'?'#8aabee':'#9cc4e8';
+      wctx.lineWidth=p.w; wctx.beginPath();
+      wctx.moveTo(p.x,p.y); wctx.lineTo(p.x-1.2,p.y+p.len); wctx.stroke(); wctx.restore();
+      p.y+=p.speed; p.x-=1.1;
+      if(p.y>H+20||p.x<-20){ p.y=-20; p.x=Math.random()*(W+40); }
+    } else if(currentTheme==='snow'||currentTheme==='aurora'){
+      drawSnowflake(p);
+      p.y+=p.speed; p.x+=p.drift+Math.sin(weatherT*.8+p.spin)*.3; p.spin+=p.spinS;
+      if(p.y>H+20){ p.y=-10; p.x=Math.random()*W; }
+    } else if(currentTheme==='sakura'||currentTheme==='sunset'){
+      drawPetal(p);
+      p.y+=p.speed; p.x+=p.drift+Math.sin(p.sway+weatherT*p.swayS*60)*.5;
+      p.spin+=p.spinS; p.sway+=p.swayS;
+      if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; }
+    }
+  }
+}
+weatherFrame();
+
+/* ── Public function to change weather ── */
+function setWeather(theme) {
+  currentTheme = theme;
+  syncPills(theme);
+  rebuildParticles();
+  weatherT = 0;
+}
+
+/* ═══════════════════════════════════════
+   🐬  OCEAN FOOTER (bottom canvas only)
+═══════════════════════════════════════ */
+(function(){
+  const oc = document.getElementById('oceanCanvas');
+  if(!oc) return;
+  const octx = oc.getContext('2d');
+
+  function resizeO(){ oc.width=oc.offsetWidth||window.innerWidth; oc.height=oc.offsetHeight||220; }
+  resizeO(); window.addEventListener('resize', resizeO);
+
+  const WAVE_PAL = {
+    rain:  ['rgba(25,60,140,.55)','rgba(15,45,120,.45)','rgba(8,35,100,.55)','rgba(5,25,80,.6)'],
+    sakura:['rgba(160,60,130,.5)','rgba(130,40,110,.45)','rgba(100,25,90,.5)','rgba(75,15,70,.55)'],
+    snow:  ['rgba(40,80,160,.5)','rgba(30,65,140,.45)','rgba(20,50,120,.5)','rgba(10,35,100,.55)'],
+    sunny: ['rgba(0,130,220,.5)','rgba(0,110,190,.45)','rgba(0,90,160,.5)','rgba(0,70,130,.55)'],
+    storm: ['rgba(15,25,55,.65)','rgba(10,20,45,.55)','rgba(8,15,35,.6)','rgba(5,10,28,.65)'],
+    sunset:['rgba(180,60,20,.5)','rgba(150,40,55,.45)','rgba(110,25,70,.5)','rgba(85,15,55,.55)'],
+    aurora:['rgba(0,75,95,.5)','rgba(0,55,75,.45)','rgba(0,38,58,.5)','rgba(0,22,42,.55)'],
+    none:  ['rgba(25,60,140,.55)','rgba(15,45,120,.45)','rgba(8,35,100,.55)','rgba(5,25,80,.6)'],
+  };
+  const SKY_TOP = {rain:'#111827',sakura:'#2d1040',snow:'#0d1835',sunny:'#0369a1',storm:'#060d18',sunset:'#7c2d12',aurora:'#05101a',none:'#111827'};
+  const SKY_BOT = {rain:'#0d1a2e',sakura:'#4a1060',snow:'#0f2040',sunny:'#0ea5e9',storm:'#040810',sunset:'#c2410c',aurora:'#0a1a24',none:'#0d1a2e'};
+  const MOON_COL= {rain:'#c8d8ff',sakura:'#ffd6f5',snow:'#e8f4ff',sunny:'#fffde0',storm:'#6080aa',sunset:'#ffa040',aurora:'#a0ffd0',none:'#c8d8ff'};
+
+  const waves = [
+    {y:.52,amp:14,freq:.018,speed:.012,dx:0},
+    {y:.62,amp:10,freq:.022,speed:.018,dx:1.5},
+    {y:.72,amp:7, freq:.028,speed:.025,dx:3},
+    {y:.82,amp:5, freq:.035,speed:.03, dx:5},
+  ];
+
+  const dolphins = Array.from({length:3},(_,i)=>{
+    const dir=i%2===0?1:-1;
+    return {x:dir===1?-0.15-i*.3:1.15+i*.2,vx:(.0018+Math.random()*.001)*dir,dir,
+      phase:Math.random()*Math.PI*2,jumpPhase:Math.random()*Math.PI*2,size:20+Math.random()*12};
+  });
+  const bubbles = Array.from({length:14},()=>({x:Math.random(),y:.6+Math.random()*.35,r:.5+Math.random()*2,vy:-.0004-Math.random()*.0004,alpha:.08+Math.random()*.15}));
+
+  let ot=0;
+
+  function drawWave(wave,W,H,pal){
+    const y0=wave.y*H;
+    octx.beginPath(); octx.moveTo(0,H);
+    for(let x=0;x<=W;x+=2){
+      const wy=y0+Math.sin(x/W*W*wave.freq+ot*wave.speed*60+wave.dx)*wave.amp+Math.sin(x/W*W*wave.freq*1.7+ot*wave.speed*40+wave.dx)*wave.amp*.4;
+      x===0?octx.moveTo(x,wy):octx.lineTo(x,wy);
+    }
+    octx.lineTo(W,H);octx.lineTo(0,H);octx.closePath();octx.fillStyle=pal;octx.fill();
+  }
+
+  function drawDolphin(d,W,H,pal){
+    const x=d.x*W;
+    const waveY=waves[0].y*H+Math.sin(x/W*W*waves[0].freq+ot*waves[0].speed*60)*waves[0].amp;
+    const jump=Math.sin(d.jumpPhase+ot*1.8)*d.size*2.2;
+    const y=waveY+jump-d.size*.5;
+    const s=d.size, jv=Math.cos(d.jumpPhase+ot*1.8);
+    octx.save(); octx.translate(x,y);
+    if(d.dir===-1) octx.scale(-1,1);
+    octx.rotate(jv*.35); octx.globalAlpha=.82+Math.sin(ot*2+d.phase)*.1;
+    octx.beginPath(); octx.ellipse(0,0,s,s*.42,0,0,Math.PI*2); octx.fillStyle='#4da8e8'; octx.fill();
+    octx.beginPath(); octx.ellipse(s*.05,s*.12,s*.55,s*.22,.15,0,Math.PI*2); octx.fillStyle='#c8eeff'; octx.fill();
+    octx.beginPath(); octx.moveTo(-s*.1,-s*.38); octx.quadraticCurveTo(s*.18,-s*.78,s*.35,-s*.3); octx.quadraticCurveTo(s*.15,-s*.32,-s*.1,-s*.38); octx.fillStyle='#3a90cc'; octx.fill();
+    octx.beginPath(); octx.ellipse(s*.82,s*.06,s*.28,s*.13,.2,0,Math.PI*2); octx.fillStyle='#4da8e8'; octx.fill();
+    octx.beginPath(); octx.arc(s*.78,s*.14,s*.14,.1,Math.PI*.7); octx.strokeStyle='#2a7ab0'; octx.lineWidth=1.2; octx.stroke();
+    octx.beginPath(); octx.arc(s*.62,-s*.06,s*.07,0,Math.PI*2); octx.fillStyle='#0a1a2e'; octx.fill();
+    octx.beginPath(); octx.arc(s*.635,-s*.075,s*.025,0,Math.PI*2); octx.fillStyle='#fff'; octx.fill();
+    octx.beginPath(); octx.moveTo(s*.1,s*.18); octx.quadraticCurveTo(s*.35,s*.55,s*.55,s*.38); octx.quadraticCurveTo(s*.35,s*.25,s*.1,s*.18); octx.fillStyle='#3a90cc'; octx.fill();
+    const wag=Math.sin(ot*5+d.phase)*.35;
+    octx.save(); octx.translate(-s*.85,s*.05); octx.rotate(wag);
+    octx.beginPath(); octx.moveTo(0,0); octx.quadraticCurveTo(-s*.4,-s*.48,-s*.18,-s*.5); octx.quadraticCurveTo(s*.05,-s*.28,0,0); octx.fillStyle='#3a90cc'; octx.fill();
+    octx.beginPath(); octx.moveTo(0,0); octx.quadraticCurveTo(-s*.4,s*.45,-s*.16,s*.48); octx.quadraticCurveTo(s*.05,s*.26,0,0); octx.fill(); octx.restore();
+    if(jump<0&&Math.abs(jv)>.5) for(let i=0;i<4;i++){const sx=(Math.random()-.5)*s*1.2,sy=s*.4+Math.random()*s*.3;octx.beginPath();octx.arc(sx,sy,1+Math.random()*2,0,Math.PI*2);octx.fillStyle=`rgba(180,230,255,${.3+Math.random()*.4})`;octx.fill();}
+    octx.restore();
+  }
+
+  function oceanFrame(){
+    ot+=.016;
+    const W=oc.width, H=oc.height;
+    const theme=currentTheme||'rain';
+    const pal=WAVE_PAL[theme]||WAVE_PAL.rain;
+    octx.clearRect(0,0,W,H);
+    // sky
+    const sky=octx.createLinearGradient(0,0,0,H*.55);
+    sky.addColorStop(0,SKY_TOP[theme]||'#111827');
+    sky.addColorStop(1,SKY_BOT[theme]||'#0d1a2e');
+    octx.fillStyle=sky; octx.fillRect(0,0,W,H*.6);
+    // stars
+    if(theme!=='sunny'&&theme!=='sunset'){
+      for(let i=0;i<28;i++){
+        const sx=((i*137.5)%1)*W, sy=((i*97.3)%1)*H*.45;
+        const tw=.3+Math.abs(Math.sin(ot*1.2+i))*.7;
+        octx.globalAlpha=tw*.65; octx.fillStyle='#fff';
+        octx.beginPath(); octx.arc(sx,sy,.5+((i%3)*.4),0,Math.PI*2); octx.fill();
+      }
+      octx.globalAlpha=1;
+    }
+    // moon/sun
+    const mx=W*.82, my=H*.14;
+    const glow=octx.createRadialGradient(mx,my,2,mx,my,20);
+    glow.addColorStop(0,'rgba(255,255,220,.18)'); glow.addColorStop(1,'transparent');
+    octx.fillStyle=glow; octx.beginPath(); octx.arc(mx,my,20,0,Math.PI*2); octx.fill();
+    octx.beginPath(); octx.arc(mx,my,10,0,Math.PI*2);
+    octx.fillStyle=MOON_COL[theme]||'#fffde0'; octx.fill();
+    // waves
+    waves.forEach((w,i)=>drawWave(w,W,H,pal[i]));
+    // bubbles
+    for(const b of bubbles){
+      const bx=b.x*W, by=b.y*H, wt=waves[0].y*H;
+      if(by>wt){octx.beginPath();octx.arc(bx,by,b.r,0,Math.PI*2);octx.strokeStyle=`rgba(150,220,255,${b.alpha})`;octx.lineWidth=.8;octx.stroke();}
+      b.y+=b.vy;
+      if(b.y<waves[0].y){b.y=.75+Math.random()*.2;b.x=Math.random();}
+    }
+    // dolphins
+    for(const d of dolphins){
+      drawDolphin(d,W,H,pal);
+      d.x+=d.vx;
+      if(d.x>1.2){d.x=-0.15;d.dir=1;d.vx=Math.abs(d.vx);}
+      if(d.x<-0.2){d.x=1.15;d.dir=-1;d.vx=-Math.abs(d.vx);}
+    }
+    requestAnimationFrame(oceanFrame);
+  }
+  oceanFrame();
+})();
+
 
 </script>
 

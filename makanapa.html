@@ -707,6 +707,7 @@
     /* ── STATS STRIP ── */
     .stats-strip {
       display: flex;
+      align-items: stretch;
       gap: 10px;
       margin-top: 14px;
       opacity: 0;
@@ -723,6 +724,27 @@
       flex-direction: column;
       gap: 2px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+    }
+
+    .stat-clear-btn {
+      background: #2a2a32;
+      border: 1.5px solid rgba(255, 80, 80, 0.25);
+      border-radius: 18px;
+      padding: 0 14px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: rgba(255, 100, 100, 0.7);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+      transition: background .2s, color .2s, border-color .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-clear-btn:hover {
+      background: rgba(255, 60, 60, 0.15);
+      border-color: rgba(255, 80, 80, 0.5);
+      color: #ff6464;
     }
 
     .stat-num {
@@ -3128,6 +3150,7 @@
             <div class="stat-num" id="statFavs">0</div>
             <div class="stat-lbl">Favorit ⭐</div>
           </div>
+          <button class="stat-clear-btn" onclick="clearAllData()" title="Hapus semua data tersimpan">🗑️</button>
         </div>
 
         <!-- HISTORY -->
@@ -3750,6 +3773,57 @@
     let toastTimer = null;
 
     /* ═══════════════════════════
+       💾  LOCAL STORAGE DB
+       Semua data persisten disimpan di sini.
+       Key prefix "makan_" agar tidak bentrok.
+    ═══════════════════════════ */
+    const DB = {
+      K: {
+        favs: 'makan_favorites',
+        vetoed: 'makan_vetoed',
+        stats: 'makan_stats',
+      },
+      _read(key, fallback) {
+        try {
+          const v = localStorage.getItem(key);
+          return v !== null ? JSON.parse(v) : fallback;
+        } catch (e) {
+          return fallback;
+        }
+      },
+      _write(key, val) {
+        try {
+          localStorage.setItem(key, JSON.stringify(val));
+        } catch (e) {}
+      },
+      saveFavs() {
+        this._write(this.K.favs, [...favorites]);
+      },
+      saveVetoed() {
+        this._write(this.K.vetoed, [...vetoed]);
+      },
+      saveStats() {
+        this._write(this.K.stats, {
+          totalSpins,
+          vetos
+        });
+      },
+      /* Hapus semua data (tombol reset penuh) */
+      clearAll() {
+        Object.values(this.K).forEach(k => localStorage.removeItem(k));
+      },
+    };
+
+    /* Pulihkan state dari localStorage saat pertama load */
+    (function initFromDB() {
+      favorites = new Set(DB._read(DB.K.favs, []));
+      vetoed = new Set(DB._read(DB.K.vetoed, []));
+      const st = DB._read(DB.K.stats, {});
+      totalSpins = st.totalSpins || 0;
+      vetos = st.vetos || 0;
+    })();
+
+    /* ═══════════════════════════
        REFS
     ═══════════════════════════ */
     const $rName = document.getElementById('resultName');
@@ -3856,6 +3930,22 @@
       setTimeout(() => el.classList.add('loaded'), 500 + i * 35);
     });
 
+    /* Pulihkan tampilan bintang & veto dari localStorage */
+    (function restoreGridUI() {
+      favorites.forEach(idx => {
+        const star = document.getElementById(`star${idx}`);
+        const card = document.getElementById(`fc${idx}`);
+        if (star) star.classList.add('on');
+        if (card) card.classList.add('fav-glow');
+      });
+      vetoed.forEach(idx => {
+        const card = document.getElementById(`fc${idx}`);
+        if (card) card.classList.add('vetoed');
+      });
+      updateStats();
+      renderFavs();
+    })();
+
     /* ═══════════════════════════
        SEARCH
     ═══════════════════════════ */
@@ -3905,6 +3995,7 @@
         card.classList.add('fav-glow');
         showToast(`⭐ ${PLACES[idx].name} ditambah ke favorit!`);
       }
+      DB.saveFavs();
       updateStats();
       renderFavs();
     }
@@ -4058,6 +4149,8 @@
       $dot.className = 'live-dot';
       $status.textContent = 'Di-veto! Spin lagi...';
       winner = -1;
+      DB.saveVetoed();
+      DB.saveStats();
       updateStats();
       showToast('🚫 Di-veto! Spin ulang...');
       setTimeout(() => spin(), 700);
@@ -4089,6 +4182,28 @@
       document.getElementById('statSpins').textContent = totalSpins;
       document.getElementById('statVetos').textContent = vetos;
       document.getElementById('statFavs').textContent = favorites.size;
+      DB.saveStats();
+    }
+
+    function clearAllData() {
+      if (!confirm('Hapus semua data?\n(Favorit, veto & statistik akan direset)')) return;
+      DB.clearAll();
+      /* Reset state */
+      favorites = new Set();
+      vetoed = new Set();
+      totalSpins = 0;
+      vetos = 0;
+      /* Reset tampilan grid */
+      PLACES.forEach((_, i) => {
+        const star = document.getElementById(`star${i}`);
+        const card = document.getElementById(`fc${i}`);
+        if (star) star.classList.remove('on');
+        if (card) card.classList.remove('fav-glow', 'vetoed');
+      });
+      renderFavs();
+      updateStats();
+      doReset();
+      showToast('🗑️ Semua data dihapus');
     }
 
     function renderHistory() {

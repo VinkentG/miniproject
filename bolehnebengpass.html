@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebeng Dikonfirmasi</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #ede8dd;
+            background-image: radial-gradient(#d9cfc0 1px, transparent 1px);
+            background-size: 18px 18px;
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        .card {
+            background: #faf8f4;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 380px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(45, 31, 20, 0.13), 0 2px 8px rgba(45, 31, 20, 0.07);
+            animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes bounceIn {
+            from {
+                opacity: 0;
+                transform: scale(0.85) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* HEADER */
+        .header {
+            background: #2d1f14;
+            padding: 36px 24px 32px;
+            text-align: center;
+        }
+
+        .checkmark {
+            width: 64px;
+            height: 64px;
+            background: #4caf78;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: popIn 0.45s 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .checkmark svg {
+            width: 30px;
+            height: 30px;
+            stroke: #fff;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            stroke-dasharray: 40;
+            stroke-dashoffset: 40;
+            animation: drawCheck 0.4s 0.5s ease forwards;
+        }
+
+        @keyframes drawCheck {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .header h1 {
+            font-family: 'DM Serif Display', serif;
+            color: #f0ebe0;
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: #a07850;
+            letter-spacing: 2px;
+        }
+
+        /* BODY */
+        .body {
+            padding: 20px 20px 24px;
+        }
+
+        /* TRIP CARD */
+        .trip-card {
+            background: #ede8dd;
+            background-image: radial-gradient(#d9cfc0 1px, transparent 1px);
+            background-size: 12px 12px;
+            border-radius: 14px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+        }
+
+        .trip-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .trip-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .trip-icon {
+            width: 36px;
+            height: 36px;
+            background: #faf8f4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(45, 31, 20, 0.09);
+        }
+
+        .trip-info .lbl {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: #a07850;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 2px;
+        }
+
+        .trip-info .val {
+            font-size: 15px;
+            font-weight: 500;
+            color: #2d1f14;
+        }
+
+        .dots-sep {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding-left: 17px;
+            margin-bottom: 6px;
+        }
+
+        .dots-sep span {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #a07850;
+            opacity: 0.35;
+        }
+
+        .trip-divider {
+            border: none;
+            border-top: 1px dashed #c8bfaf;
+            margin: 10px 0;
+        }
+
+        /* DRIVER */
+        .driver {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #2d1f14;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .driver-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5c3d2e, #a07850);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .driver-info .name {
+            color: #f0ebe0;
+            font-weight: 500;
+            font-size: 15px;
+            margin-bottom: 3px;
+        }
+
+        .driver-info .plate {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: #a07850;
+            letter-spacing: 1px;
+        }
+
+        .driver-rating {
+            margin-left: auto;
+            text-align: center;
+        }
+
+        .stars {
+            color: #f5c842;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .score {
+            color: #f0ebe0;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* BUTTONS */
+        .btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .btn-outline {
+            padding: 12px 8px;
+            background: transparent;
+            border: 1.5px solid #ddd6c8;
+            border-radius: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: #5c3d2e;
+            cursor: pointer;
+            transition: all 0.18s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-outline:hover {
+            border-color: #5c3d2e;
+            background: #f0ebe0;
+        }
+
+        .btn-outline:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: #2d1f14;
+            color: #f0ebe0;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.18s;
+            margin-bottom: 12px;
+        }
+
+        .btn-primary:hover {
+            background: #3f2c1e;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .used-badge {
+            display: block;
+            text-align: center;
+            background: #fef3cc;
+            color: #8a6a00;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            width: fit-content;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="checkmark">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="4 12 10 18 20 7" /></svg>
+            </div>
+            <h1>Nebeng Dikonfirmasi!</h1>
+            <p>SELAMAT JALAN · NB-434916</p>
+        </div>
+
+        <!-- BODY -->
+        <div class="body">
+
+            <!-- TRIP CARD -->
+            <div class="trip-card">
+                <div class="trip-row">
+                    <div class="trip-icon">📍</div>
+                    <div class="trip-info">
+                        <div class="lbl">Titik Jemput</div>
+                        <div class="val">Gedung Parkir</div>
+                    </div>
+                </div>
+
+                <div class="dots-sep"><span></span><span></span><span></span></div>
+
+                <div class="trip-row">
+                    <div class="trip-icon">🏁</div>
+                    <div class="trip-info">
+                        <div class="lbl">Tujuan</div>
+                        <div class="val">Sejalan / Tujuan sama</div>
+                    </div>
+                </div>
+
+                <hr class="trip-divider">
+
+                <div class="trip-row">
+                    <div class="trip-icon">🕐</div>
+                    <div class="trip-info">
+                        <div class="lbl">Jam Jemput</div>
+                        <div class="val">17.00 WIB</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DRIVER -->
+            <div class="driver">
+                <div class="driver-avatar">👧🏻</div>
+                <div class="driver-info">
+                    <div class="name">Shannia Oktanuel A</div>
+                    <div class="plate">A 1586 BS · Brio RS</div>
+                </div>
+                <div class="driver-rating">
+                    <div class="stars">★★★★★</div>
+                    <div class="score">4.9</div>
+                </div>
+            </div>
+
+            <span class="used-badge">⚠ PASS SUDAH DIGUNAKAN 1x</span>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -2277,7 +2277,7 @@
         <div class="flip-hint" id="flipHint" onclick="flipReceipt()">
             <span class="flip-arrow">↺</span> tap struk untuk balik
         </div>
-        <button class="back-btn" onclick="resetScene()">← Tanya lagi</button>
+        <!-- <button class="back-btn" onclick="resetScene()">← Tanya lagi</button> -->
 
     </div><!-- scene -->
 
@@ -2496,6 +2496,130 @@
             };
         }
 
+        // ── localStorage: jawaban sekali, lalu langsung ke scene yang dipilih ──
+        const NEBENG_STORAGE_KEY = 'nebeng_v2_jawaban';
+
+        function getSavedNebeng() {
+            try {
+                const raw = localStorage.getItem(NEBENG_STORAGE_KEY);
+                if (!raw) return null;
+                return JSON.parse(raw);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function saveNebengYes(payload) {
+            localStorage.setItem(NEBENG_STORAGE_KEY, JSON.stringify({
+                choice: 'yes',
+                date: payload.date,
+                time: payload.time,
+                code: payload.code
+            }));
+        }
+
+        function saveNebengNo() {
+            localStorage.setItem(NEBENG_STORAGE_KEY, JSON.stringify({
+                choice: 'no',
+                ts: Date.now()
+            }));
+        }
+
+        function clearNebengStorage() {
+            try {
+                localStorage.removeItem(NEBENG_STORAGE_KEY);
+            } catch (e) {}
+        }
+
+        function fillReceiptYesRows(date, time, code) {
+            document.getElementById('rDate').textContent = date;
+            document.getElementById('rTime').textContent = '17:00';
+            document.getElementById('rCode').textContent = code;
+            document.getElementById('rStatusRow').textContent = '✅ DISETUJUI';
+            document.getElementById('rStatusRow').style.color = '#4a7c59';
+            document.getElementById('rDest').textContent = 'Searah / Tujuan sama';
+            document.getElementById('rBensin').textContent = 'Sukarela 🙏';
+            document.getElementById('rStatusBig').textContent = 'BOLEH GAS! 🎉';
+            document.getElementById('rStatusBig').className = 'r-status yes';
+            document.getElementById('rHint').textContent =
+                'Makasih banyak ya!\nJangan lupa share lokasi jemput & konfirmasi jam.';
+            document.getElementById('rBackHint').textContent =
+                'Tunjukkan ke pengemudi.\nValid untuk 1x perjalanan hari ini.';
+            document.getElementById('machineLight').className = 'machine-light';
+        }
+
+        /** Pulihkan struk BOLEH (tanpa kirim email lagi) */
+        function applySavedYes(saved) {
+            isFlipped = false;
+            document.getElementById('receiptInner').classList.remove('flipped');
+            fillReceiptYesRows(saved.date, saved.time, saved.code);
+
+            const mc = document.getElementById('mainCard');
+            mc.style.display = 'none';
+            mc.style.opacity = '0';
+            mc.style.pointerEvents = 'none';
+
+            document.getElementById('scene').classList.add('show');
+
+            setTimeout(() => {
+                const front = document.querySelector('.receipt-front');
+                const totalH = front ? front.offsetHeight : 420;
+                const clip = document.getElementById('receiptClip');
+                clip.style.transition = 'none';
+                clip.style.height = totalH + 'px';
+
+                const hint = document.getElementById('flipHint');
+                hint.classList.add('vis');
+                const back = document.querySelector('.receipt-back');
+                if (front && back) back.style.height = front.offsetHeight + 'px';
+
+                spawnConfetti();
+                setTimeout(spawnConfetti, 400);
+                startCarLoop();
+            }, 80);
+        }
+
+        /** Pulihkan scene kereta (posisi akhir: kereta sudah berangkat) */
+        function applySavedNo() {
+            const mc = document.getElementById('mainCard');
+            mc.style.display = 'none';
+            mc.style.opacity = '0';
+            mc.style.pointerEvents = 'none';
+
+            document.getElementById('trainScene').classList.add('show');
+
+            const wrap = document.getElementById('tTrainWrap');
+            const door = document.getElementById('tDoor');
+            const person = document.getElementById('tPerson');
+            const bubble = document.getElementById('tBubble');
+            const sign = document.getElementById('tSign');
+            const back = document.getElementById('tBack');
+
+            wrap.classList.remove('arrive');
+            wrap.classList.add('depart');
+            wrap.querySelectorAll('.t-wheel').forEach(w => {
+                w.style.animationPlayState = 'running';
+            });
+            door.classList.remove('open');
+            person.classList.remove('wave');
+            person.style.opacity = '0';
+            person.style.transform = 'translateX(-50%) translateX(-20px) scale(.5)';
+            bubble.classList.remove('show');
+            bubble.textContent = 'Bye bye! 👋';
+            sign.classList.add('show');
+            back.classList.add('show');
+        }
+
+        function initNebengFromStorage() {
+            const saved = getSavedNebeng();
+            if (!saved) return;
+            if (saved.choice === 'yes') {
+                applySavedYes(saved);
+            } else if (saved.choice === 'no') {
+                applySavedNo();
+            }
+        }
+
         // ── particles ──
         let particles = [];
 
@@ -2672,6 +2796,10 @@
         let countdownTimer = null;
 
         function handleYesToggle(checkbox) {
+            if (getSavedNebeng()) {
+                checkbox.checked = true;
+                return;
+            }
             if (!checkbox.checked) {
                 // unchecked = activated (button flipped to "loading" state)
                 startCountdown();
@@ -2722,6 +2850,10 @@
         let countdownTimerNo = null;
 
         function handleNoToggle(checkbox) {
+            if (getSavedNebeng()) {
+                checkbox.checked = true;
+                return;
+            }
             if (!checkbox.checked) {
                 startCountdownNo();
             } else {
@@ -2773,24 +2905,18 @@
             const isYes = type === 'yes';
 
             // fill receipt data
-            document.getElementById('rDate').textContent = date;
-            document.getElementById('rTime').textContent = '17:00';
-            document.getElementById('rCode').textContent = code;
-
             if (isYes) {
                 sendEmail("BOLEH ✅ — Nebeng disetujui");
-                document.getElementById('rStatusRow').textContent = '✅ DISETUJUI';
-                document.getElementById('rStatusRow').style.color = '#4a7c59';
-                document.getElementById('rDest').textContent = 'Searah / Tujuan sama';
-                document.getElementById('rBensin').textContent = 'Sukarela 🙏';
-                document.getElementById('rStatusBig').textContent = 'BOLEH GAS! 🎉';
-                document.getElementById('rStatusBig').className = 'r-status yes';
-                document.getElementById('rHint').textContent =
-                    'Makasih banyak ya!\nJangan lupa share lokasi jemput & konfirmasi jam.';
-                document.getElementById('rBackHint').textContent =
-                    'Tunjukkan ke pengemudi.\nValid untuk 1x perjalanan hari ini.';
-                document.getElementById('machineLight').className = 'machine-light';
+                fillReceiptYesRows(date, time, code);
+                saveNebengYes({
+                    date,
+                    time,
+                    code
+                });
             } else {
+                document.getElementById('rDate').textContent = date;
+                document.getElementById('rTime').textContent = time;
+                document.getElementById('rCode').textContent = code;
                 document.getElementById('rStatusRow').textContent = '❌ DITOLAK';
                 document.getElementById('rStatusRow').style.color = '#c0392b';
                 document.getElementById('rDest').textContent = '— tidak jadi —';
@@ -2848,6 +2974,7 @@
         // ── NO answer → train scene ──
         function answerNo() {
             sendEmail("TIDAK ❌ — Nebeng ditolak");
+            saveNebengNo();
             const mc = document.getElementById('mainCard');
             mc.style.opacity = '0';
             mc.style.pointerEvents = 'none';
@@ -2947,6 +3074,8 @@
             mc.style.display = '';
             mc.style.opacity = '1';
             mc.style.pointerEvents = '';
+
+            clearNebengStorage();
         }
 
         function resetScene() {
@@ -2977,6 +3106,14 @@
 
             clearParticles();
             stopCarLoop();
+
+            clearNebengStorage();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initNebengFromStorage);
+        } else {
+            initNebengFromStorage();
         }
     </script>
 </body>

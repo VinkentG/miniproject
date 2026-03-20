@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Boleh Nebeng?</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400&family=Bricolage+Grotesque:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400&family=Bricolage+Grotesque:wght@400;600;800&family=Space+Mono:wght@400;700&family=Caveat:wght@700&family=Syne:wght@700;800&display=swap"
         rel="stylesheet" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
@@ -16,6 +16,9 @@
             box-sizing: border-box
         }
 
+        /* ══════════════════════════════════════════
+           MOOD THEME VARIABLES — diubah via JS
+        ══════════════════════════════════════════ */
         :root {
             --bg: #f0e6d3;
             --card: #ffffff;
@@ -28,6 +31,172 @@
             --receipt: #fffdf8;
             --receipt-border: #e8d5b7;
             --machine: #5c3d2e;
+            --mood-pill-bg: #d4763b18;
+            --mood-pill-border: #d4763b44;
+            --mood-pill-color: #d4763b;
+            --dot-color: #c8a87844;
+        }
+
+        /* TEMA: SENANG 🌟 */
+        [data-mood="senang"] {
+            --bg: #fff9e6;
+            --card: #fffef5;
+            --border: #f5d87a;
+            --text: #3a2a00;
+            --muted: #b8952a;
+            --accent: #f5a623;
+            --green: #5a9b3a;
+            --red: #e05c2a;
+            --receipt: #fffef0;
+            --receipt-border: #f5e090;
+            --dot-color: #f5d87a44;
+            --mood-pill-bg: #f5a62318;
+            --mood-pill-border: #f5a62344;
+            --mood-pill-color: #d4830a;
+        }
+
+        /* TEMA: SEDIH 🌧️ */
+        [data-mood="sedih"] {
+            --bg: #e8eef6;
+            --card: #f4f7fc;
+            --border: #b0c4de;
+            --text: #1a2840;
+            --muted: #607090;
+            --accent: #4a72a8;
+            --green: #3a8060;
+            --red: #b03050;
+            --receipt: #f8fafd;
+            --receipt-border: #c0d4ec;
+            --dot-color: #4a72a822;
+            --mood-pill-bg: #4a72a818;
+            --mood-pill-border: #4a72a844;
+            --mood-pill-color: #2a5080;
+        }
+
+        /* TEMA: GALAU 🌀 */
+        [data-mood="galau"] {
+            --bg: #f3edf8;
+            --card: #faf7fd;
+            --border: #c8a8e8;
+            --text: #2a1040;
+            --muted: #8060a0;
+            --accent: #9b59b6;
+            --green: #6a9b5a;
+            --red: #c03870;
+            --receipt: #fdf9ff;
+            --receipt-border: #d8b8f0;
+            --dot-color: #9b59b622;
+            --mood-pill-bg: #9b59b618;
+            --mood-pill-border: #9b59b644;
+            --mood-pill-color: #7b3996;
+        }
+
+        /* TEMA: SEMANGAT 🔥 */
+        [data-mood="semangat"] {
+            --bg: #fff2ec;
+            --card: #fff8f5;
+            --border: #f5a090;
+            --text: #3a1000;
+            --muted: #b04020;
+            --accent: #e84020;
+            --green: #5a8030;
+            --red: #c02000;
+            --receipt: #fff8f5;
+            --receipt-border: #f8c0b0;
+            --dot-color: #e8402022;
+            --mood-pill-bg: #e8402018;
+            --mood-pill-border: #e8402044;
+            --mood-pill-color: #c03010;
+        }
+
+        /* TEMA: SANTAI 🍃 */
+        [data-mood="santai"] {
+            --bg: #eef6f0;
+            --card: #f5fbf7;
+            --border: #a0d4b0;
+            --text: #0e2a18;
+            --muted: #508060;
+            --accent: #2d9b60;
+            --green: #1a7040;
+            --red: #a04030;
+            --receipt: #f5fbf8;
+            --receipt-border: #b8e8c8;
+            --dot-color: #2d9b6022;
+            --mood-pill-bg: #2d9b6018;
+            --mood-pill-border: #2d9b6044;
+            --mood-pill-color: #1a7040;
+        }
+
+        /* TEMA: GROGI 😰 */
+        [data-mood="grogi"] {
+            --bg: #fdf0f8;
+            --card: #fdf6fb;
+            --border: #e8a8d0;
+            --text: #3a0a28;
+            --muted: #a05080;
+            --accent: #d44898;
+            --green: #4a8060;
+            --red: #c02850;
+            --receipt: #fdf5fb;
+            --receipt-border: #f0c0e0;
+            --dot-color: #d4489822;
+            --mood-pill-bg: #d4489818;
+            --mood-pill-border: #d4489844;
+            --mood-pill-color: #b02878;
+        }
+
+        /* TEMA: MARAH 😡 */
+        [data-mood="marah"] {
+            --bg: #1a0a0a;
+            --card: #2a1010;
+            --border: #8b1a1a;
+            --text: #ffcccc;
+            --muted: #d08080;
+            --accent: #ff2d2d;
+            --green: #4a9060;
+            --red: #ff1a1a;
+            --receipt: #2a1515;
+            --receipt-border: #8b2020;
+            --dot-color: #ff2d2d33;
+            --mood-pill-bg: #ff2d2d22;
+            --mood-pill-border: #ff2d2d66;
+            --mood-pill-color: #ff6060;
+        }
+
+        /* TEMA: GK ENAK BADAN 🤒 */
+        [data-mood="sakit"] {
+            --bg: #f0f5e8;
+            --card: #f8fbf2;
+            --border: #b8d090;
+            --text: #2a3a10;
+            --muted: #6a8040;
+            --accent: #7aaa20;
+            --green: #4a8030;
+            --red: #c05020;
+            --receipt: #f5f9ee;
+            --receipt-border: #c8dc98;
+            --dot-color: #7aaa2022;
+            --mood-pill-bg: #7aaa2018;
+            --mood-pill-border: #7aaa2044;
+            --mood-pill-color: #4a7a10;
+        }
+
+        /* TEMA: NGANTUK 😴 */
+        [data-mood="ngantuk"] {
+            --bg: #0e1020;
+            --card: #181a30;
+            --border: #3a4070;
+            --text: #c8d0f0;
+            --muted: #7880b0;
+            --accent: #6878e0;
+            --green: #4a8870;
+            --red: #c04060;
+            --receipt: #1a1c32;
+            --receipt-border: #3a4070;
+            --dot-color: #6878e033;
+            --mood-pill-bg: #6878e018;
+            --mood-pill-border: #6878e044;
+            --mood-pill-color: #9098e8;
         }
 
         html,
@@ -38,16 +207,364 @@
             font-family: 'Bricolage Grotesque', sans-serif;
             color: var(--text);
             overflow: hidden;
+            transition: background 0.6s ease, color 0.6s ease;
         }
 
-        /* subtle dot grid background */
         body {
-            background-image: radial-gradient(circle, #c8a87844 1px, transparent 1px);
+            background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
             background-size: 28px 28px;
-            background-color: #f0e6d3;
+            background-color: var(--bg);
         }
 
-        /* ── MAIN CARD ── */
+        /* ══════════════════════════════════════════
+           MOOD PICKER SCREEN
+        ══════════════════════════════════════════ */
+        .mood-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+            background-size: 28px 28px;
+            transition: background 0.5s;
+        }
+
+        .mood-screen.hidden {
+            pointer-events: none;
+            animation: moodScreenOut 0.6s cubic-bezier(.4, 0, .2, 1) forwards;
+        }
+
+        @keyframes moodScreenOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            60% {
+                opacity: 1;
+                transform: scale(1.04);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.94);
+            }
+        }
+
+        .mood-card {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: 32px;
+            padding: 40px 36px 36px;
+            width: min(440px, 94vw);
+            box-shadow: 0 0 80px rgba(0, 0, 0, .08), 0 12px 50px rgba(0, 0, 0, .08);
+            animation: moodCardIn .7s cubic-bezier(.22, 1, .36, 1) both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* shimmer top bar */
+        .mood-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, transparent));
+            border-radius: 32px 32px 0 0;
+        }
+
+        @keyframes moodCardIn {
+            from {
+                opacity: 0;
+                transform: translateY(28px) scale(.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .mood-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .mood-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(26px, 6vw, 34px);
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.15;
+            margin-bottom: 6px;
+        }
+
+        .mood-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .mood-sub {
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .mood-btn {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 18px;
+            padding: 16px 8px 14px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all .22s cubic-bezier(.22, 1, .36, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity .2s;
+        }
+
+        .mood-btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+
+        .mood-btn.selected {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 12%, var(--card));
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .mood-btn:active {
+            transform: scale(.96);
+        }
+
+        .mood-emoji {
+            font-size: 34px;
+            display: block;
+            line-height: 1;
+            animation: emojiFloat 2.5s ease-in-out infinite;
+        }
+
+        .mood-btn:nth-child(2) .mood-emoji {
+            animation-delay: .3s;
+        }
+
+        .mood-btn:nth-child(3) .mood-emoji {
+            animation-delay: .6s;
+        }
+
+        .mood-btn:nth-child(4) .mood-emoji {
+            animation-delay: .9s;
+        }
+
+        .mood-btn:nth-child(5) .mood-emoji {
+            animation-delay: 1.2s;
+        }
+
+        .mood-btn:nth-child(6) .mood-emoji {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes emojiFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .mood-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: .5px;
+        }
+
+        .mood-desc {
+            font-size: 10px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .mood-confirm {
+            width: 100%;
+            margin-top: 18px;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            background: var(--accent);
+            color: white;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            letter-spacing: .5px;
+            transition: all .2s;
+            opacity: .4;
+            pointer-events: none;
+            box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 35%, transparent);
+        }
+
+        .mood-confirm.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mood-confirm.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 45%, transparent);
+        }
+
+        .mood-confirm.active:active {
+            transform: scale(.97);
+        }
+
+        /* ── Mood-specific font overrides ── */
+        [data-mood="senang"] h1,
+        [data-mood="senang"] .mood-title {
+            font-family: 'Syne', sans-serif;
+        }
+
+        [data-mood="sedih"] h1,
+        [data-mood="sedih"] .mood-title {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+        }
+
+        [data-mood="galau"] h1,
+        [data-mood="galau"] .mood-title {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(34px, 8vw, 48px);
+        }
+
+        [data-mood="semangat"] h1,
+        [data-mood="semangat"] .mood-title {
+            font-family: 'Syne', sans-serif;
+            letter-spacing: -1px;
+        }
+
+        [data-mood="santai"] h1,
+        [data-mood="santai"] .mood-title {
+            font-family: 'Fraunces', serif;
+        }
+
+        [data-mood="grogi"] h1,
+        [data-mood="grogi"] .mood-title {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Marah — bold, heavy, uppercase feel */
+        [data-mood="marah"] h1,
+        [data-mood="marah"] .mood-title {
+            font-family: 'Syne', sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* Sakit — soft, slightly slanted */
+        [data-mood="sakit"] h1,
+        [data-mood="sakit"] .mood-title {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+        }
+
+        /* Ngantuk — dreamy, loose cursive */
+        [data-mood="ngantuk"] h1,
+        [data-mood="ngantuk"] .mood-title {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(34px, 8vw, 50px);
+        }
+
+        /* Mood badge on main card */
+        .mood-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--mood-pill-bg);
+            border: 1px solid var(--mood-pill-border);
+            border-radius: 99px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--mood-pill-color);
+            margin-left: 6px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* ══════════════════════════════════════════
+           ANIMATED BG PARTICLES per mood
+        ══════════════════════════════════════════ */
+        .mood-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            font-size: 20px;
+            opacity: 0;
+            animation: particleDrift linear infinite;
+        }
+
+        @keyframes particleDrift {
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: .5;
+            }
+
+            90% {
+                opacity: .3;
+            }
+
+            100% {
+                transform: translateY(-20px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ══════════════════════════════════════════
+           MAIN CARD (same as original + theme vars)
+        ══════════════════════════════════════════ */
         .wrap {
             position: relative;
             z-index: 20;
@@ -64,9 +581,11 @@
             border-radius: 28px;
             padding: 44px 40px 40px;
             width: min(420px, 92vw);
-            box-shadow: 0 0 60px rgba(212, 118, 59, .12), 0 8px 40px rgba(92, 61, 46, .10);
+            box-shadow: 0 0 60px color-mix(in srgb, var(--accent) 12%, transparent),
+                0 8px 40px rgba(92, 61, 46, .10);
             position: relative;
             animation: cardIn .6s cubic-bezier(.22, 1, .36, 1) both;
+            transition: background .5s, border-color .5s, box-shadow .5s;
         }
 
         @keyframes cardIn {
@@ -85,16 +604,17 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: #d4763b18;
-            border: 1px solid #d4763b44;
+            background: var(--mood-pill-bg);
+            border: 1px solid var(--mood-pill-border);
             border-radius: 99px;
             padding: 4px 14px;
             font-size: 11px;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--accent);
+            color: var(--mood-pill-color);
             margin-bottom: 20px;
+            transition: all .5s;
         }
 
         .car-wrap {
@@ -124,6 +644,7 @@
             line-height: 1.1;
             text-align: center;
             margin-bottom: 8px;
+            transition: color .5s;
         }
 
         h1 em {
@@ -137,6 +658,7 @@
             font-size: 14px;
             line-height: 1.65;
             margin-bottom: 32px;
+            transition: color .5s;
         }
 
         .btns {
@@ -145,94 +667,14 @@
             gap: 20px
         }
 
-        .btn {
-            width: 100%;
-            padding: 17px 22px;
-            border: none;
-            border-radius: 16px;
-            font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            transition: transform .15s, box-shadow .15s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #fff2 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity .2s;
-        }
-
-        .btn:hover::before {
-            opacity: 1
-        }
-
-        .btn:hover {
-            transform: translateY(-3px)
-        }
-
-        .btn:active {
-            transform: scale(.97)
-        }
-
-        .btn-yes {
-            background: linear-gradient(135deg, #4a7c59, #3a6347);
-            color: #fff;
-            box-shadow: 0 4px 24px rgba(74, 124, 89, .3);
-        }
-
-        .btn-yes:hover {
-            box-shadow: 0 8px 32px rgba(74, 124, 89, .45)
-        }
-
-        .btn-no {
-            background: var(--bg);
-            color: var(--text);
-            border: 1.5px solid var(--border);
-        }
-
-        .btn-no:hover {
-            border-color: #c0392b66;
-            color: #c0392b
-        }
-
-        .btn-ico {
-            font-size: 24px;
-            flex-shrink: 0
-        }
-
-        .btn-body {
-            text-align: left
-        }
-
-        .btn-body b {
-            display: block;
-            font-size: 15px
-        }
-
-        .btn-body small {
-            font-size: 12px;
-            opacity: .6;
-            font-weight: 400
-        }
-
-
-        /* ════════════════════════════════════
-   UIVERSE FANCY BUTTON (YES)
-════════════════════════════════════ */
+        /* ══════════════════════════════════════════
+           UIVERSE FANCY BUTTON (same as original)
+        ══════════════════════════════════════════ */
         .area {
             --ease: cubic-bezier(0.5, 0, 0.3, 1);
             --ease-elastic: cubic-bezier(0.5, 2, 0.3, 0.8);
             --radius: 26px;
-            --primary: #d4763b;
+            --primary: var(--accent);
             position: relative;
             cursor: pointer;
             user-select: none;
@@ -260,18 +702,15 @@
             pointer-events: none;
             transform-style: preserve-3d;
             perspective: 1000px;
-            transition:
-                background-color 2s linear,
-                box-shadow 0.5s ease,
-                transform 0.6s ease;
+            transition: background-color 2s linear, box-shadow 0.5s ease, transform 0.6s ease;
             transform: rotateX(4deg);
-            background: var(--primary);
+            background: var(--accent);
             box-shadow:
-                inset 0 0 30px rgb(160, 80, 20),
-                0 5px 10px -2px rgba(0, 10, 20, 0.5),
-                0 40px 30px -15px rgba(10, 20, 30, 0.3),
-                inset 0 -2px 0 -1px #a06030,
-                inset 0 0 2px 4px #c8906060;
+                inset 0 0 30px color-mix(in srgb, var(--accent) 60%, #000),
+                0 5px 10px -2px rgba(0, 10, 20, .5),
+                0 40px 30px -15px rgba(10, 20, 30, .3),
+                inset 0 -2px 0 -1px color-mix(in srgb, var(--accent) 70%, #000),
+                inset 0 0 2px 4px color-mix(in srgb, var(--accent) 80%, #fff4);
             font-size: 21px;
             font-family: 'Bricolage Grotesque', sans-serif;
             letter-spacing: 1px;
@@ -318,7 +757,7 @@
             border-radius: calc(var(--radius) * 0.85);
             inset: 0;
             padding: 0;
-            background: linear-gradient(to bottom, #e8b87a 0%, #d4763b 50%, #c06020 100%);
+            background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 60%, #fff) 0%, var(--accent) 50%, color-mix(in srgb, var(--accent) 80%, #000) 100%);
             position: absolute;
             transform-origin: top;
             transform: scale(0.99, 1) translate(0px, -7px);
@@ -352,12 +791,12 @@
 
         @keyframes ucover-close {
             from {
-                transform: translate3d(0px, 0px, 10px) rotateY(0) rotateX(70deg);
-                box-shadow: 0 5px 1px -1px #a08563, 0 10px 0px -1px #7d6145, 0 60px 40px -30px black;
+                transform: translate3d(0, 0, 10px) rotateY(0) rotateX(70deg);
+                box-shadow: 0 5px 1px -1px #a08563, 0 10px 0 -1px #7d6145, 0 60px 40px -30px black;
             }
 
             to {
-                transform: scale(0.99, 1) translate3d(0px, -7px, 10px);
+                transform: scale(0.99, 1) translate3d(0, -7px, 10px);
                 box-shadow: none;
             }
         }
@@ -374,11 +813,7 @@
             content: "";
             position: absolute;
             width: 300px;
-            background: linear-gradient(to right,
-                    rgba(255, 220, 180, 0.2) 10%,
-                    rgba(255, 210, 160, 0.5) 60%,
-                    rgba(255, 215, 170, 0.4) 60%,
-                    rgba(255, 225, 190, 0.2) 90%);
+            background: linear-gradient(to right, rgba(255, 220, 180, .2) 10%, rgba(255, 210, 160, .5) 60%, rgba(255, 215, 170, .4) 60%, rgba(255, 225, 190, .2) 90%);
             top: -40%;
             bottom: -40%;
             left: -132%;
@@ -415,7 +850,7 @@
 
             to {
                 stroke-dashoffset: -150;
-                stroke: var(--primary);
+                stroke: var(--accent);
                 transform: translateX(-50%) translateY(15px);
             }
         }
@@ -428,7 +863,7 @@
             }
 
             to {
-                stroke: var(--primary);
+                stroke: var(--accent);
                 transform: translateX(-50%) translateY(-16px);
             }
         }
@@ -460,7 +895,7 @@
         }
 
         .uwave::after {
-            animation-delay: 0.4s;
+            animation-delay: .4s;
         }
 
         .area input:not(:checked)~.ubutton .uwave {
@@ -483,7 +918,7 @@
             100% {
                 transform: scale(1.6);
                 opacity: 0;
-                box-shadow: 0 0 100px var(--primary);
+                box-shadow: 0 0 100px var(--accent);
             }
         }
 
@@ -505,7 +940,7 @@
         .ucontent::before,
         .ucontent::after {
             content: "";
-            inset: 0px;
+            inset: 0;
             position: absolute;
             transition: all 1s var(--ease);
             border-radius: inherit;
@@ -515,15 +950,11 @@
         .ucontent::before {
             filter: blur(2px);
             top: -2px;
-            background: linear-gradient(to bottom, #f0d0b0 30%, #d4a070 90%);
+            background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 40%, #fff) 30%, color-mix(in srgb, var(--accent) 60%, #fff) 90%);
         }
 
         .ucontent::after {
-            box-shadow:
-                inset 0 -7px 1px 0 rgba(100, 60, 20, 0.2),
-                inset 0 -4px 1px 0 rgba(100, 60, 20, 0.4),
-                inset 0 -2px 0 0 rgba(80, 40, 10, 0.6),
-                inset 0 -3px 0 0 white;
+            box-shadow: inset 0 -7px 1px 0 rgba(0, 0, 0, .15), inset 0 -4px 1px 0 rgba(0, 0, 0, .25), inset 0 -2px 0 0 rgba(0, 0, 0, .35), inset 0 -3px 0 0 white;
         }
 
         .utext {
@@ -542,15 +973,22 @@
             position: relative;
         }
 
-        /* jarak antar kata pakai span spasi (data-label=" "), jangan pakai margin di huruf ke-3 */
+        .utext span[data-label=" "] {
+            width: 0.35em;
+        }
+
+        .utext span[data-label=" "]::before,
+        .utext span[data-label=" "]::after {
+            content: '\00a0';
+        }
 
         .utext span::before,
         .utext span::after {
             content: attr(data-label);
             position: absolute;
             left: 0;
-            color: #7a3d1a;
-            text-shadow: 0 1px 1px rgba(255, 220, 180, 0.7);
+            color: color-mix(in srgb, var(--accent) 80%, #000);
+            text-shadow: 0 1px 1px rgba(255, 255, 255, .5);
         }
 
         .utext span::before {
@@ -560,7 +998,7 @@
 
         .utext.state-2 span::before,
         .utext.state-2 span::after {
-            color: #a05830;
+            color: color-mix(in srgb, var(--accent) 70%, #000);
         }
 
         .area input:checked~.ubutton .utext.state-2 span {
@@ -621,8 +1059,8 @@
             100% {
                 transform: translateY(-80%) scale(4);
                 filter: blur(4px);
-                color: #5c2000;
-                text-shadow: 0 4px 2px #d4763b;
+                color: var(--accent);
+                text-shadow: 0 4px 2px var(--accent);
                 opacity: 0;
             }
         }
@@ -658,7 +1096,7 @@
             position: absolute;
             margin: auto;
             transform: translateZ(100px);
-            stroke: rgba(212, 118, 59, 1);
+            stroke: var(--accent);
             left: 54px;
             top: 10px;
             height: 58px;
@@ -706,7 +1144,7 @@
 
         .ugears svg {
             width: 80%;
-            fill: #c07840;
+            fill: color-mix(in srgb, var(--accent) 80%, #000);
             top: 50%;
             position: relative;
             transform: translate(-50%, -50%);
@@ -719,7 +1157,7 @@
         }
 
         .ugears svg .shadow {
-            fill: rgba(120, 60, 10, 0.2);
+            fill: rgba(0, 0, 0, .2);
             translate: 2px 8px;
         }
 
@@ -744,8 +1182,8 @@
             bottom: 11px;
             height: 7px;
             width: 7px;
-            background: rgba(180, 120, 60, 0.3);
-            box-shadow: inset 0px 2px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, .2);
+            box-shadow: inset 0 2px rgba(0, 0, 0, .2);
         }
 
         .ugears::before {
@@ -758,44 +1196,58 @@
 
         @keyframes spin {
             to {
-                transform: rotate(359deg);
+                transform: rotate(359deg)
             }
         }
 
-        /* fix space character span in utext buttons */
-        .utext span[data-label=" "]::before,
-        .utext span[data-label=" "]::after {
-            content: '\00a0';
+        /* NO button */
+        .area-no {
+            --primary: var(--red);
         }
 
-        .utext span[data-label=" "] {
-            width: 0.35em;
+        .ubutton-no {
+            background: var(--red);
+            box-shadow:
+                inset 0 0 30px color-mix(in srgb, var(--red) 60%, #000),
+                0 5px 10px -2px rgba(0, 10, 20, .5),
+                0 40px 30px -15px rgba(10, 20, 30, .3),
+                inset 0 -2px 0 -1px color-mix(in srgb, var(--red) 70%, #000),
+                inset 0 0 2px 4px color-mix(in srgb, var(--red) 80%, #fff4);
         }
 
-        /* static label inside fancy buttons */
-        .ubtn-label {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-            font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            color: #7a3d1a;
-            text-shadow: 0 1px 1px rgba(255, 220, 180, .7);
-            white-space: nowrap;
-            pointer-events: none;
+        .uwrap-no {
+            background: linear-gradient(to bottom, color-mix(in srgb, var(--red) 60%, #fff) 0%, var(--red) 50%, color-mix(in srgb, var(--red) 80%, #000) 100%);
         }
 
-        .ucontent-no .ubtn-label {
-            color: #7a1a0a;
-            text-shadow: 0 1px 1px rgba(255, 200, 180, .7);
+        .ucontent-no::before {
+            background: linear-gradient(to bottom, color-mix(in srgb, var(--red) 40%, #fff) 30%, color-mix(in srgb, var(--red) 60%, #fff) 90%);
         }
 
-        /* countdown ring — sibling of .ubutton inside .area, escapes 3D context */
+        .ucontent-no::after {
+            box-shadow: inset 0 -7px 1px 0 rgba(0, 0, 0, .15), inset 0 -4px 1px 0 rgba(0, 0, 0, .25), inset 0 -2px 0 0 rgba(0, 0, 0, .35), inset 0 -3px 0 0 white;
+        }
+
+        .usparks-no {
+            stroke: var(--red);
+        }
+
+        .ugears-no svg {
+            fill: color-mix(in srgb, var(--red) 70%, #fff);
+        }
+
+        .area-no .utext span::before,
+        .area-no .utext span::after {
+            color: color-mix(in srgb, var(--red) 80%, #000);
+        }
+
+        .area-no:hover .ubutton-no,
+        .area-no:active .ubutton-no {}
+
+        .area-no:active .uwrap-no {
+            transform: scale(1) translate(0);
+        }
+
+        /* Countdown ring */
         .countdown-ring {
             position: absolute;
             top: 0;
@@ -810,7 +1262,7 @@
             opacity: 0;
             transition: opacity .3s;
             border-radius: 26px;
-            background: rgba(0, 0, 0, 0.28);
+            background: rgba(0, 0, 0, .28);
         }
 
         .countdown-ring.show {
@@ -850,85 +1302,9 @@
             dominant-baseline: central;
         }
 
-        /* ── NO button red/brown theme overrides ── */
-        .area-no {
-            --primary: #c0392b;
-        }
-
-        .ubutton-no {
-            background: #c0392b;
-            box-shadow:
-                inset 0 0 30px rgb(120, 20, 10),
-                0 5px 10px -2px rgba(0, 10, 20, .5),
-                0 40px 30px -15px rgba(10, 20, 30, .3),
-                inset 0 -2px 0 -1px #8a2020,
-                inset 0 0 2px 4px #c06060;
-        }
-
-        .uwrap-no {
-            background: linear-gradient(to bottom, #e88070 0%, #c0392b 50%, #a02820 100%);
-        }
-
-        .ucontent-no::before {
-            background: linear-gradient(to bottom, #f0c0b0 30%, #d47060 90%);
-        }
-
-        .ucontent-no::after {
-            box-shadow:
-                inset 0 -7px 1px 0 rgba(100, 20, 10, .2),
-                inset 0 -4px 1px 0 rgba(100, 20, 10, .4),
-                inset 0 -2px 0 0 rgba(80, 10, 5, .6),
-                inset 0 -3px 0 0 white;
-        }
-
-        .area-no .utext.state-1 span::before,
-        .area-no .utext.state-1 span::after,
-        .area-no .utext.state-2 span::before,
-        .area-no .utext.state-2 span::after {
-            color: #7a1a0a;
-            text-shadow: 0 1px 1px rgba(255, 200, 180, .7);
-        }
-
-        .area-no input:checked~.ubutton .utext.state-2 span {
-            filter: blur(5px);
-        }
-
-        .area-no:hover .utext span::before {
-            animation: uchar-in 0.8s ease calc(var(--i) * 0.04s) forwards;
-        }
-
-        .area-no:hover .utext span::after,
-        .area-no input:not(:checked)~.ubutton .utext.state-1 span::before,
-        .area-no input:not(:checked)~.ubutton .utext.state-1 span::after,
-        .area-no input:checked~.ubutton .utext.state-2 span::before,
-        .area-no input:checked~.ubutton .utext.state-2 span::after {
-            opacity: 0;
-            animation: uchar-out 1.2s ease calc(var(--i) * 0.04s) backwards;
-        }
-
-        .ugears-no svg {
-            fill: #c07060;
-        }
-
-        .usparks-no {
-            stroke: rgba(192, 57, 43, 1);
-        }
-
-        .area-no:hover .ubutton-no {
-            transform: rotateX(0deg) translateY(5px);
-        }
-
-        .area-no:active .ubutton-no {
-            transform: rotateX(0deg) translateY(8px);
-        }
-
-        .area-no:active .uwrap-no {
-            transform: scale(1) translate(0);
-        }
-
-        /* ════════════════════════════════════
-   RECEIPT / STRUK SCENE
-════════════════════════════════════ */
+        /* ══════════════════════════════════════════
+           RECEIPT SCENE
+        ══════════════════════════════════════════ */
         .scene {
             display: none;
             position: fixed;
@@ -944,7 +1320,6 @@
             display: flex
         }
 
-        /* machine body at top */
         .machine {
             width: 280px;
             background: linear-gradient(180deg, #5c3d2e 0%, #3d2719 100%);
@@ -1013,7 +1388,6 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .06), transparent);
         }
 
-        /* receipt wrapper — clips the receipt as it slides out */
         .receipt-clip {
             width: 260px;
             overflow: hidden;
@@ -1024,7 +1398,6 @@
             transition: height 0.22s ease-out;
         }
 
-        /* the flip card */
         .receipt-flip {
             width: 260px;
             perspective: 900px;
@@ -1042,7 +1415,6 @@
             transform: rotateY(180deg);
         }
 
-        /* Setelah tinggi dikunci, depan & belakang sama panjang; zigzag hanya di bawah */
         .receipt-inner--sized .receipt-front {
             position: absolute;
             top: 0;
@@ -1063,7 +1435,6 @@
             flex-shrink: 0;
         }
 
-        /* shared face styles */
         .receipt-face {
             width: 100%;
             backface-visibility: hidden;
@@ -1073,7 +1444,6 @@
             border-right: 1px solid var(--receipt-border);
         }
 
-        /* front face */
         .receipt-front {
             position: relative;
         }
@@ -1084,14 +1454,12 @@
             left: 0;
             width: 100%;
             transform: rotateY(180deg);
-            /* match front height — set via JS after render */
             min-height: 100%;
             display: flex;
             flex-direction: column;
             overflow: visible;
         }
 
-        /* receipt content */
         .r-header {
             padding: 20px 20px 12px;
             border-bottom: 1px dashed var(--receipt-border);
@@ -1172,7 +1540,6 @@
             line-height: 1.5;
         }
 
-        /* receipt bottom — zigzag */
         .r-zigzag {
             width: 100%;
             height: 16px;
@@ -1181,7 +1548,6 @@
             flex-shrink: 0;
         }
 
-        /* back face — sama bentuk struk depan, tengah = QR */
         .r-back-mid {
             padding: 14px 20px 12px;
             display: flex;
@@ -1202,12 +1568,11 @@
             color: var(--muted);
         }
 
-        /* QR kotak — bisa dipindai kamera HP (bukan barcode 1D) */
         .nebeng-qr {
             flex: 0 0 auto;
             box-sizing: border-box;
             width: min(160px, 100%);
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 1/1;
             height: auto;
             display: block;
             line-height: 0;
@@ -1218,8 +1583,6 @@
             overflow: visible;
         }
 
-        /* Jangan pakai display:!important — qrcode.js menyembunyikan canvas setelah img siap;
-           kalau dipaksa block, canvas + img keduanya kelihatan = "2 barcode". */
         .nebeng-qr img,
         .nebeng-qr canvas {
             display: block;
@@ -1237,7 +1600,6 @@
             table-layout: fixed !important;
         }
 
-        /* Judul + QR + kode = link ke halaman Nebeng */
         .barcode-link {
             display: flex;
             flex-direction: column;
@@ -1257,17 +1619,8 @@
         }
 
         .barcode-link:hover {
-            background: rgba(212, 118, 59, 0.1);
-            box-shadow: 0 0 0 1px rgba(212, 118, 59, 0.2);
-        }
-
-        .barcode-link:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        .barcode-link .r-back-title {
-            color: var(--accent);
+            background: rgba(212, 118, 59, .1);
+            box-shadow: 0 0 0 1px rgba(212, 118, 59, .2);
         }
 
         .r-back-code {
@@ -1285,7 +1638,6 @@
             line-height: 1.5;
         }
 
-        /* flip hint badge */
         .flip-hint {
             margin-top: 8px;
             font-family: 'Space Mono', monospace;
@@ -1338,8 +1690,7 @@
             color: var(--accent)
         }
 
-
-        /* ── particles ── */
+        /* particles */
         .confetti-piece {
             position: fixed;
             top: -12px;
@@ -1380,9 +1731,7 @@
             }
         }
 
-        /* ════════════════════════════════════
-   TRAIN SCENE (NO answer)
-════════════════════════════════════ */
+        /* TRAIN SCENE */
         .train-scene {
             display: none;
             position: fixed;
@@ -1396,7 +1745,6 @@
             display: block
         }
 
-        /* sky clouds */
         .t-cloud {
             position: absolute;
             background: white;
@@ -1423,16 +1771,6 @@
             }
         }
 
-        /* ground / rails */
-        .t-ground {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 45%;
-            background: linear-gradient(180deg, #d4c9a8, #b8a880);
-        }
-
         .t-rail {
             position: absolute;
             left: 0;
@@ -1451,7 +1789,6 @@
             bottom: 46%
         }
 
-        /* sleepers — static, no animation */
         .t-sleeper {
             position: absolute;
             bottom: 44%;
@@ -1462,7 +1799,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
         }
 
-        /* platform — invisible, just anchors person position on right side */
         .t-platform {
             position: absolute;
             right: 60px;
@@ -1474,11 +1810,6 @@
             z-index: 10;
         }
 
-        .t-platform-edge {
-            display: none;
-        }
-
-        /* person — stands at right side, above rail level */
         .t-person {
             position: absolute;
             bottom: 0;
@@ -1505,7 +1836,6 @@
             }
         }
 
-        /* speech bubble — floats above person */
         .t-bubble {
             position: absolute;
             bottom: 56px;
@@ -1531,7 +1861,6 @@
             transform: translateX(-50%) translateY(0) scale(1)
         }
 
-        /* station sign — thin footer bar at very bottom */
         .t-sign {
             position: fixed;
             bottom: 0;
@@ -1563,12 +1892,10 @@
             transform: translateY(0);
         }
 
-        /* ── TRAIN ── */
         .t-train-wrap {
             position: absolute;
             bottom: calc(44% + 2px);
             left: 0;
-            /* starts off screen right */
             transform: translateX(110vw);
             display: flex;
             align-items: flex-end;
@@ -1577,45 +1904,36 @@
         }
 
         .t-train-wrap.arrive {
-            /* stop so loco nose aligns with right side platform edge */
             transform: translateX(calc(100vw - 320px));
             transition: transform 1.6s cubic-bezier(.4, 0, .2, 1);
         }
 
         .t-train-wrap.depart {
-            /* go far left — enough for loco + 10 wagons (~1600px total) */
             transform: translateX(-2000px);
             transition: transform 3s cubic-bezier(.6, 0, .8, 1);
         }
 
-        /* pause wheels while stopped */
         .t-train-wrap.arrive .t-wheel {
             animation-play-state: paused;
         }
 
-        /* train body */
         .t-train {
             position: relative;
             display: flex;
             align-items: flex-end;
-            /* loco is first child = left/front, wagons trail behind to the right */
         }
 
-        /* locomotive — FRONT, on the LEFT */
         .t-loco {
             width: 150px;
             height: 108px;
             background: linear-gradient(180deg, #5c3d2e 0%, #3d2719 100%);
             border-radius: 40px 8px 4px 4px;
-            /* rounded nose on LEFT */
             position: relative;
             box-shadow: -4px 0 20px rgba(0, 0, 0, .3);
             flex-shrink: 0;
             order: 0;
-            /* first = leftmost = front */
         }
 
-        /* nose protrusion on LEFT side */
         .t-loco::before {
             content: '';
             position: absolute;
@@ -1656,7 +1974,6 @@
             border-radius: 0 0 4px 4px;
         }
 
-        /* chimney on top-LEFT of loco */
         .t-loco-chimney {
             position: absolute;
             top: -18px;
@@ -1708,7 +2025,6 @@
             }
         }
 
-        /* wagon / carriage */
         .t-wagon {
             width: 110px;
             height: 90px;
@@ -1757,7 +2073,6 @@
             border-radius: 0 0 5px 5px;
         }
 
-        /* door — only on first wagon */
         .t-door {
             position: absolute;
             bottom: 12px;
@@ -1787,7 +2102,6 @@
             transform: translateY(-50%);
         }
 
-        /* wheels */
         .t-wheel {
             position: absolute;
             bottom: -14px;
@@ -1835,46 +2149,6 @@
             bottom: -15px
         }
 
-        /* station sign */
-        .t-sign {
-            position: absolute;
-            top: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            border: 3px solid var(--accent);
-            border-radius: 8px;
-            padding: 5px 12px;
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
-            opacity: 0;
-            white-space: nowrap;
-            z-index: 13;
-        }
-
-        .t-sign.show {
-            animation: signBob .4s .2s cubic-bezier(.22, 1, .36, 1) both;
-            opacity: 1;
-        }
-
-        @keyframes signBob {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-10px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0)
-            }
-        }
-
-        /* back btn */
         .t-back {
             position: absolute;
             bottom: 24px;
@@ -1903,7 +2177,6 @@
             color: var(--accent)
         }
 
-        /* car zoom */
         .zoom-car {
             position: fixed;
             bottom: 30px;
@@ -1956,15 +2229,78 @@
     </div>
     <div class="zoom-car" id="zoomCar">🚗</div>
 
-    <!-- ── MAIN CARD ── -->
+    <!-- ══════════════════════════════════════════
+     MOOD PICKER SCREEN
+══════════════════════════════════════════ -->
+    <div class="mood-screen" id="moodScreen">
+        <div class="mood-card">
+            <div class="mood-eyebrow">✨ sebelum mulai</div>
+            <h2 class="mood-title">Lagi <em>mood</em><br />apa hari ini?</h2>
+            <p class="mood-sub">Biar tampilannya nyambung sama perasaanmu 🎨</p>
+            <div class="mood-grid" id="moodGrid">
+                <button class="mood-btn" data-mood="senang" onclick="selectMood(this)">
+                    <span class="mood-emoji">😄</span>
+                    <span class="mood-label">Senang</span>
+                    <span class="mood-desc">Hari ini cerah!</span>
+                </button>
+                <button class="mood-btn" data-mood="sedih" onclick="selectMood(this)">
+                    <span class="mood-emoji">😢</span>
+                    <span class="mood-label">Sedih</span>
+                    <span class="mood-desc">Lagi baper dikit</span>
+                </button>
+                <button class="mood-btn" data-mood="galau" onclick="selectMood(this)">
+                    <span class="mood-emoji">😵‍💫</span>
+                    <span class="mood-label">Galau</span>
+                    <span class="mood-desc">Bimbang rasanya</span>
+                </button>
+                <button class="mood-btn" data-mood="semangat" onclick="selectMood(this)">
+                    <span class="mood-emoji">🔥</span>
+                    <span class="mood-label">Semangat</span>
+                    <span class="mood-desc">Gas pol hari ini!</span>
+                </button>
+                <button class="mood-btn" data-mood="santai" onclick="selectMood(this)">
+                    <span class="mood-emoji">😌</span>
+                    <span class="mood-label">Santai</span>
+                    <span class="mood-desc">Slow, nikmati aja</span>
+                </button>
+                <button class="mood-btn" data-mood="grogi" onclick="selectMood(this)">
+                    <span class="mood-emoji">😰</span>
+                    <span class="mood-label">Grogi</span>
+                    <span class="mood-desc">Dag dig dug...</span>
+                </button>
+                <button class="mood-btn" data-mood="marah" onclick="selectMood(this)">
+                    <span class="mood-emoji">😡</span>
+                    <span class="mood-label">Marah</span>
+                    <span class="mood-desc">Lagi panas nih!</span>
+                </button>
+                <button class="mood-btn" data-mood="sakit" onclick="selectMood(this)">
+                    <span class="mood-emoji">🤒</span>
+                    <span class="mood-label">Gk Enak Badan</span>
+                    <span class="mood-desc">Lagi kurang fit</span>
+                </button>
+                <button class="mood-btn" data-mood="ngantuk" onclick="selectMood(this)">
+                    <span class="mood-emoji">😴</span>
+                    <span class="mood-label">Ngantuk</span>
+                    <span class="mood-desc">Zzzz... hah apa?</span>
+                </button>
+            </div>
+            <button class="mood-confirm" id="moodConfirm" onclick="confirmMood()">
+                Lanjut →
+            </button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+     MAIN CARD
+══════════════════════════════════════════ -->
     <div class="wrap">
         <div class="card" id="mainCard">
-            <div class="pill">✨ Nanya Baik-Baik</div>
+            <div class="pill" id="mainPill">✨ Nanya Baik-Baik</div>
             <span class="car-wrap" style="display:inline-block;transform:scaleX(-1)">🚗</span>
             <h1>Boleh <em>nebeng</em><br />hari ini?</h1>
-            <p class="sub">Nggak maksa sama sekali, kok.<br />Cuma mau nanya dulu dengan sopan 🙏</p>
+            <p class="sub" id="mainSub">Nggak maksa sama sekali, kok.<br />Cuma mau nanya dulu dengan sopan 🙏</p>
             <div class="btns">
-                <!-- FANCY YES BUTTON -->
+                <!-- YES BUTTON -->
                 <label for="yesBtn" class="area">
                     <input type="checkbox" checked id="yesBtn" onchange="handleYesToggle(this)" />
                     <button class="ubutton">
@@ -1973,28 +2309,22 @@
                             <div class="ureflex"></div>
                             <div class="ucontent">
                                 <span class="utext state-1">
-                                    <span style="--i:1" data-label="B">B</span>
-                                    <span style="--i:2" data-label="O">O</span>
-                                    <span style="--i:3" data-label="L">L</span>
-                                    <span style="--i:4" data-label="E">E</span>
-                                    <span style="--i:5" data-label="H">H</span>
-                                    <span style="--i:6" data-label=" "> </span>
-                                    <span style="--i:7" data-label="G">G</span>
-                                    <span style="--i:8" data-label="A">A</span>
-                                    <span style="--i:9" data-label="S">S</span>
-                                    <span style="--i:10" data-label="!">!</span>
+                                    <span style="--i:1" data-label="B">B</span><span style="--i:2"
+                                        data-label="O">O</span><span style="--i:3" data-label="L">L</span><span
+                                        style="--i:4" data-label="E">E</span><span style="--i:5"
+                                        data-label="H">H</span><span style="--i:6" data-label=" "> </span><span
+                                        style="--i:7" data-label="G">G</span><span style="--i:8"
+                                        data-label="A">A</span><span style="--i:9" data-label="S">S</span><span
+                                        style="--i:10" data-label="!">!</span>
                                 </span>
                                 <span class="utext state-2">
-                                    <span style="--i:1" data-label="⎯">⎯</span>
-                                    <span style="--i:2" data-label="⎯">⎯</span>
-                                    <span style="--i:3" data-label="⎯">⎯</span>
-                                    <span style="--i:4" data-label="⎯">⎯</span>
-                                    <span style="--i:5" data-label="⎯">⎯</span>
-                                    <span style="--i:6" data-label="⎯">⎯</span>
-                                    <span style="--i:7" data-label="⎯">⎯</span>
-                                    <span style="--i:8" data-label="⎯">⎯</span>
-                                    <span style="--i:9" data-label="⎯">⎯</span>
-                                    <span style="--i:10" data-label="⎯">⎯</span>
+                                    <span style="--i:1" data-label="⎯">⎯</span><span style="--i:2"
+                                        data-label="⎯">⎯</span><span style="--i:3" data-label="⎯">⎯</span><span
+                                        style="--i:4" data-label="⎯">⎯</span><span style="--i:5"
+                                        data-label="⎯">⎯</span><span style="--i:6" data-label="⎯">⎯</span><span
+                                        style="--i:7" data-label="⎯">⎯</span><span style="--i:8"
+                                        data-label="⎯">⎯</span><span style="--i:9" data-label="⎯">⎯</span><span
+                                        style="--i:10" data-label="⎯">⎯</span>
                                 </span>
                             </div>
                         </div>
@@ -2091,7 +2421,7 @@
                     </div>
                 </label>
 
-                <!-- FANCY NO BUTTON -->
+                <!-- NO BUTTON -->
                 <label for="noBtn" class="area area-no">
                     <input type="checkbox" checked id="noBtn" onchange="handleNoToggle(this)" />
                     <button class="ubutton ubutton-no">
@@ -2100,28 +2430,22 @@
                             <div class="ureflex"></div>
                             <div class="ucontent ucontent-no">
                                 <span class="utext state-1">
-                                    <span style="--i:1" data-label="N">N</span>
-                                    <span style="--i:2" data-label="G">G</span>
-                                    <span style="--i:3" data-label="G">G</span>
-                                    <span style="--i:4" data-label="A">A</span>
-                                    <span style="--i:5" data-label="K">K</span>
-                                    <span style="--i:6" data-label=" "> </span>
-                                    <span style="--i:7" data-label="B">B</span>
-                                    <span style="--i:8" data-label="I">I</span>
-                                    <span style="--i:9" data-label="S">S</span>
-                                    <span style="--i:10" data-label="A">A</span>
+                                    <span style="--i:1" data-label="N">N</span><span style="--i:2"
+                                        data-label="G">G</span><span style="--i:3" data-label="G">G</span><span
+                                        style="--i:4" data-label="A">A</span><span style="--i:5"
+                                        data-label="K">K</span><span style="--i:6" data-label=" "> </span><span
+                                        style="--i:7" data-label="B">B</span><span style="--i:8"
+                                        data-label="I">I</span><span style="--i:9" data-label="S">S</span><span
+                                        style="--i:10" data-label="A">A</span>
                                 </span>
                                 <span class="utext state-2">
-                                    <span style="--i:1" data-label="⎯">⎯</span>
-                                    <span style="--i:2" data-label="⎯">⎯</span>
-                                    <span style="--i:3" data-label="⎯">⎯</span>
-                                    <span style="--i:4" data-label="⎯">⎯</span>
-                                    <span style="--i:5" data-label="⎯">⎯</span>
-                                    <span style="--i:6" data-label="⎯">⎯</span>
-                                    <span style="--i:7" data-label="⎯">⎯</span>
-                                    <span style="--i:8" data-label="⎯">⎯</span>
-                                    <span style="--i:9" data-label="⎯">⎯</span>
-                                    <span style="--i:10" data-label="⎯">⎯</span>
+                                    <span style="--i:1" data-label="⎯">⎯</span><span style="--i:2"
+                                        data-label="⎯">⎯</span><span style="--i:3" data-label="⎯">⎯</span><span
+                                        style="--i:4" data-label="⎯">⎯</span><span style="--i:5"
+                                        data-label="⎯">⎯</span><span style="--i:6" data-label="⎯">⎯</span><span
+                                        style="--i:7" data-label="⎯">⎯</span><span style="--i:8"
+                                        data-label="⎯">⎯</span><span style="--i:9" data-label="⎯">⎯</span><span
+                                        style="--i:10" data-label="⎯">⎯</span>
                                 </span>
                             </div>
                         </div>
@@ -2222,10 +2546,8 @@
         </div>
     </div>
 
-    <!-- ── RECEIPT SCENE ── -->
+    <!-- RECEIPT SCENE -->
     <div class="scene" id="scene">
-
-        <!-- machine -->
         <div class="machine">
             <div class="machine-top">
                 <span class="machine-label">Nebeng Pass</span>
@@ -2233,58 +2555,39 @@
             </div>
             <div class="machine-slot"></div>
         </div>
-
-        <!-- receipt sliding out -->
         <div class="receipt-clip" id="receiptClip">
             <div class="receipt-flip" id="receiptFlip" onclick="flipReceipt()">
                 <div class="receipt-inner" id="receiptInner">
-
-                    <!-- FRONT: info -->
                     <div class="receipt-face receipt-front">
                         <div class="r-header">
                             <div class="r-shop">🚗 Nebeng Pass</div>
                             <div class="r-tagline">Resmi & Tidak Memaksa™</div>
                         </div>
                         <div class="r-body">
-                            <div class="r-row">
-                                <span class="label">TANGGAL</span>
-                                <span class="val" id="rDate">—</span>
+                            <div class="r-row"><span class="label">TANGGAL</span><span class="val" id="rDate">—</span>
                             </div>
-                            <div class="r-row">
-                                <span class="label">WAKTU</span>
-                                <span class="val" id="rTime">—</span>
+                            <div class="r-row"><span class="label">WAKTU</span><span class="val" id="rTime">—</span>
                             </div>
-                            <div class="r-row">
-                                <span class="label">STATUS</span>
-                                <span class="val" id="rStatusRow">—</span>
-                            </div>
+                            <div class="r-row"><span class="label">STATUS</span><span class="val"
+                                    id="rStatusRow">—</span></div>
                             <hr class="r-divider" />
-                            <div class="r-row">
-                                <span class="label">PENUMPANG</span>
-                                <span class="val">1 orang</span>
+                            <div class="r-row"><span class="label">PENUMPANG</span><span class="val">1 orang</span>
                             </div>
-                            <div class="r-row">
-                                <span class="label">TUJUAN</span>
-                                <span class="val" id="rDest">—</span>
+                            <div class="r-row"><span class="label">TUJUAN</span><span class="val" id="rDest">—</span>
                             </div>
-                            <div class="r-row">
-                                <span class="label">PATUNGAN BENSIN</span>
-                                <span class="val" id="rBensin">—</span>
-                            </div>
+                            <div class="r-row"><span class="label">PATUNGAN BENSIN</span><span class="val"
+                                    id="rBensin">—</span></div>
                             <hr class="r-divider" />
                         </div>
                         <div class="r-status" id="rStatusBig">—</div>
                         <div class="r-hint" id="rHint">—</div>
-                        <!-- zigzag bottom -->
                         <svg class="r-zigzag" viewBox="0 0 260 16" preserveAspectRatio="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M0,0 L10,16 L20,0 L30,16 L40,0 L50,16 L60,0 L70,16 L80,0 L90,16 L100,0 L110,16 L120,0 L130,16 L140,0 L150,16 L160,0 L170,16 L180,0 L190,16 L200,0 L210,16 L220,0 L230,16 L240,0 L250,16 L260,0 L260,16 L0,16 Z"
-                                fill="#f0e6d3" />
+                                fill="var(--bg)" />
                         </svg>
                     </div>
-
-                    <!-- BACK: atas rata (seperti keluar slot); zigzag hanya bawah -->
                     <div class="receipt-face receipt-back">
                         <div class="r-header">
                             <div class="r-shop">🚗 Nebeng Pass</div>
@@ -2307,26 +2610,19 @@
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M0,0 L10,16 L20,0 L30,16 L40,0 L50,16 L60,0 L70,16 L80,0 L90,16 L100,0 L110,16 L120,0 L130,16 L140,0 L150,16 L160,0 L170,16 L180,0 L190,16 L200,0 L210,16 L220,0 L230,16 L240,0 L250,16 L260,0 L260,16 L0,16 Z"
-                                fill="#f0e6d3" />
+                                fill="var(--bg)" />
                         </svg>
                     </div>
-
-                </div><!-- receipt-inner -->
-            </div><!-- receipt-flip -->
-        </div><!-- receipt-clip -->
-
-        <!-- flip hint & back btn -->
+                </div>
+            </div>
+        </div>
         <div class="flip-hint" id="flipHint" onclick="flipReceipt()">
             <span class="flip-arrow">↺</span> tap struk untuk balik
         </div>
-        <!-- <button class="back-btn" onclick="resetScene()">← Tanya lagi</button> -->
+    </div>
 
-    </div><!-- scene -->
-
-    <!-- ── TRAIN SCENE ── -->
+    <!-- TRAIN SCENE -->
     <div class="train-scene" id="trainScene">
-
-        <!-- sky clouds -->
         <div class="t-cloud" style="width:120px;height:40px;top:8%;animation-duration:18s;animation-delay:0s">
             <div
                 style="position:absolute;width:60px;height:60px;background:white;border-radius:50%;top:-30px;left:20px">
@@ -2348,12 +2644,8 @@
                 style="position:absolute;width:34px;height:34px;background:white;border-radius:50%;top:-18px;left:52px">
             </div>
         </div>
-
-        <!-- rails — static, no animation -->
         <div class="t-rail top"></div>
         <div class="t-rail bot"></div>
-
-        <!-- sleepers — evenly spaced, static -->
         <div class="t-sleeper" style="left:5%"></div>
         <div class="t-sleeper" style="left:13%"></div>
         <div class="t-sleeper" style="left:21%"></div>
@@ -2366,21 +2658,13 @@
         <div class="t-sleeper" style="left:77%"></div>
         <div class="t-sleeper" style="left:85%"></div>
         <div class="t-sleeper" style="left:93%"></div>
-
-        <!-- person + bubble anchored to right side above rail — NO background -->
         <div class="t-platform" id="tPlatform">
             <div class="t-person" id="tPerson">🧍</div>
             <div class="t-bubble" id="tBubble">Bye bye! 👋</div>
         </div>
-
-        <!-- station sign — bottom center of screen -->
         <div class="t-sign" id="tSign">🚉 Stasiun Alternatif</div>
-
-        <!-- TRAIN: loco FIRST (leftmost = front), wagons trail to the right -->
         <div class="t-train-wrap" id="tTrainWrap">
             <div class="t-train">
-
-                <!-- LOCOMOTIVE — front of train -->
                 <div class="t-loco">
                     <div class="t-loco-chimney"></div>
                     <div class="t-smoke">
@@ -2394,8 +2678,6 @@
                     <div class="t-wheel t-wheel-m"></div>
                     <div class="t-wheel t-wheel-r"></div>
                 </div>
-
-                <!-- WAGON 1 — has the door (closest to platform) -->
                 <div class="t-wagon">
                     <div class="t-wagon-windows">
                         <div class="t-wagon-window"></div>
@@ -2408,8 +2690,6 @@
                     <div class="t-wheel t-wheel-l"></div>
                     <div class="t-wheel t-wheel-r"></div>
                 </div>
-
-                <!-- WAGONS 2–10 -->
                 <div class="t-wagon">
                     <div class="t-wagon-windows">
                         <div class="t-wagon-window"></div>
@@ -2437,119 +2717,195 @@
                     <div class="t-wheel t-wheel-l"></div>
                     <div class="t-wheel t-wheel-r"></div>
                 </div>
-                <div class="t-wagon">
-                    <div class="t-wagon-windows">
-                        <div class="t-wagon-window"></div>
-                        <div class="t-wagon-window"></div>
-                    </div>
-                    <div class="t-wagon-stripe"></div>
-                    <div class="t-wheel t-wheel-l"></div>
-                    <div class="t-wheel t-wheel-r"></div>
-                </div>
-                <div class="t-wagon">
-                    <div class="t-wagon-windows">
-                        <div class="t-wagon-window"></div>
-                        <div class="t-wagon-window"></div>
-                    </div>
-                    <div class="t-wagon-stripe"></div>
-                    <div class="t-wheel t-wheel-l"></div>
-                    <div class="t-wheel t-wheel-r"></div>
-                </div>
-                <div class="t-wagon">
-                    <div class="t-wagon-windows">
-                        <div class="t-wagon-window"></div>
-                        <div class="t-wagon-window"></div>
-                    </div>
-                    <div class="t-wagon-stripe"></div>
-                    <div class="t-wheel t-wheel-l"></div>
-                    <div class="t-wheel t-wheel-r"></div>
-                </div>
-                <div class="t-wagon">
-                    <div class="t-wagon-windows">
-                        <div class="t-wagon-window"></div>
-                        <div class="t-wagon-window"></div>
-                    </div>
-                    <div class="t-wagon-stripe"></div>
-                    <div class="t-wheel t-wheel-l"></div>
-                    <div class="t-wheel t-wheel-r"></div>
-                </div>
-                <div class="t-wagon">
-                    <div class="t-wagon-windows">
-                        <div class="t-wagon-window"></div>
-                        <div class="t-wagon-window"></div>
-                    </div>
-                    <div class="t-wagon-stripe"></div>
-                    <div class="t-wheel t-wheel-l"></div>
-                    <div class="t-wheel t-wheel-r"></div>
-                </div>
-                <div class="t-wagon">
-                    <div class="t-wagon-windows">
-                        <div class="t-wagon-window"></div>
-                        <div class="t-wagon-window"></div>
-                    </div>
-                    <div class="t-wagon-stripe"></div>
-                    <div class="t-wheel t-wheel-l"></div>
-                    <div class="t-wheel t-wheel-r"></div>
-                </div>
-
             </div>
         </div>
-
-        <!-- back button -->
         <button class="t-back" id="tBack" onclick="resetTrainScene()">← Tanya lagi</button>
-
-    </div><!-- train-scene -->
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
     <script>
-        // ── EmailJS init ──
+        // ── EmailJS ──
         (function () {
-            emailjs.init("u2ZwYFssqpKimYPFe"); // ← ganti dengan Public Key kamu
+            emailjs.init("u2ZwYFssqpKimYPFe");
         })();
 
         function sendEmail(status) {
-            const n = nowStr();
             emailjs.send("service_w5hs2zl", "template_i3sqcai", {
-                    name: "vinkent",
-                    email: "vinkent99@gmail.com",
-                    status: status,
-                    // tanggal: n.date,
-                    // waktu: n.time,
-                    // kode: n.code
-                })
-                .then(() => {
-                    console.log("📧 Email terkirim: " + status);
-                }, (err) => {
-                    console.warn("EmailJS error:", err);
-                });
+                name: "vinkent",
+                email: "vinkent99@gmail.com",
+                status: status,
+                mood: currentMood,
+            }).then(() => console.log("📧 " + status), (e) => console.warn(e));
         }
 
-        // ── date/time ──
-        function nowStr() {
-            const d = new Date();
-            const dd = String(d.getDate()).padStart(2, '0');
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const yy = d.getFullYear();
-            const hh = String(d.getHours()).padStart(2, '0');
-            const mn = String(d.getMinutes()).padStart(2, '0');
-            return {
-                date: `${dd}/${mm}/${yy}`,
-                time: `${hh}:${mn}`,
-                code: `NB-${Math.floor(100000+Math.random()*900000)}`
-            };
+        // ── Mood config ──
+        const MOOD_CONFIG = {
+            senang: {
+                emoji: '😄',
+                label: 'Senang',
+                pill: '☀️ Mood: Senang',
+                sub: 'Wah semangat banget hari ini! Nebeng yuk, biar makin happy 😄✨',
+                particles: ['⭐', '🌟', '✨', '💛', '🌻', '🎉'],
+                confettiColors: ['#f5a623', '#ffd700', '#ffeb3b', '#fff59d', '#5a9b3a', '#e05c2a'],
+            },
+            sedih: {
+                emoji: '😢',
+                label: 'Sedih',
+                pill: '🌧️ Mood: Sedih',
+                sub: 'Lagi nggak baik-baik aja? Gapapa, nebeng aja dulu... 🫂',
+                particles: ['💧', '🌧️', '😢', '💙', '🌊', '☁️'],
+                confettiColors: ['#4a72a8', '#7fb3e8', '#b0d4f8', '#3a8060', '#607090'],
+            },
+            galau: {
+                emoji: '😵‍💫',
+                label: 'Galau',
+                pill: '🌀 Mood: Galau',
+                sub: 'Mau nebeng atau nggak? Ini saatnya mantapkan hati... 🌀💜',
+                particles: ['🌀', '💜', '❓', '🫠', '💭', '✨'],
+                confettiColors: ['#9b59b6', '#d7a8f0', '#6a4c93', '#c03870', '#e8c0ff'],
+            },
+            semangat: {
+                emoji: '🔥',
+                label: 'Semangat',
+                pill: '🔥 Mood: Semangat',
+                sub: 'SIAP GAS! Nebeng bareng yuk, today we WIN! 🔥💪',
+                particles: ['🔥', '⚡', '💥', '🚀', '💢', '✊'],
+                confettiColors: ['#e84020', '#ff6040', '#ff9060', '#ffc080', '#5a8030'],
+            },
+            santai: {
+                emoji: '😌',
+                label: 'Santai',
+                pill: '🍃 Mood: Santai',
+                sub: 'Slow & easygoing. Nebeng santai, nggak buru-buru kok 🍃😌',
+                particles: ['🍃', '🌿', '☘️', '🌱', '💚', '🕊️'],
+                confettiColors: ['#2d9b60', '#7ec8a0', '#a8e8c0', '#5a9b3a', '#b8f0d0'],
+            },
+            grogi: {
+                emoji: '😰',
+                label: 'Grogi',
+                pill: '💓 Mood: Grogi',
+                sub: 'Tenang, nggak perlu grogi! Pertanyaannya simpel kok 💓',
+                particles: ['💓', '😰', '🫧', '💦', '🌸', '💫'],
+                confettiColors: ['#d44898', '#f0a0d0', '#ff80c0', '#c02850', '#ffc0e0'],
+            },
+            marah: {
+                emoji: '😡',
+                label: 'Marah',
+                pill: '😡 Mood: Marah',
+                sub: 'Oke oke, tarik napas dulu... terus jawab ya 🔥😤',
+                particles: ['😡', '🔥', '💢', '⚡', '👊', '🌋'],
+                confettiColors: ['#ff2d2d', '#ff6060', '#ff0000', '#cc0000', '#ff9090'],
+            },
+            sakit: {
+                emoji: '🤒',
+                label: 'Gk Enak Badan',
+                pill: '🤒 Mood: Kurang Fit',
+                sub: 'Lagi gk enak badan? Semoga cepet sembuh ya... nebeng dulu aja 🤒💊',
+                particles: ['🤒', '💊', '🌡️', '🍵', '😷', '💤'],
+                confettiColors: ['#7aaa20', '#b0d060', '#c8e890', '#4a8030', '#a0c840'],
+            },
+            ngantuk: {
+                emoji: '😴',
+                label: 'Ngantuk',
+                pill: '😴 Mood: Ngantuk',
+                sub: 'Hap... 😪 Jawab dulu baru boleh tidur ya~ zzz',
+                particles: ['😴', '💤', '🌙', '⭐', '✨', '🛌'],
+                confettiColors: ['#6878e0', '#9098e8', '#c0c8ff', '#4a5ab0', '#b0b8f8'],
+            },
+        };
+
+        let currentMood = null;
+        let moodParticleInterval = null;
+
+        function selectMood(btn) {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            currentMood = btn.dataset.mood;
+
+            // live theme preview
+            document.documentElement.setAttribute('data-mood', currentMood);
+            document.getElementById('moodScreen').setAttribute('data-mood', currentMood);
+
+            // activate confirm
+            document.getElementById('moodConfirm').classList.add('active');
+            const cfg = MOOD_CONFIG[currentMood];
+            document.getElementById('moodConfirm').textContent = `Lanjut dengan mood ${cfg.emoji} →`;
+
+            // spawn mini particles in mood screen as preview
+            clearMoodParticles();
+            spawnMoodParticles(cfg.particles, 6);
         }
 
-        // ── localStorage: jawaban sekali per hari → besok bisa mulai lagi ──
+        let moodParticleEls = [];
+
+        function spawnMoodParticles(emojis, count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'mood-particle';
+                    el.textContent = emojis[~~(Math.random() * emojis.length)];
+                    el.style.left = Math.random() * 100 + 'vw';
+                    el.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    el.style.animationDelay = (Math.random() * 1) + 's';
+                    el.style.fontSize = (Math.random() * 14 + 12) + 'px';
+                    document.body.appendChild(el);
+                    moodParticleEls.push(el);
+                    setTimeout(() => {
+                        try {
+                            el.remove()
+                        } catch (e) {}
+                    }, 5000);
+                }, i * 100);
+            }
+        }
+
+        function clearMoodParticles() {
+            moodParticleEls.forEach(e => {
+                try {
+                    e.remove()
+                } catch (er) {}
+            });
+            moodParticleEls = [];
+        }
+
+        function confirmMood() {
+            if (!currentMood) return;
+            const cfg = MOOD_CONFIG[currentMood];
+            clearMoodParticles();
+
+            // apply theme to whole page
+            document.documentElement.setAttribute('data-mood', currentMood);
+            document.body.setAttribute('data-mood', currentMood);
+
+            // update main card text
+            document.getElementById('mainPill').textContent = cfg.pill;
+            document.getElementById('mainSub').textContent = cfg.sub;
+
+            // hide mood screen with animation
+            const ms = document.getElementById('moodScreen');
+            ms.classList.add('hidden');
+            setTimeout(() => {
+                ms.style.display = 'none';
+            }, 600);
+
+            // start ambient mood particles in background
+            startAmbientParticles(cfg.particles);
+        }
+
+        function startAmbientParticles(emojis) {
+            if (moodParticleInterval) clearInterval(moodParticleInterval);
+            moodParticleInterval = setInterval(() => {
+                spawnMoodParticles(emojis, 2);
+            }, 2000);
+        }
+
+        // ── Storage ──
         const NEBENG_STORAGE_KEY = 'nebeng_v2_jawaban';
 
-        /** Kunci tanggal lokal (YYYY-MM-DD) untuk reset harian */
         function getTodayDayKey() {
             const d = new Date();
-            const y = d.getFullYear();
-            const m = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${y}-${m}-${day}`;
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
         }
 
         function getSavedNebeng() {
@@ -2557,8 +2913,7 @@
                 const raw = localStorage.getItem(NEBENG_STORAGE_KEY);
                 if (!raw) return null;
                 const data = JSON.parse(raw);
-                const today = getTodayDayKey();
-                if (!data.dayKey || data.dayKey !== today) {
+                if (!data.dayKey || data.dayKey !== getTodayDayKey()) {
                     localStorage.removeItem(NEBENG_STORAGE_KEY);
                     return null;
                 }
@@ -2568,13 +2923,14 @@
             }
         }
 
-        function saveNebengYes(payload) {
+        function saveNebengYes(p) {
             localStorage.setItem(NEBENG_STORAGE_KEY, JSON.stringify({
                 choice: 'yes',
                 dayKey: getTodayDayKey(),
-                date: payload.date,
-                time: payload.time,
-                code: payload.code
+                date: p.date,
+                time: p.time,
+                code: p.code,
+                mood: currentMood
             }));
         }
 
@@ -2582,7 +2938,8 @@
             localStorage.setItem(NEBENG_STORAGE_KEY, JSON.stringify({
                 choice: 'no',
                 dayKey: getTodayDayKey(),
-                ts: Date.now()
+                ts: Date.now(),
+                mood: currentMood
             }));
         }
 
@@ -2592,12 +2949,37 @@
             } catch (e) {}
         }
 
+        function nowStr() {
+            const d = new Date();
+            return {
+                date: `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`,
+                time: `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`,
+                code: `NB-${Math.floor(100000+Math.random()*900000)}`
+            };
+        }
+
+        // ── Init from storage ──
+        function initNebengFromStorage() {
+            const saved = getSavedNebeng();
+            if (!saved) return;
+            // If saved, skip mood screen
+            currentMood = saved.mood || 'senang';
+            document.documentElement.setAttribute('data-mood', currentMood);
+            document.body.setAttribute('data-mood', currentMood);
+            const cfg = MOOD_CONFIG[currentMood] || MOOD_CONFIG['senang'];
+            document.getElementById('mainPill').textContent = cfg.pill;
+            document.getElementById('mainSub').textContent = cfg.sub;
+            document.getElementById('moodScreen').style.display = 'none';
+            if (saved.choice === 'yes') applySavedYes(saved);
+            else if (saved.choice === 'no') applySavedNo();
+        }
+
         function fillReceiptYesRows(date, time, code) {
             document.getElementById('rDate').textContent = date;
             document.getElementById('rTime').textContent = time;
             document.getElementById('rCode').textContent = code;
             document.getElementById('rStatusRow').textContent = '✅ DISETUJUI';
-            document.getElementById('rStatusRow').style.color = '#4a7c59';
+            document.getElementById('rStatusRow').style.color = 'var(--green)';
             document.getElementById('rDest').textContent = 'Searah / Tujuan sama';
             document.getElementById('rBensin').textContent = 'Sukarela 🙏';
             document.getElementById('rStatusBig').textContent = 'BOLEH GAS! 🎉';
@@ -2613,77 +2995,49 @@
             document.getElementById('machineLight').className = 'machine-light';
         }
 
-        /** Pulihkan struk BOLEH (tanpa kirim email lagi) */
         function applySavedYes(saved) {
             isFlipped = false;
             document.getElementById('receiptInner').classList.remove('flipped');
             fillReceiptYesRows(saved.date, saved.time, saved.code);
-
             const mc = document.getElementById('mainCard');
             mc.style.display = 'none';
             mc.style.opacity = '0';
             mc.style.pointerEvents = 'none';
-
             document.getElementById('scene').classList.add('show');
-
             setTimeout(() => {
                 const totalH = measureReceiptClipHeight();
                 const clip = document.getElementById('receiptClip');
                 clip.style.transition = 'none';
                 clip.style.height = totalH + 'px';
                 syncReceiptBackFaceAfterClip(totalH);
-
-                const hint = document.getElementById('flipHint');
-                hint.classList.add('vis');
-
+                document.getElementById('flipHint').classList.add('vis');
                 spawnConfetti();
                 setTimeout(spawnConfetti, 400);
                 startCarLoop();
             }, 80);
         }
 
-        /** Pulihkan scene kereta (posisi akhir: kereta sudah berangkat) */
         function applySavedNo() {
             const mc = document.getElementById('mainCard');
             mc.style.display = 'none';
             mc.style.opacity = '0';
             mc.style.pointerEvents = 'none';
-
             document.getElementById('trainScene').classList.add('show');
-
             const wrap = document.getElementById('tTrainWrap');
-            const door = document.getElementById('tDoor');
-            const person = document.getElementById('tPerson');
-            const bubble = document.getElementById('tBubble');
-            const sign = document.getElementById('tSign');
-            const back = document.getElementById('tBack');
-
             wrap.classList.remove('arrive');
             wrap.classList.add('depart');
-            wrap.querySelectorAll('.t-wheel').forEach(w => {
-                w.style.animationPlayState = 'running';
-            });
-            door.classList.remove('open');
+            wrap.querySelectorAll('.t-wheel').forEach(w => w.style.animationPlayState = 'running');
+            document.getElementById('tDoor').classList.remove('open');
+            const person = document.getElementById('tPerson');
             person.classList.remove('wave');
             person.style.opacity = '0';
             person.style.transform = 'translateX(-50%) translateX(-20px) scale(.5)';
-            bubble.classList.remove('show');
-            bubble.textContent = 'Bye bye! 👋';
-            sign.classList.add('show');
-            back.classList.add('show');
+            document.getElementById('tBubble').classList.remove('show');
+            document.getElementById('tSign').classList.add('show');
+            document.getElementById('tBack').classList.add('show');
         }
 
-        function initNebengFromStorage() {
-            const saved = getSavedNebeng();
-            if (!saved) return;
-            if (saved.choice === 'yes') {
-                applySavedYes(saved);
-            } else if (saved.choice === 'no') {
-                applySavedNo();
-            }
-        }
-
-        /** Isi QR = URL yang sama dengan link (bisa dipindai kamera HP) */
+        // ── QR ──
         const NEBENG_QR_URL = 'https://vinkentg.github.io/miniproject/bolehnebeng.html';
 
         function initNebengQR() {
@@ -2700,20 +3054,16 @@
                     correctLevel: QRCode.CorrectLevel.M
                 });
             } catch (e) {
-                console.warn('QR init:', e);
+                console.warn('QR:', e);
             }
         }
 
-        function bootNebengPage() {
-            initNebengQR();
-            initNebengFromStorage();
-        }
-
-        // ── particles ──
+        // ── Particles ──
         let particles = [];
 
         function spawnConfetti() {
-            const colors = ['#4a7c59', '#d4763b', '#f4c542', '#c0392b', '#e8a87c', '#5c3d2e'];
+            const cfg = MOOD_CONFIG[currentMood] || MOOD_CONFIG['senang'];
+            const colors = cfg.confettiColors;
             for (let i = 0; i < 60; i++) {
                 const el = document.createElement('div');
                 el.className = 'confetti-piece';
@@ -2756,26 +3106,14 @@
             particles = [];
         }
 
-        // ── car zoom (smooth, no flicker) ──
-        let carLoop;
-        let carAnimId;
-        let carX;
+        // ── Car ──
+        let carAnimId, carX;
         const CAR_SPEED = 4.5;
-
-        function getCarStart() {
-            return window.innerWidth + 100;
-        }
-
-        function getCarEnd() {
-            return -120;
-        }
 
         function animateCar() {
             const car = document.getElementById('zoomCar');
             carX -= CAR_SPEED;
-            if (carX < getCarEnd()) {
-                carX = getCarStart();
-            }
+            if (carX < -120) carX = window.innerWidth + 100;
             car.style.transform = `translateX(${carX}px)`;
             carAnimId = requestAnimationFrame(animateCar);
         }
@@ -2783,7 +3121,7 @@
         function startCarLoop() {
             const car = document.getElementById('zoomCar');
             const road = document.getElementById('road');
-            carX = getCarStart();
+            carX = window.innerWidth + 100;
             car.style.transform = `translateX(${carX}px) scaleX(-1)`;
             car.style.visibility = 'visible';
             road.classList.add('show');
@@ -2793,21 +3131,18 @@
 
         function stopCarLoop() {
             cancelAnimationFrame(carAnimId);
-            const car = document.getElementById('zoomCar');
-            const road = document.getElementById('road');
-            car.style.visibility = 'hidden';
-            road.classList.remove('show');
+            document.getElementById('zoomCar').style.visibility = 'hidden';
+            document.getElementById('road').classList.remove('show');
         }
 
-        // ── flip ──
+        // ── Flip ──
         let isFlipped = false;
 
         function flipReceipt() {
             isFlipped = !isFlipped;
             document.getElementById('receiptInner').classList.toggle('flipped', isFlipped);
             const hint = document.getElementById('flipHint');
-            hint.innerHTML = isFlipped ?
-                '<span class="flip-arrow">↺</span> tap untuk lihat info' :
+            hint.innerHTML = isFlipped ? '<span class="flip-arrow">↺</span> tap untuk lihat info' :
                 '<span class="flip-arrow">↺</span> tap struk untuk balik';
         }
 
@@ -2835,63 +3170,50 @@
             if (back) back.style.height = '100%';
         }
 
-        // ── stepped receipt feed ──
         function feedReceipt(totalH) {
             const clip = document.getElementById('receiptClip');
-            // Step 1: peek out ~10% with a little jitter feel
-            const peek = Math.round(totalH * 0.10);
+            const peek = Math.round(totalH * .10);
             const steps = [{
-                    h: peek,
-                    delay: 0,
-                    dur: 180
-                }, // first peek
-                {
-                    h: peek,
-                    delay: 340,
-                    dur: 0
-                }, // pause — thermal "thinking"
-                {
-                    h: Math.round(totalH * 0.22),
-                    delay: 420,
-                    dur: 260
-                }, // nudge further
-                {
-                    h: Math.round(totalH * 0.22),
-                    delay: 240,
-                    dur: 0
-                }, // tiny pause
-                {
-                    h: Math.round(totalH * 0.40),
-                    delay: 220,
-                    dur: 380
-                }, // feed chunk
-                {
-                    h: Math.round(totalH * 0.40),
-                    delay: 180,
-                    dur: 0
-                }, // pause mid
-                {
-                    h: Math.round(totalH * 0.58),
-                    delay: 200,
-                    dur: 340
-                },
-                {
-                    h: Math.round(totalH * 0.72),
-                    delay: 160,
-                    dur: 300
-                },
-                {
-                    h: Math.round(totalH * 0.85),
-                    delay: 140,
-                    dur: 260
-                },
-                {
-                    h: totalH,
-                    delay: 120,
-                    dur: 220
-                }, // final full out
-            ];
-
+                h: peek,
+                delay: 0,
+                dur: 180
+            }, {
+                h: peek,
+                delay: 340,
+                dur: 0
+            }, {
+                h: Math.round(totalH * .22),
+                delay: 420,
+                dur: 260
+            }, {
+                h: Math.round(totalH * .22),
+                delay: 240,
+                dur: 0
+            }, {
+                h: Math.round(totalH * .40),
+                delay: 220,
+                dur: 380
+            }, {
+                h: Math.round(totalH * .40),
+                delay: 180,
+                dur: 0
+            }, {
+                h: Math.round(totalH * .58),
+                delay: 200,
+                dur: 340
+            }, {
+                h: Math.round(totalH * .72),
+                delay: 160,
+                dur: 300
+            }, {
+                h: Math.round(totalH * .85),
+                delay: 140,
+                dur: 260
+            }, {
+                h: totalH,
+                delay: 120,
+                dur: 220
+            }];
             let acc = 0;
             steps.forEach(s => {
                 acc += s.delay;
@@ -2900,12 +3222,10 @@
                     clip.style.height = s.h + 'px';
                 }, acc);
             });
-
-            // return total time so caller can schedule flip hint
             return acc + 400;
         }
 
-        // ── yes button with 3s countdown ──
+        // ── Countdowns ──
         let countdownTimer = null;
 
         function handleYesToggle(checkbox) {
@@ -2913,32 +3233,24 @@
                 checkbox.checked = true;
                 return;
             }
-            if (!checkbox.checked) {
-                // unchecked = activated (button flipped to "loading" state)
-                startCountdown();
-            } else {
-                cancelCountdown();
-            }
+            if (!checkbox.checked) startCountdown();
+            else cancelCountdown();
         }
 
         function startCountdown() {
-            const ring = document.getElementById('countdownRing');
-            const fill = document.getElementById('cringFill');
-            const num = document.getElementById('cringNum');
-            const CIRC = 138; // 2π×22
-            const TOTAL = 3000;
-            const INTERVAL = 50;
+            const ring = document.getElementById('countdownRing'),
+                fill = document.getElementById('cringFill'),
+                num = document.getElementById('cringNum');
+            const CIRC = 138,
+                TOTAL = 3000,
+                INTERVAL = 50;
             let elapsed = 0;
-
             ring.classList.add('show');
-
             countdownTimer = setInterval(() => {
                 elapsed += INTERVAL;
-                const progress = elapsed / TOTAL;
-                fill.style.strokeDashoffset = CIRC - progress * CIRC;
-                const remaining = Math.ceil((TOTAL - elapsed) / 1000);
-                num.textContent = remaining > 0 ? remaining : '🚗';
-
+                fill.style.strokeDashoffset = CIRC - (elapsed / TOTAL) * CIRC;
+                const rem = Math.ceil((TOTAL - elapsed) / 1000);
+                num.textContent = rem > 0 ? rem : '🚗';
                 if (elapsed >= TOTAL) {
                     clearInterval(countdownTimer);
                     countdownTimer = null;
@@ -2953,13 +3265,11 @@
                 clearInterval(countdownTimer);
                 countdownTimer = null;
             }
-            const ring = document.getElementById('countdownRing');
-            ring.classList.remove('show');
+            document.getElementById('countdownRing').classList.remove('show');
             document.getElementById('cringFill').style.strokeDashoffset = 138;
             document.getElementById('cringNum').textContent = '3';
         }
 
-        // ── no button with 3s countdown ──
         let countdownTimerNo = null;
 
         function handleNoToggle(checkbox) {
@@ -2967,27 +3277,24 @@
                 checkbox.checked = true;
                 return;
             }
-            if (!checkbox.checked) {
-                startCountdownNo();
-            } else {
-                cancelCountdownNo();
-            }
+            if (!checkbox.checked) startCountdownNo();
+            else cancelCountdownNo();
         }
 
         function startCountdownNo() {
-            const ring = document.getElementById('countdownRingNo');
-            const fill = document.getElementById('cringFillNo');
-            const num = document.getElementById('cringNumNo');
-            const CIRC = 138;
-            const TOTAL = 3000;
-            const INTERVAL = 50;
+            const ring = document.getElementById('countdownRingNo'),
+                fill = document.getElementById('cringFillNo'),
+                num = document.getElementById('cringNumNo');
+            const CIRC = 138,
+                TOTAL = 3000,
+                INTERVAL = 50;
             let elapsed = 0;
             ring.classList.add('show');
             countdownTimerNo = setInterval(() => {
                 elapsed += INTERVAL;
                 fill.style.strokeDashoffset = CIRC - (elapsed / TOTAL) * CIRC;
-                const remaining = Math.ceil((TOTAL - elapsed) / 1000);
-                num.textContent = remaining > 0 ? remaining : '🚂';
+                const rem = Math.ceil((TOTAL - elapsed) / 1000);
+                num.textContent = rem > 0 ? rem : '🚂';
                 if (elapsed >= TOTAL) {
                     clearInterval(countdownTimerNo);
                     countdownTimerNo = null;
@@ -3008,7 +3315,7 @@
             document.getElementById('cringNumNo').textContent = '3';
         }
 
-        // ── main answer ──
+        // ── Answer ──
         function answer(type) {
             const {
                 date,
@@ -3016,10 +3323,8 @@
                 code
             } = nowStr();
             const isYes = type === 'yes';
-
-            // fill receipt data
             if (isYes) {
-                sendEmail("BOLEH ✅ — Nebeng disetujui");
+                sendEmail("BOLEH ✅");
                 fillReceiptYesRows(date, time, code);
                 saveNebengYes({
                     date,
@@ -3031,7 +3336,7 @@
                 document.getElementById('rTime').textContent = time;
                 document.getElementById('rCode').textContent = code;
                 document.getElementById('rStatusRow').textContent = '❌ DITOLAK';
-                document.getElementById('rStatusRow').style.color = '#c0392b';
+                document.getElementById('rStatusRow').style.color = 'var(--red)';
                 document.getElementById('rDest').textContent = '— tidak jadi —';
                 document.getElementById('rBensin').textContent = 'Nggak jadi 😔';
                 document.getElementById('rStatusBig').textContent = 'NGGAK BISA 😔';
@@ -3042,34 +3347,22 @@
                     'Gapapa, makasih sudah nanya!\nMasih ada ojek online & angkot kok.';
                 document.getElementById('rHintBack').textContent =
                     'Gapapa, makasih sudah nanya!\nMasih ada ojek online & angkot kok.';
-                document.getElementById('rBackHint').textContent =
-                    'Struk penolakan resmi.\nSimpan sebagai kenangan 🥲';
+                document.getElementById('rBackHint').textContent = 'Struk penolakan resmi.\nSimpan sebagai kenangan 🥲';
                 document.getElementById('machineLight').className = 'machine-light red';
             }
-
-            // hide main card, show scene
-            document.getElementById('mainCard').style.opacity = '0';
-            document.getElementById('mainCard').style.pointerEvents = 'none';
-            document.getElementById('mainCard').style.transition = 'opacity .3s';
-
+            const mc = document.getElementById('mainCard');
+            mc.style.opacity = '0';
+            mc.style.pointerEvents = 'none';
+            mc.style.transition = 'opacity .3s';
             setTimeout(() => {
-                document.getElementById('mainCard').style.display = 'none';
-                const scene = document.getElementById('scene');
-                scene.classList.add('show');
-
-                // measure full receipt height then start stepped feed
+                mc.style.display = 'none';
+                document.getElementById('scene').classList.add('show');
                 setTimeout(() => {
                     const totalH = measureReceiptClipHeight();
                     syncReceiptBackFaceAfterClip(totalH);
                     const feedDone = feedReceipt(totalH);
-
-                    // show flip hint after receipt fully out
-                    setTimeout(() => {
-                        const hint = document.getElementById('flipHint');
-                        hint.classList.add('vis');
-                    }, feedDone);
-
-                    // trigger effects
+                    setTimeout(() => document.getElementById('flipHint').classList.add('vis'),
+                        feedDone);
                     if (isYes) {
                         setTimeout(spawnConfetti, feedDone - 600);
                         setTimeout(startCarLoop, feedDone - 200);
@@ -3082,9 +3375,8 @@
             }, 320);
         }
 
-        // ── NO answer → train scene ──
         function answerNo() {
-            sendEmail("TIDAK ❌ — Nebeng ditolak");
+            sendEmail("TIDAK ❌");
             saveNebengNo();
             const mc = document.getElementById('mainCard');
             mc.style.opacity = '0';
@@ -3098,38 +3390,26 @@
         }
 
         function runTrainScene() {
-            const wrap = document.getElementById('tTrainWrap');
-            const door = document.getElementById('tDoor');
-            const person = document.getElementById('tPerson');
-            const bubble = document.getElementById('tBubble');
-            const sign = document.getElementById('tSign');
-            const back = document.getElementById('tBack');
-
-            // Step 1 — train arrives from right (wheels rolling)
-            setTimeout(() => {
-                wrap.classList.add('arrive');
-            }, 100);
-
-            // Step 2 — train stopped: pause wheels
+            const wrap = document.getElementById('tTrainWrap'),
+                door = document.getElementById('tDoor'),
+                person = document.getElementById('tPerson'),
+                bubble = document.getElementById('tBubble'),
+                sign = document.getElementById('tSign'),
+                back = document.getElementById('tBack');
+            setTimeout(() => wrap.classList.add('arrive'), 100);
             setTimeout(() => {
                 wrap.querySelectorAll('.t-wheel').forEach(w => w.style.animationPlayState = 'paused');
                 door.classList.add('open');
             }, 1800);
-
-            // Step 3 — person waves + bubble + sign
             setTimeout(() => {
                 person.classList.add('wave');
                 bubble.classList.add('show');
                 sign.classList.add('show');
             }, 2500);
-
-            // Step 4 — person boards
             setTimeout(() => {
                 person.style.opacity = '0';
                 person.style.transform = 'translateX(-50%) translateX(-20px) scale(.5)';
             }, 3800);
-
-            // Step 5 — door closes
             setTimeout(() => {
                 door.classList.remove('open');
                 bubble.classList.remove('show');
@@ -3138,34 +3418,24 @@
                     bubble.classList.add('show');
                 }, 150);
             }, 4600);
-
-            // Step 6 — resume wheels, train departs
             setTimeout(() => {
                 bubble.classList.remove('show');
                 wrap.querySelectorAll('.t-wheel').forEach(w => w.style.animationPlayState = 'running');
                 wrap.classList.remove('arrive');
                 wrap.classList.add('depart');
             }, 5400);
-
-            // Step 7 — show back button after train fully gone
-            setTimeout(() => {
-                back.classList.add('show');
-            }, 8800);
+            setTimeout(() => back.classList.add('show'), 8800);
         }
 
         function resetTrainScene() {
-            const ts = document.getElementById('trainScene');
-            ts.classList.remove('show');
-
-            const wrap = document.getElementById('tTrainWrap');
-            const door = document.getElementById('tDoor');
-            const person = document.getElementById('tPerson');
-            const bubble = document.getElementById('tBubble');
-            const sign = document.getElementById('tSign');
-            const back = document.getElementById('tBack');
-
+            document.getElementById('trainScene').classList.remove('show');
+            const wrap = document.getElementById('tTrainWrap'),
+                door = document.getElementById('tDoor'),
+                person = document.getElementById('tPerson'),
+                bubble = document.getElementById('tBubble'),
+                sign = document.getElementById('tSign'),
+                back = document.getElementById('tBack');
             wrap.classList.remove('arrive', 'depart');
-            // reset wheels
             wrap.querySelectorAll('.t-wheel').forEach(w => w.style.animationPlayState = 'running');
             door.classList.remove('open');
             person.classList.remove('wave');
@@ -3176,59 +3446,57 @@
             bubble.textContent = 'Bye bye! 👋';
             sign.classList.remove('show');
             back.classList.remove('show');
-
             cancelCountdownNo();
-            const noBtn = document.getElementById('noBtn');
-            if (noBtn) noBtn.checked = true;
-
+            document.getElementById('noBtn').checked = true;
             const mc = document.getElementById('mainCard');
             mc.style.display = '';
             mc.style.opacity = '1';
             mc.style.pointerEvents = '';
-
             clearNebengStorage();
+            // Re-show mood screen
+            currentMood = null;
+            document.documentElement.removeAttribute('data-mood');
+            document.body.removeAttribute('data-mood');
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById('moodConfirm').classList.remove('active');
+            document.getElementById('moodConfirm').textContent = 'Lanjut →';
+            document.getElementById('moodScreen').style.display = '';
+            document.getElementById('moodScreen').classList.remove('hidden');
+            clearMoodParticles();
+            if (moodParticleInterval) clearInterval(moodParticleInterval);
         }
 
         function resetScene() {
-            // reset flip
             isFlipped = false;
-            document.getElementById('receiptInner').classList.remove('flipped');
-            document.getElementById('receiptInner').classList.remove('receipt-inner--sized');
+            document.getElementById('receiptInner').classList.remove('flipped', 'receipt-inner--sized');
             document.getElementById('receiptInner').style.minHeight = '';
             document.getElementById('receiptInner').style.height = '';
             const back = document.querySelector('.receipt-back');
             if (back) back.style.height = '';
-
-            // hide scene
             document.getElementById('scene').classList.remove('show');
             document.getElementById('receiptClip').style.height = '0';
             document.getElementById('receiptClip').style.transition = 'none';
             document.getElementById('flipHint').classList.remove('vis');
-
-            // show main card
             const mc = document.getElementById('mainCard');
             mc.style.display = '';
             mc.style.opacity = '1';
             mc.style.pointerEvents = '';
-
             cancelCountdown();
             cancelCountdownNo();
-            const yesBtn = document.getElementById('yesBtn');
-            if (yesBtn) yesBtn.checked = true;
-            const noBtn = document.getElementById('noBtn');
-            if (noBtn) noBtn.checked = true;
-
+            document.getElementById('yesBtn').checked = true;
+            document.getElementById('noBtn').checked = true;
             clearParticles();
             stopCarLoop();
-
             clearNebengStorage();
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', bootNebengPage);
-        } else {
-            bootNebengPage();
+        function bootNebengPage() {
+            initNebengQR();
+            initNebengFromStorage();
         }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootNebengPage);
+        else bootNebengPage();
     </script>
 </body>
 

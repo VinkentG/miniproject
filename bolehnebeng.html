@@ -1042,6 +1042,27 @@
             transform: rotateY(180deg);
         }
 
+        /* Setelah tinggi dikunci, depan & belakang sama panjang; zigzag hanya di bawah */
+        .receipt-inner--sized .receipt-front {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .receipt-inner--sized .receipt-back {
+            height: 100%;
+            min-height: 100%;
+        }
+
+        .receipt-inner--sized .r-zigzag {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
         /* shared face styles */
         .receipt-face {
             width: 100%;
@@ -1067,7 +1088,6 @@
             min-height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             overflow: visible;
         }
 
@@ -1161,13 +1181,17 @@
             flex-shrink: 0;
         }
 
-        /* back face — barcode */
-        .r-back-inner {
-            padding: 22px 20px 16px;
+        /* back face — sama bentuk struk depan, tengah = QR */
+        .r-back-mid {
+            padding: 14px 20px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+        }
+
+        .r-back-mid .barcode-link {
+            margin: 0 auto;
         }
 
         .r-back-title {
@@ -2260,16 +2284,13 @@
                         </svg>
                     </div>
 
-                    <!-- BACK: barcode -->
+                    <!-- BACK: atas rata (seperti keluar slot); zigzag hanya bawah -->
                     <div class="receipt-face receipt-back">
-                        <!-- zigzag top (flipped) -->
-                        <svg style="transform:scaleY(-1);display:block" viewBox="0 0 260 16" preserveAspectRatio="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0,0 L10,16 L20,0 L30,16 L40,0 L50,16 L60,0 L70,16 L80,0 L90,16 L100,0 L110,16 L120,0 L130,16 L140,0 L150,16 L160,0 L170,16 L180,0 L190,16 L200,0 L210,16 L220,0 L230,16 L240,0 L250,16 L260,0 L260,16 L0,16 Z"
-                                fill="#f0e6d3" />
-                        </svg>
-                        <div class="r-back-inner">
+                        <div class="r-header">
+                            <div class="r-shop">🚗 Nebeng Pass</div>
+                            <div class="r-tagline">Resmi & Tidak Memaksa™</div>
+                        </div>
+                        <div class="r-body r-back-mid">
                             <a class="barcode-link" href="https://vinkentg.github.io/miniproject/bolehnebengpass.html"
                                 target="_blank" rel="noopener noreferrer" title="Buka halaman Boleh Nebeng?"
                                 onclick="event.stopPropagation()">
@@ -2280,6 +2301,8 @@
                             </a>
                             <div class="r-back-hint" id="rBackHint">—</div>
                         </div>
+                        <div class="r-status" id="rStatusBigBack">—</div>
+                        <div class="r-hint" id="rHintBack">—</div>
                         <svg class="r-zigzag" viewBox="0 0 260 16" preserveAspectRatio="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -2579,7 +2602,11 @@
             document.getElementById('rBensin').textContent = 'Sukarela 🙏';
             document.getElementById('rStatusBig').textContent = 'BOLEH GAS! 🎉';
             document.getElementById('rStatusBig').className = 'r-status yes';
+            document.getElementById('rStatusBigBack').textContent = 'BOLEH GAS! 🎉';
+            document.getElementById('rStatusBigBack').className = 'r-status yes';
             document.getElementById('rHint').textContent =
+                'Makasih banyak ya!\nJangan lupa share lokasi jemput & konfirmasi jam.';
+            document.getElementById('rHintBack').textContent =
                 'Makasih banyak ya!\nJangan lupa share lokasi jemput & konfirmasi jam.';
             document.getElementById('rBackHint').textContent =
                 'Tunjukkan ke pengintil.\nValid untuk 1x perjalanan hari ini.';
@@ -2800,8 +2827,12 @@
         function syncReceiptBackFaceAfterClip(totalH) {
             const back = document.querySelector('.receipt-back');
             const inner = document.getElementById('receiptInner');
-            if (back) back.style.height = totalH + 'px';
-            if (inner) inner.style.minHeight = totalH + 'px';
+            if (inner) {
+                inner.style.height = totalH + 'px';
+                inner.style.minHeight = totalH + 'px';
+                inner.classList.add('receipt-inner--sized');
+            }
+            if (back) back.style.height = '100%';
         }
 
         // ── stepped receipt feed ──
@@ -3005,7 +3036,11 @@
                 document.getElementById('rBensin').textContent = 'Nggak jadi 😔';
                 document.getElementById('rStatusBig').textContent = 'NGGAK BISA 😔';
                 document.getElementById('rStatusBig').className = 'r-status no';
+                document.getElementById('rStatusBigBack').textContent = 'NGGAK BISA 😔';
+                document.getElementById('rStatusBigBack').className = 'r-status no';
                 document.getElementById('rHint').textContent =
+                    'Gapapa, makasih sudah nanya!\nMasih ada ojek online & angkot kok.';
+                document.getElementById('rHintBack').textContent =
                     'Gapapa, makasih sudah nanya!\nMasih ada ojek online & angkot kok.';
                 document.getElementById('rBackHint').textContent =
                     'Struk penolakan resmi.\nSimpan sebagai kenangan 🥲';
@@ -3158,7 +3193,9 @@
             // reset flip
             isFlipped = false;
             document.getElementById('receiptInner').classList.remove('flipped');
+            document.getElementById('receiptInner').classList.remove('receipt-inner--sized');
             document.getElementById('receiptInner').style.minHeight = '';
+            document.getElementById('receiptInner').style.height = '';
             const back = document.querySelector('.receipt-back');
             if (back) back.style.height = '';
 

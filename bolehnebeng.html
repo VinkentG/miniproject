@@ -2496,14 +2496,29 @@
             };
         }
 
-        // ── localStorage: jawaban sekali, lalu langsung ke scene yang dipilih ──
+        // ── localStorage: jawaban sekali per hari → besok bisa mulai lagi ──
         const NEBENG_STORAGE_KEY = 'nebeng_v2_jawaban';
+
+        /** Kunci tanggal lokal (YYYY-MM-DD) untuk reset harian */
+        function getTodayDayKey() {
+            const d = new Date();
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
 
         function getSavedNebeng() {
             try {
                 const raw = localStorage.getItem(NEBENG_STORAGE_KEY);
                 if (!raw) return null;
-                return JSON.parse(raw);
+                const data = JSON.parse(raw);
+                const today = getTodayDayKey();
+                if (!data.dayKey || data.dayKey !== today) {
+                    localStorage.removeItem(NEBENG_STORAGE_KEY);
+                    return null;
+                }
+                return data;
             } catch (e) {
                 return null;
             }
@@ -2512,6 +2527,7 @@
         function saveNebengYes(payload) {
             localStorage.setItem(NEBENG_STORAGE_KEY, JSON.stringify({
                 choice: 'yes',
+                dayKey: getTodayDayKey(),
                 date: payload.date,
                 time: payload.time,
                 code: payload.code
@@ -2521,6 +2537,7 @@
         function saveNebengNo() {
             localStorage.setItem(NEBENG_STORAGE_KEY, JSON.stringify({
                 choice: 'no',
+                dayKey: getTodayDayKey(),
                 ts: Date.now()
             }));
         }
@@ -2533,7 +2550,7 @@
 
         function fillReceiptYesRows(date, time, code) {
             document.getElementById('rDate').textContent = date;
-            document.getElementById('rTime').textContent = '17:00';
+            document.getElementById('rTime').textContent = time;
             document.getElementById('rCode').textContent = code;
             document.getElementById('rStatusRow').textContent = '✅ DISETUJUI';
             document.getElementById('rStatusRow').style.color = '#4a7c59';

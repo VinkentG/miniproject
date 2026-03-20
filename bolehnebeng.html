@@ -1,0 +1,2984 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boleh Nebeng?</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400&family=Bricolage+Grotesque:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #f0e6d3;
+            --card: #ffffff;
+            --border: #dfc9a8;
+            --text: #2c1a0e;
+            --muted: #9e8877;
+            --accent: #d4763b;
+            --green: #4a7c59;
+            --red: #c0392b;
+            --receipt: #fffdf8;
+            --receipt-border: #e8d5b7;
+            --machine: #5c3d2e;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            font-family: 'Bricolage Grotesque', sans-serif;
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* subtle dot grid background */
+        body {
+            background-image: radial-gradient(circle, #c8a87844 1px, transparent 1px);
+            background-size: 28px 28px;
+            background-color: #f0e6d3;
+        }
+
+        /* ── MAIN CARD ── */
+        .wrap {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 44px 40px 40px;
+            width: min(420px, 92vw);
+            box-shadow: 0 0 60px rgba(212, 118, 59, .12), 0 8px 40px rgba(92, 61, 46, .10);
+            position: relative;
+            animation: cardIn .6s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.96)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #d4763b18;
+            border: 1px solid #d4763b44;
+            border-radius: 99px;
+            padding: 4px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .car-wrap {
+            font-size: 62px;
+            text-align: center;
+            margin-bottom: 4px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-10px)
+            }
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(30px, 7vw, 40px);
+            font-weight: 900;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--accent)
+        }
+
+        .sub {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.65;
+            margin-bottom: 32px;
+        }
+
+        .btns {
+            display: flex;
+            flex-direction: column;
+            gap: 20px
+        }
+
+        .btn {
+            width: 100%;
+            padding: 17px 22px;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform .15s, box-shadow .15s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #fff2 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity .2s;
+        }
+
+        .btn:hover::before {
+            opacity: 1
+        }
+
+        .btn:hover {
+            transform: translateY(-3px)
+        }
+
+        .btn:active {
+            transform: scale(.97)
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #4a7c59, #3a6347);
+            color: #fff;
+            box-shadow: 0 4px 24px rgba(74, 124, 89, .3);
+        }
+
+        .btn-yes:hover {
+            box-shadow: 0 8px 32px rgba(74, 124, 89, .45)
+        }
+
+        .btn-no {
+            background: var(--bg);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-no:hover {
+            border-color: #c0392b66;
+            color: #c0392b
+        }
+
+        .btn-ico {
+            font-size: 24px;
+            flex-shrink: 0
+        }
+
+        .btn-body {
+            text-align: left
+        }
+
+        .btn-body b {
+            display: block;
+            font-size: 15px
+        }
+
+        .btn-body small {
+            font-size: 12px;
+            opacity: .6;
+            font-weight: 400
+        }
+
+
+        /* ════════════════════════════════════
+   UIVERSE FANCY BUTTON (YES)
+════════════════════════════════════ */
+        .area {
+            --ease: cubic-bezier(0.5, 0, 0.3, 1);
+            --ease-elastic: cubic-bezier(0.5, 2, 0.3, 0.8);
+            --radius: 26px;
+            --primary: #d4763b;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.6s var(--ease-elastic);
+            display: block;
+            width: 240px;
+            margin: 0 auto;
+        }
+
+        .area input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+
+        .ubutton {
+            outline: none;
+            cursor: pointer;
+            border: 0;
+            border-radius: var(--radius);
+            position: relative;
+            width: 240px;
+            height: 74px;
+            pointer-events: none;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition:
+                background-color 2s linear,
+                box-shadow 0.5s ease,
+                transform 0.6s ease;
+            transform: rotateX(4deg);
+            background: var(--primary);
+            box-shadow:
+                inset 0 0 30px rgb(160, 80, 20),
+                0 5px 10px -2px rgba(0, 10, 20, 0.5),
+                0 40px 30px -15px rgba(10, 20, 30, 0.3),
+                inset 0 -2px 0 -1px #a06030,
+                inset 0 0 2px 4px #c8906060;
+            font-size: 21px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .ubutton::before,
+        .ubutton::after {
+            content: "";
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            background: white;
+            position: absolute;
+            display: block;
+            filter: blur(40px);
+            mix-blend-mode: plus-lighter;
+            margin: auto;
+            inset: 0;
+            top: 10px;
+            transition: all 1s ease;
+        }
+
+        @keyframes pulse-out {
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        .ubutton:after {
+            transform: scale(0);
+            animation: pulse-out 3s var(--ease-elastic) infinite;
+        }
+
+        .ubutton:before,
+        .area input:not(:checked)~.ubutton::after {
+            opacity: 0;
+        }
+
+        .area input:not(:checked)~.ubutton::before {
+            opacity: 1;
+        }
+
+        .uwrap {
+            border-radius: calc(var(--radius) * 0.85);
+            inset: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #e8b87a 0%, #d4763b 50%, #c06020 100%);
+            position: absolute;
+            transform-origin: top;
+            transform: scale(0.99, 1) translate(0px, -7px);
+            transition: all 0.7s ease;
+            animation: ucover-close 0.9s ease forwards;
+        }
+
+        .area input:not(:checked)~.ubutton .uwrap {
+            animation: ucover-open 0.9s ease forwards;
+        }
+
+        @keyframes ucover-open {
+            0% {
+                transform: translate3d(0, -7px, 10px);
+                box-shadow: none;
+            }
+
+            20% {
+                transform: translate3d(0, 0, 10px);
+            }
+
+            80% {
+                transform: translate3d(0, 0, 10px) rotateY(0) rotateX(74deg);
+            }
+
+            100% {
+                transform: translate3d(0, 0, 10px) rotateY(0) rotateX(70deg);
+                box-shadow: rgb(160, 133, 100) 0px 5px 1px -1px, rgb(120, 90, 60) 0px 9px 0 -2px, rgb(0, 0, 0) 0px 60px 40px -30px;
+            }
+        }
+
+        @keyframes ucover-close {
+            from {
+                transform: translate3d(0px, 0px, 10px) rotateY(0) rotateX(70deg);
+                box-shadow: 0 5px 1px -1px #a08563, 0 10px 0px -1px #7d6145, 0 60px 40px -30px black;
+            }
+
+            to {
+                transform: scale(0.99, 1) translate3d(0px, -7px, 10px);
+                box-shadow: none;
+            }
+        }
+
+        .ureflex {
+            position: absolute;
+            z-index: 9;
+            inset: 0;
+            overflow: hidden;
+            border-radius: inherit;
+        }
+
+        .ureflex:before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            background: linear-gradient(to right,
+                    rgba(255, 220, 180, 0.2) 10%,
+                    rgba(255, 210, 160, 0.5) 60%,
+                    rgba(255, 215, 170, 0.4) 60%,
+                    rgba(255, 225, 190, 0.2) 90%);
+            top: -40%;
+            bottom: -40%;
+            left: -132%;
+            transform: translateX(0) skew(-30deg);
+            transition: all 0.7s var(--ease);
+        }
+
+        .area:hover .ureflex:before {
+            transform: translate(192%, 0) skew(-30deg);
+        }
+
+        .upath {
+            position: absolute;
+            left: 50%;
+            top: 87%;
+            transform: translateX(-50%);
+            stroke-dasharray: 60 150;
+            stroke-dashoffset: 60;
+            pointer-events: none;
+            overflow: visible;
+            animation: upath-in 0.6s linear forwards;
+            stroke-width: 2px;
+        }
+
+        .area input:not(:checked)~.ubutton .upath {
+            animation: upath-out 1.2s ease forwards;
+        }
+
+        @keyframes upath-out {
+            from {
+                transform: translateX(-50%) translateY(-15px);
+                stroke: white;
+            }
+
+            to {
+                stroke-dashoffset: -150;
+                stroke: var(--primary);
+                transform: translateX(-50%) translateY(15px);
+            }
+        }
+
+        @keyframes upath-in {
+            from {
+                stroke-dashoffset: -150;
+                transform: translateX(-50%) translateY(-5px);
+                stroke: white;
+            }
+
+            to {
+                stroke: var(--primary);
+                transform: translateX(-50%) translateY(-16px);
+            }
+        }
+
+        .uwave {
+            position: absolute;
+            margin: auto;
+            transition: all 0.5s ease;
+            border-radius: 70px;
+            width: 110%;
+            height: 150%;
+            left: 50%;
+            top: 56%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+        }
+
+        .uwave::before,
+        .uwave::after {
+            content: "";
+            position: absolute;
+            border-radius: inherit;
+            border-bottom: 3px solid white;
+            border-top: 3px solid white;
+            filter: blur(3px);
+            inset: 0;
+            transform: translate(50%);
+            animation: uwave 1.5s linear infinite;
+        }
+
+        .uwave::after {
+            animation-delay: 0.4s;
+        }
+
+        .area input:not(:checked)~.ubutton .uwave {
+            opacity: 1;
+        }
+
+        @keyframes uwave {
+            0% {
+                transform: scale(1);
+                opacity: 0;
+                box-shadow: 0 0 30px white;
+            }
+
+            35% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+
+            70%,
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+                box-shadow: 0 0 100px var(--primary);
+            }
+        }
+
+        .ucontent {
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            position: relative;
+            height: 100%;
+            gap: 14px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border-radius: calc(var(--radius) * 0.85);
+        }
+
+        .ucontent::before,
+        .ucontent::after {
+            content: "";
+            inset: 0px;
+            position: absolute;
+            transition: all 1s var(--ease);
+            border-radius: inherit;
+            z-index: -1;
+        }
+
+        .ucontent::before {
+            filter: blur(2px);
+            top: -2px;
+            background: linear-gradient(to bottom, #f0d0b0 30%, #d4a070 90%);
+        }
+
+        .ucontent::after {
+            box-shadow:
+                inset 0 -7px 1px 0 rgba(100, 60, 20, 0.2),
+                inset 0 -4px 1px 0 rgba(100, 60, 20, 0.4),
+                inset 0 -2px 0 0 rgba(80, 40, 10, 0.6),
+                inset 0 -3px 0 0 white;
+        }
+
+        .utext {
+            transition: all 0.3s ease;
+            transform: translateY(-2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            inset: 0;
+        }
+
+        .utext span {
+            display: block;
+            color: transparent;
+            position: relative;
+        }
+
+        /* jarak antar kata pakai span spasi (data-label=" "), jangan pakai margin di huruf ke-3 */
+
+        .utext span::before,
+        .utext span::after {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            color: #7a3d1a;
+            text-shadow: 0 1px 1px rgba(255, 220, 180, 0.7);
+        }
+
+        .utext span::before {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+
+        .utext.state-2 span::before,
+        .utext.state-2 span::after {
+            color: #a05830;
+        }
+
+        .area input:checked~.ubutton .utext.state-2 span {
+            filter: blur(5px);
+        }
+
+        .area:hover .utext span::before {
+            animation: uchar-in 0.8s ease calc(var(--i) * 0.04s) forwards;
+        }
+
+        .area:hover .utext span::after,
+        .area input:not(:checked)~.ubutton .utext.state-1 span::before,
+        .area input:not(:checked)~.ubutton .utext.state-1 span::after,
+        .area input:checked~.ubutton .utext.state-2 span::before,
+        .area input:checked~.ubutton .utext.state-2 span::after {
+            opacity: 0;
+            animation: uchar-out 1.2s ease calc(var(--i) * 0.04s) backwards;
+        }
+
+        @keyframes uchar-in {
+            0% {
+                opacity: 0;
+                transform: scale(10) translateX(-100%);
+                filter: blur(10px);
+                color: rgb(255, 160, 60);
+            }
+
+            25% {
+                transform: translateY(10%) translateX(calc(-40px + ((var(--i) - 1) / 10) * 80px)) scale(2);
+                opacity: 1;
+                filter: blur(1px);
+                color: transparent;
+            }
+
+            50% {
+                transform: translateY(20%);
+                opacity: 1;
+                filter: blur(0);
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        @keyframes uchar-out {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            40% {
+                color: white;
+            }
+
+            100% {
+                transform: translateY(-80%) scale(4);
+                filter: blur(4px);
+                color: #5c2000;
+                text-shadow: 0 4px 2px #d4763b;
+                opacity: 0;
+            }
+        }
+
+        .area:hover .ubutton {
+            transition: all 0.6s var(--ease-elastic), background 1s ease;
+            transform: rotateX(0deg) translateY(5px);
+        }
+
+        .area:hover .ucontent::before {
+            transform: scale(0.97, 0.92);
+        }
+
+        .area:active .ubutton {
+            transform: rotateX(0deg) translateY(8px);
+        }
+
+        .area:active .uwrap {
+            transform: scale(1) translate(0);
+        }
+
+        .area:active .uwave {
+            opacity: 0;
+        }
+
+        .area:active .ucontent::before {
+            filter: blur(13px);
+            transform: scaleX(0.95);
+        }
+
+        .usparks {
+            pointer-events: none;
+            position: absolute;
+            margin: auto;
+            transform: translateZ(100px);
+            stroke: rgba(212, 118, 59, 1);
+            left: 54px;
+            top: 10px;
+            height: 58px;
+            opacity: 0;
+        }
+
+        .usparks path {
+            stroke-width: 5px;
+            stroke-dasharray: 30 150;
+            stroke-dashoffset: 30;
+            animation: usparks 0.6s ease infinite;
+            animation-delay: calc(var(--i) * 1s);
+            animation-duration: calc(var(--i) * 0.05s + 0.6s);
+        }
+
+        @keyframes usparks {
+            0% {
+                stroke-dasharray: 30 150;
+            }
+
+            50%,
+            100% {
+                stroke-dashoffset: -150;
+            }
+        }
+
+        .area input:not(:checked)~.ubutton .ugears,
+        .area input:not(:checked)~.ubutton .usparks {
+            opacity: 1;
+        }
+
+        .area input:not(:checked)~.ubutton .usparks {
+            transition: all 1.5s ease;
+        }
+
+        .ugears {
+            overflow: hidden;
+            border-radius: inherit;
+            opacity: 0;
+            position: absolute;
+            inset: 4px;
+            bottom: 1px;
+            transition: all 1s ease;
+        }
+
+        .ugears svg {
+            width: 80%;
+            fill: #c07840;
+            top: 50%;
+            position: relative;
+            transform: translate(-50%, -50%);
+            left: 43%;
+        }
+
+        .ugears svg path {
+            transform-origin: center;
+            transform-box: fill-box;
+        }
+
+        .ugears svg .shadow {
+            fill: rgba(120, 60, 10, 0.2);
+            translate: 2px 8px;
+        }
+
+        .ugears svg .small {
+            animation: spin 2.5s infinite linear;
+        }
+
+        .ugears svg .medium {
+            animation: spin reverse 3.75s infinite linear;
+        }
+
+        .ugears svg .large {
+            translate: 3px -6px;
+            animation: spin 5s infinite linear;
+        }
+
+        .ugears::before,
+        .ugears::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            bottom: 11px;
+            height: 7px;
+            width: 7px;
+            background: rgba(180, 120, 60, 0.3);
+            box-shadow: inset 0px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .ugears::before {
+            left: 12px;
+        }
+
+        .ugears::after {
+            right: 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(359deg);
+            }
+        }
+
+        /* fix space character span in utext buttons */
+        .utext span[data-label=" "]::before,
+        .utext span[data-label=" "]::after {
+            content: '\00a0';
+        }
+
+        .utext span[data-label=" "] {
+            width: 0.35em;
+        }
+
+        /* static label inside fancy buttons */
+        .ubtn-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #7a3d1a;
+            text-shadow: 0 1px 1px rgba(255, 220, 180, .7);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .ucontent-no .ubtn-label {
+            color: #7a1a0a;
+            text-shadow: 0 1px 1px rgba(255, 200, 180, .7);
+        }
+
+        /* countdown ring — sibling of .ubutton inside .area, escapes 3D context */
+        .countdown-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 74px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity .3s;
+            border-radius: 26px;
+            background: rgba(0, 0, 0, 0.28);
+        }
+
+        .countdown-ring.show {
+            opacity: 1
+        }
+
+        .countdown-ring svg {
+            width: 58px;
+            height: 58px;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .4))
+        }
+
+        .cring-track {
+            fill: none;
+            stroke: rgba(255, 255, 255, .25);
+            stroke-width: 5
+        }
+
+        .cring-fill {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 138;
+            stroke-dashoffset: 138;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset .1s linear;
+        }
+
+        .cring-num {
+            font-family: 'Fraunces', serif;
+            font-size: 20px;
+            font-weight: 900;
+            fill: #ffffff;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+
+        /* ── NO button red/brown theme overrides ── */
+        .area-no {
+            --primary: #c0392b;
+        }
+
+        .ubutton-no {
+            background: #c0392b;
+            box-shadow:
+                inset 0 0 30px rgb(120, 20, 10),
+                0 5px 10px -2px rgba(0, 10, 20, .5),
+                0 40px 30px -15px rgba(10, 20, 30, .3),
+                inset 0 -2px 0 -1px #8a2020,
+                inset 0 0 2px 4px #c06060;
+        }
+
+        .uwrap-no {
+            background: linear-gradient(to bottom, #e88070 0%, #c0392b 50%, #a02820 100%);
+        }
+
+        .ucontent-no::before {
+            background: linear-gradient(to bottom, #f0c0b0 30%, #d47060 90%);
+        }
+
+        .ucontent-no::after {
+            box-shadow:
+                inset 0 -7px 1px 0 rgba(100, 20, 10, .2),
+                inset 0 -4px 1px 0 rgba(100, 20, 10, .4),
+                inset 0 -2px 0 0 rgba(80, 10, 5, .6),
+                inset 0 -3px 0 0 white;
+        }
+
+        .area-no .utext.state-1 span::before,
+        .area-no .utext.state-1 span::after,
+        .area-no .utext.state-2 span::before,
+        .area-no .utext.state-2 span::after {
+            color: #7a1a0a;
+            text-shadow: 0 1px 1px rgba(255, 200, 180, .7);
+        }
+
+        .area-no input:checked~.ubutton .utext.state-2 span {
+            filter: blur(5px);
+        }
+
+        .area-no:hover .utext span::before {
+            animation: uchar-in 0.8s ease calc(var(--i) * 0.04s) forwards;
+        }
+
+        .area-no:hover .utext span::after,
+        .area-no input:not(:checked)~.ubutton .utext.state-1 span::before,
+        .area-no input:not(:checked)~.ubutton .utext.state-1 span::after,
+        .area-no input:checked~.ubutton .utext.state-2 span::before,
+        .area-no input:checked~.ubutton .utext.state-2 span::after {
+            opacity: 0;
+            animation: uchar-out 1.2s ease calc(var(--i) * 0.04s) backwards;
+        }
+
+        .ugears-no svg {
+            fill: #c07060;
+        }
+
+        .usparks-no {
+            stroke: rgba(192, 57, 43, 1);
+        }
+
+        .area-no:hover .ubutton-no {
+            transform: rotateX(0deg) translateY(5px);
+        }
+
+        .area-no:active .ubutton-no {
+            transform: rotateX(0deg) translateY(8px);
+        }
+
+        .area-no:active .uwrap-no {
+            transform: scale(1) translate(0);
+        }
+
+        /* ════════════════════════════════════
+   RECEIPT / STRUK SCENE
+════════════════════════════════════ */
+        .scene {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 0;
+        }
+
+        .scene.show {
+            display: flex
+        }
+
+        /* machine body at top */
+        .machine {
+            width: 280px;
+            background: linear-gradient(180deg, #5c3d2e 0%, #3d2719 100%);
+            border-radius: 0 0 18px 18px;
+            padding: 18px 24px 12px;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(44, 26, 14, .35);
+            flex-shrink: 0;
+            z-index: 3;
+        }
+
+        .machine-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .machine-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: #e8c9a0;
+            text-transform: uppercase;
+        }
+
+        .machine-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4a7c59;
+            box-shadow: 0 0 6px #4a7c59;
+            animation: blink 1.8s ease-in-out infinite;
+        }
+
+        .machine-light.red {
+            background: #c0392b;
+            box-shadow: 0 0 6px #c0392b;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        .machine-slot {
+            height: 10px;
+            background: #1e0f08;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .machine-slot::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .06), transparent);
+        }
+
+        /* receipt wrapper — clips the receipt as it slides out */
+        .receipt-clip {
+            width: 260px;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+            height: 0;
+            transition: height 0.22s ease-out;
+        }
+
+        /* the flip card */
+        .receipt-flip {
+            width: 260px;
+            perspective: 900px;
+            cursor: pointer;
+        }
+
+        .receipt-inner {
+            position: relative;
+            width: 100%;
+            transform-style: preserve-3d;
+            transition: transform .7s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .receipt-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* shared face styles */
+        .receipt-face {
+            width: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            background: var(--receipt);
+            border-left: 1px solid var(--receipt-border);
+            border-right: 1px solid var(--receipt-border);
+        }
+
+        /* front face */
+        .receipt-front {
+            position: relative;
+        }
+
+        .receipt-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: rotateY(180deg);
+            /* match front height — set via JS after render */
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* receipt content */
+        .r-header {
+            padding: 20px 20px 12px;
+            border-bottom: 1px dashed var(--receipt-border);
+        }
+
+        .r-shop {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 2px;
+        }
+
+        .r-tagline {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .r-body {
+            padding: 14px 20px
+        }
+
+        .r-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-family: 'Space Mono', monospace;
+            font-size: 11.5px;
+            margin-bottom: 9px;
+            color: var(--text);
+        }
+
+        .r-row .label {
+            color: var(--muted);
+            font-size: 10.5px
+        }
+
+        .r-row .val {
+            font-weight: 700;
+            text-align: right;
+            max-width: 55%
+        }
+
+        .r-divider {
+            border: none;
+            border-top: 1px dashed var(--receipt-border);
+            margin: 10px 0;
+        }
+
+        .r-status {
+            text-align: center;
+            padding: 10px 20px 14px;
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .r-status.yes {
+            color: var(--green)
+        }
+
+        .r-status.no {
+            color: var(--red)
+        }
+
+        .r-hint {
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 9.5px;
+            color: #b5a090;
+            padding: 0 20px 14px;
+            line-height: 1.5;
+        }
+
+        /* receipt bottom — zigzag */
+        .r-zigzag {
+            width: 100%;
+            height: 16px;
+            overflow: hidden;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        /* back face — barcode */
+        .r-back-inner {
+            padding: 22px 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .r-back-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .barcode-svg {
+            display: block
+        }
+
+        .r-back-code {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--muted);
+        }
+
+        .r-back-hint {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: #c8b8a8;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* flip hint badge */
+        .flip-hint {
+            margin-top: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: fadeUp2 .5s .8s both;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .flip-hint.vis {
+            opacity: 1;
+            animation: fadeUp2 .5s both;
+        }
+
+        @keyframes fadeUp2 {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .flip-arrow {
+            font-size: 14px
+        }
+
+        .back-btn {
+            margin-top: 12px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color .2s;
+        }
+
+        .back-btn:hover {
+            color: var(--accent)
+        }
+
+
+        /* ── particles ── */
+        .confetti-piece {
+            position: fixed;
+            top: -12px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 99;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0
+            }
+        }
+
+        .rain-drop {
+            position: fixed;
+            top: -20px;
+            width: 2px;
+            border-radius: 2px;
+            background: linear-gradient(to bottom, transparent, #7c9ab888);
+            pointer-events: none;
+            z-index: 8;
+            animation: rainFall linear infinite;
+        }
+
+        @keyframes rainFall {
+            to {
+                transform: translateY(110vh)
+            }
+        }
+
+        /* ════════════════════════════════════
+   TRAIN SCENE (NO answer)
+════════════════════════════════════ */
+        .train-scene {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            overflow: hidden;
+            background: linear-gradient(180deg, #c8e8f5 0%, #e8f4f8 55%, #d4c9a8 55%, #b8a880 100%);
+        }
+
+        .train-scene.show {
+            display: block
+        }
+
+        /* sky clouds */
+        .t-cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: .85;
+            animation: cloudDrift linear infinite;
+        }
+
+        .t-cloud::before,
+        .t-cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        @keyframes cloudDrift {
+            from {
+                transform: translateX(110vw)
+            }
+
+            to {
+                transform: translateX(-300px)
+            }
+        }
+
+        /* ground / rails */
+        .t-ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: linear-gradient(180deg, #d4c9a8, #b8a880);
+        }
+
+        .t-rail {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(180deg, #8a7a60, #6a5a40);
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+        }
+
+        .t-rail.top {
+            bottom: 52%
+        }
+
+        .t-rail.bot {
+            bottom: 46%
+        }
+
+        /* sleepers — static, no animation */
+        .t-sleeper {
+            position: absolute;
+            bottom: 44%;
+            width: 28px;
+            height: 16px;
+            background: #7a6540;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+        }
+
+        /* platform — invisible, just anchors person position on right side */
+        .t-platform {
+            position: absolute;
+            right: 60px;
+            bottom: calc(44% + 2px);
+            width: 80px;
+            height: 70px;
+            background: none;
+            border: none;
+            z-index: 10;
+        }
+
+        .t-platform-edge {
+            display: none;
+        }
+
+        /* person — stands at right side, above rail level */
+        .t-person {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 44px;
+            line-height: 1;
+            transform-origin: bottom center;
+            z-index: 11;
+            transition: opacity .5s, transform .5s;
+        }
+
+        .t-person.wave {
+            animation: personWave 0.5s ease infinite alternate;
+        }
+
+        @keyframes personWave {
+            from {
+                transform: translateX(-50%) rotate(-12deg)
+            }
+
+            to {
+                transform: translateX(-50%) rotate(12deg) translateY(-6px)
+            }
+        }
+
+        /* speech bubble — floats above person */
+        .t-bubble {
+            position: absolute;
+            bottom: 56px;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px) scale(.9);
+            background: white;
+            border-radius: 16px 16px 16px 4px;
+            padding: 8px 14px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #2c1a0e;
+            white-space: nowrap;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .12);
+            opacity: 0;
+            transition: opacity .3s, transform .3s;
+            pointer-events: none;
+            z-index: 12;
+        }
+
+        .t-bubble.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1)
+        }
+
+        /* station sign — thin footer bar at very bottom */
+        .t-sign {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 36px;
+            background: white;
+            border-top: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, .1);
+            opacity: 0;
+            z-index: 100;
+            pointer-events: none;
+            transform: translateY(100%);
+            transition: opacity .3s, transform .4s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .t-sign.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── TRAIN ── */
+        .t-train-wrap {
+            position: absolute;
+            bottom: calc(44% + 2px);
+            left: 0;
+            /* starts off screen right */
+            transform: translateX(110vw);
+            display: flex;
+            align-items: flex-end;
+            transition: transform 1.6s cubic-bezier(.4, 0, .2, 1);
+            z-index: 5;
+        }
+
+        .t-train-wrap.arrive {
+            /* stop so loco nose aligns with right side platform edge */
+            transform: translateX(calc(100vw - 320px));
+            transition: transform 1.6s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .t-train-wrap.depart {
+            /* go far left — enough for loco + 10 wagons (~1600px total) */
+            transform: translateX(-2000px);
+            transition: transform 3s cubic-bezier(.6, 0, .8, 1);
+        }
+
+        /* pause wheels while stopped */
+        .t-train-wrap.arrive .t-wheel {
+            animation-play-state: paused;
+        }
+
+        /* train body */
+        .t-train {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            /* loco is first child = left/front, wagons trail behind to the right */
+        }
+
+        /* locomotive — FRONT, on the LEFT */
+        .t-loco {
+            width: 150px;
+            height: 108px;
+            background: linear-gradient(180deg, #5c3d2e 0%, #3d2719 100%);
+            border-radius: 40px 8px 4px 4px;
+            /* rounded nose on LEFT */
+            position: relative;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, .3);
+            flex-shrink: 0;
+            order: 0;
+            /* first = leftmost = front */
+        }
+
+        /* nose protrusion on LEFT side */
+        .t-loco::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 18px;
+            bottom: 4px;
+            width: 22px;
+            background: linear-gradient(180deg, #5c3d2e, #3d2719);
+            clip-path: polygon(100% 0, 0 30%, 0 70%, 100% 100%);
+        }
+
+        .t-loco-window {
+            position: absolute;
+            top: 20px;
+            right: 18px;
+            width: 40px;
+            height: 28px;
+            background: linear-gradient(135deg, #a8d8f0, #7ab8e0);
+            border-radius: 6px;
+            border: 3px solid #2c1a0e;
+            overflow: hidden;
+        }
+
+        .t-loco-window::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .4), transparent);
+        }
+
+        .t-loco-stripe {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 18px;
+            background: repeating-linear-gradient(90deg, #d4763b 0, #d4763b 20px, #c06020 20px, #c06020 40px);
+            border-radius: 0 0 4px 4px;
+        }
+
+        /* chimney on top-LEFT of loco */
+        .t-loco-chimney {
+            position: absolute;
+            top: -18px;
+            left: 24px;
+            width: 16px;
+            height: 18px;
+            background: #2c1a0e;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .t-smoke {
+            position: absolute;
+            top: -44px;
+            left: 16px;
+            display: flex;
+            gap: 6px;
+            pointer-events: none;
+        }
+
+        .t-smoke-puff {
+            width: 18px;
+            height: 18px;
+            background: rgba(200, 180, 160, .7);
+            border-radius: 50%;
+            animation: smokePuff 1.2s ease-out infinite;
+        }
+
+        .t-smoke-puff:nth-child(2) {
+            animation-delay: .3s;
+            width: 14px;
+            height: 14px
+        }
+
+        .t-smoke-puff:nth-child(3) {
+            animation-delay: .6s;
+            width: 10px;
+            height: 10px
+        }
+
+        @keyframes smokePuff {
+            0% {
+                opacity: .7;
+                transform: translateY(0) scale(1)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-30px) scale(2)
+            }
+        }
+
+        /* wagon / carriage */
+        .t-wagon {
+            width: 110px;
+            height: 90px;
+            background: linear-gradient(180deg, #7a5535 0%, #5c3d2e 100%);
+            border-radius: 5px;
+            margin-left: 3px;
+            position: relative;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, .2);
+            flex-shrink: 0;
+        }
+
+        .t-wagon-windows {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .t-wagon-window {
+            width: 26px;
+            height: 22px;
+            background: linear-gradient(135deg, #a8d8f0, #7ab8e0);
+            border-radius: 4px;
+            border: 2px solid #2c1a0e;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .t-wagon-window::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .35), transparent);
+        }
+
+        .t-wagon-stripe {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: repeating-linear-gradient(90deg, #d4763b 0, #d4763b 12px, #c06020 12px, #c06020 24px);
+            border-radius: 0 0 5px 5px;
+        }
+
+        /* door — only on first wagon */
+        .t-door {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            width: 30px;
+            height: 48px;
+            background: linear-gradient(180deg, #6a4428, #4a2c18);
+            border-radius: 4px 4px 0 0;
+            border: 2px solid #2c1a0e;
+            transform-origin: right center;
+            transform: translateX(-50%);
+            transition: transform .8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .t-door.open {
+            transform: translateX(-50%) perspective(200px) rotateY(70deg);
+        }
+
+        .t-door-handle {
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            width: 5px;
+            height: 10px;
+            background: #d4a060;
+            border-radius: 3px;
+            transform: translateY(-50%);
+        }
+
+        /* wheels */
+        .t-wheel {
+            position: absolute;
+            bottom: -14px;
+            width: 26px;
+            height: 26px;
+            background: radial-gradient(circle at 35% 35%, #7a6040, #3a2010);
+            border-radius: 50%;
+            border: 3px solid #2c1a0e;
+            animation: wheelSpin 0.4s linear infinite;
+        }
+
+        @keyframes wheelSpin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .t-wheel-l {
+            left: 12px
+        }
+
+        .t-wheel-r {
+            right: 12px
+        }
+
+        .t-loco .t-wheel-l {
+            left: 16px;
+            width: 30px;
+            height: 30px;
+            bottom: -15px
+        }
+
+        .t-loco .t-wheel-r {
+            right: 16px;
+            width: 30px;
+            height: 30px;
+            bottom: -15px
+        }
+
+        .t-loco .t-wheel-m {
+            left: 50%;
+            margin-left: -15px;
+            width: 30px;
+            height: 30px;
+            bottom: -15px
+        }
+
+        /* station sign */
+        .t-sign {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            opacity: 0;
+            white-space: nowrap;
+            z-index: 13;
+        }
+
+        .t-sign.show {
+            animation: signBob .4s .2s cubic-bezier(.22, 1, .36, 1) both;
+            opacity: 1;
+        }
+
+        @keyframes signBob {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0)
+            }
+        }
+
+        /* back btn */
+        .t-back {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: none;
+            border: none;
+            color: #7a6040;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color .2s;
+            opacity: 0;
+            white-space: nowrap;
+            z-index: 20;
+        }
+
+        .t-back.show {
+            opacity: 1;
+            transition: opacity .4s;
+        }
+
+        .t-back:hover {
+            color: var(--accent)
+        }
+
+        /* car zoom */
+        .zoom-car {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            font-size: 52px;
+            z-index: 99;
+            pointer-events: none;
+            visibility: hidden;
+            transform: translateX(-120px) scaleX(-1);
+            transform-origin: center center;
+        }
+
+        .road {
+            position: fixed;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            z-index: 5;
+            pointer-events: none;
+            display: none;
+        }
+
+        .road.show {
+            display: block
+        }
+
+        .road svg {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- road -->
+    <div class="road" id="road">
+        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="60" fill="#e8d5b7" />
+            <rect x="0" y="27" width="80" height="6" fill="#5c3d2e88" />
+            <rect x="160" y="27" width="80" height="6" fill="#5c3d2e88" />
+            <rect x="320" y="27" width="80" height="6" fill="#5c3d2e88" />
+            <rect x="480" y="27" width="80" height="6" fill="#5c3d2e88" />
+            <rect x="640" y="27" width="80" height="6" fill="#5c3d2e88" />
+            <rect x="800" y="27" width="80" height="6" fill="#5c3d2e88" />
+            <rect x="960" y="27" width="80" height="6" fill="#5c3d2e88" />
+            <rect x="1120" y="27" width="80" height="6" fill="#5c3d2e88" />
+        </svg>
+    </div>
+    <div class="zoom-car" id="zoomCar">🚗</div>
+
+    <!-- ── MAIN CARD ── -->
+    <div class="wrap">
+        <div class="card" id="mainCard">
+            <div class="pill">✨ Nanya Baik-Baik</div>
+            <span class="car-wrap" style="display:inline-block;transform:scaleX(-1)">🚗</span>
+            <h1>Boleh <em>nebeng</em><br />hari ini?</h1>
+            <p class="sub">Nggak maksa sama sekali, kok.<br />Cuma mau nanya dulu dengan sopan 🙏</p>
+            <div class="btns">
+                <!-- FANCY YES BUTTON -->
+                <label for="yesBtn" class="area">
+                    <input type="checkbox" checked id="yesBtn" onchange="handleYesToggle(this)" />
+                    <button class="ubutton">
+                        <div class="uwave"></div>
+                        <div class="uwrap">
+                            <div class="ureflex"></div>
+                            <div class="ucontent">
+                                <span class="utext state-1">
+                                    <span style="--i:1" data-label="B">B</span>
+                                    <span style="--i:2" data-label="O">O</span>
+                                    <span style="--i:3" data-label="L">L</span>
+                                    <span style="--i:4" data-label="E">E</span>
+                                    <span style="--i:5" data-label="H">H</span>
+                                    <span style="--i:6" data-label=" "> </span>
+                                    <span style="--i:7" data-label="G">G</span>
+                                    <span style="--i:8" data-label="A">A</span>
+                                    <span style="--i:9" data-label="S">S</span>
+                                    <span style="--i:10" data-label="!">!</span>
+                                </span>
+                                <span class="utext state-2">
+                                    <span style="--i:1" data-label="⎯">⎯</span>
+                                    <span style="--i:2" data-label="⎯">⎯</span>
+                                    <span style="--i:3" data-label="⎯">⎯</span>
+                                    <span style="--i:4" data-label="⎯">⎯</span>
+                                    <span style="--i:5" data-label="⎯">⎯</span>
+                                    <span style="--i:6" data-label="⎯">⎯</span>
+                                    <span style="--i:7" data-label="⎯">⎯</span>
+                                    <span style="--i:8" data-label="⎯">⎯</span>
+                                    <span style="--i:9" data-label="⎯">⎯</span>
+                                    <span style="--i:10" data-label="⎯">⎯</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ugears">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 635 523">
+                                <defs>
+                                    <filter id="gfilter">
+                                        <feGaussianBlur result="blur" stdDeviation="5" in="SourceGraphic">
+                                        </feGaussianBlur>
+                                        <feColorMatrix result="goo"
+                                            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -8" type="matrix"
+                                            in="blur"></feColorMatrix>
+                                        <feBlend in2="goo" in="SourceGraphic"></feBlend>
+                                    </filter>
+                                </defs>
+                                <g filter="url(#gfilter)">
+                                    <path class="large shadow"
+                                        d="M635 192V171L606 167C605 157 603 148 600 139L625 125L617 106L589 113C584 105 579 97 573 89L592 66L577 51L554 68C547 62 539 57 530 52L537 24L518 16L504 41C495 38 486 36 476 35L472 8H451L447 37C437 38 428 40 419 43L405 18L386 26L393 54C385 59 377 64 369 70L346 53L331 66L348 89C342 96 337 104 332 113L304 106L296 125L321 139C318 148 316 157 315 167L286 171V192L315 196C316 206 318 215 321 224L296 238L304 257L332 250C337 258 342 266 348 274L331 297L346 312L369 295C376 301 384 306 393 311L386 339L405 347L419 322C428 325 437 327 447 328L451 357H472L476 328C486 327 495 325 504 322L518 347L537 339L530 311C538 306 546 301 554 295L577 312L592 297L575 274C581 267 586 259 591 250L619 257L627 238L602 224C605 215 607 206 608 196L635 192ZM461 292C400 292 351 243 351 182C351 121 401 72 461 72C521 72 571 121 571 182C571 243 522 292 461 292Z">
+                                    </path>
+                                    <path class="medium shadow"
+                                        d="M392 398V377L364 373C363 363 360 354 357 345L380 328L369 310L342 321C336 313 329 307 322 301L333 275L315 264L298 287C289 283 280 281 270 280L266 252H245L241 280C231 281 222 284 213 287L196 264L178 275L189 301C181 307 175 314 169 321L143 310L132 328L155 345C151 354 149 363 148 373L120 377V398L148 402C149 412 152 421 155 430L132 447L143 465L169 454C175 462 182 468 189 474L178 500L196 511L213 488C222 492 231 494 241 495L245 523H266L270 495C280 494 289 491 298 488L315 511L333 500L322 474C330 468 336 461 342 454L368 465L379 447L356 430C360 421 362 412 363 402L392 398ZM255 461C214 461 181 428 181 387C181 346 214 313 255 313C296 313 329 346 329 387C328 428 295 461 255 461Z">
+                                    </path>
+                                    <path class="small shadow"
+                                        d="M200 244V223L171 219C169 209 165 201 160 193L178 170L163 155L140 173C132 168 123 164 114 162L110 133H90L86 162C76 164 68 168 60 173L37 155L22 170L40 193C35 201 31 210 29 219L0 223V244L29 248C31 258 35 266 40 274L22 297L37 312L60 294C68 299 77 303 86 305L90 334H111L115 305C125 303 133 299 141 294L164 312L179 297L161 274C166 266 170 257 172 248L200 244ZM100 270C80 270 63 253 63 233C63 213 80 196 100 196C120 196 137 213 137 233C137 253 121 270 100 270Z">
+                                    </path>
+                                    <path class="large"
+                                        d="M635 184V163L606 159C605 149 603 140 600 131L625 117L617 98L589 105C584 97 579 89 573 81L592 58L577 43L554 60C547 54 539 49 530 44L537 16L518 8L504 33C495 30 486 28 476 27L472 0H451L447 29C437 30 428 32 419 35L405 9L386 17L393 45C385 50 377 55 369 61L346 44L331 58L348 81C342 88 337 96 332 105L304 98L296 117L321 131C318 140 316 149 315 159L286 163V184L315 188C316 198 318 207 321 216L296 230L304 249L332 242C337 250 342 258 348 266L331 289L346 304L369 287C376 293 384 298 393 303L386 331L405 339L419 314C428 317 437 319 447 320L451 349H472L476 320C486 319 495 317 504 314L518 339L537 331L530 303C538 298 546 293 554 287L577 304L592 289L575 266C581 259 586 251 591 242L619 249L627 230L602 216C605 207 607 198 608 188L635 184ZM461 284C400 284 351 235 351 174C351 113 401 64 461 64C521 64 571 113 571 174C571 235 522 284 461 284Z">
+                                    </path>
+                                    <path class="medium"
+                                        d="M392 390V369L364 365C363 355 360 346 357 337L380 320L369 302L342 313C336 305 329 299 322 293L333 267L315 256L298 279C289 275 280 273 270 272L266 244H245L241 272C231 273 222 276 213 279L196 256L178 267L189 293C181 299 175 306 169 313L143 302L132 320L155 337C151 346 149 355 148 365L120 369V390L148 394C149 404 152 413 155 422L132 439L143 457L169 446C175 454 182 460 189 466L178 492L196 503L213 480C222 484 231 486 241 487L245 515H266L270 487C280 486 289 483 298 480L315 503L333 492L322 466C330 460 336 453 342 446L368 457L379 439L356 422C360 413 362 404 363 394L392 390ZM255 453C214 453 181 420 181 379C181 338 214 305 255 305C296 305 329 338 329 379C328 420 295 453 255 453Z">
+                                    </path>
+                                    <path class="small"
+                                        d="M200 236V215L171 211C169 201 165 193 160 185L178 162L163 147L140 165C132 160 123 156 114 154L110 125H90L86 154C76 156 68 160 60 165L37 147L22 162L40 185C35 193 31 202 29 211L0 215V236L29 240C31 250 35 258 40 266L22 289L37 304L60 286C68 291 77 295 86 297L90 326H111L115 297C125 295 133 291 141 286L164 304L179 289L161 266C166 258 170 249 172 240L200 236ZM100 262C80 262 63 245 63 225C63 205 80 188 100 188C120 188 137 205 137 225C137 245 121 262 100 262Z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 478 224" class="usparks">
+                            <path stroke-linecap="round"
+                                d="M172.675 130.318C176.079 94.8544 183.101 52.6838 262.101 32.6837" style="--i:1">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M286.569 127.661C299.204 94.3501 317.096 55.5231 398.574 57.0604" style="--i:4">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M335.954 194.26C370.153 182.301 412.468 170.335 474.474 222.038" style="--i:6">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M265.974 116.351C261.897 79.6629 253.871 36.3728 169.162 24.4022" style="--i:10">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M131.475 153.296C107.914 126.572 77.4904 96.5377 1.77821 126.682" style="--i:3">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M153.453 170.383C161.298 135.631 167.803 93.3778 99.0048 49.6985" style="--i:5">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M309.315 154.41C341.202 155.086 380.493 154.234 434.104 111.701" style="--i:12">
+                            </path>
+                            <path d="M109 193C54.6 140.2 66.3333 99 79 85" style="--i:7"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 401 68" height="68" width="401"
+                            class="upath">
+                            <path stroke-opacity="0.2" stroke-linecap="round"
+                                d="M313.89 11.6484C322.652 28.147 374.652 31.5 397.652 0.999998"></path>
+                            <path stroke-opacity="0.3" stroke-linecap="round"
+                                d="M290.652 17.0773C294.773 34.8416 359.652 50.5 387.152 24"></path>
+                            <path stroke-opacity="0.5" stroke-linecap="round"
+                                d="M265.152 17.0773C274.152 38 323.652 68 362.152 42"></path>
+                            <path stroke-opacity="0.7" stroke-linecap="round"
+                                d="M241.75 17.0773C251.653 45 302.152 74.5 332.152 46.5"></path>
+                            <path stroke-opacity="0.9" stroke-linecap="round"
+                                d="M220.152 17.0773C230.055 45 274.652 81.5 288.652 47"></path>
+                            <path stroke-linecap="round" d="M200.982 17.0773C209.652 55 239.152 80 245.652 58.5"></path>
+                            <path stroke-linecap="round" d="M200.67 17.0773C192 55 162.5 80 156 58.5"></path>
+                            <path stroke-opacity="0.9" stroke-linecap="round"
+                                d="M181.5 17.0773C171.597 45 127 81.5 113 47"></path>
+                            <path stroke-opacity="0.7" stroke-linecap="round"
+                                d="M159.903 17.0773C150 45 99.4999 74.5 69.4999 46.5"></path>
+                            <path stroke-opacity="0.5" stroke-linecap="round"
+                                d="M136.5 17.0773C127.5 38 77.9999 68 39.4999 42"></path>
+                            <path stroke-opacity="0.3" stroke-linecap="round"
+                                d="M111 17.0773C106.879 34.8416 41.9999 50.5 14.4999 24"></path>
+                            <path stroke-opacity="0.2" stroke-linecap="round"
+                                d="M87.7628 11.6484C78.9999 28.147 27 31.5 4.00004 0.999998"></path>
+                        </svg>
+                    </button>
+                    <div class="countdown-ring" id="countdownRing">
+                        <svg viewBox="0 0 54 54">
+                            <circle class="cring-track" cx="27" cy="27" r="22" />
+                            <circle class="cring-fill" id="cringFill" cx="27" cy="27" r="22" />
+                            <text class="cring-num" id="cringNum" x="27" y="27">3</text>
+                        </svg>
+                    </div>
+                </label>
+
+                <!-- FANCY NO BUTTON -->
+                <label for="noBtn" class="area area-no">
+                    <input type="checkbox" checked id="noBtn" onchange="handleNoToggle(this)" />
+                    <button class="ubutton ubutton-no">
+                        <div class="uwave"></div>
+                        <div class="uwrap uwrap-no">
+                            <div class="ureflex"></div>
+                            <div class="ucontent ucontent-no">
+                                <span class="utext state-1">
+                                    <span style="--i:1" data-label="N">N</span>
+                                    <span style="--i:2" data-label="G">G</span>
+                                    <span style="--i:3" data-label="G">G</span>
+                                    <span style="--i:4" data-label="A">A</span>
+                                    <span style="--i:5" data-label="K">K</span>
+                                    <span style="--i:6" data-label=" "> </span>
+                                    <span style="--i:7" data-label="B">B</span>
+                                    <span style="--i:8" data-label="I">I</span>
+                                    <span style="--i:9" data-label="S">S</span>
+                                    <span style="--i:10" data-label="A">A</span>
+                                </span>
+                                <span class="utext state-2">
+                                    <span style="--i:1" data-label="⎯">⎯</span>
+                                    <span style="--i:2" data-label="⎯">⎯</span>
+                                    <span style="--i:3" data-label="⎯">⎯</span>
+                                    <span style="--i:4" data-label="⎯">⎯</span>
+                                    <span style="--i:5" data-label="⎯">⎯</span>
+                                    <span style="--i:6" data-label="⎯">⎯</span>
+                                    <span style="--i:7" data-label="⎯">⎯</span>
+                                    <span style="--i:8" data-label="⎯">⎯</span>
+                                    <span style="--i:9" data-label="⎯">⎯</span>
+                                    <span style="--i:10" data-label="⎯">⎯</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ugears ugears-no">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 635 523">
+                                <defs>
+                                    <filter id="gfilter2">
+                                        <feGaussianBlur result="blur" stdDeviation="5" in="SourceGraphic">
+                                        </feGaussianBlur>
+                                        <feColorMatrix result="goo"
+                                            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -8" type="matrix"
+                                            in="blur"></feColorMatrix>
+                                        <feBlend in2="goo" in="SourceGraphic"></feBlend>
+                                    </filter>
+                                </defs>
+                                <g filter="url(#gfilter2)">
+                                    <path class="large shadow"
+                                        d="M635 192V171L606 167C605 157 603 148 600 139L625 125L617 106L589 113C584 105 579 97 573 89L592 66L577 51L554 68C547 62 539 57 530 52L537 24L518 16L504 41C495 38 486 36 476 35L472 8H451L447 37C437 38 428 40 419 43L405 18L386 26L393 54C385 59 377 64 369 70L346 53L331 66L348 89C342 96 337 104 332 113L304 106L296 125L321 139C318 148 316 157 315 167L286 171V192L315 196C316 206 318 215 321 224L296 238L304 257L332 250C337 258 342 266 348 274L331 297L346 312L369 295C376 301 384 306 393 311L386 339L405 347L419 322C428 325 437 327 447 328L451 357H472L476 328C486 327 495 325 504 322L518 347L537 339L530 311C538 306 546 301 554 295L577 312L592 297L575 274C581 267 586 259 591 250L619 257L627 238L602 224C605 215 607 206 608 196L635 192ZM461 292C400 292 351 243 351 182C351 121 401 72 461 72C521 72 571 121 571 182C571 243 522 292 461 292Z">
+                                    </path>
+                                    <path class="medium shadow"
+                                        d="M392 398V377L364 373C363 363 360 354 357 345L380 328L369 310L342 321C336 313 329 307 322 301L333 275L315 264L298 287C289 283 280 281 270 280L266 252H245L241 280C231 281 222 284 213 287L196 264L178 275L189 301C181 307 175 314 169 321L143 310L132 328L155 345C151 354 149 363 148 373L120 377V398L148 402C149 412 152 421 155 430L132 447L143 465L169 454C175 462 182 468 189 474L178 500L196 511L213 488C222 492 231 494 241 495L245 523H266L270 495C280 494 289 491 298 488L315 511L333 500L322 474C330 468 336 461 342 454L368 465L379 447L356 430C360 421 362 412 363 402L392 398ZM255 461C214 461 181 428 181 387C181 346 214 313 255 313C296 313 329 346 329 387C328 428 295 461 255 461Z">
+                                    </path>
+                                    <path class="small shadow"
+                                        d="M200 244V223L171 219C169 209 165 201 160 193L178 170L163 155L140 173C132 168 123 164 114 162L110 133H90L86 162C76 164 68 168 60 173L37 155L22 170L40 193C35 201 31 210 29 219L0 223V244L29 248C31 258 35 266 40 274L22 297L37 312L60 294C68 299 77 303 86 305L90 334H111L115 305C125 303 133 299 141 294L164 312L179 297L161 274C166 266 170 257 172 248L200 244ZM100 270C80 270 63 253 63 233C63 213 80 196 100 196C120 196 137 213 137 233C137 253 121 270 100 270Z">
+                                    </path>
+                                    <path class="large"
+                                        d="M635 184V163L606 159C605 149 603 140 600 131L625 117L617 98L589 105C584 97 579 89 573 81L592 58L577 43L554 60C547 54 539 49 530 44L537 16L518 8L504 33C495 30 486 28 476 27L472 0H451L447 29C437 30 428 32 419 35L405 9L386 17L393 45C385 50 377 55 369 61L346 44L331 58L348 81C342 88 337 96 332 105L304 98L296 117L321 131C318 140 316 149 315 159L286 163V184L315 188C316 198 318 207 321 216L296 230L304 249L332 242C337 250 342 258 348 266L331 289L346 304L369 287C376 293 384 298 393 303L386 331L405 339L419 314C428 317 437 319 447 320L451 349H472L476 320C486 319 495 317 504 314L518 339L537 331L530 303C538 298 546 293 554 287L577 304L592 289L575 266C581 259 586 251 591 242L619 249L627 230L602 216C605 207 607 198 608 188L635 184ZM461 284C400 284 351 235 351 174C351 113 401 64 461 64C521 64 571 113 571 174C571 235 522 284 461 284Z">
+                                    </path>
+                                    <path class="medium"
+                                        d="M392 390V369L364 365C363 355 360 346 357 337L380 320L369 302L342 313C336 305 329 299 322 293L333 267L315 256L298 279C289 275 280 273 270 272L266 244H245L241 272C231 273 222 276 213 279L196 256L178 267L189 293C181 299 175 306 169 313L143 302L132 320L155 337C151 346 149 355 148 365L120 369V390L148 394C149 404 152 413 155 422L132 439L143 457L169 446C175 454 182 460 189 466L178 492L196 503L213 480C222 484 231 486 241 487L245 515H266L270 487C280 486 289 483 298 480L315 503L333 492L322 466C330 460 336 453 342 446L368 457L379 439L356 422C360 413 362 404 363 394L392 390ZM255 453C214 453 181 420 181 379C181 338 214 305 255 305C296 305 329 338 329 379C328 420 295 453 255 453Z">
+                                    </path>
+                                    <path class="small"
+                                        d="M200 236V215L171 211C169 201 165 193 160 185L178 162L163 147L140 165C132 160 123 156 114 154L110 125H90L86 154C76 156 68 160 60 165L37 147L22 162L40 185C35 193 31 202 29 211L0 215V236L29 240C31 250 35 258 40 266L22 289L37 304L60 286C68 291 77 295 86 297L90 326H111L115 297C125 295 133 291 141 286L164 304L179 289L161 266C166 258 170 249 172 240L200 236ZM100 262C80 262 63 245 63 225C63 205 80 188 100 188C120 188 137 205 137 225C137 245 121 262 100 262Z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 478 224"
+                            class="usparks usparks-no">
+                            <path stroke-linecap="round"
+                                d="M172.675 130.318C176.079 94.8544 183.101 52.6838 262.101 32.6837" style="--i:1">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M286.569 127.661C299.204 94.3501 317.096 55.5231 398.574 57.0604" style="--i:4">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M335.954 194.26C370.153 182.301 412.468 170.335 474.474 222.038" style="--i:6">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M265.974 116.351C261.897 79.6629 253.871 36.3728 169.162 24.4022" style="--i:10">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M131.475 153.296C107.914 126.572 77.4904 96.5377 1.77821 126.682" style="--i:3">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M153.453 170.383C161.298 135.631 167.803 93.3778 99.0048 49.6985" style="--i:5">
+                            </path>
+                            <path stroke-linecap="round"
+                                d="M309.315 154.41C341.202 155.086 380.493 154.234 434.104 111.701" style="--i:12">
+                            </path>
+                            <path d="M109 193C54.6 140.2 66.3333 99 79 85" style="--i:7"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 401 68" height="68" width="401"
+                            class="upath">
+                            <path stroke-opacity="0.2" stroke-linecap="round"
+                                d="M313.89 11.6484C322.652 28.147 374.652 31.5 397.652 0.999998"></path>
+                            <path stroke-opacity="0.3" stroke-linecap="round"
+                                d="M290.652 17.0773C294.773 34.8416 359.652 50.5 387.152 24"></path>
+                            <path stroke-opacity="0.5" stroke-linecap="round"
+                                d="M265.152 17.0773C274.152 38 323.652 68 362.152 42"></path>
+                            <path stroke-opacity="0.7" stroke-linecap="round"
+                                d="M241.75 17.0773C251.653 45 302.152 74.5 332.152 46.5"></path>
+                            <path stroke-opacity="0.9" stroke-linecap="round"
+                                d="M220.152 17.0773C230.055 45 274.652 81.5 288.652 47"></path>
+                            <path stroke-linecap="round" d="M200.982 17.0773C209.652 55 239.152 80 245.652 58.5"></path>
+                            <path stroke-linecap="round" d="M200.67 17.0773C192 55 162.5 80 156 58.5"></path>
+                            <path stroke-opacity="0.9" stroke-linecap="round"
+                                d="M181.5 17.0773C171.597 45 127 81.5 113 47"></path>
+                            <path stroke-opacity="0.7" stroke-linecap="round"
+                                d="M159.903 17.0773C150 45 99.4999 74.5 69.4999 46.5"></path>
+                            <path stroke-opacity="0.5" stroke-linecap="round"
+                                d="M136.5 17.0773C127.5 38 77.9999 68 39.4999 42"></path>
+                            <path stroke-opacity="0.3" stroke-linecap="round"
+                                d="M111 17.0773C106.879 34.8416 41.9999 50.5 14.4999 24"></path>
+                            <path stroke-opacity="0.2" stroke-linecap="round"
+                                d="M87.7628 11.6484C78.9999 28.147 27 31.5 4.00004 0.999998"></path>
+                        </svg>
+                    </button>
+                    <div class="countdown-ring" id="countdownRingNo">
+                        <svg viewBox="0 0 54 54">
+                            <circle class="cring-track" cx="27" cy="27" r="22" />
+                            <circle class="cring-fill" id="cringFillNo" cx="27" cy="27" r="22" style="stroke:#ff9090" />
+                            <text class="cring-num" id="cringNumNo" x="27" y="27">3</text>
+                        </svg>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── RECEIPT SCENE ── -->
+    <div class="scene" id="scene">
+
+        <!-- machine -->
+        <div class="machine">
+            <div class="machine-top">
+                <span class="machine-label">Nebeng Pass</span>
+                <div class="machine-light" id="machineLight"></div>
+            </div>
+            <div class="machine-slot"></div>
+        </div>
+
+        <!-- receipt sliding out -->
+        <div class="receipt-clip" id="receiptClip">
+            <div class="receipt-flip" id="receiptFlip" onclick="flipReceipt()">
+                <div class="receipt-inner" id="receiptInner">
+
+                    <!-- FRONT: info -->
+                    <div class="receipt-face receipt-front">
+                        <div class="r-header">
+                            <div class="r-shop">🚗 Nebeng Pass</div>
+                            <div class="r-tagline">Resmi & Tidak Memaksa™</div>
+                        </div>
+                        <div class="r-body">
+                            <div class="r-row">
+                                <span class="label">TANGGAL</span>
+                                <span class="val" id="rDate">—</span>
+                            </div>
+                            <div class="r-row">
+                                <span class="label">WAKTU</span>
+                                <span class="val" id="rTime">—</span>
+                            </div>
+                            <div class="r-row">
+                                <span class="label">STATUS</span>
+                                <span class="val" id="rStatusRow">—</span>
+                            </div>
+                            <hr class="r-divider" />
+                            <div class="r-row">
+                                <span class="label">PENUMPANG</span>
+                                <span class="val">1 orang</span>
+                            </div>
+                            <div class="r-row">
+                                <span class="label">TUJUAN</span>
+                                <span class="val" id="rDest">—</span>
+                            </div>
+                            <div class="r-row">
+                                <span class="label">PATUNGAN BENSIN</span>
+                                <span class="val" id="rBensin">—</span>
+                            </div>
+                            <hr class="r-divider" />
+                        </div>
+                        <div class="r-status" id="rStatusBig">—</div>
+                        <div class="r-hint" id="rHint">—</div>
+                        <!-- zigzag bottom -->
+                        <svg class="r-zigzag" viewBox="0 0 260 16" preserveAspectRatio="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0,0 L10,16 L20,0 L30,16 L40,0 L50,16 L60,0 L70,16 L80,0 L90,16 L100,0 L110,16 L120,0 L130,16 L140,0 L150,16 L160,0 L170,16 L180,0 L190,16 L200,0 L210,16 L220,0 L230,16 L240,0 L250,16 L260,0 L260,16 L0,16 Z"
+                                fill="#f0e6d3" />
+                        </svg>
+                    </div>
+
+                    <!-- BACK: barcode -->
+                    <div class="receipt-face receipt-back">
+                        <!-- zigzag top (flipped) -->
+                        <svg style="transform:scaleY(-1);display:block" viewBox="0 0 260 16" preserveAspectRatio="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0,0 L10,16 L20,0 L30,16 L40,0 L50,16 L60,0 L70,16 L80,0 L90,16 L100,0 L110,16 L120,0 L130,16 L140,0 L150,16 L160,0 L170,16 L180,0 L190,16 L200,0 L210,16 L220,0 L230,16 L240,0 L250,16 L260,0 L260,16 L0,16 Z"
+                                fill="#f0e6d3" />
+                        </svg>
+                        <div class="r-back-inner">
+                            <div class="r-back-title">Scan Nebeng</div>
+                            <!-- inline barcode SVG -->
+                            <svg class="barcode-svg" width="200" height="80" viewBox="0 0 200 80"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <!-- bars generated pattern -->
+                                <rect x="0" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="5" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="8" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="14" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="18" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="21" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="26" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="29" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="33" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="39" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="42" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="47" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="51" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="54" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="60" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="64" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="67" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="72" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="75" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="80" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="86" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="89" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="94" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="98" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="101" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="107" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="110" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="115" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="119" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="122" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="128" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="132" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="135" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="140" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="143" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="148" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="154" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="157" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="162" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="166" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="169" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="175" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="179" width="3" height="80" fill="#2c1a0e" />
+                                <rect x="184" width="1" height="80" fill="#2c1a0e" />
+                                <rect x="187" width="4" height="80" fill="#2c1a0e" />
+                                <rect x="193" width="2" height="80" fill="#2c1a0e" />
+                                <rect x="197" width="3" height="80" fill="#2c1a0e" />
+                            </svg>
+                            <div class="r-back-code" id="rCode">NB-000000</div>
+                            <div class="r-back-hint" id="rBackHint">—</div>
+                        </div>
+                        <svg class="r-zigzag" viewBox="0 0 260 16" preserveAspectRatio="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0,0 L10,16 L20,0 L30,16 L40,0 L50,16 L60,0 L70,16 L80,0 L90,16 L100,0 L110,16 L120,0 L130,16 L140,0 L150,16 L160,0 L170,16 L180,0 L190,16 L200,0 L210,16 L220,0 L230,16 L240,0 L250,16 L260,0 L260,16 L0,16 Z"
+                                fill="#f0e6d3" />
+                        </svg>
+                    </div>
+
+                </div><!-- receipt-inner -->
+            </div><!-- receipt-flip -->
+        </div><!-- receipt-clip -->
+
+        <!-- flip hint & back btn -->
+        <div class="flip-hint" id="flipHint" onclick="flipReceipt()">
+            <span class="flip-arrow">↺</span> tap struk untuk balik
+        </div>
+        <button class="back-btn" onclick="resetScene()">← Tanya lagi</button>
+
+    </div><!-- scene -->
+
+    <!-- ── TRAIN SCENE ── -->
+    <div class="train-scene" id="trainScene">
+
+        <!-- sky clouds -->
+        <div class="t-cloud" style="width:120px;height:40px;top:8%;animation-duration:18s;animation-delay:0s">
+            <div
+                style="position:absolute;width:60px;height:60px;background:white;border-radius:50%;top:-30px;left:20px">
+            </div>
+            <div
+                style="position:absolute;width:40px;height:40px;background:white;border-radius:50%;top:-20px;left:50px">
+            </div>
+        </div>
+        <div class="t-cloud" style="width:90px;height:30px;top:14%;animation-duration:24s;animation-delay:-8s">
+            <div
+                style="position:absolute;width:44px;height:44px;background:white;border-radius:50%;top:-22px;left:14px">
+            </div>
+        </div>
+        <div class="t-cloud" style="width:100px;height:35px;top:6%;animation-duration:20s;animation-delay:-14s">
+            <div
+                style="position:absolute;width:50px;height:50px;background:white;border-radius:50%;top:-25px;left:18px">
+            </div>
+            <div
+                style="position:absolute;width:34px;height:34px;background:white;border-radius:50%;top:-18px;left:52px">
+            </div>
+        </div>
+
+        <!-- rails — static, no animation -->
+        <div class="t-rail top"></div>
+        <div class="t-rail bot"></div>
+
+        <!-- sleepers — evenly spaced, static -->
+        <div class="t-sleeper" style="left:5%"></div>
+        <div class="t-sleeper" style="left:13%"></div>
+        <div class="t-sleeper" style="left:21%"></div>
+        <div class="t-sleeper" style="left:29%"></div>
+        <div class="t-sleeper" style="left:37%"></div>
+        <div class="t-sleeper" style="left:45%"></div>
+        <div class="t-sleeper" style="left:53%"></div>
+        <div class="t-sleeper" style="left:61%"></div>
+        <div class="t-sleeper" style="left:69%"></div>
+        <div class="t-sleeper" style="left:77%"></div>
+        <div class="t-sleeper" style="left:85%"></div>
+        <div class="t-sleeper" style="left:93%"></div>
+
+        <!-- person + bubble anchored to right side above rail — NO background -->
+        <div class="t-platform" id="tPlatform">
+            <div class="t-person" id="tPerson">🧍</div>
+            <div class="t-bubble" id="tBubble">Bye bye! 👋</div>
+        </div>
+
+        <!-- station sign — bottom center of screen -->
+        <div class="t-sign" id="tSign">🚉 Stasiun Alternatif</div>
+
+        <!-- TRAIN: loco FIRST (leftmost = front), wagons trail to the right -->
+        <div class="t-train-wrap" id="tTrainWrap">
+            <div class="t-train">
+
+                <!-- LOCOMOTIVE — front of train -->
+                <div class="t-loco">
+                    <div class="t-loco-chimney"></div>
+                    <div class="t-smoke">
+                        <div class="t-smoke-puff"></div>
+                        <div class="t-smoke-puff"></div>
+                        <div class="t-smoke-puff"></div>
+                    </div>
+                    <div class="t-loco-window"></div>
+                    <div class="t-loco-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-m"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+
+                <!-- WAGON 1 — has the door (closest to platform) -->
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-door" id="tDoor">
+                        <div class="t-door-handle"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+
+                <!-- WAGONS 2–10 -->
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+                <div class="t-wagon">
+                    <div class="t-wagon-windows">
+                        <div class="t-wagon-window"></div>
+                        <div class="t-wagon-window"></div>
+                    </div>
+                    <div class="t-wagon-stripe"></div>
+                    <div class="t-wheel t-wheel-l"></div>
+                    <div class="t-wheel t-wheel-r"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- back button -->
+        <button class="t-back" id="tBack" onclick="resetTrainScene()">← Tanya lagi</button>
+
+    </div><!-- train-scene -->
+
+    <script>
+        // ── EmailJS init ──
+        (function () {
+            emailjs.init("u2ZwYFssqpKimYPFe"); // ← ganti dengan Public Key kamu
+        })();
+
+        function sendEmail(status) {
+            const n = nowStr();
+            emailjs.send("service_w5hs2zl", "template_i3sqcai", {
+                    name: "vinkent",
+                    email: "vinkent99@gmail.com",
+                    status: status,
+                    // tanggal: n.date,
+                    // waktu: n.time,
+                    // kode: n.code
+                })
+                .then(() => {
+                    console.log("📧 Email terkirim: " + status);
+                }, (err) => {
+                    console.warn("EmailJS error:", err);
+                });
+        }
+
+        // ── date/time ──
+        function nowStr() {
+            const d = new Date();
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yy = d.getFullYear();
+            const hh = String(d.getHours()).padStart(2, '0');
+            const mn = String(d.getMinutes()).padStart(2, '0');
+            return {
+                date: `${dd}/${mm}/${yy}`,
+                time: `${hh}:${mn}`,
+                code: `NB-${Math.floor(100000+Math.random()*900000)}`
+            };
+        }
+
+        // ── particles ──
+        let particles = [];
+
+        function spawnConfetti() {
+            const colors = ['#4a7c59', '#d4763b', '#f4c542', '#c0392b', '#e8a87c', '#5c3d2e'];
+            for (let i = 0; i < 60; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti-piece';
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.background = colors[~~(Math.random() * colors.length)];
+                el.style.width = (Math.random() * 10 + 6) + 'px';
+                el.style.height = (Math.random() * 10 + 6) + 'px';
+                el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+                const dur = (Math.random() * 1.5 + 1.2).toFixed(2);
+                el.style.animationDuration = dur + 's';
+                el.style.animationDelay = (Math.random() * .8).toFixed(2) + 's';
+                document.body.appendChild(el);
+                particles.push(el);
+                setTimeout(() => el.remove(), parseFloat(dur) * 1000 + 900);
+            }
+        }
+
+        function spawnRain() {
+            for (let i = 0; i < 40; i++) {
+                const el = document.createElement('div');
+                el.className = 'rain-drop';
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.height = (Math.random() * 20 + 15) + 'px';
+                const dur = (Math.random() * 1 + .7).toFixed(2);
+                el.style.animationDuration = dur + 's';
+                el.style.animationDelay = (Math.random() * 1.5).toFixed(2) + 's';
+                el.style.opacity = Math.random() * .6 + .3;
+                document.body.appendChild(el);
+                particles.push(el);
+                setTimeout(() => el.remove(), parseFloat(dur) * 1000 + 2000);
+            }
+        }
+
+        function clearParticles() {
+            particles.forEach(p => {
+                try {
+                    p.remove()
+                } catch (e) {}
+            });
+            particles = [];
+        }
+
+        // ── car zoom (smooth, no flicker) ──
+        let carLoop;
+        let carAnimId;
+        let carX;
+        const CAR_SPEED = 4.5;
+
+        function getCarStart() {
+            return window.innerWidth + 100;
+        }
+
+        function getCarEnd() {
+            return -120;
+        }
+
+        function animateCar() {
+            const car = document.getElementById('zoomCar');
+            carX -= CAR_SPEED;
+            if (carX < getCarEnd()) {
+                carX = getCarStart();
+            }
+            car.style.transform = `translateX(${carX}px)`;
+            carAnimId = requestAnimationFrame(animateCar);
+        }
+
+        function startCarLoop() {
+            const car = document.getElementById('zoomCar');
+            const road = document.getElementById('road');
+            carX = getCarStart();
+            car.style.transform = `translateX(${carX}px) scaleX(-1)`;
+            car.style.visibility = 'visible';
+            road.classList.add('show');
+            cancelAnimationFrame(carAnimId);
+            animateCar();
+        }
+
+        function stopCarLoop() {
+            cancelAnimationFrame(carAnimId);
+            const car = document.getElementById('zoomCar');
+            const road = document.getElementById('road');
+            car.style.visibility = 'hidden';
+            road.classList.remove('show');
+        }
+
+        // ── flip ──
+        let isFlipped = false;
+
+        function flipReceipt() {
+            isFlipped = !isFlipped;
+            document.getElementById('receiptInner').classList.toggle('flipped', isFlipped);
+            const hint = document.getElementById('flipHint');
+            hint.innerHTML = isFlipped ?
+                '<span class="flip-arrow">↺</span> tap untuk lihat info' :
+                '<span class="flip-arrow">↺</span> tap struk untuk balik';
+        }
+
+        // ── stepped receipt feed ──
+        function feedReceipt(totalH) {
+            const clip = document.getElementById('receiptClip');
+            // Step 1: peek out ~10% with a little jitter feel
+            const peek = Math.round(totalH * 0.10);
+            const steps = [{
+                    h: peek,
+                    delay: 0,
+                    dur: 180
+                }, // first peek
+                {
+                    h: peek,
+                    delay: 340,
+                    dur: 0
+                }, // pause — thermal "thinking"
+                {
+                    h: Math.round(totalH * 0.22),
+                    delay: 420,
+                    dur: 260
+                }, // nudge further
+                {
+                    h: Math.round(totalH * 0.22),
+                    delay: 240,
+                    dur: 0
+                }, // tiny pause
+                {
+                    h: Math.round(totalH * 0.40),
+                    delay: 220,
+                    dur: 380
+                }, // feed chunk
+                {
+                    h: Math.round(totalH * 0.40),
+                    delay: 180,
+                    dur: 0
+                }, // pause mid
+                {
+                    h: Math.round(totalH * 0.58),
+                    delay: 200,
+                    dur: 340
+                },
+                {
+                    h: Math.round(totalH * 0.72),
+                    delay: 160,
+                    dur: 300
+                },
+                {
+                    h: Math.round(totalH * 0.85),
+                    delay: 140,
+                    dur: 260
+                },
+                {
+                    h: totalH,
+                    delay: 120,
+                    dur: 220
+                }, // final full out
+            ];
+
+            let acc = 0;
+            steps.forEach(s => {
+                acc += s.delay;
+                setTimeout(() => {
+                    clip.style.transition = s.dur > 0 ? `height ${s.dur}ms ease-out` : 'none';
+                    clip.style.height = s.h + 'px';
+                }, acc);
+            });
+
+            // return total time so caller can schedule flip hint
+            return acc + 400;
+        }
+
+        // ── yes button with 3s countdown ──
+        let countdownTimer = null;
+
+        function handleYesToggle(checkbox) {
+            if (!checkbox.checked) {
+                // unchecked = activated (button flipped to "loading" state)
+                startCountdown();
+            } else {
+                cancelCountdown();
+            }
+        }
+
+        function startCountdown() {
+            const ring = document.getElementById('countdownRing');
+            const fill = document.getElementById('cringFill');
+            const num = document.getElementById('cringNum');
+            const CIRC = 138; // 2π×22
+            const TOTAL = 3000;
+            const INTERVAL = 50;
+            let elapsed = 0;
+
+            ring.classList.add('show');
+
+            countdownTimer = setInterval(() => {
+                elapsed += INTERVAL;
+                const progress = elapsed / TOTAL;
+                fill.style.strokeDashoffset = CIRC - progress * CIRC;
+                const remaining = Math.ceil((TOTAL - elapsed) / 1000);
+                num.textContent = remaining > 0 ? remaining : '🚗';
+
+                if (elapsed >= TOTAL) {
+                    clearInterval(countdownTimer);
+                    countdownTimer = null;
+                    ring.classList.remove('show');
+                    answer('yes');
+                }
+            }, INTERVAL);
+        }
+
+        function cancelCountdown() {
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+                countdownTimer = null;
+            }
+            const ring = document.getElementById('countdownRing');
+            ring.classList.remove('show');
+            document.getElementById('cringFill').style.strokeDashoffset = 138;
+            document.getElementById('cringNum').textContent = '3';
+        }
+
+        // ── no button with 3s countdown ──
+        let countdownTimerNo = null;
+
+        function handleNoToggle(checkbox) {
+            if (!checkbox.checked) {
+                startCountdownNo();
+            } else {
+                cancelCountdownNo();
+            }
+        }
+
+        function startCountdownNo() {
+            const ring = document.getElementById('countdownRingNo');
+            const fill = document.getElementById('cringFillNo');
+            const num = document.getElementById('cringNumNo');
+            const CIRC = 138;
+            const TOTAL = 3000;
+            const INTERVAL = 50;
+            let elapsed = 0;
+            ring.classList.add('show');
+            countdownTimerNo = setInterval(() => {
+                elapsed += INTERVAL;
+                fill.style.strokeDashoffset = CIRC - (elapsed / TOTAL) * CIRC;
+                const remaining = Math.ceil((TOTAL - elapsed) / 1000);
+                num.textContent = remaining > 0 ? remaining : '🚂';
+                if (elapsed >= TOTAL) {
+                    clearInterval(countdownTimerNo);
+                    countdownTimerNo = null;
+                    ring.classList.remove('show');
+                    answerNo();
+                }
+            }, INTERVAL);
+        }
+
+        function cancelCountdownNo() {
+            if (countdownTimerNo) {
+                clearInterval(countdownTimerNo);
+                countdownTimerNo = null;
+            }
+            const ring = document.getElementById('countdownRingNo');
+            if (ring) ring.classList.remove('show');
+            document.getElementById('cringFillNo').style.strokeDashoffset = 138;
+            document.getElementById('cringNumNo').textContent = '3';
+        }
+
+        // ── main answer ──
+        function answer(type) {
+            const {
+                date,
+                time,
+                code
+            } = nowStr();
+            const isYes = type === 'yes';
+
+            // fill receipt data
+            document.getElementById('rDate').textContent = date;
+            document.getElementById('rTime').textContent = '17:00';
+            document.getElementById('rCode').textContent = code;
+
+            if (isYes) {
+                sendEmail("BOLEH ✅ — Nebeng disetujui");
+                document.getElementById('rStatusRow').textContent = '✅ DISETUJUI';
+                document.getElementById('rStatusRow').style.color = '#4a7c59';
+                document.getElementById('rDest').textContent = 'Searah / Tujuan sama';
+                document.getElementById('rBensin').textContent = 'Sukarela 🙏';
+                document.getElementById('rStatusBig').textContent = 'BOLEH GAS! 🎉';
+                document.getElementById('rStatusBig').className = 'r-status yes';
+                document.getElementById('rHint').textContent =
+                    'Makasih banyak ya!\nJangan lupa share lokasi jemput & konfirmasi jam.';
+                document.getElementById('rBackHint').textContent =
+                    'Tunjukkan ke pengemudi.\nValid untuk 1x perjalanan hari ini.';
+                document.getElementById('machineLight').className = 'machine-light';
+            } else {
+                document.getElementById('rStatusRow').textContent = '❌ DITOLAK';
+                document.getElementById('rStatusRow').style.color = '#c0392b';
+                document.getElementById('rDest').textContent = '— tidak jadi —';
+                document.getElementById('rBensin').textContent = 'Nggak jadi 😔';
+                document.getElementById('rStatusBig').textContent = 'NGGAK BISA 😔';
+                document.getElementById('rStatusBig').className = 'r-status no';
+                document.getElementById('rHint').textContent =
+                    'Gapapa, makasih sudah nanya!\nMasih ada ojek online & angkot kok.';
+                document.getElementById('rBackHint').textContent =
+                    'Struk penolakan resmi.\nSimpan sebagai kenangan 🥲';
+                document.getElementById('machineLight').className = 'machine-light red';
+            }
+
+            // hide main card, show scene
+            document.getElementById('mainCard').style.opacity = '0';
+            document.getElementById('mainCard').style.pointerEvents = 'none';
+            document.getElementById('mainCard').style.transition = 'opacity .3s';
+
+            setTimeout(() => {
+                document.getElementById('mainCard').style.display = 'none';
+                const scene = document.getElementById('scene');
+                scene.classList.add('show');
+
+                // measure full receipt height then start stepped feed
+                setTimeout(() => {
+                    const front = document.querySelector('.receipt-front');
+                    const totalH = front ? front.offsetHeight : 420;
+                    const feedDone = feedReceipt(totalH);
+
+                    // show flip hint after receipt fully out
+                    setTimeout(() => {
+                        const hint = document.getElementById('flipHint');
+                        hint.classList.add('vis');
+                        // sync back face height to front face height
+                        const front = document.querySelector('.receipt-front');
+                        const back = document.querySelector('.receipt-back');
+                        if (front && back) {
+                            back.style.height = front.offsetHeight + 'px';
+                        }
+                    }, feedDone);
+
+                    // trigger effects
+                    if (isYes) {
+                        setTimeout(spawnConfetti, feedDone - 600);
+                        setTimeout(startCarLoop, feedDone - 200);
+                        setTimeout(spawnConfetti, feedDone + 600);
+                    } else {
+                        setTimeout(spawnRain, feedDone - 400);
+                        setTimeout(spawnRain, feedDone + 800);
+                    }
+                }, 120);
+            }, 320);
+        }
+
+        // ── NO answer → train scene ──
+        function answerNo() {
+            sendEmail("TIDAK ❌ — Nebeng ditolak");
+            const mc = document.getElementById('mainCard');
+            mc.style.opacity = '0';
+            mc.style.pointerEvents = 'none';
+            mc.style.transition = 'opacity .3s';
+            setTimeout(() => {
+                mc.style.display = 'none';
+                document.getElementById('trainScene').classList.add('show');
+                runTrainScene();
+            }, 320);
+        }
+
+        function runTrainScene() {
+            const wrap = document.getElementById('tTrainWrap');
+            const door = document.getElementById('tDoor');
+            const person = document.getElementById('tPerson');
+            const bubble = document.getElementById('tBubble');
+            const sign = document.getElementById('tSign');
+            const back = document.getElementById('tBack');
+
+            // Step 1 — train arrives from right (wheels rolling)
+            setTimeout(() => {
+                wrap.classList.add('arrive');
+            }, 100);
+
+            // Step 2 — train stopped: pause wheels
+            setTimeout(() => {
+                wrap.querySelectorAll('.t-wheel').forEach(w => w.style.animationPlayState = 'paused');
+                door.classList.add('open');
+            }, 1800);
+
+            // Step 3 — person waves + bubble + sign
+            setTimeout(() => {
+                person.classList.add('wave');
+                bubble.classList.add('show');
+                sign.classList.add('show');
+            }, 2500);
+
+            // Step 4 — person boards
+            setTimeout(() => {
+                person.style.opacity = '0';
+                person.style.transform = 'translateX(-50%) translateX(-20px) scale(.5)';
+            }, 3800);
+
+            // Step 5 — door closes
+            setTimeout(() => {
+                door.classList.remove('open');
+                bubble.classList.remove('show');
+                setTimeout(() => {
+                    bubble.textContent = '🚂 Berangkat!';
+                    bubble.classList.add('show');
+                }, 150);
+            }, 4600);
+
+            // Step 6 — resume wheels, train departs
+            setTimeout(() => {
+                bubble.classList.remove('show');
+                wrap.querySelectorAll('.t-wheel').forEach(w => w.style.animationPlayState = 'running');
+                wrap.classList.remove('arrive');
+                wrap.classList.add('depart');
+            }, 5400);
+
+            // Step 7 — show back button after train fully gone
+            setTimeout(() => {
+                back.classList.add('show');
+            }, 8800);
+        }
+
+        function resetTrainScene() {
+            const ts = document.getElementById('trainScene');
+            ts.classList.remove('show');
+
+            const wrap = document.getElementById('tTrainWrap');
+            const door = document.getElementById('tDoor');
+            const person = document.getElementById('tPerson');
+            const bubble = document.getElementById('tBubble');
+            const sign = document.getElementById('tSign');
+            const back = document.getElementById('tBack');
+
+            wrap.classList.remove('arrive', 'depart');
+            // reset wheels
+            wrap.querySelectorAll('.t-wheel').forEach(w => w.style.animationPlayState = 'running');
+            door.classList.remove('open');
+            person.classList.remove('wave');
+            person.textContent = '🧍';
+            person.style.opacity = '1';
+            person.style.transform = 'translateX(-50%)';
+            bubble.classList.remove('show');
+            bubble.textContent = 'Bye bye! 👋';
+            sign.classList.remove('show');
+            back.classList.remove('show');
+
+            cancelCountdownNo();
+            const noBtn = document.getElementById('noBtn');
+            if (noBtn) noBtn.checked = true;
+
+            const mc = document.getElementById('mainCard');
+            mc.style.display = '';
+            mc.style.opacity = '1';
+            mc.style.pointerEvents = '';
+        }
+
+        function resetScene() {
+            // reset flip
+            isFlipped = false;
+            document.getElementById('receiptInner').classList.remove('flipped');
+            const back = document.querySelector('.receipt-back');
+            if (back) back.style.height = '';
+
+            // hide scene
+            document.getElementById('scene').classList.remove('show');
+            document.getElementById('receiptClip').style.height = '0';
+            document.getElementById('receiptClip').style.transition = 'none';
+            document.getElementById('flipHint').classList.remove('vis');
+
+            // show main card
+            const mc = document.getElementById('mainCard');
+            mc.style.display = '';
+            mc.style.opacity = '1';
+            mc.style.pointerEvents = '';
+
+            cancelCountdown();
+            cancelCountdownNo();
+            const yesBtn = document.getElementById('yesBtn');
+            if (yesBtn) yesBtn.checked = true;
+            const noBtn = document.getElementById('noBtn');
+            if (noBtn) noBtn.checked = true;
+
+            clearParticles();
+            stopCarLoop();
+        }
+    </script>
+</body>
+
+</html>

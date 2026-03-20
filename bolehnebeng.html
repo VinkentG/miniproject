@@ -1067,7 +1067,8 @@
             min-height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            overflow: visible;
         }
 
         /* receipt content */
@@ -1177,8 +1178,72 @@
             color: var(--muted);
         }
 
-        .barcode-svg {
-            display: block
+        /* QR kotak — bisa dipindai kamera HP (bukan barcode 1D) */
+        .nebeng-qr {
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            width: min(160px, 100%);
+            aspect-ratio: 1 / 1;
+            height: auto;
+            display: block;
+            line-height: 0;
+            background: #fffdf8;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--receipt-border);
+            overflow: visible;
+        }
+
+        /* Jangan pakai display:!important — qrcode.js menyembunyikan canvas setelah img siap;
+           kalau dipaksa block, canvas + img keduanya kelihatan = "2 barcode". */
+        .nebeng-qr img,
+        .nebeng-qr canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
+            margin: 0 !important;
+        }
+
+        .nebeng-qr table {
+            width: 100% !important;
+            height: auto !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
+        }
+
+        /* Judul + QR + kode = link ke halaman Nebeng */
+        .barcode-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: fit-content;
+            max-width: 100%;
+            align-self: center;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 6px 8px;
+            margin: -6px auto;
+            transition: background .2s ease, box-shadow .2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .barcode-link:hover {
+            background: rgba(212, 118, 59, 0.1);
+            box-shadow: 0 0 0 1px rgba(212, 118, 59, 0.2);
+        }
+
+        .barcode-link:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .barcode-link .r-back-title {
+            color: var(--accent);
         }
 
         .r-back-code {
@@ -2205,60 +2270,14 @@
                                 fill="#f0e6d3" />
                         </svg>
                         <div class="r-back-inner">
-                            <div class="r-back-title">Scan Nebeng</div>
-                            <!-- inline barcode SVG -->
-                            <svg class="barcode-svg" width="200" height="80" viewBox="0 0 200 80"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <!-- bars generated pattern -->
-                                <rect x="0" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="5" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="8" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="14" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="18" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="21" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="26" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="29" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="33" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="39" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="42" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="47" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="51" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="54" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="60" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="64" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="67" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="72" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="75" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="80" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="86" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="89" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="94" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="98" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="101" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="107" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="110" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="115" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="119" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="122" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="128" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="132" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="135" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="140" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="143" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="148" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="154" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="157" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="162" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="166" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="169" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="175" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="179" width="3" height="80" fill="#2c1a0e" />
-                                <rect x="184" width="1" height="80" fill="#2c1a0e" />
-                                <rect x="187" width="4" height="80" fill="#2c1a0e" />
-                                <rect x="193" width="2" height="80" fill="#2c1a0e" />
-                                <rect x="197" width="3" height="80" fill="#2c1a0e" />
-                            </svg>
-                            <div class="r-back-code" id="rCode">NB-000000</div>
+                            <a class="barcode-link" href="https://vinkentg.github.io/miniproject/bolehnebengpass.html"
+                                target="_blank" rel="noopener noreferrer" title="Buka halaman Boleh Nebeng?"
+                                onclick="event.stopPropagation()">
+                                <div class="r-back-title">Scan QR</div>
+                                <div id="nebengQr" class="nebeng-qr" role="img"
+                                    aria-label="QR code ke halaman Boleh Nebeng"></div>
+                                <div class="r-back-code" id="rCode">NB-000000</div>
+                            </a>
                             <div class="r-back-hint" id="rBackHint">—</div>
                         </div>
                         <svg class="r-zigzag" viewBox="0 0 260 16" preserveAspectRatio="none"
@@ -2458,6 +2477,8 @@
 
     </div><!-- train-scene -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
     <script>
         // ── EmailJS init ──
         (function () {
@@ -2561,7 +2582,7 @@
             document.getElementById('rHint').textContent =
                 'Makasih banyak ya!\nJangan lupa share lokasi jemput & konfirmasi jam.';
             document.getElementById('rBackHint').textContent =
-                'Tunjukkan ke pengemudi.\nValid untuk 1x perjalanan hari ini.';
+                'Tunjukkan ke pengintil.\nValid untuk 1x perjalanan hari ini.';
             document.getElementById('machineLight').className = 'machine-light';
         }
 
@@ -2579,16 +2600,14 @@
             document.getElementById('scene').classList.add('show');
 
             setTimeout(() => {
-                const front = document.querySelector('.receipt-front');
-                const totalH = front ? front.offsetHeight : 420;
+                const totalH = measureReceiptClipHeight();
                 const clip = document.getElementById('receiptClip');
                 clip.style.transition = 'none';
                 clip.style.height = totalH + 'px';
+                syncReceiptBackFaceAfterClip(totalH);
 
                 const hint = document.getElementById('flipHint');
                 hint.classList.add('vis');
-                const back = document.querySelector('.receipt-back');
-                if (front && back) back.style.height = front.offsetHeight + 'px';
 
                 spawnConfetti();
                 setTimeout(spawnConfetti, 400);
@@ -2635,6 +2654,32 @@
             } else if (saved.choice === 'no') {
                 applySavedNo();
             }
+        }
+
+        /** Isi QR = URL yang sama dengan link (bisa dipindai kamera HP) */
+        const NEBENG_QR_URL = 'https://vinkentg.github.io/miniproject/bolehnebeng.html';
+
+        function initNebengQR() {
+            const el = document.getElementById('nebengQr');
+            if (!el || typeof QRCode === 'undefined') return;
+            el.innerHTML = '';
+            try {
+                new QRCode(el, {
+                    text: NEBENG_QR_URL,
+                    width: 160,
+                    height: 160,
+                    colorDark: '#2c1a0e',
+                    colorLight: '#fffdf8',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            } catch (e) {
+                console.warn('QR init:', e);
+            }
+        }
+
+        function bootNebengPage() {
+            initNebengQR();
+            initNebengFromStorage();
         }
 
         // ── particles ──
@@ -2737,6 +2782,26 @@
             hint.innerHTML = isFlipped ?
                 '<span class="flip-arrow">↺</span> tap untuk lihat info' :
                 '<span class="flip-arrow">↺</span> tap struk untuk balik';
+        }
+
+        function measureReceiptClipHeight() {
+            const front = document.querySelector('.receipt-front');
+            const back = document.querySelector('.receipt-back');
+            if (!front) return 420;
+            const hFront = front.offsetHeight;
+            if (!back) return hFront;
+            const prev = back.style.height;
+            back.style.height = 'auto';
+            const hBack = back.scrollHeight;
+            back.style.height = prev;
+            return Math.max(hFront, hBack);
+        }
+
+        function syncReceiptBackFaceAfterClip(totalH) {
+            const back = document.querySelector('.receipt-back');
+            const inner = document.getElementById('receiptInner');
+            if (back) back.style.height = totalH + 'px';
+            if (inner) inner.style.minHeight = totalH + 'px';
         }
 
         // ── stepped receipt feed ──
@@ -2959,20 +3024,14 @@
 
                 // measure full receipt height then start stepped feed
                 setTimeout(() => {
-                    const front = document.querySelector('.receipt-front');
-                    const totalH = front ? front.offsetHeight : 420;
+                    const totalH = measureReceiptClipHeight();
+                    syncReceiptBackFaceAfterClip(totalH);
                     const feedDone = feedReceipt(totalH);
 
                     // show flip hint after receipt fully out
                     setTimeout(() => {
                         const hint = document.getElementById('flipHint');
                         hint.classList.add('vis');
-                        // sync back face height to front face height
-                        const front = document.querySelector('.receipt-front');
-                        const back = document.querySelector('.receipt-back');
-                        if (front && back) {
-                            back.style.height = front.offsetHeight + 'px';
-                        }
                     }, feedDone);
 
                     // trigger effects
@@ -3099,6 +3158,7 @@
             // reset flip
             isFlipped = false;
             document.getElementById('receiptInner').classList.remove('flipped');
+            document.getElementById('receiptInner').style.minHeight = '';
             const back = document.querySelector('.receipt-back');
             if (back) back.style.height = '';
 
@@ -3128,9 +3188,9 @@
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initNebengFromStorage);
+            document.addEventListener('DOMContentLoaded', bootNebengPage);
         } else {
-            initNebengFromStorage();
+            bootNebengPage();
         }
     </script>
 </body>

@@ -355,16 +355,16 @@
               </div>
               <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d3b-harga">—</div></div>
               <div class="detail-row"><div class="detail-label">Ton Baru<span>input realisasi</span></div><div class="detail-val" id="a-d3b-tonnew">—</div></div>
-              <div class="detail-sep"><span>perhitungan basis baru</span></div>
-              <div class="detail-row"><div class="detail-label">Ton Baru × Harga<span>total nilai realisasi</span></div><div class="detail-val" id="a-d3b-gross">—</div></div>
-              <div class="detail-row"><div class="detail-label">− Pembayaran 25% (kel.1)<span>sudah dibayar</span></div><div class="detail-val" id="a-d3b-minus1">—</div></div>
-              <div class="detail-row"><div class="detail-label">− Pembayaran 50% (kel.2)<span>sudah dibayar</span></div><div class="detail-val" id="a-d3b-minus2">—</div></div>
-              <div class="detail-row"><div class="detail-label">Basis Invoice Terakhir<span>(ton baru × harga) − kel.1 − kel.2</span></div><div class="detail-val" id="a-d3b-basis">—</div></div>
-              <div class="detail-sep"><span>invoice terakhir</span></div>
+              <div class="detail-sep"><span>langkah 1 — hitung basis</span></div>
+              <div class="detail-row"><div class="detail-label">Basis (Ton Baru × Harga)<span>ton baru × harga per ton</span></div><div class="detail-val" id="a-d3b-gross">—</div></div>
+              <div class="detail-sep"><span>langkah 2 — hitung basis baru</span></div>
               <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d3b-ca">—</div></div>
               <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d3b-cb">—</div></div>
-              <div class="detail-sep"><span>hasil invoice terakhir</span></div>
-              <div class="detail-result-row"><div class="detail-result-label">A + B</div><div class="detail-result-val" id="a-d3b-result">—</div></div>
+              <div class="detail-row"><div class="detail-label">Basis Baru (A + B)<span>(basis×0.988) + (basis×11%)</span></div><div class="detail-val" id="a-d3b-basis">—</div></div>
+              <div class="detail-sep"><span>langkah 3 — invoice terakhir</span></div>
+              <div class="detail-row"><div class="detail-label">− Pembayaran 25% (kel.1)<span>sudah dibayar</span></div><div class="detail-val" id="a-d3b-minus1">—</div></div>
+              <div class="detail-row"><div class="detail-label">− Pembayaran 50% (kel.2)<span>sudah dibayar</span></div><div class="detail-val" id="a-d3b-minus2">—</div></div>
+              <div class="detail-result-row"><div class="detail-result-label">Basis Baru − kel.1 − kel.2</div><div class="detail-result-val" id="a-d3b-result">—</div></div>
             </div>
 
           </div></div>
@@ -472,15 +472,15 @@
               </div>
               <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="b-d2b-harga">—</div></div>
               <div class="detail-row"><div class="detail-label">Ton Baru<span>input realisasi</span></div><div class="detail-val" id="b-d2b-tonnew">—</div></div>
-              <div class="detail-sep"><span>perhitungan basis baru</span></div>
-              <div class="detail-row"><div class="detail-label">Ton Baru × Harga<span>total nilai realisasi</span></div><div class="detail-val" id="b-d2b-gross">—</div></div>
-              <div class="detail-row"><div class="detail-label">− Pembayaran 50% (kel.1)<span>sudah dibayar</span></div><div class="detail-val" id="b-d2b-minus1">—</div></div>
-              <div class="detail-row"><div class="detail-label">Basis Invoice Terakhir<span>(ton baru × harga) − kel.1</span></div><div class="detail-val" id="b-d2b-basis">—</div></div>
-              <div class="detail-sep"><span>invoice terakhir</span></div>
+              <div class="detail-sep"><span>langkah 1 — hitung basis</span></div>
+              <div class="detail-row"><div class="detail-label">Basis (Ton Baru × Harga)<span>ton baru × harga per ton</span></div><div class="detail-val" id="b-d2b-gross">—</div></div>
+              <div class="detail-sep"><span>langkah 2 — hitung basis baru</span></div>
               <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d2b-ca">—</div></div>
               <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="b-d2b-cb">—</div></div>
-              <div class="detail-sep"><span>hasil invoice terakhir</span></div>
-              <div class="detail-result-row"><div class="detail-result-label">A + B</div><div class="detail-result-val" id="b-d2b-result">—</div></div>
+              <div class="detail-row"><div class="detail-label">Basis Baru (A + B)<span>(basis×0.988) + (basis×11%)</span></div><div class="detail-val" id="b-d2b-basis">—</div></div>
+              <div class="detail-sep"><span>langkah 3 — invoice terakhir</span></div>
+              <div class="detail-row"><div class="detail-label">− Pembayaran 50% (kel.1)<span>sudah dibayar</span></div><div class="detail-val" id="b-d2b-minus1">—</div></div>
+              <div class="detail-result-row"><div class="detail-result-label">Basis Baru − kel.1</div><div class="detail-result-val" id="b-d2b-result">—</div></div>
             </div>
 
           </div></div>
@@ -610,28 +610,27 @@
     // A3 ver B (ton baru)
     document.getElementById('a-d3b-harga').textContent = fmt(harga);
     if (tonNew.a > 0) {
-      const gross  = tonNew.a * harga;
-      const basis3 = gross - da1.result - da2.result;
-      const ca3    = basis3 * 0.988;
-      const cb3    = basis3 * 0.11;
-      const res3   = ca3 + cb3;
+      const basis    = tonNew.a * harga;               // ton baru × harga
+      const ca3      = basis * 0.988;
+      const cb3      = basis * 0.11;
+      const basisBaru = ca3 + cb3;                     // basis baru = (basis×0.988) + (basis×11%)
+      const res3     = basisBaru - da1.result - da2.result; // invoice = basis baru − kel1 − kel2
       document.getElementById('a-d3b-tonnew').textContent  = fmtTon(tonNew.a);
-      document.getElementById('a-d3b-gross').textContent   = fmt(gross);
-      document.getElementById('a-d3b-minus1').textContent  = fmt(da1.result);
-      document.getElementById('a-d3b-minus2').textContent  = fmt(da2.result);
-      document.getElementById('a-d3b-basis').textContent   = fmt(basis3);
+      document.getElementById('a-d3b-gross').textContent   = fmt(basis);
       document.getElementById('a-d3b-ca').textContent      = fmt(ca3);
       document.getElementById('a-d3b-cb').textContent      = fmt(cb3);
+      document.getElementById('a-d3b-basis').textContent   = fmt(basisBaru);
+      document.getElementById('a-d3b-minus1').textContent  = fmt(da1.result);
+      document.getElementById('a-d3b-minus2').textContent  = fmt(da2.result);
       document.getElementById('a-d3b-result').textContent  = fmt(res3);
 
-      // update card header value if ver B is active
       const verBActive = document.getElementById('a-ver-vb').classList.contains('active');
       document.getElementById('a-val3').textContent = verBActive ? fmt(res3) : fmt(da3a.result);
       document.getElementById('a-total').textContent = verBActive
         ? fmt(da1.result + da2.result + res3)
         : fmt(da1.result + da2.result + da3a.result);
     } else {
-      ['tonnew','gross','minus1','minus2','basis','ca','cb','result'].forEach(k =>
+      ['tonnew','gross','ca','cb','basis','minus1','minus2','result'].forEach(k =>
         document.getElementById('a-d3b-'+k).textContent = '—'
       );
       const verBActive = document.getElementById('a-ver-vb').classList.contains('active');
@@ -656,17 +655,17 @@
     // B2 ver B
     document.getElementById('b-d2b-harga').textContent = fmt(harga);
     if (tonNew.b > 0) {
-      const gross  = tonNew.b * harga;
-      const basis2 = gross - db1.result;
-      const ca2    = basis2 * 0.988;
-      const cb2    = basis2 * 0.11;
-      const res2   = ca2 + cb2;
+      const basis    = tonNew.b * harga;               // ton baru × harga
+      const ca2      = basis * 0.988;
+      const cb2      = basis * 0.11;
+      const basisBaru = ca2 + cb2;                     // basis baru = (basis×0.988) + (basis×11%)
+      const res2     = basisBaru - db1.result;         // invoice = basis baru − kel1
       document.getElementById('b-d2b-tonnew').textContent  = fmtTon(tonNew.b);
-      document.getElementById('b-d2b-gross').textContent   = fmt(gross);
-      document.getElementById('b-d2b-minus1').textContent  = fmt(db1.result);
-      document.getElementById('b-d2b-basis').textContent   = fmt(basis2);
+      document.getElementById('b-d2b-gross').textContent   = fmt(basis);
       document.getElementById('b-d2b-ca').textContent      = fmt(ca2);
       document.getElementById('b-d2b-cb').textContent      = fmt(cb2);
+      document.getElementById('b-d2b-basis').textContent   = fmt(basisBaru);
+      document.getElementById('b-d2b-minus1').textContent  = fmt(db1.result);
       document.getElementById('b-d2b-result').textContent  = fmt(res2);
 
       const verBActive = document.getElementById('b-ver-vb').classList.contains('active');
@@ -675,7 +674,7 @@
         ? fmt(db1.result + res2)
         : fmt(db1.result + db2a.result);
     } else {
-      ['tonnew','gross','minus1','basis','ca','cb','result'].forEach(k =>
+      ['tonnew','gross','ca','cb','basis','minus1','result'].forEach(k =>
         document.getElementById('b-d2b-'+k).textContent = '—'
       );
       const verBActive = document.getElementById('b-ver-vb').classList.contains('active');

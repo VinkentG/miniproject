@@ -7,27 +7,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0f14;
-    --surface: #161b26;
-    --border: #2a3045;
-    --accent: #f0c040;
-    --text: #e8eaf0;
-    --muted: #6b7494;
+    --bg: #0d0f14; --surface: #161b26; --border: #2a3045;
+    --accent: #f0c040; --text: #e8eaf0; --muted: #6b7494;
     --card1: #1a2340; --c1: #4a90f0;
     --card2: #1a3028; --c2: #4af0a0;
     --card3: #3a1a1a; --c3: #f06060;
     --card4: #2a1a3a; --c4: #c47af0;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     background: var(--bg); color: var(--text);
     font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 2rem 1rem;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 2rem 1rem;
     background-image:
       radial-gradient(ellipse 80% 60% at 50% -10%, rgba(240,192,64,0.08) 0%, transparent 70%),
       repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(42,48,69,0.4) 39px, rgba(42,48,69,0.4) 40px),
@@ -35,33 +28,28 @@
   }
 
   header { text-align: center; margin-bottom: 2.5rem; }
-
   .label-tag {
-    display: inline-block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 0.25em;
-    color: var(--accent); background: rgba(240,192,64,0.1);
-    border: 1px solid rgba(240,192,64,0.25);
-    padding: 0.25rem 0.8rem; border-radius: 2px;
-    margin-bottom: 1rem; text-transform: uppercase;
+    display: inline-block; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.25em; color: var(--accent);
+    background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.25);
+    padding: 0.25rem 0.8rem; border-radius: 2px; margin-bottom: 1rem; text-transform: uppercase;
   }
-
   h1 { font-size: clamp(1.8rem,5vw,3rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; color: #fff; }
   h1 span { color: var(--accent); }
-
   .subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--muted); margin-top: 0.6rem; letter-spacing: 0.05em; }
 
+  /* Card wrapper */
   .card {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 2rem;
-    width: 100%; max-width: 520px; position: relative; overflow: hidden;
+    border-radius: 12px; padding: 2rem; width: 100%; max-width: 520px;
+    position: relative; overflow: hidden;
   }
   .card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
   }
 
-  /* ── Tabs ── */
+  /* Distribution tabs */
   .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1.8rem; }
   .tab-btn {
     background: rgba(255,255,255,0.03); border: 1px solid var(--border);
@@ -75,36 +63,33 @@
   .tab-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--muted); margin-top: 0.25rem; transition: color 0.2s; }
   .tab-btn.active .tab-label { color: rgba(240,192,64,0.7); }
 
-  /* ── Global inputs ── */
+  /* Global inputs */
   .input-label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.6rem; }
   .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.8rem; }
   .field-label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 0.4rem; text-transform: uppercase; }
   .unit-wrap { position: relative; display: flex; align-items: center; }
   .unit-prefix { position: absolute; left: 0.85rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--accent); pointer-events: none; z-index: 1; }
   .unit-suffix { position: absolute; right: 0.85rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); pointer-events: none; z-index: 1; }
-
   input[type="text"] {
-    width: 100%; background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border); border-radius: 8px;
-    padding: 0.75rem 3rem 0.75rem 2.4rem;
-    color: var(--text); font-family: 'IBM Plex Mono', monospace;
-    font-size: 1rem; font-weight: 600; outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.75rem 3rem 0.75rem 2.4rem; color: var(--text);
+    font-family: 'IBM Plex Mono', monospace; font-size: 1rem; font-weight: 600;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
   }
   input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(240,192,64,0.12); }
 
-  /* ── Divider ── */
+  /* Divider */
   .divider { height: 1px; background: var(--border); margin: 1.5rem 0; position: relative; }
   .divider::after { content: 'HASIL'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: var(--surface); padding: 0 0.75rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; color: var(--muted); }
 
-  /* ── Basis ── */
+  /* Basis */
   .result-base { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
   .result-base-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
   .result-base-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; font-weight: 600; color: var(--text); }
 
   .click-hint { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); text-align: center; margin-bottom: 0.7rem; letter-spacing: 0.1em; opacity: 0.65; }
 
-  /* ── Result cards ── */
+  /* Result cards */
   .results-grid { display: flex; flex-direction: column; gap: 0.85rem; }
   .result-card { border-radius: 10px; border: 1px solid transparent; overflow: hidden; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
   .result-card:hover { transform: translateX(3px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
@@ -115,10 +100,8 @@
 
   .card-header { padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: flex-start; }
   .result-pct { font-size: 1.6rem; font-weight: 800; line-height: 1; margin-bottom: 0.25rem; }
-  .r1 .result-pct { color: var(--c1); }
-  .r2 .result-pct { color: var(--c2); }
-  .r3 .result-pct { color: var(--c3); }
-  .r4 .result-pct { color: var(--c4); }
+  .r1 .result-pct { color: var(--c1); } .r2 .result-pct { color: var(--c2); }
+  .r3 .result-pct { color: var(--c3); } .r4 .result-pct { color: var(--c4); }
   .result-formula { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); line-height: 1.5; }
   .card-right { text-align: right; }
   .result-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; font-weight: 600; color: #fff; }
@@ -127,70 +110,67 @@
   .chevron svg { width: 14px; height: 14px; stroke: var(--muted); fill: none; stroke-width: 2.5; transition: transform 0.3s ease; }
   .result-card.open .chevron svg { transform: rotate(180deg); }
 
-  /* ── Detail panel ── */
+  /* Detail panel */
   .detail-panel { max-height: 0; overflow: hidden; transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.3s; opacity: 0; }
-  .result-card.open .detail-panel { max-height: 600px; opacity: 1; }
-
+  .result-card.open .detail-panel { max-height: 800px; opacity: 1; }
   .detail-inner { border-top: 1px solid rgba(255,255,255,0.07); padding: 0.9rem 1.2rem 1.1rem; }
   .detail-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.75rem; }
-
   .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 1rem; }
   .detail-row:last-child { border-bottom: none; }
   .detail-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); flex: 1; line-height: 1.4; }
   .detail-label span { display: block; font-size: 0.56rem; color: rgba(107,116,148,0.55); margin-top: 1px; }
   .detail-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap; }
-
-  /* ── Per-card ton input ── */
-  .ton-override-wrap {
-    margin: 0.6rem 0 0.2rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(240,192,64,0.2);
-    border-radius: 8px; padding: 0.7rem 0.9rem;
-  }
-  .ton-override-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.15em;
-    color: var(--accent); text-transform: uppercase; margin-bottom: 0.45rem;
-    display: flex; align-items: center; gap: 0.4rem;
-  }
-  .ton-override-label::before { content: '✎'; font-size: 0.7rem; }
-  .ton-override-row { display: flex; gap: 0.5rem; align-items: center; }
-  .ton-override-input {
-    flex: 1; background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border); border-radius: 6px;
-    padding: 0.5rem 0.8rem 0.5rem 0.8rem;
-    color: var(--text); font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.85rem; font-weight: 600; outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .ton-override-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(240,192,64,0.12); }
-  .ton-override-suffix { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
-  .reset-btn {
-    background: rgba(240,192,64,0.08); border: 1px solid rgba(240,192,64,0.25);
-    border-radius: 5px; padding: 0.45rem 0.65rem;
-    color: var(--accent); font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.62rem; letter-spacing: 0.05em;
-    cursor: pointer; transition: all 0.15s; white-space: nowrap;
-  }
-  .reset-btn:hover { background: rgba(240,192,64,0.15); }
-
-  /* ── Detail sep & result ── */
   .detail-sep { display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0; color: var(--muted); }
   .detail-sep::before, .detail-sep::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
   .detail-sep span { font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; white-space: nowrap; }
-
   .detail-result-row { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0.8rem; border-radius: 6px; margin-top: 0.45rem; }
   .r1 .detail-result-row { background: rgba(74,144,240,0.12); }
   .r2 .detail-result-row { background: rgba(74,240,160,0.12); }
   .r3 .detail-result-row { background: rgba(240,96,96,0.12); }
   .r4 .detail-result-row { background: rgba(196,122,240,0.12); }
-
   .detail-result-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 600; }
-  .r1 .detail-result-label { color: var(--c1); }
-  .r2 .detail-result-label { color: var(--c2); }
-  .r3 .detail-result-label { color: var(--c3); }
-  .r4 .detail-result-label { color: var(--c4); }
+  .r1 .detail-result-label { color: var(--c1); } .r2 .detail-result-label { color: var(--c2); }
+  .r3 .detail-result-label { color: var(--c3); } .r4 .detail-result-label { color: var(--c4); }
   .detail-result-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.98rem; font-weight: 700; color: #fff; }
+
+  /* ── Version switcher inside last card ── */
+  .ver-tabs {
+    display: flex; gap: 0.4rem; margin-bottom: 0.9rem;
+    border: 1px solid var(--border); border-radius: 8px; padding: 0.3rem;
+    background: rgba(0,0,0,0.2);
+  }
+  .ver-btn {
+    flex: 1; padding: 0.4rem 0.5rem; border-radius: 5px;
+    border: none; background: transparent; cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.08em; color: var(--muted);
+    transition: all 0.18s; user-select: none; text-align: center;
+  }
+  .ver-btn:hover { color: var(--text); }
+  .ver-btn.active { background: rgba(240,192,64,0.15); color: var(--accent); border: 1px solid rgba(240,192,64,0.3); }
+
+  .ver-panel { display: none; }
+  .ver-panel.active { display: block; }
+
+  /* ── Ton input inside last card (ver B) ── */
+  .ton-input-wrap {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(240,192,64,0.2);
+    border-radius: 8px; padding: 0.75rem 0.9rem; margin-bottom: 0.75rem;
+  }
+  .ton-input-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.45rem;
+  }
+  .ton-input-row { display: flex; gap: 0.5rem; align-items: center; }
+  .ton-small-input {
+    flex: 1; background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.5rem 0.8rem; color: var(--text);
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; font-weight: 600;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .ton-small-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(240,192,64,0.12); }
+  .ton-small-suffix { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
 
   /* ── Total ── */
   .total-row { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center; }
@@ -203,6 +183,9 @@
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
+
+  /* pending hint when ver B ton not filled */
+  .pending-hint { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); font-style: italic; opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -215,7 +198,7 @@
 
 <div class="card">
 
-  <!-- Tabs -->
+  <!-- Distribution tabs -->
   <div class="tabs">
     <div class="tab-btn active" onclick="switchTab('a')">
       <div class="tab-pct">25 · 50 · 25</div>
@@ -227,7 +210,7 @@
     </div>
   </div>
 
-  <!-- Shared input -->
+  <!-- Shared inputs -->
   <span class="input-label">Masukkan Data</span>
   <div class="input-row">
     <div class="field">
@@ -258,10 +241,10 @@
         <span class="result-base-val" id="a-base">—</span>
       </div>
       <div class="divider"></div>
-      <p class="click-hint">↓ klik kartu untuk rincian · ton bisa diubah per kartu</p>
+      <p class="click-hint">↓ klik kartu untuk rincian detail</p>
       <div class="results-grid">
 
-        <!-- A1: 25% -->
+        <!-- A1: 25% — fixed -->
         <div class="result-card r1" onclick="toggleCard(this)">
           <div class="card-header">
             <div>
@@ -277,30 +260,18 @@
           <div class="detail-panel"><div class="detail-inner">
             <div class="detail-title">▸ Rincian — Kelompok 1 (25%)</div>
             <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d1-harga">—</div></div>
-
-            <!-- ton override -->
-            <div class="ton-override-wrap" onclick="event.stopPropagation()">
-              <div class="ton-override-label">Ubah Ton untuk Kelompok ini</div>
-              <div class="ton-override-row">
-                <input type="text" class="ton-override-input" id="a-ov1" placeholder="—" inputmode="numeric"
-                       oninput="formatOverride(this,'a-ov1')" onkeydown="blockInvalid(event)">
-                <span class="ton-override-suffix">ton</span>
-                <button class="reset-btn" onclick="resetOverride('a-ov1')">↺ reset</button>
-              </div>
-            </div>
-
-            <div class="detail-row"><div class="detail-label">Jumlah Ton (dipakai)<span>override atau dari input utama</span></div><div class="detail-val" id="a-d1-ton">—</div></div>
-            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="a-d1-base">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="a-d1-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis<span>harga × ton</span></div><div class="detail-val" id="a-d1-base">—</div></div>
             <div class="detail-sep"><span>komponen</span></div>
-            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d1-a">—</div></div>
-            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d1-b">—</div></div>
-            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="a-d1-inner">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d1-ca">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d1-cb">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)</div><div class="detail-val" id="a-d1-inner">—</div></div>
             <div class="detail-sep"><span>hasil</span></div>
             <div class="detail-result-row"><div class="detail-result-label">25% × Inner</div><div class="detail-result-val" id="a-d1-result">—</div></div>
           </div></div>
         </div>
 
-        <!-- A2: 50% -->
+        <!-- A2: 50% — fixed -->
         <div class="result-card r2" onclick="toggleCard(this)">
           <div class="card-header">
             <div>
@@ -316,63 +287,86 @@
           <div class="detail-panel"><div class="detail-inner">
             <div class="detail-title">▸ Rincian — Kelompok 2 (50%)</div>
             <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d2-harga">—</div></div>
-
-            <div class="ton-override-wrap" onclick="event.stopPropagation()">
-              <div class="ton-override-label">Ubah Ton untuk Kelompok ini</div>
-              <div class="ton-override-row">
-                <input type="text" class="ton-override-input" id="a-ov2" placeholder="—" inputmode="numeric"
-                       oninput="formatOverride(this,'a-ov2')" onkeydown="blockInvalid(event)">
-                <span class="ton-override-suffix">ton</span>
-                <button class="reset-btn" onclick="resetOverride('a-ov2')">↺ reset</button>
-              </div>
-            </div>
-
-            <div class="detail-row"><div class="detail-label">Jumlah Ton (dipakai)<span>override atau dari input utama</span></div><div class="detail-val" id="a-d2-ton">—</div></div>
-            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="a-d2-base">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="a-d2-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis<span>harga × ton</span></div><div class="detail-val" id="a-d2-base">—</div></div>
             <div class="detail-sep"><span>komponen</span></div>
-            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d2-a">—</div></div>
-            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d2-b">—</div></div>
-            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="a-d2-inner">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d2-ca">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d2-cb">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)</div><div class="detail-val" id="a-d2-inner">—</div></div>
             <div class="detail-sep"><span>hasil</span></div>
             <div class="detail-result-row"><div class="detail-result-label">50% × Inner</div><div class="detail-result-val" id="a-d2-result">—</div></div>
           </div></div>
         </div>
 
-        <!-- A3: 25% -->
+        <!-- A3: 25% LAST — 2 versions -->
         <div class="result-card r3" onclick="toggleCard(this)">
           <div class="card-header">
             <div>
               <div class="result-pct">25%</div>
-              <div class="result-formula">25% × (basis×0.988 + basis×11%)</div>
+              <div class="result-formula" id="a-last-formula">25% × (basis×0.988 + basis×11%)</div>
             </div>
             <div class="card-right">
               <div class="result-num" id="a-val3">—</div>
-              <div class="result-note">kelompok 3</div>
+              <div class="result-note">kelompok 3 · terakhir</div>
               <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
           </div>
           <div class="detail-panel"><div class="detail-inner">
-            <div class="detail-title">▸ Rincian — Kelompok 3 (25%)</div>
-            <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d3-harga">—</div></div>
+            <div class="detail-title">▸ Rincian — Kelompok 3 (25%) · Invoice Terakhir</div>
 
-            <div class="ton-override-wrap" onclick="event.stopPropagation()">
-              <div class="ton-override-label">Ubah Ton untuk Kelompok ini</div>
-              <div class="ton-override-row">
-                <input type="text" class="ton-override-input" id="a-ov3" placeholder="—" inputmode="numeric"
-                       oninput="formatOverride(this,'a-ov3')" onkeydown="blockInvalid(event)">
-                <span class="ton-override-suffix">ton</span>
-                <button class="reset-btn" onclick="resetOverride('a-ov3')">↺ reset</button>
-              </div>
+            <!-- Version switcher -->
+            <div class="ver-tabs" onclick="event.stopPropagation()">
+              <button class="ver-btn active" id="a-vbtn-a" onclick="switchVer('a','va')">Versi A — Standar</button>
+              <button class="ver-btn" id="a-vbtn-b" onclick="switchVer('a','vb')">Versi B — Ton Baru</button>
             </div>
 
-            <div class="detail-row"><div class="detail-label">Jumlah Ton (dipakai)<span>override atau dari input utama</span></div><div class="detail-val" id="a-d3-ton">—</div></div>
-            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="a-d3-base">—</div></div>
-            <div class="detail-sep"><span>komponen</span></div>
-            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d3-a">—</div></div>
-            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d3-b">—</div></div>
-            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="a-d3-inner">—</div></div>
-            <div class="detail-sep"><span>hasil</span></div>
-            <div class="detail-result-row"><div class="detail-result-label">25% × Inner</div><div class="detail-result-val" id="a-d3-result">—</div></div>
+            <!-- Ver A: standard + optional ton override -->
+            <div class="ver-panel active" id="a-ver-va">
+              <div class="ton-input-wrap" onclick="event.stopPropagation()">
+                <div class="ton-input-label">Ubah Ton (opsional)</div>
+                <div class="ton-input-row">
+                  <input type="text" class="ton-small-input" id="a-ton-va" placeholder="pakai ton utama" inputmode="numeric"
+                         oninput="formatTonVA(this,'a')" onkeydown="blockInvalid(event)">
+                  <span class="ton-small-suffix">ton</span>
+                  <button class="reset-btn" onclick="resetTonVA('a')">↺ reset</button>
+                </div>
+              </div>
+              <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d3a-harga">—</div></div>
+              <div class="detail-row"><div class="detail-label">Jumlah Ton (dipakai)<span>override atau ton utama</span></div><div class="detail-val" id="a-d3a-ton">—</div></div>
+              <div class="detail-row"><div class="detail-label">Basis<span>harga × ton</span></div><div class="detail-val" id="a-d3a-base">—</div></div>
+              <div class="detail-sep"><span>komponen</span></div>
+              <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d3a-ca">—</div></div>
+              <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d3a-cb">—</div></div>
+              <div class="detail-row"><div class="detail-label">Inner (A + B)</div><div class="detail-val" id="a-d3a-inner">—</div></div>
+              <div class="detail-sep"><span>hasil</span></div>
+              <div class="detail-result-row"><div class="detail-result-label">25% × Inner</div><div class="detail-result-val" id="a-d3a-result">—</div></div>
+            </div>
+
+            <!-- Ver B: custom ton -->
+            <div class="ver-panel" id="a-ver-vb">
+              <!-- Ton baru input -->
+              <div class="ton-input-wrap" onclick="event.stopPropagation()">
+                <div class="ton-input-label">Masukkan Ton Baru (realisasi)</div>
+                <div class="ton-input-row">
+                  <input type="text" class="ton-small-input" id="a-ton-new" placeholder="0" inputmode="numeric"
+                         oninput="formatTonNew(this,'a')" onkeydown="blockInvalid(event)">
+                  <span class="ton-small-suffix">ton</span>
+                </div>
+              </div>
+              <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d3b-harga">—</div></div>
+              <div class="detail-row"><div class="detail-label">Ton Baru<span>input realisasi</span></div><div class="detail-val" id="a-d3b-tonnew">—</div></div>
+              <div class="detail-sep"><span>perhitungan basis baru</span></div>
+              <div class="detail-row"><div class="detail-label">Ton Baru × Harga<span>total nilai realisasi</span></div><div class="detail-val" id="a-d3b-gross">—</div></div>
+              <div class="detail-row"><div class="detail-label">− Pembayaran 25% (kel.1)<span>sudah dibayar</span></div><div class="detail-val" id="a-d3b-minus1">—</div></div>
+              <div class="detail-row"><div class="detail-label">− Pembayaran 50% (kel.2)<span>sudah dibayar</span></div><div class="detail-val" id="a-d3b-minus2">—</div></div>
+              <div class="detail-row"><div class="detail-label">Basis Invoice Terakhir<span>(ton baru × harga) − kel.1 − kel.2</span></div><div class="detail-val" id="a-d3b-basis">—</div></div>
+              <div class="detail-sep"><span>invoice terakhir</span></div>
+              <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d3b-ca">—</div></div>
+              <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="a-d3b-cb">—</div></div>
+              <div class="detail-sep"><span>hasil invoice terakhir</span></div>
+              <div class="detail-result-row"><div class="detail-result-label">A + B</div><div class="detail-result-val" id="a-d3b-result">—</div></div>
+            </div>
+
           </div></div>
         </div>
 
@@ -393,10 +387,10 @@
         <span class="result-base-val" id="b-base">—</span>
       </div>
       <div class="divider"></div>
-      <p class="click-hint">↓ klik kartu untuk rincian · ton bisa diubah per kartu</p>
+      <p class="click-hint">↓ klik kartu untuk rincian detail</p>
       <div class="results-grid">
 
-        <!-- B1: 50% -->
+        <!-- B1: 50% — fixed -->
         <div class="result-card r2" onclick="toggleCard(this)">
           <div class="card-header">
             <div>
@@ -412,63 +406,83 @@
           <div class="detail-panel"><div class="detail-inner">
             <div class="detail-title">▸ Rincian — Kelompok 1 (50%)</div>
             <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="b-d1-harga">—</div></div>
-
-            <div class="ton-override-wrap" onclick="event.stopPropagation()">
-              <div class="ton-override-label">Ubah Ton untuk Kelompok ini</div>
-              <div class="ton-override-row">
-                <input type="text" class="ton-override-input" id="b-ov1" placeholder="—" inputmode="numeric"
-                       oninput="formatOverride(this,'b-ov1')" onkeydown="blockInvalid(event)">
-                <span class="ton-override-suffix">ton</span>
-                <button class="reset-btn" onclick="resetOverride('b-ov1')">↺ reset</button>
-              </div>
-            </div>
-
-            <div class="detail-row"><div class="detail-label">Jumlah Ton (dipakai)<span>override atau dari input utama</span></div><div class="detail-val" id="b-d1-ton">—</div></div>
-            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="b-d1-base">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="b-d1-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis<span>harga × ton</span></div><div class="detail-val" id="b-d1-base">—</div></div>
             <div class="detail-sep"><span>komponen</span></div>
-            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d1-a">—</div></div>
-            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="b-d1-b">—</div></div>
-            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="b-d1-inner">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d1-ca">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="b-d1-cb">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)</div><div class="detail-val" id="b-d1-inner">—</div></div>
             <div class="detail-sep"><span>hasil</span></div>
             <div class="detail-result-row"><div class="detail-result-label">50% × Inner</div><div class="detail-result-val" id="b-d1-result">—</div></div>
           </div></div>
         </div>
 
-        <!-- B2: 50% -->
+        <!-- B2: 50% LAST — 2 versions -->
         <div class="result-card r4" onclick="toggleCard(this)">
           <div class="card-header">
             <div>
               <div class="result-pct">50%</div>
-              <div class="result-formula">50% × (basis×0.988 + basis×11%)</div>
+              <div class="result-formula" id="b-last-formula">50% × (basis×0.988 + basis×11%)</div>
             </div>
             <div class="card-right">
               <div class="result-num" id="b-val2">—</div>
-              <div class="result-note">kelompok 2</div>
+              <div class="result-note">kelompok 2 · terakhir</div>
               <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
           </div>
           <div class="detail-panel"><div class="detail-inner">
-            <div class="detail-title">▸ Rincian — Kelompok 2 (50%)</div>
-            <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="b-d2-harga">—</div></div>
+            <div class="detail-title">▸ Rincian — Kelompok 2 (50%) · Invoice Terakhir</div>
 
-            <div class="ton-override-wrap" onclick="event.stopPropagation()">
-              <div class="ton-override-label">Ubah Ton untuk Kelompok ini</div>
-              <div class="ton-override-row">
-                <input type="text" class="ton-override-input" id="b-ov2" placeholder="—" inputmode="numeric"
-                       oninput="formatOverride(this,'b-ov2')" onkeydown="blockInvalid(event)">
-                <span class="ton-override-suffix">ton</span>
-                <button class="reset-btn" onclick="resetOverride('b-ov2')">↺ reset</button>
-              </div>
+            <div class="ver-tabs" onclick="event.stopPropagation()">
+              <button class="ver-btn active" id="b-vbtn-a" onclick="switchVer('b','va')">Versi A — Standar</button>
+              <button class="ver-btn" id="b-vbtn-b" onclick="switchVer('b','vb')">Versi B — Ton Baru</button>
             </div>
 
-            <div class="detail-row"><div class="detail-label">Jumlah Ton (dipakai)<span>override atau dari input utama</span></div><div class="detail-val" id="b-d2-ton">—</div></div>
-            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="b-d2-base">—</div></div>
-            <div class="detail-sep"><span>komponen</span></div>
-            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d2-a">—</div></div>
-            <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="b-d2-b">—</div></div>
-            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="b-d2-inner">—</div></div>
-            <div class="detail-sep"><span>hasil</span></div>
-            <div class="detail-result-row"><div class="detail-result-label">50% × Inner</div><div class="detail-result-val" id="b-d2-result">—</div></div>
+            <!-- Ver A -->
+            <div class="ver-panel active" id="b-ver-va">
+              <div class="ton-input-wrap" onclick="event.stopPropagation()">
+                <div class="ton-input-label">Ubah Ton (opsional)</div>
+                <div class="ton-input-row">
+                  <input type="text" class="ton-small-input" id="b-ton-va" placeholder="pakai ton utama" inputmode="numeric"
+                         oninput="formatTonVA(this,'b')" onkeydown="blockInvalid(event)">
+                  <span class="ton-small-suffix">ton</span>
+                  <button class="reset-btn" onclick="resetTonVA('b')">↺ reset</button>
+                </div>
+              </div>
+              <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="b-d2a-harga">—</div></div>
+              <div class="detail-row"><div class="detail-label">Jumlah Ton (dipakai)<span>override atau ton utama</span></div><div class="detail-val" id="b-d2a-ton">—</div></div>
+              <div class="detail-row"><div class="detail-label">Basis<span>harga × ton</span></div><div class="detail-val" id="b-d2a-base">—</div></div>
+              <div class="detail-sep"><span>komponen</span></div>
+              <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d2a-ca">—</div></div>
+              <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="b-d2a-cb">—</div></div>
+              <div class="detail-row"><div class="detail-label">Inner (A + B)</div><div class="detail-val" id="b-d2a-inner">—</div></div>
+              <div class="detail-sep"><span>hasil</span></div>
+              <div class="detail-result-row"><div class="detail-result-label">50% × Inner</div><div class="detail-result-val" id="b-d2a-result">—</div></div>
+            </div>
+
+            <!-- Ver B -->
+            <div class="ver-panel" id="b-ver-vb">
+              <div class="ton-input-wrap" onclick="event.stopPropagation()">
+                <div class="ton-input-label">Masukkan Ton Baru (realisasi)</div>
+                <div class="ton-input-row">
+                  <input type="text" class="ton-small-input" id="b-ton-new" placeholder="0" inputmode="numeric"
+                         oninput="formatTonNew(this,'b')" onkeydown="blockInvalid(event)">
+                  <span class="ton-small-suffix">ton</span>
+                </div>
+              </div>
+              <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="b-d2b-harga">—</div></div>
+              <div class="detail-row"><div class="detail-label">Ton Baru<span>input realisasi</span></div><div class="detail-val" id="b-d2b-tonnew">—</div></div>
+              <div class="detail-sep"><span>perhitungan basis baru</span></div>
+              <div class="detail-row"><div class="detail-label">Ton Baru × Harga<span>total nilai realisasi</span></div><div class="detail-val" id="b-d2b-gross">—</div></div>
+              <div class="detail-row"><div class="detail-label">− Pembayaran 50% (kel.1)<span>sudah dibayar</span></div><div class="detail-val" id="b-d2b-minus1">—</div></div>
+              <div class="detail-row"><div class="detail-label">Basis Invoice Terakhir<span>(ton baru × harga) − kel.1</span></div><div class="detail-val" id="b-d2b-basis">—</div></div>
+              <div class="detail-sep"><span>invoice terakhir</span></div>
+              <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d2b-ca">—</div></div>
+              <div class="detail-row"><div class="detail-label">Komponen B<span>basis × 11%</span></div><div class="detail-val" id="b-d2b-cb">—</div></div>
+              <div class="detail-sep"><span>hasil invoice terakhir</span></div>
+              <div class="detail-result-row"><div class="detail-result-label">A + B</div><div class="detail-result-val" id="b-d2b-result">—</div></div>
+            </div>
+
           </div></div>
         </div>
 
@@ -487,10 +501,11 @@
 
 <script>
   const rawVals = { harga: 0, ton: 0 };
-  // per-card ton overrides (null = use global ton)
-  const overrides = { 'a-ov1': null, 'a-ov2': null, 'a-ov3': null, 'b-ov1': null, 'b-ov2': null };
+  const tonNew  = { a: 0, b: 0 };   // ver B ton baru
+  const tonVA   = { a: null, b: null }; // ver A ton override (null = use global)
 
   function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+  function fmtTon(n) { return n.toLocaleString('id-ID') + ' ton'; }
 
   function blockInvalid(e) {
     const ok = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
@@ -505,19 +520,25 @@
     hitung();
   }
 
-  function formatOverride(el, key) {
+  function formatTonNew(el, tab) {
+    const digits = el.value.replace(/\D/g, '');
+    tonNew[tab] = digits ? parseInt(digits, 10) : 0;
+    el.value = tonNew[tab] ? tonNew[tab].toLocaleString('id-ID') : '';
+    hitung();
+  }
+
+  function formatTonVA(el, tab) {
     const digits = el.value.replace(/\D/g, '');
     const val = digits ? parseInt(digits, 10) : 0;
-    overrides[key] = val > 0 ? val : null;
+    tonVA[tab] = val > 0 ? val : null;
     el.value = val > 0 ? val.toLocaleString('id-ID') : '';
     hitung();
   }
 
-  function resetOverride(key) {
-    overrides[key] = null;
-    const el = document.getElementById(key);
+  function resetTonVA(tab) {
+    tonVA[tab] = null;
+    const el = document.getElementById(tab + '-ton-va');
     el.value = '';
-    el.placeholder = '—';
     hitung();
   }
 
@@ -529,29 +550,32 @@
     document.getElementById('panel-b').classList.toggle('active', tab === 'b');
   }
 
+  function switchVer(tab, ver) {
+    ['va','vb'].forEach(v => {
+      document.getElementById(tab+'-vbtn-'+v.slice(1)).classList.toggle('active', v === ver);
+      document.getElementById(tab+'-ver-'+v).classList.toggle('active', v === ver);
+    });
+    hitung();
+  }
+
   function toggleCard(card) { card.classList.toggle('open'); }
 
-  function calcCard(harga, ton, pct) {
+  function calcStd(harga, ton, pct) {
     const base  = harga * ton;
-    const compA = base * 0.988;
-    const compB = base * 0.11;
-    const inner = compA + compB;
-    const result = pct * inner;
-    return { ton, base, compA, compB, inner, result };
+    const ca    = base * 0.988;
+    const cb    = base * 0.11;
+    const inner = ca + cb;
+    return { base, ca, cb, inner, result: pct * inner };
   }
 
-  function fillDetail(prefix, harga, data) {
+  function fillStd(prefix, harga, ton, d) {
     document.getElementById(prefix+'-harga').textContent  = fmt(harga);
-    document.getElementById(prefix+'-ton').textContent    = data.ton.toLocaleString('id-ID') + ' ton';
-    document.getElementById(prefix+'-base').textContent   = fmt(data.base);
-    document.getElementById(prefix+'-a').textContent      = fmt(data.compA);
-    document.getElementById(prefix+'-b').textContent      = fmt(data.compB);
-    document.getElementById(prefix+'-inner').textContent  = fmt(data.inner);
-    document.getElementById(prefix+'-result').textContent = fmt(data.result);
-  }
-
-  function getTon(key) {
-    return overrides[key] !== null ? overrides[key] : rawVals.ton;
+    document.getElementById(prefix+'-ton').textContent    = fmtTon(ton);
+    document.getElementById(prefix+'-base').textContent   = fmt(d.base);
+    document.getElementById(prefix+'-ca').textContent     = fmt(d.ca);
+    document.getElementById(prefix+'-cb').textContent     = fmt(d.cb);
+    document.getElementById(prefix+'-inner').textContent  = fmt(d.inner);
+    document.getElementById(prefix+'-result').textContent = fmt(d.result);
   }
 
   function hitung() {
@@ -563,48 +587,103 @@
       document.getElementById('results-'+t).style.display = ok ? 'block' : 'none';
       document.getElementById('empty-'+t).style.display   = ok ? 'none'  : 'block';
     });
-
     if (!ok) return;
 
-    const globalBase  = harga * ton;
-    const globalCompA = globalBase * 0.988;
-    const globalCompB = globalBase * 0.11;
-    const globalInner = globalCompA + globalCompB;
+    const base = harga * ton;
 
-    // ── Tab A basis (global ton) ──
-    document.getElementById('a-base').textContent = fmt(globalBase);
+    /* ── TAB A: 25 / 50 / 25 ── */
+    document.getElementById('a-base').textContent = fmt(base);
 
-    // A1 25%
-    const da1 = calcCard(harga, getTon('a-ov1'), 0.25);
+    const da1 = calcStd(harga, ton, 0.25);
     document.getElementById('a-val1').textContent = fmt(da1.result);
-    fillDetail('a-d1', harga, da1);
+    fillStd('a-d1', harga, ton, da1);
 
-    // A2 50%
-    const da2 = calcCard(harga, getTon('a-ov2'), 0.50);
+    const da2 = calcStd(harga, ton, 0.50);
     document.getElementById('a-val2').textContent = fmt(da2.result);
-    fillDetail('a-d2', harga, da2);
+    fillStd('a-d2', harga, ton, da2);
 
-    // A3 25%
-    const da3 = calcCard(harga, getTon('a-ov3'), 0.25);
-    document.getElementById('a-val3').textContent = fmt(da3.result);
-    fillDetail('a-d3', harga, da3);
+    // A3 ver A (standard 25%, with optional ton override)
+    const tonA_va = tonVA.a !== null ? tonVA.a : ton;
+    const da3a = calcStd(harga, tonA_va, 0.25);
+    fillStd('a-d3a', harga, tonA_va, da3a);
 
-    document.getElementById('a-total').textContent = fmt(da1.result + da2.result + da3.result);
+    // A3 ver B (ton baru)
+    document.getElementById('a-d3b-harga').textContent = fmt(harga);
+    if (tonNew.a > 0) {
+      const gross  = tonNew.a * harga;
+      const basis3 = gross - da1.result - da2.result;
+      const ca3    = basis3 * 0.988;
+      const cb3    = basis3 * 0.11;
+      const res3   = ca3 + cb3;
+      document.getElementById('a-d3b-tonnew').textContent  = fmtTon(tonNew.a);
+      document.getElementById('a-d3b-gross').textContent   = fmt(gross);
+      document.getElementById('a-d3b-minus1').textContent  = fmt(da1.result);
+      document.getElementById('a-d3b-minus2').textContent  = fmt(da2.result);
+      document.getElementById('a-d3b-basis').textContent   = fmt(basis3);
+      document.getElementById('a-d3b-ca').textContent      = fmt(ca3);
+      document.getElementById('a-d3b-cb').textContent      = fmt(cb3);
+      document.getElementById('a-d3b-result').textContent  = fmt(res3);
 
-    // ── Tab B basis (global ton) ──
-    document.getElementById('b-base').textContent = fmt(globalBase);
+      // update card header value if ver B is active
+      const verBActive = document.getElementById('a-ver-vb').classList.contains('active');
+      document.getElementById('a-val3').textContent = verBActive ? fmt(res3) : fmt(da3a.result);
+      document.getElementById('a-total').textContent = verBActive
+        ? fmt(da1.result + da2.result + res3)
+        : fmt(da1.result + da2.result + da3a.result);
+    } else {
+      ['tonnew','gross','minus1','minus2','basis','ca','cb','result'].forEach(k =>
+        document.getElementById('a-d3b-'+k).textContent = '—'
+      );
+      const verBActive = document.getElementById('a-ver-vb').classList.contains('active');
+      document.getElementById('a-val3').textContent = verBActive ? '—' : fmt(da3a.result);
+      document.getElementById('a-total').textContent = verBActive
+        ? '—'
+        : fmt(da1.result + da2.result + da3a.result);
+    }
 
-    // B1 50%
-    const db1 = calcCard(harga, getTon('b-ov1'), 0.50);
+    /* ── TAB B: 50 / 50 ── */
+    document.getElementById('b-base').textContent = fmt(base);
+
+    const db1 = calcStd(harga, ton, 0.50);
     document.getElementById('b-val1').textContent = fmt(db1.result);
-    fillDetail('b-d1', harga, db1);
+    fillStd('b-d1', harga, ton, db1);
 
-    // B2 50%
-    const db2 = calcCard(harga, getTon('b-ov2'), 0.50);
-    document.getElementById('b-val2').textContent = fmt(db2.result);
-    fillDetail('b-d2', harga, db2);
+    // B2 ver A (with optional ton override)
+    const tonB_va = tonVA.b !== null ? tonVA.b : ton;
+    const db2a = calcStd(harga, tonB_va, 0.50);
+    fillStd('b-d2a', harga, tonB_va, db2a);
 
-    document.getElementById('b-total').textContent = fmt(db1.result + db2.result);
+    // B2 ver B
+    document.getElementById('b-d2b-harga').textContent = fmt(harga);
+    if (tonNew.b > 0) {
+      const gross  = tonNew.b * harga;
+      const basis2 = gross - db1.result;
+      const ca2    = basis2 * 0.988;
+      const cb2    = basis2 * 0.11;
+      const res2   = ca2 + cb2;
+      document.getElementById('b-d2b-tonnew').textContent  = fmtTon(tonNew.b);
+      document.getElementById('b-d2b-gross').textContent   = fmt(gross);
+      document.getElementById('b-d2b-minus1').textContent  = fmt(db1.result);
+      document.getElementById('b-d2b-basis').textContent   = fmt(basis2);
+      document.getElementById('b-d2b-ca').textContent      = fmt(ca2);
+      document.getElementById('b-d2b-cb').textContent      = fmt(cb2);
+      document.getElementById('b-d2b-result').textContent  = fmt(res2);
+
+      const verBActive = document.getElementById('b-ver-vb').classList.contains('active');
+      document.getElementById('b-val2').textContent = verBActive ? fmt(res2) : fmt(db2a.result);
+      document.getElementById('b-total').textContent = verBActive
+        ? fmt(db1.result + res2)
+        : fmt(db1.result + db2a.result);
+    } else {
+      ['tonnew','gross','minus1','basis','ca','cb','result'].forEach(k =>
+        document.getElementById('b-d2b-'+k).textContent = '—'
+      );
+      const verBActive = document.getElementById('b-ver-vb').classList.contains('active');
+      document.getElementById('b-val2').textContent = verBActive ? '—' : fmt(db2a.result);
+      document.getElementById('b-total').textContent = verBActive
+        ? '—'
+        : fmt(db1.result + db2a.result);
+    }
   }
 </script>
 </body>

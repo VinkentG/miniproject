@@ -11,16 +11,12 @@
     --surface: #161b26;
     --border: #2a3045;
     --accent: #f0c040;
-    --accent2: #4af0a0;
-    --accent3: #f06060;
     --text: #e8eaf0;
     --muted: #6b7494;
-    --card1: #1a2340;
-    --card2: #1a3028;
-    --card3: #3a1a1a;
-    --c1: #4a90f0;
-    --c2: #4af0a0;
-    --c3: #f06060;
+    --card1: #1a2340; --c1: #4a90f0;
+    --card2: #1a3028; --c2: #4af0a0;
+    --card3: #3a1a1a; --c3: #f06060;
+    --card4: #2a1a3a; --c4: #c47af0;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,10 +26,8 @@
     color: var(--text);
     font-family: 'Syne', sans-serif;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
     padding: 2rem 1rem;
     background-image:
       radial-gradient(ellipse 80% 60% at 50% -10%, rgba(240,192,64,0.08) 0%, transparent 70%),
@@ -67,6 +61,7 @@
     margin-top: 0.6rem; letter-spacing: 0.05em;
   }
 
+  /* ── Main card ── */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -80,15 +75,49 @@
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
   }
 
-  .input-group { margin-bottom: 1.8rem; }
+  /* ── Tabs ── */
+  .tabs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.5rem; margin-bottom: 1.8rem;
+  }
 
+  .tab-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.65rem 0.5rem;
+    cursor: pointer; text-align: center;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .tab-btn:hover { border-color: rgba(240,192,64,0.3); background: rgba(240,192,64,0.04); }
+  .tab-btn.active {
+    background: rgba(240,192,64,0.1);
+    border-color: rgba(240,192,64,0.5);
+    box-shadow: 0 0 0 1px rgba(240,192,64,0.15);
+  }
+
+  .tab-pct {
+    font-size: 1.1rem; font-weight: 800; color: var(--muted);
+    line-height: 1; transition: color 0.2s;
+  }
+  .tab-btn.active .tab-pct { color: var(--accent); }
+
+  .tab-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em;
+    color: var(--muted); margin-top: 0.25rem;
+    transition: color 0.2s;
+  }
+  .tab-btn.active .tab-label { color: rgba(240,192,64,0.7); }
+
+  /* ── Input ── */
   .input-label {
     display: block; font-family: 'IBM Plex Mono', monospace;
     font-size: 0.72rem; letter-spacing: 0.15em;
     color: var(--muted); text-transform: uppercase; margin-bottom: 0.6rem;
   }
 
-  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.8rem; }
 
   .field-label {
     display: block; font-family: 'IBM Plex Mono', monospace;
@@ -97,7 +126,6 @@
   }
 
   .unit-wrap { position: relative; display: flex; align-items: center; }
-
   .unit-prefix {
     position: absolute; left: 0.85rem;
     font-family: 'IBM Plex Mono', monospace;
@@ -125,6 +153,7 @@
     box-shadow: 0 0 0 3px rgba(240,192,64,0.12);
   }
 
+  /* ── Divider ── */
   .divider {
     height: 1px; background: var(--border);
     margin: 1.5rem 0; position: relative;
@@ -138,6 +167,7 @@
     font-size: 0.6rem; letter-spacing: 0.3em; color: var(--muted);
   }
 
+  /* ── Basis row ── */
   .result-base {
     background: rgba(255,255,255,0.03);
     border: 1px solid var(--border); border-radius: 8px;
@@ -160,7 +190,7 @@
     letter-spacing: 0.1em; opacity: 0.65;
   }
 
-  /* ── Cards ── */
+  /* ── Result cards ── */
   .results-grid { display: flex; flex-direction: column; gap: 0.85rem; }
 
   .result-card {
@@ -169,21 +199,22 @@
     transition: transform 0.15s, box-shadow 0.15s;
   }
   .result-card:hover { transform: translateX(3px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+
   .result-card.r1 { background: var(--card1); border-color: rgba(74,144,240,0.25); }
   .result-card.r2 { background: var(--card2); border-color: rgba(74,240,160,0.25); }
   .result-card.r3 { background: var(--card3); border-color: rgba(240,96,96,0.25); }
+  .result-card.r4 { background: var(--card4); border-color: rgba(196,122,240,0.25); }
 
   .card-header {
     padding: 1rem 1.2rem;
     display: flex; justify-content: space-between; align-items: flex-start;
   }
 
-  .result-pct {
-    font-size: 1.6rem; font-weight: 800; line-height: 1; margin-bottom: 0.25rem;
-  }
+  .result-pct { font-size: 1.6rem; font-weight: 800; line-height: 1; margin-bottom: 0.25rem; }
   .r1 .result-pct { color: var(--c1); }
   .r2 .result-pct { color: var(--c2); }
   .r3 .result-pct { color: var(--c3); }
+  .r4 .result-pct { color: var(--c4); }
 
   .result-formula {
     font-family: 'IBM Plex Mono', monospace;
@@ -221,7 +252,6 @@
     border-top: 1px solid rgba(255,255,255,0.07);
     padding: 0.9rem 1.2rem 1.1rem;
   }
-
   .detail-title {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.58rem; letter-spacing: 0.2em;
@@ -230,8 +260,7 @@
 
   .detail-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-    gap: 1rem;
+    padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 1rem;
   }
   .detail-row:last-child { border-bottom: none; }
 
@@ -243,7 +272,6 @@
     display: block; font-size: 0.56rem;
     color: rgba(107,116,148,0.55); margin-top: 1px;
   }
-
   .detail-val {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap;
@@ -268,6 +296,7 @@
   .r1 .detail-result-row { background: rgba(74,144,240,0.12); }
   .r2 .detail-result-row { background: rgba(74,240,160,0.12); }
   .r3 .detail-result-row { background: rgba(240,96,96,0.12); }
+  .r4 .detail-result-row { background: rgba(196,122,240,0.12); }
 
   .detail-result-label {
     font-family: 'IBM Plex Mono', monospace;
@@ -276,6 +305,7 @@
   .r1 .detail-result-label { color: var(--c1); }
   .r2 .detail-result-label { color: var(--c2); }
   .r3 .detail-result-label { color: var(--c3); }
+  .r4 .detail-result-label { color: var(--c4); }
 
   .detail-result-val {
     font-family: 'IBM Plex Mono', monospace;
@@ -307,9 +337,12 @@
   footer {
     margin-top: 2rem;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem; color: var(--muted);
-    letter-spacing: 0.1em; text-align: center;
+    font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-align: center;
   }
+
+  /* tab panel switching */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
 </style>
 </head>
 <body>
@@ -317,217 +350,234 @@
 <header>
   <div class="label-tag">PRICE CALCULATOR</div>
   <h1>Kalkulator <span>Harga</span><br>per Ton</h1>
-  <p class="subtitle">// Distribusi 25% · 50% · 25%</p>
+  <p class="subtitle">// Pilih mode distribusi</p>
 </header>
 
 <div class="card">
-  <div class="input-group">
-    <span class="input-label">Masukkan Data</span>
-    <div class="input-row">
-      <div class="field">
-        <span class="field-label">Harga / Ton</span>
-        <div class="unit-wrap">
-          <span class="unit-prefix">Rp</span>
-          <input type="text" id="harga" placeholder="0" inputmode="numeric"
-                 oninput="formatInput(this,'harga')" onkeydown="blockInvalid(event)">
-          <span class="unit-suffix">/ton</span>
-        </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab-btn active" onclick="switchTab('a')">
+      <div class="tab-pct">25 · 50 · 25</div>
+      <div class="tab-label">3 KELOMPOK</div>
+    </div>
+    <div class="tab-btn" onclick="switchTab('b')">
+      <div class="tab-pct">50 · 50</div>
+      <div class="tab-label">2 KELOMPOK</div>
+    </div>
+  </div>
+
+  <!-- Input (shared) -->
+  <span class="input-label">Masukkan Data</span>
+  <div class="input-row">
+    <div class="field">
+      <span class="field-label">Harga / Ton</span>
+      <div class="unit-wrap">
+        <span class="unit-prefix">Rp</span>
+        <input type="text" id="harga" placeholder="0" inputmode="numeric"
+               oninput="formatInput(this,'harga')" onkeydown="blockInvalid(event)">
+        <span class="unit-suffix">/ton</span>
       </div>
-      <div class="field">
-        <span class="field-label">Jumlah Ton</span>
-        <div class="unit-wrap">
-          <span class="unit-prefix">#</span>
-          <input type="text" id="ton" placeholder="0" inputmode="numeric"
-                 oninput="formatInput(this,'ton')" onkeydown="blockInvalid(event)">
-          <span class="unit-suffix">ton</span>
-        </div>
+    </div>
+    <div class="field">
+      <span class="field-label">Jumlah Ton</span>
+      <div class="unit-wrap">
+        <span class="unit-prefix">#</span>
+        <input type="text" id="ton" placeholder="0" inputmode="numeric"
+               oninput="formatInput(this,'ton')" onkeydown="blockInvalid(event)">
+        <span class="unit-suffix">ton</span>
       </div>
     </div>
   </div>
 
-  <div id="results-section" style="display:none">
-    <div class="result-base">
-      <span class="result-base-label">Harga × Ton (basis)</span>
-      <span class="result-base-val" id="val-base">—</span>
-    </div>
-    <div class="divider"></div>
-    <p class="click-hint">↓ klik kartu untuk rincian detail</p>
-
-    <div class="results-grid">
-
-      <!-- Card 1 -->
-      <div class="result-card r1" onclick="toggleCard(this)">
-        <div class="card-header">
-          <div>
-            <div class="result-pct">25%</div>
-            <div class="result-formula">25% × (basis×0.988 + 11% dari basis×1.2%)</div>
-          </div>
-          <div class="card-right">
-            <div class="result-num" id="val1">—</div>
-            <div class="result-note">kelompok 1</div>
-            <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-          </div>
-        </div>
-        <div class="detail-panel">
-          <div class="detail-inner">
-            <div class="detail-title">▸ Rincian Perhitungan — Kelompok 1</div>
-            <div class="detail-row">
-              <div class="detail-label">Harga per Ton<span>input pengguna</span></div>
-              <div class="detail-val" id="d1-harga">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Jumlah Ton<span>input pengguna</span></div>
-              <div class="detail-val" id="d1-ton">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Basis (Harga × Ton)<span>harga/ton × jumlah ton</span></div>
-              <div class="detail-val" id="d1-base">—</div>
-            </div>
-            <div class="detail-sep"><span>komponen inner</span></div>
-            <div class="detail-row">
-              <div class="detail-label">Komponen A<span>basis × 0.988</span></div>
-              <div class="detail-val" id="d1-a">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Komponen B<span>11% dari (basis × 1.2%)</span></div>
-              <div class="detail-val" id="d1-b">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Total Inner (A + B)<span>sebelum dikali persentase</span></div>
-              <div class="detail-val" id="d1-inner">—</div>
-            </div>
-            <div class="detail-sep"><span>hasil akhir</span></div>
-            <div class="detail-result-row">
-              <div class="detail-result-label">25% × Inner</div>
-              <div class="detail-result-val" id="d1-result">—</div>
-            </div>
-          </div>
-        </div>
+  <!-- ===== TAB A: 25/50/25 ===== -->
+  <div id="panel-a" class="tab-panel active">
+    <div id="results-a" style="display:none">
+      <div class="result-base">
+        <span class="result-base-label">Harga × Ton (basis)</span>
+        <span class="result-base-val" id="a-base">—</span>
       </div>
+      <div class="divider"></div>
+      <p class="click-hint">↓ klik kartu untuk rincian detail</p>
+      <div class="results-grid">
 
-      <!-- Card 2 -->
-      <div class="result-card r2" onclick="toggleCard(this)">
-        <div class="card-header">
-          <div>
-            <div class="result-pct">50%</div>
-            <div class="result-formula">50% × (basis×0.988 + 11% dari basis×1.2%)</div>
+        <!-- A-Card 1: 25% -->
+        <div class="result-card r1" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div>
+              <div class="result-pct">25%</div>
+              <div class="result-formula">25% × (basis×0.988 + 11% dari basis×0.988)</div>
+            </div>
+            <div class="card-right">
+              <div class="result-num" id="a-val1">—</div>
+              <div class="result-note">kelompok 1</div>
+              <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </div>
           </div>
-          <div class="card-right">
-            <div class="result-num" id="val2">—</div>
-            <div class="result-note">kelompok 2</div>
-            <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-          </div>
+          <div class="detail-panel"><div class="detail-inner">
+            <div class="detail-title">▸ Rincian — Kelompok 1 (25%)</div>
+            <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d1-harga">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="a-d1-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="a-d1-base">—</div></div>
+            <div class="detail-sep"><span>komponen</span></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d1-a">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>11% dari Komponen A</span></div><div class="detail-val" id="a-d1-b">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="a-d1-inner">—</div></div>
+            <div class="detail-sep"><span>hasil</span></div>
+            <div class="detail-result-row"><div class="detail-result-label">25% × Inner</div><div class="detail-result-val" id="a-d1-result">—</div></div>
+          </div></div>
         </div>
-        <div class="detail-panel">
-          <div class="detail-inner">
-            <div class="detail-title">▸ Rincian Perhitungan — Kelompok 2</div>
-            <div class="detail-row">
-              <div class="detail-label">Harga per Ton<span>input pengguna</span></div>
-              <div class="detail-val" id="d2-harga">—</div>
+
+        <!-- A-Card 2: 50% -->
+        <div class="result-card r2" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div>
+              <div class="result-pct">50%</div>
+              <div class="result-formula">50% × (basis×0.988 + 11% dari basis×0.988)</div>
             </div>
-            <div class="detail-row">
-              <div class="detail-label">Jumlah Ton<span>input pengguna</span></div>
-              <div class="detail-val" id="d2-ton">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Basis (Harga × Ton)<span>harga/ton × jumlah ton</span></div>
-              <div class="detail-val" id="d2-base">—</div>
-            </div>
-            <div class="detail-sep"><span>komponen inner</span></div>
-            <div class="detail-row">
-              <div class="detail-label">Komponen A<span>basis × 0.988</span></div>
-              <div class="detail-val" id="d2-a">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Komponen B<span>11% dari (basis × 1.2%)</span></div>
-              <div class="detail-val" id="d2-b">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Total Inner (A + B)<span>sebelum dikali persentase</span></div>
-              <div class="detail-val" id="d2-inner">—</div>
-            </div>
-            <div class="detail-sep"><span>hasil akhir</span></div>
-            <div class="detail-result-row">
-              <div class="detail-result-label">50% × Inner</div>
-              <div class="detail-result-val" id="d2-result">—</div>
+            <div class="card-right">
+              <div class="result-num" id="a-val2">—</div>
+              <div class="result-note">kelompok 2</div>
+              <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
           </div>
+          <div class="detail-panel"><div class="detail-inner">
+            <div class="detail-title">▸ Rincian — Kelompok 2 (50%)</div>
+            <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d2-harga">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="a-d2-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="a-d2-base">—</div></div>
+            <div class="detail-sep"><span>komponen</span></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d2-a">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>11% dari Komponen A</span></div><div class="detail-val" id="a-d2-b">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="a-d2-inner">—</div></div>
+            <div class="detail-sep"><span>hasil</span></div>
+            <div class="detail-result-row"><div class="detail-result-label">50% × Inner</div><div class="detail-result-val" id="a-d2-result">—</div></div>
+          </div></div>
         </div>
+
+        <!-- A-Card 3: 25% -->
+        <div class="result-card r3" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div>
+              <div class="result-pct">25%</div>
+              <div class="result-formula">25% × (basis×0.988 + 11% dari basis×0.988)</div>
+            </div>
+            <div class="card-right">
+              <div class="result-num" id="a-val3">—</div>
+              <div class="result-note">kelompok 3</div>
+              <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </div>
+          </div>
+          <div class="detail-panel"><div class="detail-inner">
+            <div class="detail-title">▸ Rincian — Kelompok 3 (25%)</div>
+            <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="a-d3-harga">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="a-d3-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="a-d3-base">—</div></div>
+            <div class="detail-sep"><span>komponen</span></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="a-d3-a">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>11% dari Komponen A</span></div><div class="detail-val" id="a-d3-b">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="a-d3-inner">—</div></div>
+            <div class="detail-sep"><span>hasil</span></div>
+            <div class="detail-result-row"><div class="detail-result-label">25% × Inner</div><div class="detail-result-val" id="a-d3-result">—</div></div>
+          </div></div>
+        </div>
+
       </div>
-
-      <!-- Card 3 -->
-      <div class="result-card r3" onclick="toggleCard(this)">
-        <div class="card-header">
-          <div>
-            <div class="result-pct">25%</div>
-            <div class="result-formula">25% × (basis×0.988 + 11% dari basis×1.2%)</div>
-          </div>
-          <div class="card-right">
-            <div class="result-num" id="val3">—</div>
-            <div class="result-note">kelompok 3</div>
-            <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-          </div>
-        </div>
-        <div class="detail-panel">
-          <div class="detail-inner">
-            <div class="detail-title">▸ Rincian Perhitungan — Kelompok 3</div>
-            <div class="detail-row">
-              <div class="detail-label">Harga per Ton<span>input pengguna</span></div>
-              <div class="detail-val" id="d3-harga">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Jumlah Ton<span>input pengguna</span></div>
-              <div class="detail-val" id="d3-ton">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Basis (Harga × Ton)<span>harga/ton × jumlah ton</span></div>
-              <div class="detail-val" id="d3-base">—</div>
-            </div>
-            <div class="detail-sep"><span>komponen inner</span></div>
-            <div class="detail-row">
-              <div class="detail-label">Komponen A<span>basis × 0.988</span></div>
-              <div class="detail-val" id="d3-a">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Komponen B<span>11% dari (basis × 1.2%)</span></div>
-              <div class="detail-val" id="d3-b">—</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Total Inner (A + B)<span>sebelum dikali persentase</span></div>
-              <div class="detail-val" id="d3-inner">—</div>
-            </div>
-            <div class="detail-sep"><span>hasil akhir</span></div>
-            <div class="detail-result-row">
-              <div class="detail-result-label">25% × Inner</div>
-              <div class="detail-result-val" id="d3-result">—</div>
-            </div>
-          </div>
-        </div>
+      <div class="total-row">
+        <span class="total-label">TOTAL</span>
+        <span class="total-num" id="a-total">—</span>
       </div>
-
     </div>
-
-    <div class="total-row">
-      <span class="total-label">TOTAL</span>
-      <span class="total-num" id="val-total">—</span>
-    </div>
+    <div id="empty-a" class="empty">Masukkan harga dan jumlah ton untuk menghitung</div>
   </div>
 
-  <div id="empty-msg" class="empty">Masukkan harga dan jumlah ton untuk menghitung</div>
-</div>
+  <!-- ===== TAB B: 50/50 ===== -->
+  <div id="panel-b" class="tab-panel">
+    <div id="results-b" style="display:none">
+      <div class="result-base">
+        <span class="result-base-label">Harga × Ton (basis)</span>
+        <span class="result-base-val" id="b-base">—</span>
+      </div>
+      <div class="divider"></div>
+      <p class="click-hint">↓ klik kartu untuk rincian detail</p>
+      <div class="results-grid">
 
-<footer>formula: basis×0.988 + (basis×1.2%×11%) · distribusi 25/50/25</footer>
+        <!-- B-Card 1: 50% -->
+        <div class="result-card r2" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div>
+              <div class="result-pct">50%</div>
+              <div class="result-formula">50% × (basis×0.988 + 11% dari basis×0.988)</div>
+            </div>
+            <div class="card-right">
+              <div class="result-num" id="b-val1">—</div>
+              <div class="result-note">kelompok 1</div>
+              <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </div>
+          </div>
+          <div class="detail-panel"><div class="detail-inner">
+            <div class="detail-title">▸ Rincian — Kelompok 1 (50%)</div>
+            <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="b-d1-harga">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="b-d1-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="b-d1-base">—</div></div>
+            <div class="detail-sep"><span>komponen</span></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d1-a">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>11% dari Komponen A</span></div><div class="detail-val" id="b-d1-b">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="b-d1-inner">—</div></div>
+            <div class="detail-sep"><span>hasil</span></div>
+            <div class="detail-result-row"><div class="detail-result-label">50% × Inner</div><div class="detail-result-val" id="b-d1-result">—</div></div>
+          </div></div>
+        </div>
+
+        <!-- B-Card 2: 50% -->
+        <div class="result-card r4" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div>
+              <div class="result-pct">50%</div>
+              <div class="result-formula">50% × (basis×0.988 + 11% dari basis×0.988)</div>
+            </div>
+            <div class="card-right">
+              <div class="result-num" id="b-val2">—</div>
+              <div class="result-note">kelompok 2</div>
+              <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </div>
+          </div>
+          <div class="detail-panel"><div class="detail-inner">
+            <div class="detail-title">▸ Rincian — Kelompok 2 (50%)</div>
+            <div class="detail-row"><div class="detail-label">Harga per Ton<span>input</span></div><div class="detail-val" id="b-d2-harga">—</div></div>
+            <div class="detail-row"><div class="detail-label">Jumlah Ton<span>input</span></div><div class="detail-val" id="b-d2-ton">—</div></div>
+            <div class="detail-row"><div class="detail-label">Basis (Harga × Ton)<span>harga × ton</span></div><div class="detail-val" id="b-d2-base">—</div></div>
+            <div class="detail-sep"><span>komponen</span></div>
+            <div class="detail-row"><div class="detail-label">Komponen A<span>basis × 0.988</span></div><div class="detail-val" id="b-d2-a">—</div></div>
+            <div class="detail-row"><div class="detail-label">Komponen B<span>11% dari Komponen A</span></div><div class="detail-val" id="b-d2-b">—</div></div>
+            <div class="detail-row"><div class="detail-label">Inner (A + B)<span>sebelum dikali persentase</span></div><div class="detail-val" id="b-d2-inner">—</div></div>
+            <div class="detail-sep"><span>hasil</span></div>
+            <div class="detail-result-row"><div class="detail-result-label">50% × Inner</div><div class="detail-result-val" id="b-d2-result">—</div></div>
+          </div></div>
+        </div>
+
+      </div>
+      <div class="total-row">
+        <span class="total-label">TOTAL</span>
+        <span class="total-num" id="b-total">—</span>
+      </div>
+    </div>
+    <div id="empty-b" class="empty">Masukkan harga dan jumlah ton untuk menghitung</div>
+  </div>
+
+</div><!-- .card -->
+
+<footer>formula: basis×0.988 + (basis×0.988×11%) · tab A: 25/50/25 · tab B: 50/50</footer>
 
 <script>
   const rawVals = { harga: 0, ton: 0 };
+  let activeTab = 'a';
 
-  function fmt(n) {
-    return 'Rp ' + Math.round(n).toLocaleString('id-ID');
-  }
+  function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
 
   function blockInvalid(e) {
-    const allowed = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
-    if (allowed.includes(e.key)) return;
+    const ok = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
+    if (ok.includes(e.key)) return;
     if (!/^\d$/.test(e.key)) e.preventDefault();
   }
 
@@ -538,55 +588,78 @@
     hitung();
   }
 
-  function toggleCard(card) {
-    card.classList.toggle('open');
+  function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && tab === 'a') || (i === 1 && tab === 'b'));
+    });
+    document.getElementById('panel-a').classList.toggle('active', tab === 'a');
+    document.getElementById('panel-b').classList.toggle('active', tab === 'b');
+    hitung();
   }
 
-  function fillDetail(prefix, harga, ton, base, compA, compB, inner, result) {
-    document.getElementById(prefix+'-harga').textContent  = fmt(harga);
-    document.getElementById(prefix+'-ton').textContent    = ton.toLocaleString('id-ID') + ' ton';
-    document.getElementById(prefix+'-base').textContent   = fmt(base);
-    document.getElementById(prefix+'-a').textContent      = fmt(compA);
-    document.getElementById(prefix+'-b').textContent      = fmt(compB);
-    document.getElementById(prefix+'-inner').textContent  = fmt(inner);
-    document.getElementById(prefix+'-result').textContent = fmt(result);
+  function toggleCard(card) { card.classList.toggle('open'); }
+
+  function setDetail(p, harga, ton, base, compA, compB, inner, result) {
+    document.getElementById(p+'-harga').textContent  = fmt(harga);
+    document.getElementById(p+'-ton').textContent    = ton.toLocaleString('id-ID') + ' ton';
+    document.getElementById(p+'-base').textContent   = fmt(base);
+    document.getElementById(p+'-a').textContent      = fmt(compA);
+    document.getElementById(p+'-b').textContent      = fmt(compB);
+    document.getElementById(p+'-inner').textContent  = fmt(inner);
+    document.getElementById(p+'-result').textContent = fmt(result);
   }
 
   function hitung() {
     const harga = rawVals.harga;
     const ton   = rawVals.ton;
+    const ok    = harga > 0 && ton > 0;
 
-    const section  = document.getElementById('results-section');
-    const emptyMsg = document.getElementById('empty-msg');
+    // ── Tab A ──
+    const ra = document.getElementById('results-a');
+    const ea = document.getElementById('empty-a');
+    ra.style.display = ok ? 'block' : 'none';
+    ea.style.display = ok ? 'none'  : 'block';
 
-    if (!harga || !ton) {
-      section.style.display  = 'none';
-      emptyMsg.style.display = 'block';
-      return;
-    }
+    // ── Tab B ──
+    const rb = document.getElementById('results-b');
+    const eb = document.getElementById('empty-b');
+    rb.style.display = ok ? 'block' : 'none';
+    eb.style.display = ok ? 'none'  : 'block';
 
-    section.style.display  = 'block';
-    emptyMsg.style.display = 'none';
+    if (!ok) return;
 
     const base  = harga * ton;
     const compA = base * 0.988;
-    const compB = base * 0.012 * 0.11;
+    const compB = compA * 0.11;
     const inner = compA + compB;
 
-    const r1    = 0.25 * inner;
-    const r2    = 0.50 * inner;
-    const r3    = 0.25 * inner;
-    const total = r1 + r2 + r3;
+    // Tab A: 25 / 50 / 25
+    const a1 = 0.25 * inner;
+    const a2 = 0.50 * inner;
+    const a3 = 0.25 * inner;
 
-    document.getElementById('val-base').textContent  = fmt(base);
-    document.getElementById('val1').textContent      = fmt(r1);
-    document.getElementById('val2').textContent      = fmt(r2);
-    document.getElementById('val3').textContent      = fmt(r3);
-    document.getElementById('val-total').textContent = fmt(total);
+    document.getElementById('a-base').textContent  = fmt(base);
+    document.getElementById('a-val1').textContent  = fmt(a1);
+    document.getElementById('a-val2').textContent  = fmt(a2);
+    document.getElementById('a-val3').textContent  = fmt(a3);
+    document.getElementById('a-total').textContent = fmt(a1 + a2 + a3);
 
-    fillDetail('d1', harga, ton, base, compA, compB, inner, r1);
-    fillDetail('d2', harga, ton, base, compA, compB, inner, r2);
-    fillDetail('d3', harga, ton, base, compA, compB, inner, r3);
+    setDetail('a-d1', harga, ton, base, compA, compB, inner, a1);
+    setDetail('a-d2', harga, ton, base, compA, compB, inner, a2);
+    setDetail('a-d3', harga, ton, base, compA, compB, inner, a3);
+
+    // Tab B: 50 / 50
+    const b1 = 0.50 * inner;
+    const b2 = 0.50 * inner;
+
+    document.getElementById('b-base').textContent  = fmt(base);
+    document.getElementById('b-val1').textContent  = fmt(b1);
+    document.getElementById('b-val2').textContent  = fmt(b2);
+    document.getElementById('b-total').textContent = fmt(b1 + b2);
+
+    setDetail('b-d1', harga, ton, base, compA, compB, inner, b1);
+    setDetail('b-d2', harga, ton, base, compA, compB, inner, b2);
   }
 </script>
 </body>

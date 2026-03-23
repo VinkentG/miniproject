@@ -226,8 +226,10 @@
       <span class="field-label">Jumlah Ton</span>
       <div class="unit-wrap">
         <span class="unit-prefix">#</span>
-        <input type="text" id="ton" placeholder="0" inputmode="numeric"
-               oninput="formatInput(this,'ton')" onkeydown="blockInvalid(event)">
+        <input type="text" id="ton" placeholder="0" inputmode="decimal"
+               oninput="rawVals.ton = parseTon(this.value); hitung();"
+               onblur="formatTonInput(this)"
+               onkeydown="blockInvalidTon(event)">
         <span class="unit-suffix">ton</span>
       </div>
     </div>
@@ -325,8 +327,8 @@
               <div class="ton-input-wrap" onclick="event.stopPropagation()">
                 <div class="ton-input-label">Ubah Ton (opsional)</div>
                 <div class="ton-input-row">
-                  <input type="text" class="ton-small-input" id="a-ton-va" placeholder="pakai ton utama" inputmode="numeric"
-                         oninput="formatTonVA(this,'a')" onkeydown="blockInvalid(event)">
+                  <input type="text" class="ton-small-input" id="a-ton-va" placeholder="pakai ton utama" inputmode="decimal"
+                         oninput="formatTonVA(this,'a')" onkeydown="blockInvalidTon(event)">
                   <span class="ton-small-suffix">ton</span>
                   <button class="reset-btn" onclick="resetTonVA('a')">↺ reset</button>
                 </div>
@@ -348,8 +350,8 @@
               <div class="ton-input-wrap" onclick="event.stopPropagation()">
                 <div class="ton-input-label">Masukkan Ton Baru (realisasi)</div>
                 <div class="ton-input-row">
-                  <input type="text" class="ton-small-input" id="a-ton-new" placeholder="0" inputmode="numeric"
-                         oninput="formatTonNew(this,'a')" onkeydown="blockInvalid(event)">
+                  <input type="text" class="ton-small-input" id="a-ton-new" placeholder="0" inputmode="decimal"
+                         oninput="formatTonNew(this,'a')" onkeydown="blockInvalidTon(event)">
                   <span class="ton-small-suffix">ton</span>
                 </div>
               </div>
@@ -443,8 +445,8 @@
               <div class="ton-input-wrap" onclick="event.stopPropagation()">
                 <div class="ton-input-label">Ubah Ton (opsional)</div>
                 <div class="ton-input-row">
-                  <input type="text" class="ton-small-input" id="b-ton-va" placeholder="pakai ton utama" inputmode="numeric"
-                         oninput="formatTonVA(this,'b')" onkeydown="blockInvalid(event)">
+                  <input type="text" class="ton-small-input" id="b-ton-va" placeholder="pakai ton utama" inputmode="decimal"
+                         oninput="formatTonVA(this,'b')" onkeydown="blockInvalidTon(event)">
                   <span class="ton-small-suffix">ton</span>
                   <button class="reset-btn" onclick="resetTonVA('b')">↺ reset</button>
                 </div>
@@ -465,8 +467,8 @@
               <div class="ton-input-wrap" onclick="event.stopPropagation()">
                 <div class="ton-input-label">Masukkan Ton Baru (realisasi)</div>
                 <div class="ton-input-row">
-                  <input type="text" class="ton-small-input" id="b-ton-new" placeholder="0" inputmode="numeric"
-                         oninput="formatTonNew(this,'b')" onkeydown="blockInvalid(event)">
+                  <input type="text" class="ton-small-input" id="b-ton-new" placeholder="0" inputmode="decimal"
+                         oninput="formatTonNew(this,'b')" onkeydown="blockInvalidTon(event)">
                   <span class="ton-small-suffix">ton</span>
                 </div>
               </div>
@@ -505,12 +507,40 @@
   const tonVA   = { a: null, b: null }; // ver A ton override (null = use global)
 
   function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
-  function fmtTon(n) { return n.toLocaleString('id-ID') + ' ton'; }
+  function fmtTon(n) { return fmtTonDisplay(n) + ' ton'; }
+
+  // Allow digits + one decimal separator (comma or dot) for ton fields
+  function blockInvalidTon(e) {
+    const ok = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
+    if (ok.includes(e.key)) return;
+    if (/^\d$/.test(e.key)) return;
+    // allow one decimal point/comma
+    if ((e.key === '.' || e.key === ',') && !e.target.value.includes('.') && !e.target.value.includes(',')) return;
+    e.preventDefault();
+  }
 
   function blockInvalid(e) {
     const ok = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
     if (ok.includes(e.key)) return;
     if (!/^\d$/.test(e.key)) e.preventDefault();
+  }
+
+  // Parse ton string that may use dots as thousand sep and comma as decimal
+  function parseTon(str) {
+    // replace comma decimal → dot, then strip thousand dots
+    let s = str.trim().replace(',', '.');
+    // if multiple dots, all but last are thousand separators
+    const parts = s.split('.');
+    if (parts.length > 2) {
+      s = parts.slice(0, -1).join('') + '.' + parts[parts.length - 1];
+    }
+    const v = parseFloat(s);
+    return isNaN(v) ? 0 : v;
+  }
+
+  function fmtTonDisplay(n) {
+    // format with up to 3 decimal places, no trailing zeros
+    return n.toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
   }
 
   function formatInput(el, field) {
@@ -520,18 +550,23 @@
     hitung();
   }
 
+  function formatTonInput(el) {
+    // called on blur for the main ton field to format nicely
+    const v = parseTon(el.value);
+    rawVals.ton = v;
+    el.value = v > 0 ? fmtTonDisplay(v) : '';
+    hitung();
+  }
+
   function formatTonNew(el, tab) {
-    const digits = el.value.replace(/\D/g, '');
-    tonNew[tab] = digits ? parseInt(digits, 10) : 0;
-    el.value = tonNew[tab] ? tonNew[tab].toLocaleString('id-ID') : '';
+    const v = parseTon(el.value);
+    tonNew[tab] = v > 0 ? v : 0;
     hitung();
   }
 
   function formatTonVA(el, tab) {
-    const digits = el.value.replace(/\D/g, '');
-    const val = digits ? parseInt(digits, 10) : 0;
-    tonVA[tab] = val > 0 ? val : null;
-    el.value = val > 0 ? val.toLocaleString('id-ID') : '';
+    const v = parseTon(el.value);
+    tonVA[tab] = v > 0 ? v : null;
     hitung();
   }
 

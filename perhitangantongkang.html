@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Harga Ton</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161b26;
+    --border: #2a3045;
+    --accent: #f0c040;
+    --accent2: #4af0a0;
+    --accent3: #f06060;
+    --text: #e8eaf0;
+    --muted: #6b7494;
+    --card1: #1a2340;
+    --card2: #1a3028;
+    --card3: #3a1a1a;
+    --c1: #4a90f0;
+    --c2: #4af0a0;
+    --c3: #f06060;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(240,192,64,0.08) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(42,48,69,0.4) 39px, rgba(42,48,69,0.4) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(42,48,69,0.4) 39px, rgba(42,48,69,0.4) 40px);
+  }
+
+  header { text-align: center; margin-bottom: 2.5rem; }
+
+  .label-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.25em;
+    color: var(--accent);
+    background: rgba(240,192,64,0.1);
+    border: 1px solid rgba(240,192,64,0.25);
+    padding: 0.25rem 0.8rem; border-radius: 2px;
+    margin-bottom: 1rem; text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.02em; color: #fff;
+  }
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem; color: var(--muted);
+    margin-top: 0.6rem; letter-spacing: 0.05em;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem;
+    width: 100%; max-width: 520px;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .input-group { margin-bottom: 1.8rem; }
+
+  .input-label {
+    display: block; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.15em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+
+  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .field-label {
+    display: block; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 0.4rem; text-transform: uppercase;
+  }
+
+  .unit-wrap { position: relative; display: flex; align-items: center; }
+
+  .unit-prefix {
+    position: absolute; left: 0.85rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem; color: var(--accent);
+    pointer-events: none; z-index: 1;
+  }
+  .unit-suffix {
+    position: absolute; right: 0.85rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem; color: var(--muted);
+    pointer-events: none; z-index: 1;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.75rem 3rem 0.75rem 2.4rem;
+    color: var(--text); font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem; font-weight: 600; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(240,192,64,0.12);
+  }
+
+  .divider {
+    height: 1px; background: var(--border);
+    margin: 1.5rem 0; position: relative;
+  }
+  .divider::after {
+    content: 'HASIL';
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%,-50%);
+    background: var(--surface); padding: 0 0.75rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.3em; color: var(--muted);
+  }
+
+  .result-base {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.85rem 1rem; margin-bottom: 1rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .result-base-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em;
+  }
+  .result-base-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem; font-weight: 600; color: var(--text);
+  }
+
+  .click-hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem; color: var(--muted);
+    text-align: center; margin-bottom: 0.7rem;
+    letter-spacing: 0.1em; opacity: 0.65;
+  }
+
+  /* ── Cards ── */
+  .results-grid { display: flex; flex-direction: column; gap: 0.85rem; }
+
+  .result-card {
+    border-radius: 10px; border: 1px solid transparent;
+    overflow: hidden; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .result-card:hover { transform: translateX(3px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .result-card.r1 { background: var(--card1); border-color: rgba(74,144,240,0.25); }
+  .result-card.r2 { background: var(--card2); border-color: rgba(74,240,160,0.25); }
+  .result-card.r3 { background: var(--card3); border-color: rgba(240,96,96,0.25); }
+
+  .card-header {
+    padding: 1rem 1.2rem;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+
+  .result-pct {
+    font-size: 1.6rem; font-weight: 800; line-height: 1; margin-bottom: 0.25rem;
+  }
+  .r1 .result-pct { color: var(--c1); }
+  .r2 .result-pct { color: var(--c2); }
+  .r3 .result-pct { color: var(--c3); }
+
+  .result-formula {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem; color: var(--muted); line-height: 1.5;
+  }
+
+  .card-right { text-align: right; }
+  .result-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem; font-weight: 600; color: #fff;
+  }
+  .result-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem; color: var(--muted); margin-top: 0.2rem;
+  }
+
+  .chevron {
+    display: flex; align-items: center; justify-content: flex-end; margin-top: 0.4rem;
+  }
+  .chevron svg {
+    width: 14px; height: 14px; stroke: var(--muted); fill: none;
+    stroke-width: 2.5; transition: transform 0.3s ease;
+  }
+  .result-card.open .chevron svg { transform: rotate(180deg); }
+
+  /* ── Detail panel ── */
+  .detail-panel {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+    opacity: 0;
+  }
+  .result-card.open .detail-panel { max-height: 500px; opacity: 1; }
+
+  .detail-inner {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 0.9rem 1.2rem 1.1rem;
+  }
+
+  .detail-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.2em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    gap: 1rem;
+  }
+  .detail-row:last-child { border-bottom: none; }
+
+  .detail-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem; color: var(--muted); flex: 1; line-height: 1.4;
+  }
+  .detail-label span {
+    display: block; font-size: 0.56rem;
+    color: rgba(107,116,148,0.55); margin-top: 1px;
+  }
+
+  .detail-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap;
+  }
+
+  .detail-sep {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.55rem 0; color: var(--muted);
+  }
+  .detail-sep::before, .detail-sep::after {
+    content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06);
+  }
+  .detail-sep span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.15em; white-space: nowrap;
+  }
+
+  .detail-result-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.55rem 0.8rem; border-radius: 6px; margin-top: 0.45rem;
+  }
+  .r1 .detail-result-row { background: rgba(74,144,240,0.12); }
+  .r2 .detail-result-row { background: rgba(74,240,160,0.12); }
+  .r3 .detail-result-row { background: rgba(240,96,96,0.12); }
+
+  .detail-result-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem; font-weight: 600;
+  }
+  .r1 .detail-result-label { color: var(--c1); }
+  .r2 .detail-result-label { color: var(--c2); }
+  .r3 .detail-result-label { color: var(--c3); }
+
+  .detail-result-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.98rem; font-weight: 700; color: #fff;
+  }
+
+  /* ── Total ── */
+  .total-row {
+    margin-top: 1.2rem; padding-top: 1rem;
+    border-top: 1px dashed var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .total-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.15em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .total-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.3rem; font-weight: 700; color: var(--accent);
+  }
+
+  .empty {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+    text-align: center; padding: 1.5rem 0; letter-spacing: 0.1em;
+  }
+
+  footer {
+    margin-top: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem; color: var(--muted);
+    letter-spacing: 0.1em; text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label-tag">PRICE CALCULATOR</div>
+  <h1>Kalkulator <span>Harga</span><br>per Ton</h1>
+  <p class="subtitle">// Distribusi 25% · 50% · 25%</p>
+</header>
+
+<div class="card">
+  <div class="input-group">
+    <span class="input-label">Masukkan Data</span>
+    <div class="input-row">
+      <div class="field">
+        <span class="field-label">Harga / Ton</span>
+        <div class="unit-wrap">
+          <span class="unit-prefix">Rp</span>
+          <input type="text" id="harga" placeholder="0" inputmode="numeric"
+                 oninput="formatInput(this,'harga')" onkeydown="blockInvalid(event)">
+          <span class="unit-suffix">/ton</span>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field-label">Jumlah Ton</span>
+        <div class="unit-wrap">
+          <span class="unit-prefix">#</span>
+          <input type="text" id="ton" placeholder="0" inputmode="numeric"
+                 oninput="formatInput(this,'ton')" onkeydown="blockInvalid(event)">
+          <span class="unit-suffix">ton</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="results-section" style="display:none">
+    <div class="result-base">
+      <span class="result-base-label">Harga × Ton (basis)</span>
+      <span class="result-base-val" id="val-base">—</span>
+    </div>
+    <div class="divider"></div>
+    <p class="click-hint">↓ klik kartu untuk rincian detail</p>
+
+    <div class="results-grid">
+
+      <!-- Card 1 -->
+      <div class="result-card r1" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <div class="result-pct">25%</div>
+            <div class="result-formula">25% × (basis×0.988 + 11% dari basis×1.2%)</div>
+          </div>
+          <div class="card-right">
+            <div class="result-num" id="val1">—</div>
+            <div class="result-note">kelompok 1</div>
+            <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+          </div>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-title">▸ Rincian Perhitungan — Kelompok 1</div>
+            <div class="detail-row">
+              <div class="detail-label">Harga per Ton<span>input pengguna</span></div>
+              <div class="detail-val" id="d1-harga">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Jumlah Ton<span>input pengguna</span></div>
+              <div class="detail-val" id="d1-ton">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Basis (Harga × Ton)<span>harga/ton × jumlah ton</span></div>
+              <div class="detail-val" id="d1-base">—</div>
+            </div>
+            <div class="detail-sep"><span>komponen inner</span></div>
+            <div class="detail-row">
+              <div class="detail-label">Komponen A<span>basis × 0.988</span></div>
+              <div class="detail-val" id="d1-a">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Komponen B<span>11% dari (basis × 1.2%)</span></div>
+              <div class="detail-val" id="d1-b">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Total Inner (A + B)<span>sebelum dikali persentase</span></div>
+              <div class="detail-val" id="d1-inner">—</div>
+            </div>
+            <div class="detail-sep"><span>hasil akhir</span></div>
+            <div class="detail-result-row">
+              <div class="detail-result-label">25% × Inner</div>
+              <div class="detail-result-val" id="d1-result">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="result-card r2" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <div class="result-pct">50%</div>
+            <div class="result-formula">50% × (basis×0.988 + 11% dari basis×1.2%)</div>
+          </div>
+          <div class="card-right">
+            <div class="result-num" id="val2">—</div>
+            <div class="result-note">kelompok 2</div>
+            <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+          </div>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-title">▸ Rincian Perhitungan — Kelompok 2</div>
+            <div class="detail-row">
+              <div class="detail-label">Harga per Ton<span>input pengguna</span></div>
+              <div class="detail-val" id="d2-harga">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Jumlah Ton<span>input pengguna</span></div>
+              <div class="detail-val" id="d2-ton">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Basis (Harga × Ton)<span>harga/ton × jumlah ton</span></div>
+              <div class="detail-val" id="d2-base">—</div>
+            </div>
+            <div class="detail-sep"><span>komponen inner</span></div>
+            <div class="detail-row">
+              <div class="detail-label">Komponen A<span>basis × 0.988</span></div>
+              <div class="detail-val" id="d2-a">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Komponen B<span>11% dari (basis × 1.2%)</span></div>
+              <div class="detail-val" id="d2-b">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Total Inner (A + B)<span>sebelum dikali persentase</span></div>
+              <div class="detail-val" id="d2-inner">—</div>
+            </div>
+            <div class="detail-sep"><span>hasil akhir</span></div>
+            <div class="detail-result-row">
+              <div class="detail-result-label">50% × Inner</div>
+              <div class="detail-result-val" id="d2-result">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="result-card r3" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div>
+            <div class="result-pct">25%</div>
+            <div class="result-formula">25% × (basis×0.988 + 11% dari basis×1.2%)</div>
+          </div>
+          <div class="card-right">
+            <div class="result-num" id="val3">—</div>
+            <div class="result-note">kelompok 3</div>
+            <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+          </div>
+        </div>
+        <div class="detail-panel">
+          <div class="detail-inner">
+            <div class="detail-title">▸ Rincian Perhitungan — Kelompok 3</div>
+            <div class="detail-row">
+              <div class="detail-label">Harga per Ton<span>input pengguna</span></div>
+              <div class="detail-val" id="d3-harga">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Jumlah Ton<span>input pengguna</span></div>
+              <div class="detail-val" id="d3-ton">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Basis (Harga × Ton)<span>harga/ton × jumlah ton</span></div>
+              <div class="detail-val" id="d3-base">—</div>
+            </div>
+            <div class="detail-sep"><span>komponen inner</span></div>
+            <div class="detail-row">
+              <div class="detail-label">Komponen A<span>basis × 0.988</span></div>
+              <div class="detail-val" id="d3-a">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Komponen B<span>11% dari (basis × 1.2%)</span></div>
+              <div class="detail-val" id="d3-b">—</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Total Inner (A + B)<span>sebelum dikali persentase</span></div>
+              <div class="detail-val" id="d3-inner">—</div>
+            </div>
+            <div class="detail-sep"><span>hasil akhir</span></div>
+            <div class="detail-result-row">
+              <div class="detail-result-label">25% × Inner</div>
+              <div class="detail-result-val" id="d3-result">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="total-row">
+      <span class="total-label">TOTAL</span>
+      <span class="total-num" id="val-total">—</span>
+    </div>
+  </div>
+
+  <div id="empty-msg" class="empty">Masukkan harga dan jumlah ton untuk menghitung</div>
+</div>
+
+<footer>formula: basis×0.988 + (basis×1.2%×11%) · distribusi 25/50/25</footer>
+
+<script>
+  const rawVals = { harga: 0, ton: 0 };
+
+  function fmt(n) {
+    return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+  }
+
+  function blockInvalid(e) {
+    const allowed = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
+    if (allowed.includes(e.key)) return;
+    if (!/^\d$/.test(e.key)) e.preventDefault();
+  }
+
+  function formatInput(el, field) {
+    const digits = el.value.replace(/\D/g, '');
+    rawVals[field] = digits ? parseInt(digits, 10) : 0;
+    el.value = rawVals[field] ? rawVals[field].toLocaleString('id-ID') : '';
+    hitung();
+  }
+
+  function toggleCard(card) {
+    card.classList.toggle('open');
+  }
+
+  function fillDetail(prefix, harga, ton, base, compA, compB, inner, result) {
+    document.getElementById(prefix+'-harga').textContent  = fmt(harga);
+    document.getElementById(prefix+'-ton').textContent    = ton.toLocaleString('id-ID') + ' ton';
+    document.getElementById(prefix+'-base').textContent   = fmt(base);
+    document.getElementById(prefix+'-a').textContent      = fmt(compA);
+    document.getElementById(prefix+'-b').textContent      = fmt(compB);
+    document.getElementById(prefix+'-inner').textContent  = fmt(inner);
+    document.getElementById(prefix+'-result').textContent = fmt(result);
+  }
+
+  function hitung() {
+    const harga = rawVals.harga;
+    const ton   = rawVals.ton;
+
+    const section  = document.getElementById('results-section');
+    const emptyMsg = document.getElementById('empty-msg');
+
+    if (!harga || !ton) {
+      section.style.display  = 'none';
+      emptyMsg.style.display = 'block';
+      return;
+    }
+
+    section.style.display  = 'block';
+    emptyMsg.style.display = 'none';
+
+    const base  = harga * ton;
+    const compA = base * 0.988;
+    const compB = base * 0.012 * 0.11;
+    const inner = compA + compB;
+
+    const r1    = 0.25 * inner;
+    const r2    = 0.50 * inner;
+    const r3    = 0.25 * inner;
+    const total = r1 + r2 + r3;
+
+    document.getElementById('val-base').textContent  = fmt(base);
+    document.getElementById('val1').textContent      = fmt(r1);
+    document.getElementById('val2').textContent      = fmt(r2);
+    document.getElementById('val3').textContent      = fmt(r3);
+    document.getElementById('val-total').textContent = fmt(total);
+
+    fillDetail('d1', harga, ton, base, compA, compB, inner, r1);
+    fillDetail('d2', harga, ton, base, compA, compB, inner, r2);
+    fillDetail('d3', harga, ton, base, compA, compB, inner, r3);
+  }
+</script>
+</body>
+</html>

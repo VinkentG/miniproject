@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Bensin — Buku Pintar</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --gold: #c9a84c;
+  --paper: #f5efe0;
+  --paper2: #e8dfc8;
+  --ink: #1e1410;
+  --ink2: #3d2b1f;
+  --red: #c0392b;
+  --warn: #e67e22;
+  --ok: #27ae60;
+  --blue: #2980b9;
+}
+
+html, body {
+  width:100%; height:100%;
+  overflow:hidden;
+  background:linear-gradient(160deg, #d4d4d4 0%, #b0b0b0 45%, #9a9a9a 100%);
+  font-family:'Lora',serif;
+}
+
+/* ── TURN.JS 4 VIEWPORT ── */
+.flipbook-viewport {
+  overflow:hidden;
+  width:100%;
+  height:100%;
+}
+
+.flipbook-viewport .container {
+  position:absolute;
+  top:50%;
+  left:50%;
+}
+
+.book-shell {
+  position:relative;
+  width:100%;
+  height:100%;
+  filter:drop-shadow(4px 8px 24px rgba(0,0,0,0.28)) drop-shadow(12px 24px 48px rgba(0,0,0,0.18));
+}
+
+/* spine tengah saat buku terbuka */
+.book-shell::before {
+  content:'';
+  position:absolute;
+  left:50%; top:0; bottom:0;
+  width:10px;
+  margin-left:-5px;
+  background:linear-gradient(90deg,
+    rgba(0,0,0,0.12) 0%,
+    rgba(0,0,0,0.32) 35%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(0,0,0,0.32) 65%,
+    rgba(0,0,0,0.12) 100%
+  );
+  z-index:50;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.35s ease;
+}
+.book-shell.is-open::before { opacity:1; }
+
+/* ketebalan tumpukan halaman di bawah buku */
+.book-shell::after {
+  content:'';
+  position:absolute;
+  left:3%; right:3%; bottom:-6px;
+  height:10px;
+  background:linear-gradient(180deg, #e8dfc8, #c8bfaa);
+  border-radius:0 0 4px 4px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  z-index:-1;
+}
+
+/* ── TURN.JS 4 FLIPBOOK ── */
+#flipbook {
+  position:relative;
+  border-radius:2px 8px 8px 2px;
+}
+
+#flipbook .page,
+#flipbook .hard {
+  overflow:hidden;
+  background-color:var(--paper);
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+}
+
+#flipbook .page {
+  -webkit-box-shadow:0 0 20px rgba(0,0,0,0.2);
+  box-shadow:0 0 20px rgba(0,0,0,0.2);
+}
+
+#flipbook .hard {
+  -webkit-box-shadow:none;
+  box-shadow:none;
+}
+
+#flipbook .page-wrapper {
+  -webkit-perspective:2000px;
+  -moz-perspective:2000px;
+  perspective:2000px;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+}
+
+/* halaman lipat saat animasi — kertas tidak tembus pandang */
+#flipbook .fpage,
+#flipbook .fwrapper,
+#flipbook .page.p-temporal {
+  background-color:var(--paper) !important;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+}
+#flipbook .fpage .page,
+#flipbook .fpage > div {
+  background-color:var(--paper) !important;
+  opacity:1 !important;
+}
+
+#flipbook .shadow {
+  -webkit-transition:-webkit-box-shadow 0.5s;
+  transition:box-shadow 0.5s;
+  -webkit-box-shadow:0 0 20px rgba(0,0,0,0.25);
+  box-shadow:0 0 20px rgba(0,0,0,0.25);
+}
+
+#flipbook .odd {
+  background:-webkit-linear-gradient(right, var(--paper) 95%, #dadada 100%);
+  background:linear-gradient(to left, var(--paper) 95%, #dadada 100%);
+}
+
+#flipbook .even {
+  background:-webkit-linear-gradient(left, var(--paper) 95%, #dadada 100%);
+  background:linear-gradient(to right, var(--paper) 95%, #dadada 100%);
+}
+
+#flipbook div[page="1"] > div,
+#flipbook div[page="10"] > div {
+  overflow:visible !important;
+}
+
+/* paper edge — halaman kanan (odd) */
+#flipbook .page.odd::after,
+#flipbook .hard:not(.cover-front):not(.cover-back).odd::after {
+  content:'';
+  position:absolute; top:0; right:0; bottom:0; width:12px;
+  background:repeating-linear-gradient(180deg,
+    var(--paper) 0px, var(--paper) 3px,
+    var(--paper2) 3px, var(--paper2) 4px
+  );
+  border-left:1px solid rgba(0,0,0,0.07);
+  pointer-events:none; z-index:2;
+}
+
+/* paper edge — halaman kiri (even), dekat spine */
+#flipbook .page.even::after,
+#flipbook .hard:not(.cover-front):not(.cover-back).even::after {
+  content:'';
+  position:absolute; top:0; left:0; bottom:0; width:12px;
+  background:repeating-linear-gradient(180deg,
+    var(--paper) 0px, var(--paper) 3px,
+    var(--paper2) 3px, var(--paper2) 4px
+  );
+  border-right:1px solid rgba(0,0,0,0.07);
+  pointer-events:none; z-index:2;
+}
+
+/* ── PAGE BODY ── */
+.pg-body {
+  position:absolute; inset:0;
+  padding: clamp(14px,3vh,26px) clamp(14px,3vw,30px) clamp(14px,3vh,26px) clamp(14px,3vw,26px);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  background-color:var(--paper);
+}
+.pg-body.lined {
+  background-color:var(--paper);
+  background-image: repeating-linear-gradient(180deg,
+    transparent 0px, transparent 27px,
+    rgba(0,0,0,0.055) 27px, rgba(0,0,0,0.055) 28px
+  );
+  background-size:100% 28px;
+  background-position:0 52px;
+}
+
+.ph {
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:2px solid var(--ink);
+  padding-bottom:7px;
+  margin-bottom: clamp(8px,2vh,16px);
+  flex-shrink:0;
+}
+.ph-ch {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(7px,1.1vw,10px); letter-spacing:3px; text-transform:uppercase;
+  color:var(--red);
+}
+.ph-n {
+  font-family:'Special Elite',cursive;
+  font-size:clamp(8px,1.1vw,11px); color:#aaa;
+}
+
+h2 {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(18px,3.5vh,34px); font-weight:700;
+  color:var(--ink); line-height:1.15;
+  margin-bottom:4px; flex-shrink:0;
+}
+h3 {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(11px,2vh,16px); font-weight:600;
+  color:var(--ink2); text-transform:uppercase; letter-spacing:1.5px;
+  margin: clamp(6px,1.4vh,12px) 0 clamp(3px,0.8vh,7px);
+  flex-shrink:0;
+}
+p {
+  font-size:clamp(11px,1.9vh,17px); line-height:1.72;
+  color:var(--ink2);
+  margin-bottom: clamp(5px,1vh,9px);
+  flex-shrink:0;
+}
+strong { color:var(--ink); }
+
+.drop {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(36px,6.5vh,54px); font-weight:700;
+  float:left; line-height:0.8;
+  margin-right:5px; margin-top:7px;
+  color:var(--red);
+}
+
+.box {
+  border-left:3px solid var(--red);
+  background:rgba(192,57,43,0.07);
+  padding:clamp(6px,1.1vh,10px) clamp(9px,1.8vw,13px);
+  margin:clamp(5px,1vh,10px) 0;
+  border-radius:0 4px 4px 0;
+  flex-shrink:0;
+}
+.box.warn { border-color:var(--warn); background:rgba(230,126,34,0.07); }
+.box.ok   { border-color:var(--ok);   background:rgba(39,174,96,0.07); }
+.box.info { border-color:var(--blue);  background:rgba(41,128,185,0.07); }
+.box-title {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(7px,1.1vh,9px); font-weight:600;
+  letter-spacing:2px; text-transform:uppercase;
+  margin-bottom:4px; color:var(--red);
+}
+.box.warn .box-title { color:var(--warn); }
+.box.ok   .box-title { color:var(--ok); }
+.box.info .box-title { color:var(--blue); }
+.box p { margin:0; font-size:clamp(8px,1.45vh,12px); line-height:1.65; }
+
+.ft { width:100%; border-collapse:collapse; margin:clamp(5px,1vh,9px) 0; flex-shrink:0; }
+.ft th {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(7px,1.1vh,9px); letter-spacing:1.5px; text-transform:uppercase;
+  padding:clamp(4px,0.9vh,7px) clamp(7px,1.4vw,11px);
+  background:var(--ink); color:var(--gold); text-align:left;
+}
+.ft td {
+  padding:clamp(4px,0.9vh,6px) clamp(7px,1.4vw,11px);
+  border-bottom:1px solid rgba(0,0,0,0.08);
+  color:var(--ink2); font-size:clamp(8px,1.45vh,12px); vertical-align:top; line-height:1.5;
+}
+.ft tr:last-child td { border-bottom:none; }
+.ft tr:nth-child(even) td { background:rgba(0,0,0,0.03); }
+.tag {
+  display:inline-block; font-family:'Oswald',sans-serif;
+  font-size:clamp(6px,1vh,8px); font-weight:600; letter-spacing:1px; text-transform:uppercase;
+  padding:2px 6px; border-radius:2px;
+}
+.tag.o { background:rgba(230,126,34,0.15); color:#c87722; }
+.tag.g { background:rgba(39,174,96,0.15);  color:#1e8449; }
+
+.rlist { list-style:none; flex:1; }
+.ri {
+  display:flex; gap:clamp(5px,1.2vw,9px); align-items:flex-start;
+  padding:clamp(4px,0.9vh,7px) 0;
+  border-bottom:1px dashed rgba(0,0,0,0.1);
+}
+.ri:last-child { border-bottom:none; }
+.rico {
+  width:clamp(20px,3.5vw,26px); height:clamp(20px,3.5vw,26px);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:clamp(10px,1.8vw,13px); flex-shrink:0; margin-top:2px;
+}
+.rico.r { background:rgba(192,57,43,0.14); }
+.rico.o { background:rgba(230,126,34,0.14); }
+.rico.y { background:rgba(241,196,15,0.14); }
+.ri h4 {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(9px,1.55vh,12px); font-weight:600;
+  color:var(--ink); margin-bottom:2px;
+}
+.ri p { font-size:clamp(8px,1.4vh,11px); margin:0; line-height:1.6; }
+
+.verdict {
+  background:var(--ink); color:var(--paper);
+  padding:clamp(8px,1.8vh,14px);
+  border-radius:4px; text-align:center; flex-shrink:0;
+}
+.verdict-ico { font-size:clamp(18px,3.2vh,26px); margin-bottom:5px; }
+.verdict h3 {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(11px,2vh,15px); font-weight:700;
+  color:var(--gold); margin-bottom:4px;
+  letter-spacing:1px; text-transform:uppercase;
+}
+.verdict p { font-size:clamp(8px,1.45vh,11px); color:rgba(255,255,255,0.75); margin:0; line-height:1.6; }
+
+.tlist { list-style:none; flex:1; }
+.ti {
+  display:flex; gap:8px; align-items:flex-start;
+  padding:clamp(3px,0.8vh,6px) 0;
+  border-bottom:1px dashed rgba(0,0,0,0.1);
+  font-size:clamp(8px,1.45vh,12px); color:var(--ink2);
+}
+.ti:last-child { border-bottom:none; }
+
+.toclist { list-style:none; flex:1; }
+.tocitem {
+  display:flex; align-items:center; gap:8px;
+  padding:clamp(6px,1.3vh,9px) 0;
+  border-bottom:1px dotted rgba(0,0,0,0.14);
+  cursor:pointer; transition:padding-left 0.2s;
+}
+.tocitem:hover { padding-left:5px; }
+.tocn { font-family:'Special Elite',cursive; font-size:clamp(8px,1.2vh,10px); color:var(--red); width:20px; flex-shrink:0; }
+.toctitle { font-family:'Oswald',sans-serif; font-size:clamp(10px,1.8vh,13px); font-weight:600; color:var(--ink); flex:1; }
+.tocdots { flex:1; height:1px; background:repeating-linear-gradient(90deg,rgba(0,0,0,0.18) 0,rgba(0,0,0,0.18) 3px,transparent 3px,transparent 8px); }
+.tocpg { font-family:'Special Elite',cursive; font-size:clamp(8px,1.2vh,10px); color:#aaa; width:16px; text-align:right; }
+
+.titlepage {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100%; text-align:center; gap:clamp(7px,1.5vh,13px);
+}
+.title-ed { font-family:'Oswald',sans-serif; font-size:clamp(7px,1.1vh,9px); letter-spacing:3px; text-transform:uppercase; color:var(--red); }
+.title-ico { font-size:clamp(36px,7.5vh,50px); }
+.title-main { font-family:'Oswald',sans-serif; font-size:clamp(20px,4.5vh,28px); font-weight:700; color:var(--ink); line-height:1.1; }
+.title-div { width:38px; height:2px; background:var(--red); }
+.title-sub { font-style:italic; font-size:clamp(9px,1.5vh,12px); color:#888; line-height:1.5; }
+.title-pub { font-family:'Special Elite',cursive; font-size:clamp(8px,1.2vh,10px); color:#bbb; margin-top:auto; }
+
+/* ── COVER (hard pages — turn.js 4 depth) ── */
+.cover-spine {
+  width:6px;
+  height:100%;
+  position:absolute;
+  top:0;
+  right:6px;
+  background:-webkit-linear-gradient(left, #4a1810, #2a0c08, #4a1810);
+  background:linear-gradient(to right, #4a1810, #2a0c08, #4a1810);
+  -webkit-transform:rotateY(-90deg);
+  transform:rotateY(-90deg);
+  -webkit-transform-origin:top right;
+  transform-origin:top right;
+  z-index:100;
+  pointer-events:none;
+}
+
+.cover-depth {
+  position:absolute;
+  top:2%;
+  bottom:2%;
+  width:12px;
+  background:linear-gradient(90deg, rgba(0,0,0,0.2), rgba(0,0,0,0.05));
+  pointer-events:none;
+  z-index:1;
+}
+.cover-front .cover-depth { left:4px; }
+.cover-back .cover-depth { right:4px; transform:scaleX(-1); }
+
+.cover-front {
+  background: linear-gradient(160deg, #6b1414 0%, #2a0808 40%, #1c0a04 100%) !important;
+  cursor:pointer;
+}
+.cover-front::before {
+  content:'';
+  position:absolute; inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 3px,rgba(0,0,0,0.07) 3px,rgba(0,0,0,0.07) 4px);
+  pointer-events:none;
+}
+.cover-front::after {
+  content:'';
+  position:absolute; left:20px; top:0; bottom:0; width:2px;
+  background:linear-gradient(180deg,transparent,var(--gold),transparent);
+  opacity:0.5;
+  pointer-events:none;
+}
+.cover-back {
+  background: linear-gradient(160deg, #1c0a04 0%, #2a0808 60%, #6b1414 100%) !important;
+}
+.cover-back-in {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100%; text-align:center; padding:30px;
+}
+.cover-back-in .title-ico { font-size:clamp(28px,6vh,42px); margin-bottom:12px; }
+.cover-back-in p {
+  font-family:'Special Elite',cursive;
+  font-size:clamp(11px,1.8vh,15px); color:rgba(255,255,255,0.45);
+  font-style:italic; line-height:1.7;
+}
+
+/* ── CLOSING NOTE PAGE ── */
+.page-closing .pg-body {
+  background:var(--paper);
+}
+.closing-note {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100%; text-align:center;
+  padding:clamp(16px,4vh,32px);
+  gap:clamp(8px,2vh,16px);
+}
+.closing-emoji {
+  font-size:clamp(52px,12vh,80px);
+  line-height:1;
+  animation:popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes popIn {
+  from { transform:scale(0.4); opacity:0; }
+  to   { transform:scale(1);   opacity:1; }
+}
+.closing-note h2 {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(22px,5vh,36px); font-weight:700;
+  color:var(--ink); margin:0;
+}
+.closing-div {
+  width:clamp(40px,8vw,60px); height:3px;
+  background:var(--red); border-radius:2px;
+}
+.closing-note p {
+  font-size:clamp(12px,2.2vh,17px); line-height:1.75;
+  color:var(--ink2); max-width:90%; margin:0;
+}
+.closing-badge {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(10px,1.8vh,13px); font-weight:600;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--ok); border:2px solid var(--ok);
+  padding:clamp(6px,1.2vh,10px) clamp(14px,3vw,22px);
+  border-radius:3px; margin-top:clamp(4px,1vh,8px);
+}
+.closing-hint {
+  font-family:'Special Elite',cursive !important;
+  font-size:clamp(10px,1.6vh,13px) !important;
+  color:#aaa !important; font-style:italic;
+  margin-top:auto !important;
+  animation:blink 2s ease-in-out infinite;
+}
+
+.cover-in {
+  position:relative; z-index:1;
+  padding:clamp(22px,5vh,34px) clamp(16px,3vw,24px) clamp(16px,3.5vh,24px) clamp(20px,4vw,30px);
+  height:100%; display:flex; flex-direction:column;
+}
+.c-badge {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(6px,1vh,8px); letter-spacing:3px; text-transform:uppercase;
+  color:var(--gold); border:1px solid var(--gold);
+  display:inline-block; padding:3px 9px;
+  margin-bottom:clamp(10px,2.5vh,18px); opacity:.8; width:fit-content;
+}
+.c-title {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(26px,5.5vh,40px); font-weight:700; line-height:1.05;
+  color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.8);
+  margin-bottom:5px;
+}
+.c-sub {
+  font-style:italic; font-size:clamp(9px,1.5vh,12px);
+  color:rgba(255,255,255,0.5); margin-bottom:clamp(8px,1.8vh,14px);
+}
+.c-div { width:48px; height:2px; background:linear-gradient(90deg,var(--gold),transparent); margin-bottom:clamp(8px,1.8vh,14px); }
+.c-ico {
+  font-size:clamp(38px,8vh,56px);
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+  flex:1; display:flex; align-items:center;
+}
+.c-list {
+  margin-top:auto;
+  border-top:1px solid rgba(201,168,76,0.3);
+  padding-top:clamp(8px,1.8vh,12px);
+}
+.c-list p { font-size:clamp(6px,1vh,8px); color:rgba(255,255,255,0.35); letter-spacing:2px; text-transform:uppercase; margin-bottom:5px; font-family:'Oswald',sans-serif; }
+.c-list ul { list-style:none; }
+.c-list li { font-size:clamp(8px,1.4vh,10px); color:rgba(255,255,255,0.55); padding:2px 0 2px 12px; position:relative; }
+.c-list li::before { content:'—'; position:absolute; left:0; color:var(--gold); font-size:9px; }
+.c-cta {
+  position:absolute;
+  bottom:clamp(12px,2.5vh,18px); right:clamp(12px,2.5vw,18px);
+  background:var(--gold); color:#1c0a04;
+  font-family:'Oswald',sans-serif; font-size:clamp(7px,1.2vh,9px);
+  font-weight:600; letter-spacing:2px; text-transform:uppercase;
+  padding:5px 12px; border-radius:2px;
+  animation:blink 2s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+/* ── NAV ── */
+#nav {
+  position:fixed; bottom:0; left:0; right:0;
+  display:none;
+  align-items:center; justify-content:center;
+  gap:16px; padding:10px 20px 14px;
+  background:linear-gradient(to top, rgba(255,255,255,0.75) 0%, transparent 100%);
+  z-index:100;
+}
+.nbtn {
+  background:rgba(255,255,255,0.85);
+  border:1px solid rgba(0,0,0,0.12);
+  color:#444;
+  font-family:'Oswald',sans-serif; font-size:11px;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:8px 20px; cursor:pointer; border-radius:2px;
+  transition:all 0.2s;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+.nbtn:hover { background:#fff; color:#1e1410; }
+.nbtn:disabled { opacity:0.35; cursor:default; }
+.nind {
+  font-family:'Special Elite',cursive;
+  font-size:12px; color:#666;
+  min-width:130px; text-align:center;
+}
+
+#hint {
+  position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+  font-family:'Oswald',sans-serif; font-size:9px;
+  letter-spacing:3px; text-transform:uppercase;
+  color:rgba(0,0,0,0.35); white-space:nowrap;
+  pointer-events:none; transition:opacity 0.5s;
+}
+
+/* turn.js 4 loading state */
+#flipbook.loading { visibility:hidden; }
+
+#flipbook.animated {
+  -webkit-transition:margin-left 0.2s ease-in-out;
+  transition:margin-left 0.2s ease-in-out;
+}
+
+/* overlay sampul — tampil saat buku tertutup, tanpa ganti mode turn.js */
+.cover-screen {
+  position:absolute;
+  left:50%; top:0;
+  transform:translateX(-50%);
+  z-index:60;
+  cursor:pointer;
+  border-radius:2px 8px 8px 2px;
+  filter:drop-shadow(4px 8px 24px rgba(0,0,0,0.28)) drop-shadow(12px 24px 48px rgba(0,0,0,0.18));
+  overflow:hidden;
+  transition:opacity 0.35s ease, visibility 0.35s ease;
+}
+.cover-screen.is-hidden {
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<div class="flipbook-viewport">
+  <div class="container">
+    <div class="book-shell">
+      <div id="flipbook" class="loading">
+
+    <!-- PAGE 1: Front Cover (hard) -->
+    <div depth="8" class="hard cover-front">
+      <div class="cover-spine"></div>
+      <div class="cover-depth"></div>
+      <div class="cover-in">
+        <span class="c-badge">Panduan Kendaraan</span>
+        <div class="c-title">BUKU<br>PINTAR<br>BENSIN</div>
+        <div class="c-sub">Panduan Lengkap RON & Oktan</div>
+        <div class="c-div"></div>
+        <div class="c-ico">⛽</div>
+        <div class="c-list">
+          <p>Isi Panduan</p>
+          <ul>
+            <li>Apa itu RON & Oktan</li>
+            <li>Bahaya Mencampur BBM</li>
+            <li>Risiko Mesin & Knocking</li>
+            <li>Panduan Kondisi Darurat</li>
+          </ul>
+        </div>
+      </div>
+      <div class="c-cta">Buka →</div>
+    </div>
+
+    <!-- PAGE 2: Title -->
+    <div class="page">
+      <div class="pg-body">
+        <div class="titlepage">
+          <div class="title-ed">Edisi Pertama</div>
+          <div class="title-ico">⛽</div>
+          <div class="title-main">BUKU PINTAR<br>BENSIN</div>
+          <div class="title-div"></div>
+          <div class="title-sub">Panduan Lengkap RON & Oktan<br>untuk Pemilik Kendaraan</div>
+          <div class="title-pub">Pusat Informasi Otomotif Indonesia</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3: Daftar Isi -->
+    <div class="page">
+      <div class="pg-body lined">
+        <div class="ph"><span class="ph-ch">Daftar Isi</span><span class="ph-n">i</span></div>
+        <h2>Isi Buku</h2>
+        <p style="font-size:clamp(8px,1.35vh,11px);color:#aaa;font-style:italic;margin-bottom:8px;flex-shrink:0;">Ketuk bab untuk langsung menuju halaman</p>
+        <ul class="toclist">
+          <li class="tocitem" data-page="4"><span class="tocn">01</span><span class="toctitle">Apa itu RON?</span><span class="tocdots"></span><span class="tocpg">1</span></li>
+          <li class="tocitem" data-page="5"><span class="tocn">02</span><span class="toctitle">Bahaya Mencampur</span><span class="tocdots"></span><span class="tocpg">2</span></li>
+          <li class="tocitem" data-page="6"><span class="tocn">03</span><span class="toctitle">Risiko Mesin</span><span class="tocdots"></span><span class="tocpg">3</span></li>
+          <li class="tocitem" data-page="7"><span class="tocn">04</span><span class="toctitle">Kondisi Darurat</span><span class="tocdots"></span><span class="tocpg">4</span></li>
+          <li class="tocitem" data-page="8"><span class="tocn">05</span><span class="toctitle">Kesimpulan & Tips</span><span class="tocdots"></span><span class="tocpg">5</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PAGE 4: RON -->
+    <div class="page">
+      <div class="pg-body">
+        <div class="ph"><span class="ph-ch">Bab 01 — Dasar</span><span class="ph-n">1</span></div>
+        <h2>Apa itu RON?</h2>
+        <p style="font-size:clamp(8px,1.3vh,11px);color:#aaa;font-style:italic;margin-bottom:8px;flex-shrink:0;">Research Octane Number</p>
+        <p><span class="drop">R</span>ON adalah angka yang menunjukkan kemampuan bahan bakar menahan tekanan sebelum terbakar otomatis. Makin tinggi angkanya, makin tahan terhadap kompresi tinggi.</p>
+        <table class="ft">
+          <thead><tr><th>Nama BBM</th><th>RON</th><th>Untuk Mesin</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Pertalite</strong></td><td><span class="tag o">RON 90</span></td><td>Kompresi rendah ≤ 9:1</td></tr>
+            <tr><td><strong>Pertamax</strong></td><td><span class="tag g">RON 92</span></td><td>Kompresi sedang ≤ 10:1</td></tr>
+            <tr><td><strong>Pertamax Turbo</strong></td><td><span class="tag g">RON 98</span></td><td>Kompresi tinggi / turbo</td></tr>
+          </tbody>
+        </table>
+        <div class="box info">
+          <div class="box-title">📌 Cara Tahu Kebutuhan Mesin</div>
+          <p>Lihat buku manual kendaraan atau label di tutup tangki. Pabrikan selalu mencantumkan RON minimum yang direkomendasikan.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 5: Bahaya -->
+    <div class="page">
+      <div class="pg-body lined">
+        <div class="ph"><span class="ph-ch">Bab 02 — Peringatan</span><span class="ph-n">2</span></div>
+        <h2>Bahaya Mencampur Oktan</h2>
+        <p>Mencampur RON 90 (Pertalite) dan RON 92 (Pertamax) secara umum <strong>tidak disarankan oleh pabrikan</strong> kendaraan.</p>
+        <div class="box">
+          <div class="box-title">⚠️ Tidak Ada Manfaat</div>
+          <p>Mencampur dua oktan berbeda <strong>tidak</strong> meningkatkan performa. Zat aditif pembersih pada RON 92 justru menjadi encer dan kurang efektif saat dicampur RON 90.</p>
+        </div>
+        <h3>Apa yang Sebenarnya Terjadi?</h3>
+        <p>Campuran menghasilkan oktan rata-rata tidak pasti. Jika di bawah kebutuhan mesin, ECU kesulitan mengatur timing pengapian secara optimal.</p>
+        <div class="box warn">
+          <div class="box-title">🔬 Soal Aditif</div>
+          <p>Pertamax mengandung zat pembersih katup dan injektor. Ketika dicampur Pertalite, konsentrasinya turun drastis sehingga manfaat pembersih ikut hilang.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 6: Risiko -->
+    <div class="page">
+      <div class="pg-body">
+        <div class="ph"><span class="ph-ch">Bab 03 — Risiko</span><span class="ph-n">3</span></div>
+        <h2>Risiko pada Mesin</h2>
+        <ul class="rlist">
+          <li class="ri">
+            <div class="rico r">💥</div>
+            <div>
+              <h4>Knocking / Ngelitik</h4>
+              <p>Mayoritas mobil Honda modern perlu RON 92 minimal. Jika oktan kurang, pembakaran terjadi sebelum waktunya — memicu suara ketukan yang merusak piston jangka panjang.</p>
+            </div>
+          </li>
+          <li class="ri">
+            <div class="rico o">🔥</div>
+            <div>
+              <h4>Tenaga Menurun</h4>
+              <p>Pembakaran kurang optimal membuat tenaga tidak maksimal. Akselerasi terasa lebih berat dari biasanya.</p>
+            </div>
+          </li>
+          <li class="ri">
+            <div class="rico o">🫧</div>
+            <div>
+              <h4>Kerak Karbon</h4>
+              <p>Kebiasaan mencampur meninggalkan residu pada ruang bakar dan kepala busi, membuat tarikan berat dan konsumsi BBM lebih boros.</p>
+            </div>
+          </li>
+          <li class="ri">
+            <div class="rico y">⏱️</div>
+            <div>
+              <h4>Dampak Jangka Panjang</h4>
+              <p>Mesin tidak rusak instan, namun knocking berulang mempercepat keausan komponen internal secara signifikan.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PAGE 7: Darurat -->
+    <div class="page">
+      <div class="pg-body lined">
+        <div class="ph"><span class="ph-ch">Bab 04 — Pengecualian</span><span class="ph-n">4</span></div>
+        <h2>Kondisi Darurat</h2>
+        <p>Bagaimana jika terpaksa? Misal bensin hampir habis dan RON 92 tidak ada di SPBU terdekat?</p>
+        <div class="box ok">
+          <div class="box-title">✅ Sekali Tidak Apa-apa</div>
+          <p>Mencampur <strong>sesekali karena terpaksa</strong> tidak akan merusak mesin secara langsung. Ini bukan alasan untuk menjadikan kebiasaan.</p>
+        </div>
+        <h3>Panduan Darurat</h3>
+        <table class="ft">
+          <thead><tr><th>Situasi</th><th>Tindakan</th></tr></thead>
+          <tbody>
+            <tr><td>RON 92 kosong, hampir habis</td><td>Isi sedikit RON 90 untuk sampai SPBU berikutnya</td></tr>
+            <tr><td>Terlanjur isi RON 90 penuh</td><td>Gunakan normal, hindari RPM tinggi</td></tr>
+            <tr><td>Mesin sudah ngelitik</td><td>Segera isi RON 92+, periksa busi</td></tr>
+          </tbody>
+        </table>
+        <div class="box warn">
+          <div class="box-title">⚠️ Jangan Jadikan Kebiasaan</div>
+          <p>Kondisi darurat adalah pengecualian, bukan strategi harian.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 8: Kesimpulan -->
+    <div class="page">
+      <div class="pg-body">
+        <div class="ph"><span class="ph-ch">Bab 05 — Penutup</span><span class="ph-n">5</span></div>
+        <h2>Kesimpulan & Tips</h2>
+        <div class="verdict">
+          <div class="verdict-ico">📋</div>
+          <h3>Vonis: Tidak Disarankan</h3>
+          <p>Mencampur bensin beda oktan secara rutin tidak memberikan manfaat apapun, namun memberikan risiko nyata pada mesin kendaraan Anda.</p>
+        </div>
+        <h3>Tips Mudah</h3>
+        <ul class="tlist">
+          <li class="ti"><span style="color:var(--ok);flex-shrink:0;">✓</span><span>Selalu gunakan <strong>satu jenis BBM</strong> secara konsisten</span></li>
+          <li class="ti"><span style="color:var(--ok);flex-shrink:0;">✓</span><span>Cek <strong>buku manual</strong> untuk RON minimum kendaraan Anda</span></li>
+          <li class="ti"><span style="color:var(--ok);flex-shrink:0;">✓</span><span>Jika mesin ngelitik, segera isi <strong>RON lebih tinggi</strong></span></li>
+          <li class="ti"><span style="color:var(--red);flex-shrink:0;">✗</span><span>Jangan campur untuk <strong>"meningkatkan performa"</strong> — tidak berhasil</span></li>
+          <li class="ti"><span style="color:var(--red);flex-shrink:0;">✗</span><span>Jangan jadikan <strong>kebiasaan rutin</strong> mencampur beda oktan</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PAGE 9: Closing Note -->
+    <div class="page page-closing">
+      <div class="pg-body">
+        <div class="closing-note">
+          <div class="closing-emoji">😊</div>
+          <h2>Sudah Ngerti Kan?</h2>
+          <div class="closing-div"></div>
+          <p>Kamu sekarang tahu kalau <strong>mencampur bensin beda oktan</strong> nggak ada manfaatnya — malah bisa bikin mesin ngelitik!</p>
+          <p>Gunakan BBM sesuai rekomendasi pabrikan.<br>Mesin kamu pasti senang 🚗✨</p>
+          <div class="closing-badge">✓ Baca Selesai</div>
+          <p class="closing-hint">Geser halaman untuk menutup buku →</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 10: Back Cover (hard) — tutup buku -->
+    <div depth="8" class="hard cover-back">
+      <div class="cover-depth"></div>
+      <div class="cover-back-in">
+        <div class="title-ico">⛽</div>
+        <p>Buku Pintar Bensin<br>Edisi Pertama · 2026</p>
+      </div>
+    </div>
+
+      </div>
+
+      <!-- Overlay sampul depan (tutup) -->
+      <div id="cover-front-screen" class="cover-screen hard cover-front">
+        <div class="cover-spine"></div>
+        <div class="cover-depth"></div>
+        <div class="cover-in">
+          <span class="c-badge">Panduan Kendaraan</span>
+          <div class="c-title">BUKU<br>PINTAR<br>BENSIN</div>
+          <div class="c-sub">Panduan Lengkap RON & Oktan</div>
+          <div class="c-div"></div>
+          <div class="c-ico">⛽</div>
+          <div class="c-list">
+            <p>Isi Panduan</p>
+            <ul>
+              <li>Apa itu RON & Oktan</li>
+              <li>Bahaya Mencampur BBM</li>
+              <li>Risiko Mesin & Knocking</li>
+              <li>Panduan Kondisi Darurat</li>
+            </ul>
+          </div>
+        </div>
+        <div class="c-cta">Buka →</div>
+      </div>
+
+      <!-- Overlay sampul belakang (tutup) -->
+      <div id="cover-back-screen" class="cover-screen hard cover-back is-hidden">
+        <div class="cover-depth"></div>
+        <div class="cover-back-in">
+          <div class="title-ico">⛽</div>
+          <p>Buku Pintar Bensin<br>Edisi Pertama · 2026</p>
+        </div>
+      </div>
+
+    </div><!-- /book-shell -->
+  </div><!-- /container -->
+</div><!-- /flipbook-viewport -->
+
+<div id="hint">✦ ketuk sampul atau geser sudut halaman untuk membuka ✦</div>
+
+<div id="nav">
+  <button class="nbtn" id="prevBtn">← Prev</button>
+  <span class="nind" id="nind">Sampul</span>
+  <button class="nbtn" id="nextBtn">Next →</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="5396f77366f55-turnjs4/turnjs4/lib/turn.min.js"></script>
+<script>
+(function ($) {
+  var TOTAL = 10;
+  var PAGE_RATIO = 0.72;
+  var $flipbook = $('#flipbook');
+  var $container = $('.flipbook-viewport .container');
+  var $bookShell = $('.book-shell');
+  var $frontScreen = $('#cover-front-screen');
+  var $backScreen = $('#cover-back-screen');
+  var $nav = $('#nav');
+  var $hint = $('#hint');
+  var $prevBtn = $('#prevBtn');
+  var $nextBtn = $('#nextBtn');
+  var $nind = $('#nind');
+
+  var labels = [
+    'Sampul',
+    'Halaman Judul',
+    'Daftar Isi',
+    'Halaman 1 / 5',
+    'Halaman 2 / 5',
+    'Halaman 3 / 5',
+    'Halaman 4 / 5',
+    'Halaman 5 / 5',
+    'Catatan Penutup',
+    'Sampul Belakang'
+  ];
+
+  function getSize() {
+    var maxW = window.innerWidth  * 0.92;
+    var maxH = (window.innerHeight - 70) * 0.88;
+    var pageH = maxH;
+    var pageW = Math.round(pageH * PAGE_RATIO);
+    var spreadW = pageW * 2;
+    if (spreadW > maxW) {
+      spreadW = Math.round(maxW);
+      pageW = Math.round(spreadW / 2);
+      pageH = Math.round(pageW / PAGE_RATIO);
+    }
+    return { w: spreadW, h: pageH, pageW: pageW };
+  }
+
+  function positionFlipbook(size) {
+    $container.css({
+      width: size.w + 'px',
+      height: size.h + 'px',
+      marginLeft: (-size.w / 2) + 'px',
+      marginTop: (-size.h / 2) + 'px'
+    });
+    $flipbook.css({
+      width: size.w + 'px',
+      height: size.h + 'px',
+      marginTop: 0
+    });
+    $frontScreen.add($backScreen).css({
+      width: size.pageW + 'px',
+      height: size.h + 'px'
+    });
+    $('.cover-spine').css('right', Math.round(size.pageW * 0.02) + 'px');
+  }
+
+  function showFrontCover() {
+    $frontScreen.removeClass('is-hidden');
+    $backScreen.addClass('is-hidden');
+    $flipbook.css('visibility', 'hidden');
+    $bookShell.removeClass('is-open');
+    updateNav(1);
+  }
+
+  function showBackCover() {
+    $backScreen.removeClass('is-hidden');
+    $frontScreen.addClass('is-hidden');
+    $flipbook.css('visibility', 'hidden');
+    $bookShell.removeClass('is-open');
+  }
+
+  function hideCoverScreens() {
+    $frontScreen.addClass('is-hidden');
+    $backScreen.addClass('is-hidden');
+    $flipbook.css('visibility', 'visible');
+  }
+
+  function openFromCover() {
+    if ($flipbook.turn('page') !== 1) return;
+    hideCoverScreens();
+    $flipbook.turn('next');
+  }
+
+  function setBookOpenState(page) {
+    if (page > 1 && page < TOTAL) {
+      $bookShell.addClass('is-open');
+    } else {
+      $bookShell.removeClass('is-open');
+    }
+  }
+
+  function updateNav(page) {
+    page = page || $flipbook.turn('page');
+    $prevBtn.prop('disabled', page <= 1);
+
+    if (page === TOTAL) {
+      $nextBtn.prop('disabled', false).text('Buka Lagi →');
+      $nind.text('Buku Ditutup');
+      $nav.css('display', 'flex');
+      $hint.css('opacity', '0');
+    } else if (page === TOTAL - 1) {
+      $nextBtn.prop('disabled', false).text('Tutup Buku →');
+      $nind.text(labels[page - 1] || '');
+      $nav.css('display', 'flex');
+      $hint.css('opacity', '0');
+    } else {
+      $nextBtn.prop('disabled', page >= TOTAL).text('Next →');
+      $nind.text(labels[page - 1] || '');
+      if (page > 1) {
+        $nav.css('display', 'flex');
+        $hint.css('opacity', '0');
+      } else {
+        $nav.css('display', 'none');
+        $hint.css('opacity', '1');
+      }
+    }
+  }
+
+  function reopenBook() {
+    hideCoverScreens();
+    $flipbook.turn('stop');
+    $flipbook.turn('page', 1);
+    showFrontCover();
+    $hint.css('opacity', '1');
+    $nav.css('display', 'none');
+  }
+
+  function loadApp() {
+    var size = getSize();
+    positionFlipbook(size);
+
+    if ($flipbook.width() === 0 || $flipbook.height() === 0) {
+      setTimeout(loadApp, 10);
+      return;
+    }
+
+    if ($flipbook.turn('is')) {
+      $flipbook.turn('destroy');
+    }
+
+    $flipbook.turn({
+      width: size.w,
+      height: size.h,
+      display: 'double',
+      autoCenter: true,
+      gradients: true,
+      elevation: 50,
+      acceleration: true,
+      duration: 1000,
+      when: {
+        turning: function (e, page) {
+          var book = $(this);
+          var current = book.turn('page');
+
+          if (page < 1 || page > TOTAL) {
+            e.preventDefault();
+            return;
+          }
+
+          /* saat mulai buka/tutup, sembunyikan overlay */
+          if (current === 1 && page > 1) hideCoverScreens();
+          if (current === TOTAL && page < TOTAL) hideCoverScreens();
+
+          setBookOpenState(page);
+        },
+        turned: function (e, page) {
+          if (page === 1) {
+            showFrontCover();
+          } else if (page === TOTAL) {
+            showBackCover();
+            updateNav(page);
+          } else {
+            hideCoverScreens();
+            setBookOpenState(page);
+            updateNav(page);
+            if (page === 2 || page === 3) {
+              setTimeout(function () { $flipbook.turn('peel', 'br'); }, 80);
+            }
+          }
+          $flipbook.turn('center');
+        },
+        end: function () {
+          $flipbook.turn('center');
+        }
+      }
+    });
+
+    $flipbook.removeClass('loading').addClass('animated');
+    $flipbook.turn('center');
+    showFrontCover();
+  }
+
+  var resizeTimer;
+  $(window).on('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      var size = getSize();
+      positionFlipbook(size);
+      if ($flipbook.turn('is')) {
+        $flipbook.turn('size', size.w, size.h);
+        $flipbook.turn('center');
+      }
+    }, 200);
+  });
+
+  $prevBtn.on('click', function () {
+    $flipbook.turn('previous');
+  });
+  $nextBtn.on('click', function () {
+    var page = $flipbook.turn('page');
+    if (page === TOTAL) {
+      reopenBook();
+    } else {
+      $flipbook.turn('next');
+    }
+  });
+
+  $('.tocitem').on('click', function () {
+    var page = parseInt($(this).data('page'), 10);
+    if (page) $flipbook.turn('page', page);
+  });
+
+  $(document).on('keydown', function (e) {
+    if (e.keyCode === 37) $flipbook.turn('previous');
+    if (e.keyCode === 39) $flipbook.turn('next');
+  });
+
+  $frontScreen.on('click', openFromCover);
+  $backScreen.on('click', reopenBook);
+
+  $(document).ready(loadApp);
+
+})(jQuery);
+</script>
+</body>
+</html>

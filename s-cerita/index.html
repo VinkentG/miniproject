@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06315c">
+<title>Di Bawah yang Biru — untuk S</title>
+<meta name="description" content="Sebuah cerita ulang tahun untuk S. Setiap bab menunggu satu gerakan.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.86em' font-size='86'%3E🐬%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,620;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f3fbff;
+    --muted: rgba(232, 246, 255, 0.78);
+    --line: rgba(214, 238, 255, 0.38);
+    --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+    --sans: "Outfit", "Avenir Next", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: #041525; color: var(--ink); font-family: var(--sans); overflow: hidden; }
+  button { font-family: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  img { display: block; user-select: none; -webkit-user-drag: none; }
+  #veil {
+    position: fixed; inset: 0; z-index: 40; display: grid; place-items: center;
+    background: #041525; transition: opacity .8s ease;
+  }
+  #veil.off { opacity: 0; pointer-events: none; }
+  #veil p { font-family: var(--serif); font-style: italic; font-size: 1.4rem; letter-spacing: -0.02em; }
+  #app { position: fixed; inset: 0; }
+  .bg {
+    position: absolute; inset: -5%;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.15s ease;
+    animation: ken 32s ease-in-out infinite alternate;
+  }
+  .bg.on { opacity: 1; }
+  @keyframes ken { from { transform: scale(1); } to { transform: scale(1.07); } }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse at center, transparent 40%, rgba(2, 8, 20, 0.45) 100%),
+      linear-gradient(180deg, rgba(2, 10, 24, 0.2), transparent 18%, transparent 62%, rgba(2, 10, 24, 0.35));
+  }
+  #fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #hero, .pod, #leap {
+    position: absolute; left: 0; top: 0; z-index: 3;
+    width: min(52vw, 520px); height: auto;
+    filter: drop-shadow(0 18px 18px rgba(2, 16, 36, 0.35));
+    will-change: transform;
+    pointer-events: none;
+  }
+  #hero img, .pod img { width: 100%; height: auto; transform-origin: 50% 55%; }
+  #hero.bob img, .pod.bob img { animation: bob 4.8s ease-in-out infinite; }
+  .pod.flip img { transform: scaleX(-1); }
+  .pod.flip.bob img { animation: bobFlip 4.8s ease-in-out infinite; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+    50% { transform: translateY(-12px) rotate(1.8deg); }
+  }
+  @keyframes bobFlip {
+    0%, 100% { transform: scaleX(-1) translateY(0) rotate(1.5deg); }
+    50% { transform: scaleX(-1) translateY(-12px) rotate(-1.8deg); }
+  }
+  #hero.drag, .pod.drag { pointer-events: auto; cursor: grab; touch-action: none; }
+  #hero.drag.grabbing, .pod.drag.grabbing { cursor: grabbing; }
+  #hero.face img { transform: scaleX(-1); }
+  #hero.bob.face img { animation: bobFlip 4.8s ease-in-out infinite; }
+  #hero.grabbing.face img, #hero.grabbing img { animation: none; }
+  #leap {
+    width: min(46vw, 420px); opacity: 0; pointer-events: none; z-index: 4;
+  }
+  #leap.go { animation: arc 1.7s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes arc {
+    0% { opacity: 0; transform: translate(8vw, 58vh) rotate(-18deg) scale(.9); }
+    18% { opacity: 1; }
+    100% { opacity: 0; transform: translate(58vw, 8vh) rotate(16deg) scale(1.05); }
+  }
+  .nest, .slot, .pearl, .sdot {
+    position: absolute; z-index: 4;
+  }
+  .nest, .slot {
+    width: 118px; height: 118px; margin: -59px 0 0 -59px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(244, 252, 255, 0.75);
+    background: radial-gradient(circle, rgba(190, 236, 255, 0.16), transparent 68%);
+    display: grid; place-items: center;
+    font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+    text-shadow: 0 2px 8px rgba(0,0,0,.4);
+    animation: breathe 3.4s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: .88; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+  .nest.filled, .slot.filled { animation: none; border-style: solid; background: radial-gradient(circle, rgba(210, 244, 255, 0.28), transparent 70%); }
+  .pearl {
+    width: 54px; height: 54px; margin: -27px 0 0 -27px;
+    border-radius: 50%;
+    background: url("assets/pearl.png") center/cover no-repeat;
+    opacity: .42; filter: saturate(.7) brightness(.85);
+    transition: opacity .45s ease, transform .45s ease, filter .45s ease;
+    pointer-events: none;
+  }
+  .pearl.on {
+    opacity: 1; filter: none; transform: scale(1.08);
+    box-shadow: 0 0 24px rgba(190, 236, 255, .85);
+  }
+  #trace {
+    position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none;
+  }
+  header.top {
+    position: absolute; top: calc(14px + env(safe-area-inset-top));
+    left: 18px; right: 18px; z-index: 6;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    pointer-events: none;
+  }
+  .mark { font-family: var(--serif); font-style: italic; font-size: 1.25rem; text-shadow: 0 2px 12px rgba(0,0,0,.45); }
+  .dots { display: flex; gap: 7px; align-items: center; }
+  .dots i {
+    width: 7px; height: 7px; border-radius: 50%; display: block;
+    background: rgba(255,255,255,.35);
+  }
+  .dots i.on { background: #fff; box-shadow: 0 0 8px #fff; }
+  .dots i.now { transform: scale(1.45); background: #d7f4ff; }
+  #mute {
+    pointer-events: auto; min-height: 36px; padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--line); background: rgba(4, 20, 40, .35);
+    backdrop-filter: blur(8px); font-size: .75rem; letter-spacing: .04em;
+  }
+  .sheet {
+    position: absolute; z-index: 7;
+    left: 50%; bottom: calc(16px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(580px, calc(100% - 24px));
+  }
+  .sheet-in {
+    padding: 22px 22px 18px;
+    border-radius: 26px;
+    background: linear-gradient(180deg, rgba(236, 248, 255, .18), rgba(5, 22, 44, .62));
+    border: 1px solid var(--line);
+    box-shadow: 0 20px 60px rgba(1, 8, 20, .35);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .sheet-in.show { animation: sheetIn .7s cubic-bezier(.22,.8,.3,1) both; }
+  @keyframes sheetIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+  }
+  .kicker {
+    font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; font-weight: 500;
+    opacity: .75; margin-bottom: 6px;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 560; letter-spacing: -0.03em;
+    font-size: clamp(1.7rem, 4.4vw, 2.45rem); line-height: 1.05; margin-bottom: 8px;
+  }
+  .line { font-weight: 300; line-height: 1.5; color: var(--muted); font-size: 1.02rem; max-width: 38em; }
+  .wish-list { margin-top: 10px; display: grid; gap: 4px; }
+  .wish-list p { font-family: var(--serif); font-style: italic; font-size: 1.05rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; align-items: center; }
+  .primary, .ghost, .hold {
+    min-height: 48px; border-radius: 999px; padding: 12px 18px; font-weight: 560;
+  }
+  .primary {
+    background: linear-gradient(180deg, #f5fcff, #8fd4ff);
+    color: #06325c;
+  }
+  .ghost { border: 1px solid var(--line); background: rgba(255,255,255,.06); }
+  .hold { position: relative; overflow: hidden; min-width: 200px; background: rgba(255,255,255,.08); border: 1px solid var(--line); }
+  .hold i {
+    position: absolute; inset: 0; transform-origin: left center;
+    background: linear-gradient(90deg, rgba(160, 220, 255, .15), rgba(190, 240, 255, .55));
+    width: calc(var(--p, 0) * 100%); pointer-events: none;
+  }
+  .hold span { position: relative; }
+  .tap {
+    width: 84px; height: 84px; border-radius: 50%;
+    border: 1px solid rgba(230, 248, 255, .7);
+    background: radial-gradient(circle at 40% 35%, rgba(255,255,255,.45), rgba(120, 190, 255, .15) 42%, transparent 70%);
+    font-family: var(--serif); font-style: italic; font-size: 1.05rem;
+    box-shadow: 0 0 0 0 rgba(190, 230, 255, .45);
+  }
+  .tap.pulse { animation: pulse .7s ease; }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(210, 244, 255, .55); transform: scale(1); }
+    100% { box-shadow: 0 0 0 18px rgba(210, 244, 255, 0); transform: scale(1.04); }
+  }
+  .beats { display: flex; gap: 8px; }
+  .beats b {
+    width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.3); display: block;
+  }
+  .beats b.hit { background: #fff; box-shadow: 0 0 8px #fff; }
+  .meter {
+    width: 100%; height: 14px; border-radius: 999px; position: relative;
+    background: rgba(255,255,255,.12); overflow: hidden; border: 1px solid var(--line);
+  }
+  .meter .zone {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 34%;
+    background: linear-gradient(90deg, rgba(255,255,255,.15), rgba(226, 248, 255, .85));
+  }
+    .meter .marker {
+    position: absolute; top: 1px; bottom: 1px; width: 14px; margin-left: -7px;
+    border-radius: 999px; background: #fff;
+    box-shadow: 0 0 12px #fff;
+    animation: travel 2.1s linear infinite;
+  }
+  @keyframes travel { from { left: 100%; } to { left: 0%; } }
+  #next[hidden], #finale[hidden], .nest[hidden], .slot[hidden], #leap[hidden] { display: none !important; }
+  #finale {
+    position: absolute; inset: 0; z-index: 8;
+    display: grid; place-items: end center;
+    padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, rgba(3,16,32,0) 20%, rgba(3,14,28,.72));
+  }
+  #finale .card { width: min(560px, 100%); text-align: left; }
+  #finale h2 {
+    font-family: var(--serif); font-weight: 560; letter-spacing: -0.03em;
+    font-size: clamp(2.1rem, 6vw, 3.3rem); line-height: 1.02; margin: 6px 0 10px;
+  }
+  @media (max-height: 700px) {
+    .sheet-in { padding: 14px 14px 12px; }
+    h1 { font-size: 1.45rem; }
+    .nest, .slot { width: 92px; height: 92px; margin: -46px 0 0 -46px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bg, #hero.bob img, #hero.bob.face img, .pod.bob img, .pod.flip.bob img,
+    .sheet-in.show, #leap.go, .meter .marker, .nest, .slot { animation: none; }
+    .bg, .pearl, #veil { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div id="veil"><p>Laut sedang terbuka…</p></div>
+<div id="app" hidden>
+  <div class="bg" id="bgA"></div>
+  <div class="bg" id="bgB"></div>
+  <div class="vignette"></div>
+  <canvas id="fx"></canvas>
+  <div id="hero" class="bob"><img src="assets/dolphin.png" alt=""></div>
+  <img id="leap" src="assets/dolphin-leap.png" alt="" hidden>
+  <div id="extras"></div>
+  <svg id="trace" aria-hidden="true"></svg>
+  <header class="top">
+    <p class="mark">Untuk S</p>
+    <div class="dots" id="dots"></div>
+    <button id="mute" type="button" aria-pressed="false">Bisukan</button>
+  </header>
+  <section class="sheet">
+    <div class="sheet-in" id="sheetIn">
+      <p class="kicker" id="kicker"></p>
+      <h1 id="title"></h1>
+      <p class="line" id="line" aria-live="polite"></p>
+      <div class="wish-list" id="wishes" hidden></div>
+      <div class="actions" id="actions"></div>
+    </div>
+  </section>
+  <div id="finale" hidden>
+    <div class="card sheet-in">
+      <p class="kicker">dari kawanan biru</p>
+      <h2>Selamat ulang tahun, S.</h2>
+      <p class="line">Laut ini sengaja biru, karena itu warna yang paling kamu cintai. Tahun ini berenanglah sejauh yang kamu mau — dan jangan sendirian.</p>
+      <div class="actions">
+        <button class="primary" id="restart" type="button">Baca dari awal</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const CHAPTERS = [
+    {
+      bg: "assets/bg-surface.jpg",
+      kicker: "Bab satu",
+      title: "Di atas yang tenang",
+      line: "Pagi ini lautnya hampir tidak bergerak. Di bawah permukaan, ada yang biru dan sedang menunggumu.",
+      done: "Kamu sudah di bawah. Airnya lebih terang dari yang kamu kira."
+    },
+    {
+      bg: "assets/bg-shallow.jpg",
+      kicker: "Bab dua",
+      title: "Jangan dikejar",
+      line: "Dia tidak datang kalau ditarik paksa. Bawa dia pelan ke dalam lingkaran.",
+      done: "Dia mengingat sentuhanmu."
+    },
+    {
+      bg: "assets/bg-shallow.jpg",
+      kicker: "Bab tiga",
+      title: "Tiga ketukan",
+      line: "Ketuk tepat saat lingkaran menyala. Tiga kali, seperti detak.",
+      done: "Mereka mendengar. Kawanan itu datang."
+    },
+    {
+      bg: "assets/bg-deep.jpg",
+      kicker: "Bab empat",
+      title: "Sejajar",
+      line: "Tarik mereka satu per satu ke cahaya yang kosong, sampai sebaris.",
+      done: "Satu garis. Satu arah."
+    },
+    {
+      bg: "assets/bg-deep.jpg",
+      kicker: "Bab lima",
+      title: "Tiga cahaya",
+      line: "Ketuk laut di dekat kilau yang redup. Gelombangmu yang menyalakannya.",
+      done: "Tiga cahaya sudah nyala."
+    },
+    {
+      bg: "assets/bg-above.jpg",
+      kicker: "Bab enam",
+      title: "Saat puncak",
+      line: "Sentuh lompat ketika cahaya masuk ke zona yang terang.",
+      done: "Mereka naik bersama."
+    },
+    {
+      bg: "assets/bg-deep.jpg",
+      kicker: "Bab tujuh",
+      title: "Namamu",
+      line: "Usap huruf S. Mereka menulisnya bersamamu.",
+      done: "Selesai. Nama itu tinggal di air."
+    }
+  ];
+  const WISH = [
+    "Semoga langkahmu seringan lompatan mereka.",
+    "Biru yang kamu suka, kami simpan di sini.",
+    "Kamu tidak harus berenang sendirian."
+  ];
+
+  const app = document.getElementById("app");
+  const veil = document.getElementById("veil");
+  const bgA = document.getElementById("bgA");
+  const bgB = document.getElementById("bgB");
+  const hero = document.getElementById("hero");
+  const leap = document.getElementById("leap");
+  const extras = document.getElementById("extras");
+  const trace = document.getElementById("trace");
+  const sheetIn = document.getElementById("sheetIn");
+  const kicker = document.getElementById("kicker");
+  const title = document.getElementById("title");
+  const line = document.getElementById("line");
+  const wishes = document.getElementById("wishes");
+  const actions = document.getElementById("actions");
+  const dots = document.getElementById("dots");
+  const finale = document.getElementById("finale");
+  const fx = document.getElementById("fx");
+  const ctx = fx.getContext("2d");
+  const muteBtn = document.getElementById("mute");
+
+  let chapter = 0;
+  let ctrl = new AbortController();
+  let bgFlip = false;
+  let muted = false;
+  let actx = null;
+  let heroX = 0, heroY = 0, heroTX = 0, heroTY = 0;
+  const bubbles = [];
+  const rings = [];
+  let pearls = [];
+  let sDots = [];
+  let tracing = false;
+  let roam = true;
+  let tilt = 0;
+  let solved = false;
+
+  CHAPTERS.forEach(function (_, i) {
+    const dot = document.createElement("i");
+    dots.appendChild(dot);
+  });
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text) n.textContent = text;
+    return n;
+  }
+  function listen(target, type, fn, opts) {
+    target.addEventListener(type, fn, Object.assign({ signal: ctrl.signal }, opts || {}));
+  }
+  function stage() { return { w: window.innerWidth, h: window.innerHeight }; }
+  function toastLine(text) { line.textContent = text; }
+
+  function tone(freq, dur, delay) {
+    if (muted) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!actx) actx = new AC();
+      if (actx.state === "suspended") actx.resume();
+      const t0 = actx.currentTime + (delay || 0);
+      const o = actx.createOscillator();
+      const g = actx.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.04, t0 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t0); o.stop(t0 + dur + 0.02);
+    } catch (err) { /* sound is optional */ }
+  }
+
+  function setBg(url) {
+    const front = bgFlip ? bgB : bgA;
+    const back = bgFlip ? bgA : bgB;
+    if (front.style.backgroundImage.indexOf(url) !== -1 && front.classList.contains("on")) return;
+    back.style.backgroundImage = "url('" + url + "')";
+    back.classList.add("on");
+    front.classList.remove("on");
+    bgFlip = !bgFlip;
+  }
+
+  function placeHero(px, py, instant) {
+    const s = stage();
+    heroTX = s.w * px;
+    heroTY = s.h * py;
+    if (instant) { heroX = heroTX; heroY = heroTY; paintHero(); }
+  }
+  function paintHero() {
+    const w = hero.offsetWidth || 0;
+    const h = hero.offsetHeight || 0;
+    hero.style.transform = "translate3d(" + (heroX - w / 2) + "px," + (heroY - h / 2) + "px,0) rotate(" + tilt.toFixed(2) + "deg)";
+  }
+  function showHero(on) { hero.hidden = !on; hero.style.visibility = on ? "visible" : "hidden"; }
+
+  function clearExtras() {
+    extras.innerHTML = "";
+    trace.innerHTML = "";
+    wishes.hidden = true;
+    wishes.innerHTML = "";
+    leap.classList.remove("go");
+    leap.hidden = true;
+    pearls = [];
+    sDots = [];
+  }
+
+  function success(text) {
+    if (solved) return;
+    solved = true;
+    toastLine(text);
+    tone(523, 0.16);
+    tone(659, 0.18, 0.08);
+    tone(784, 0.26, 0.16);
+    const ch = CHAPTERS[chapter];
+    if (chapter === CHAPTERS.length - 1) {
+      setTimeout(showFinale, reduce ? 200 : 900);
+      return;
+    }
+    const btn = el("button", "primary", "Lanjut");
+    btn.type = "button";
+    btn.id = "next";
+    listen(btn, "click", function () { go(chapter + 1); });
+    actions.appendChild(btn);
+  }
+
+  function go(index) {
+    ctrl.abort();
+    ctrl = new AbortController();
+    chapter = index;
+    solved = false;
+    roam = index === 0;
+    tracing = false;
+    finale.hidden = true;
+    document.querySelector(".sheet").hidden = false;
+    clearExtras();
+    const ch = CHAPTERS[index];
+    setBg(ch.bg);
+    kicker.textContent = ch.kicker;
+    title.textContent = ch.title;
+    line.textContent = ch.line;
+    actions.innerHTML = "";
+    sheetIn.classList.remove("show");
+    void sheetIn.offsetWidth;
+    sheetIn.classList.add("show");
+    Array.prototype.forEach.call(dots.children, function (dot, i) {
+      dot.classList.toggle("on", i < index);
+      dot.classList.toggle("now", i === index);
+    });
+    hero.classList.remove("drag", "grabbing");
+    hero.classList.add("bob");
+    showHero(true);
+    const spots = [0.62, 0.78, 0.5, 0.5, 0.32, 0.58, 0.5];
+    const highs = [0.58, 0.4, 0.42, 0.46, 0.4, 0.62, 0.36];
+    placeHero(spots[index], highs[index], index === 0);
+    if (index === 0) setupHold();
+    else if (index === 1) setupMeet();
+    else if (index === 2) setupBeat();
+    else if (index === 3) setupLine();
+    else if (index === 4) setupPearls();
+    else if (index === 5) setupLeap();
+    else setupTrace();
+  }
+
+  function setupHold() {
+    const btn = el("button", "hold");
+    btn.type = "button";
+    const bar = el("i");
+    const label = el("span", "", "Tahan untuk selam");
+    btn.appendChild(bar);
+    btn.appendChild(label);
+    actions.appendChild(btn);
+    let holding = false;
+    let start = 0;
+    let raf = 0;
+    let finished = false;
+    function frame(now) {
+      if (!holding || finished) return;
+      const p = Math.min(1, (now - start) / (reduce ? 400 : 1600));
+      bar.style.setProperty("--p", p);
+      btn.style.setProperty("--p", p);
+      if (p >= 1) {
+        finished = true;
+        btn.disabled = true;
+        label.textContent = "Menyelam…";
+        roam = false;
+        setBg("assets/bg-shallow.jpg");
+        placeHero(0.5, 0.46, false);
+        burst(heroX || stage().w * 0.5, heroY || stage().h * 0.5, 18);
+        success(CHAPTERS[0].done);
+        return;
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    listen(btn, "pointerdown", function (e) {
+      if (finished) return;
+      btn.setPointerCapture(e.pointerId);
+      holding = true;
+      start = performance.now();
+      raf = requestAnimationFrame(frame);
+    });
+    function cancel() {
+      if (finished) return;
+      holding = false;
+      cancelAnimationFrame(raf);
+      bar.style.setProperty("--p", 0);
+    }
+    listen(btn, "pointerup", cancel);
+    listen(btn, "pointercancel", cancel);
+  }
+
+  function setupMeet() {
+    const s = stage();
+    const nest = el("div", "nest", "ke sini");
+    nest.style.left = (s.w * 0.28) + "px";
+    nest.style.top = (s.h * 0.38) + "px";
+    extras.appendChild(nest);
+    hero.classList.remove("bob");
+    hero.classList.add("drag");
+    let dragging = false;
+    let finished = false;
+    let grabX = 0;
+    let grabY = 0;
+    listen(hero, "pointerdown", function (e) {
+      if (finished) return;
+      dragging = true;
+      grabX = e.clientX - heroX;
+      grabY = e.clientY - heroY;
+      hero.classList.add("grabbing");
+      try { hero.setPointerCapture(e.pointerId); } catch (err) { /* pointer still tracked on window */ }
+    });
+    listen(window, "pointermove", function (e) {
+      if (!dragging) return;
+      heroX = e.clientX - grabX;
+      heroY = Math.min(e.clientY - grabY, s.h * 0.62);
+      heroTX = heroX;
+      heroTY = heroY;
+      paintHero();
+    });
+    function drop() {
+      if (!dragging || finished) return;
+      dragging = false;
+      hero.classList.remove("grabbing");
+      const nr = nest.getBoundingClientRect();
+      const cx = nr.left + nr.width / 2;
+      const cy = nr.top + nr.height / 2;
+      if (Math.hypot(heroX - cx, heroY - cy) < nr.width * 0.85) {
+        finished = true;
+        hero.classList.remove("drag");
+        hero.classList.add("bob");
+        heroTX = cx; heroTY = cy;
+        nest.classList.add("filled");
+        nest.textContent = "";
+        burst(cx, cy, 12);
+        success(CHAPTERS[1].done);
+      }
+    }
+    listen(window, "pointerup", drop);
+    listen(window, "pointercancel", drop);
+  }
+
+  function setupBeat() {
+    const beats = el("div", "beats");
+    const marks = [0, 1, 2].map(function () { const b = el("b"); beats.appendChild(b); return b; });
+    const tap = el("button", "tap", "ketuk");
+    tap.type = "button";
+    actions.appendChild(tap);
+    actions.appendChild(beats);
+    let expect = 0;
+    let lastPulse = 0;
+    let finished = false;
+    const gap = reduce ? 1200 : 1150;
+    const windowMs = reduce ? 800 : 700;
+    let timer = 0;
+    function pulse() {
+      if (finished) return;
+      lastPulse = performance.now();
+      tap.classList.remove("pulse");
+      void tap.offsetWidth;
+      tap.classList.add("pulse");
+      tone(640, 0.08);
+    }
+    const arm = setTimeout(function () {
+      pulse();
+      timer = setInterval(pulse, gap);
+    }, reduce ? 240 : 420);
+    function stopBeat() {
+      clearTimeout(arm);
+      clearInterval(timer);
+    }
+    ctrl.signal.addEventListener("abort", stopBeat);
+    listen(tap, "click", function () {
+      if (finished) return;
+      const dt = performance.now() - lastPulse;
+      if (lastPulse && dt < windowMs) {
+        lastPulse = 0;
+        marks[expect].classList.add("hit");
+        tone(520 + expect * 80, 0.1);
+        expect += 1;
+        if (expect >= 3) {
+          finished = true;
+          stopBeat();
+          spawnPod();
+          success(CHAPTERS[2].done);
+        }
+      } else if (lastPulse) {
+        toastLine("Belum. Ketuk saat lingkarannya menyala.");
+      }
+    });
+  }
+
+  function spawnPod() {
+    const s = stage();
+    [-1, 1].forEach(function (side, i) {
+      const d = el("div", "pod bob" + (side < 0 ? " flip" : ""));
+      d.innerHTML = '<img src="assets/dolphin.png" alt="">';
+      d.style.width = "min(34vw, 280px)";
+      extras.appendChild(d);
+      const x = s.w * (0.5 + side * 0.28);
+      const y = s.h * (0.34 + i * 0.06);
+      requestAnimationFrame(function () {
+        d.style.transform = "translate3d(" + (x - d.offsetWidth / 2) + "px," + (y - d.offsetHeight / 2) + "px,0)";
+      });
+    });
+  }
+
+  function setupLine() {
+    showHero(false);
+    const s = stage();
+    const homes = [[0.22, 0.28], [0.78, 0.3], [0.5, 0.22]];
+    const slots = [[0.28, 0.48], [0.5, 0.48], [0.72, 0.48]].map(function (p) {
+      const slot = el("div", "slot", "");
+      slot.style.left = (s.w * p[0]) + "px";
+      slot.style.top = (s.h * p[1]) + "px";
+      extras.appendChild(slot);
+      return slot;
+    });
+    let filled = 0;
+    homes.forEach(function (p, i) {
+      const d = el("div", "pod drag bob" + (i === 1 ? " flip" : ""));
+      d.innerHTML = '<img src="assets/dolphin.png" alt="">';
+      d.style.width = "min(30vw, 240px)";
+      extras.appendChild(d);
+      let x = s.w * p[0];
+      let y = s.h * p[1];
+      const home = { x: x, y: y };
+      function paint() {
+        const w = d.offsetWidth || 0;
+        const h = d.offsetHeight || 0;
+        d.style.transform = "translate3d(" + (x - w / 2) + "px," + (y - h / 2) + "px,0)";
+      }
+      requestAnimationFrame(paint);
+      let dragging = false;
+      let locked = false;
+      let grabX = 0;
+      let grabY = 0;
+      listen(d, "pointerdown", function (e) {
+        if (locked) return;
+        dragging = true;
+        grabX = e.clientX - x;
+        grabY = e.clientY - y;
+        d.classList.add("grabbing");
+        try { d.setPointerCapture(e.pointerId); } catch (err) { /* tracked on window */ }
+      });
+      listen(window, "pointermove", function (e) {
+        if (!dragging) return;
+        x = e.clientX - grabX;
+        y = Math.min(e.clientY - grabY, s.h * 0.64);
+        paint();
+      });
+      function drop() {
+        if (!dragging || locked) return;
+        dragging = false;
+        d.classList.remove("grabbing");
+        let hit = null;
+        slots.forEach(function (slot) {
+          if (slot.classList.contains("filled") || hit) return;
+          const r = slot.getBoundingClientRect();
+          if (Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2)) < 96) hit = slot;
+        });
+        if (hit) {
+          locked = true;
+          d.classList.remove("drag");
+          const r = hit.getBoundingClientRect();
+          x = r.left + r.width / 2;
+          y = r.top + r.height / 2;
+          paint();
+          hit.classList.add("filled");
+          filled += 1;
+          tone(600 + filled * 60, 0.1);
+          if (filled === 3) success(CHAPTERS[3].done);
+        } else {
+          x = home.x; y = home.y; paint();
+        }
+      }
+      listen(window, "pointerup", drop);
+      listen(window, "pointercancel", drop);
+    });
+  }
+
+  function setupPearls() {
+    const s = stage();
+    const spots = [[0.24, 0.3], [0.7, 0.24], [0.48, 0.46]];
+    pearls = spots.map(function (p, i) {
+      const node = el("div", "pearl");
+      node.style.left = (s.w * p[0]) + "px";
+      node.style.top = (s.h * p[1]) + "px";
+      extras.appendChild(node);
+      return { x: s.w * p[0], y: s.h * p[1], got: false, node: node, i: i };
+    });
+    let found = 0;
+    wishes.hidden = false;
+    listen(app, "pointerdown", function (e) {
+      if (e.target.closest(".sheet, header, #mute, #finale")) return;
+      rings.push({ x: e.clientX, y: e.clientY, r: 8, max: Math.min(240, s.w * 0.28), life: 1 });
+      tone(880, 0.22);
+    });
+  }
+
+  function collectPearl(p) {
+    if (p.got) return;
+    p.got = true;
+    p.node.classList.add("on");
+    const row = el("p", "", WISH[wishes.children.length]);
+    wishes.appendChild(row);
+    burst(p.x, p.y, 10);
+    tone(660 + p.i * 80, 0.14);
+    const n = pearls.filter(function (q) { return q.got; }).length;
+    if (n === 3) success(CHAPTERS[4].done);
+  }
+
+  function setupLeap() {
+    placeHero(0.62, 0.5, false);
+    const meter = el("div", "meter");
+    const zone = el("div", "zone");
+    const marker = el("div", "marker");
+    meter.appendChild(zone);
+    meter.appendChild(marker);
+    const btn = el("button", "primary", "Lompat");
+    btn.type = "button";
+    actions.appendChild(meter);
+    actions.appendChild(btn);
+    let finished = false;
+    listen(btn, "click", function () {
+      if (finished) return;
+      const mr = marker.getBoundingClientRect();
+      const zr = zone.getBoundingClientRect();
+      const mx = mr.left + mr.width / 2;
+      if (mx >= zr.left && mx <= zr.right) {
+        finished = true;
+        marker.style.animationPlayState = "paused";
+        leap.hidden = false;
+        void leap.offsetWidth;
+        leap.classList.add("go");
+        showHero(false);
+        burst(stage().w * 0.4, stage().h * 0.35, 20);
+        tone(392, 0.2);
+        tone(784, 0.28, 0.12);
+        setTimeout(function () { success(CHAPTERS[5].done); }, reduce ? 200 : 900);
+      } else {
+        toastLine("Hampir. Tunggu sampai cahaya masuk zona terang.");
+        tone(220, 0.12);
+      }
+    });
+  }
+
+  function setupTrace() {
+    const s = stage();
+    const cx = s.w * 0.5;
+    const cy = Math.min(s.h * 0.34, s.h - 280);
+    const scale = Math.min(s.w, s.h) * 0.2;
+    const shape = [
+      [0.42, 0.02], [0.1, -0.08], [-0.28, 0.08], [-0.38, 0.32],
+      [-0.05, 0.48], [0.32, 0.56], [0.4, 0.74], [0.12, 0.98],
+      [-0.22, 1.02], [-0.42, 0.82]
+    ];
+    sDots = [];
+    for (let i = 0; i <= 22; i++) {
+      const t = i / 22;
+      const n = shape.length - 1;
+      const x = t * n;
+      const a = Math.min(n - 1, Math.floor(x));
+      const f = x - a;
+      const p = shape[a];
+      const q = shape[Math.min(n, a + 1)];
+      const px = cx + (p[0] + (q[0] - p[0]) * f) * scale;
+      const py = cy + ((p[1] + (q[1] - p[1]) * f) - 0.45) * scale;
+      sDots.push({ x: px, y: py, hit: false });
+      const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      c.setAttribute("cx", px);
+      c.setAttribute("cy", py);
+      c.setAttribute("r", "7");
+      c.setAttribute("fill", "rgba(255,255,255,.45)");
+      trace.appendChild(c);
+    }
+    const poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    poly.setAttribute("fill", "none");
+    poly.setAttribute("stroke", "rgba(236,250,255,.9)");
+    poly.setAttribute("stroke-width", "4");
+    poly.setAttribute("stroke-linecap", "round");
+    poly.setAttribute("stroke-linejoin", "round");
+    trace.appendChild(poly);
+    const pts = [];
+    let finished = false;
+    function hitAt(x, y) {
+      sDots.forEach(function (d, i) {
+        if (d.hit) return;
+        if (Math.hypot(d.x - x, d.y - y) < 46) {
+          d.hit = true;
+          trace.children[i].setAttribute("fill", "#fff");
+          trace.children[i].setAttribute("r", "8");
+        }
+      });
+      const got = sDots.filter(function (d) { return d.hit; }).length;
+      if (!finished && got / sDots.length >= 0.68) {
+        finished = true;
+        hero.classList.add("bob");
+        burst(x, y, 16);
+        success(CHAPTERS[6].done);
+      }
+    }
+    listen(app, "pointerdown", function (e) {
+      if (finished || e.target.closest(".sheet, header, #mute")) return;
+      tracing = true;
+      pts.length = 0;
+      hero.classList.remove("bob");
+    });
+    listen(window, "pointermove", function (e) {
+      if (!tracing || finished) return;
+      pts.push(e.clientX + "," + e.clientY);
+      poly.setAttribute("points", pts.join(" "));
+      heroTX = e.clientX;
+      heroTY = e.clientY;
+      heroX += (heroTX - heroX) * 0.35;
+      heroY += (heroTY - heroY) * 0.35;
+      paintHero();
+      hitAt(e.clientX, e.clientY);
+    });
+    listen(window, "pointerup", function () { tracing = false; hero.classList.add("bob"); });
+  }
+
+  function showFinale() {
+    tracing = false;
+    document.querySelector(".sheet").hidden = true;
+    setBg("assets/bg-surface.jpg");
+    showHero(true);
+    placeHero(0.5, 0.42, false);
+    finale.hidden = false;
+    tone(523, 0.18);
+    tone(659, 0.2, 0.1);
+    tone(880, 0.32, 0.2);
+  }
+
+  function burst(x, y, n) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const sp = 20 + Math.random() * 80;
+      bubbles.push({
+        x: x, y: y,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 30,
+        r: 1.5 + Math.random() * 3.5,
+        life: 1
+      });
+    }
+  }
+
+  function resize() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    fx.width = Math.round(innerWidth * dpr);
+    fx.height = Math.round(innerHeight * dpr);
+    fx.style.width = innerWidth + "px";
+    fx.style.height = innerHeight + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.033, (now - last) / 1000);
+    last = now;
+    if (!tracing) {
+      const k = 1 - Math.exp(-dt * 4.5);
+      heroX += (heroTX - heroX) * k;
+      heroY += (heroTY - heroY) * k;
+      const aim = Math.max(-6, Math.min(6, (heroTY - heroY) * 0.05));
+      tilt += (aim - tilt) * (1 - Math.exp(-dt * 5));
+      if (chapter === 1) hero.classList.add("face");
+      else if (heroTX < heroX - 4) hero.classList.add("face");
+      else if (heroTX > heroX + 4) hero.classList.remove("face");
+      if (chapter === 0 && roam && hero.classList.contains("bob")) {
+        heroTX = stage().w * (0.5 + Math.sin(now / 1400) * 0.18);
+        heroTY = stage().h * (0.56 + Math.sin(now / 900) * 0.03);
+      }
+    }
+    if (!hero.hidden) paintHero();
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    for (let i = bubbles.length - 1; i >= 0; i--) {
+      const b = bubbles[i];
+      b.x += b.vx * dt;
+      b.y += b.vy * dt;
+      b.vy -= 20 * dt;
+      b.life -= dt * (b.float ? 0.25 : 0.7);
+      if (b.life <= 0) {
+        if (b.float) {
+          b.x = Math.random() * innerWidth;
+          b.y = innerHeight + 8;
+          b.life = 2 + Math.random() * 3;
+          b.vy = -12 - Math.random() * 18;
+        } else bubbles.splice(i, 1);
+        continue;
+      }
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(236,248,255," + (b.life * 0.8) + ")";
+      ctx.stroke();
+    }
+    for (let i = rings.length - 1; i >= 0; i--) {
+      const r = rings[i];
+      const prev = r.r;
+      r.r += dt * 280;
+      r.life -= dt * 0.55;
+      if (r.life <= 0 || r.r > r.max) { rings.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(220,246,255," + (r.life * 0.85) + ")";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      pearls.forEach(function (p) {
+        if (p.got) return;
+        const d = Math.hypot(p.x - r.x, p.y - r.y);
+        if (d >= prev - 16 && d <= r.r + 16) collectPearl(p);
+      });
+    }
+    requestAnimationFrame(frame);
+  }
+
+  muteBtn.addEventListener("click", function () {
+    muted = !muted;
+    muteBtn.textContent = muted ? "Nyalakan suara" : "Bisukan";
+    muteBtn.setAttribute("aria-pressed", muted ? "true" : "false");
+    if (!muted) tone(660, 0.1);
+  });
+  document.getElementById("restart").addEventListener("click", function () {
+    finale.hidden = true;
+    go(0);
+  });
+  window.addEventListener("resize", resize);
+
+  const assets = [
+    "assets/dolphin.png", "assets/dolphin-leap.png", "assets/pearl.png",
+    "assets/bg-surface.jpg", "assets/bg-shallow.jpg", "assets/bg-deep.jpg", "assets/bg-above.jpg"
+  ];
+  let left = assets.length;
+  assets.forEach(function (src) {
+    const img = new Image();
+    img.onload = img.onerror = function () {
+      left -= 1;
+      if (left === 0) boot();
+    };
+    img.src = src;
+  });
+
+  function boot() {
+    resize();
+    for (let i = 0; i < (reduce ? 8 : 18); i++) {
+      bubbles.push({
+        x: Math.random() * innerWidth,
+        y: Math.random() * innerHeight,
+        vx: 0, vy: -12 - Math.random() * 20,
+        r: 1 + Math.random() * 2.5,
+        life: 2 + Math.random() * 4,
+        float: true
+      });
+    }
+    app.hidden = false;
+    veil.classList.add("off");
+    go(0);
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>

@@ -232,14 +232,17 @@
     bottom: calc(16px + env(safe-area-inset-bottom));
     transform: translateX(-50%);
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: min(520px, calc(100% - 20px));
   }
   .dock button {
     pointer-events: auto;
     background: rgba(6, 30, 58, 0.55);
     border: 1px solid rgba(210, 236, 255, 0.38);
     backdrop-filter: blur(12px);
-    min-width: 112px;
+    min-width: 96px;
   }
   #toast {
     position: absolute;
@@ -308,11 +311,12 @@
   <div class="card glass">
     <p class="eyebrow">Selamat ulang tahun</p>
     <h1>S</h1>
-    <p class="lede">Lumba-lumba biru kesukaanmu sudah kumpul. Pegang arusnya — tubuh mereka mengikuti jarimu, dan sonar mereka menyalakan mutiara untuk kamu.</p>
+    <p class="lede">Lumba-lumba biru kesukaanmu sudah kumpul. Geser lautnya, suruh mereka lompat bareng, putar arus dengan jari, atau gambar hati dari cahaya.</p>
     <div class="chips" aria-hidden="true">
-      <span>gerakkan jari</span>
-      <span>ketuk untuk sonar</span>
-      <span>ketuk tubuhnya untuk dipeluk</span>
+      <span>geser jari</span>
+      <span>lompat bareng</span>
+      <span>putar untuk pusaran</span>
+      <span>gambar hati</span>
     </div>
     <div class="actions">
       <button class="primary" id="dive" type="button">Berenang bersama mereka</button>
@@ -330,8 +334,9 @@
   <div id="toast" role="status"></div>
   <p id="hint">Gerakkan jarimu. Lumba-lumba birumu mengikuti.</p>
   <div class="dock">
+    <button type="button" id="btnLeap">Lompat</button>
     <button type="button" id="btnSonar">Sonar</button>
-    <button type="button" id="btnCall">Panggil</button>
+    <button type="button" id="btnHeart">Hati</button>
   </div>
 </div>
 
@@ -345,7 +350,7 @@
     <p class="eyebrow">dari kawanan biru</p>
     <h2 id="finaleTitle">Selamat ulang tahun, S.</h2>
     <p class="lede">Laut ini sengaja biru, karena itu warna yang paling kamu cintai. Semoga tahun ini kamu berenang sejauh yang kamu mau — ringan, luas, dan selalu ada yang di sampingmu.</p>
-    <p class="keys">Panah atau WASD untuk berenang · spasi untuk sonar · M untuk suara</p>
+    <p class="keys">Panah untuk berenang · spasi sonar · L lompat · H hati · putar jari untuk pusaran</p>
     <div class="actions" style="margin-top:16px">
       <button class="primary" id="again" type="button">Berenang lagi</button>
       <button class="ghost" id="replay" type="button">Tulis S sekali lagi</button>
@@ -414,7 +419,6 @@
     [-0.46, 0.84]
   ];
 
-  const LEN = 186;
   let w = 1, h = 1, dpr = 1;
   let clock = 0;
   let actx = null;
@@ -422,7 +426,11 @@
   let wishUntil = 0;
   let lastTap = 0;
   const keys = Object.create(null);
-  const pointer = { x: 0, y: 0, down: false, alive: false, px: 0, py: 0 };
+  const pointer = {
+    x: 0, y: 0, down: false, alive: false, px: 0, py: 0, downT: 0,
+    prevX: 0, prevY: 0, spin: 0, spinX: 0, spinY: 0, spinOn: false
+  };
+  const splashes = [];
   const history = [];
   const rings = [];
   const sparks = [];
@@ -442,7 +450,11 @@
     danceT0: 0,
     originX: 0,
     originY: 0,
-    callUntil: 0
+    callUntil: 0,
+    heartUntil: 0,
+    heartT0: 0,
+    breach: null,
+    whirl: null
   };
 
   let you;
@@ -508,6 +520,7 @@
       lag: [0, 0.45, 0.92, 1.38, 1.82][i],
       trail: [],
       trailAcc: 0,
+      leapT: 0,
       colors: PALETTE[i]
     };
   }
@@ -667,17 +680,17 @@
 
   function sonar() {
     if (state.mode !== "swim") return;
-    const maxR = Math.min(230, Math.min(w, h) * 0.34);
-    rings.push({ x: you.x, y: you.y, rad: 10, max: maxR, life: 1 });
-    burst(you.x, you.y, 8, "drop");
-    tone(980, 0.42, "sine", 0.045, 0, 320);
-    tone(1460, 0.18, "triangle", 0.02, 0.02, 700);
+    const maxR = Math.min(280, Math.min(w, h) * 0.46);
+    rings.push({ x: you.x, y: you.y, rad: 12, max: maxR, life: 1, answer: true, answered: {} });
+    burst(you.x, you.y, 12, "drop");
+    tone(880, 0.45, "sine", 0.05, 0, 280);
+    tone(1320, 0.22, "triangle", 0.025, 0.02, 640);
   }
 
   function pet() {
     if (state.mode !== "swim") return;
     you.pet = 2.5;
-    burst(you.x, you.y - 20, 7, "heart");
+    burst(you.x, you.y - 28, 10, "heart");
     toast("Dia memiringkan badan. Kamu dikenali.");
     tone(740, 0.12, "sine", 0.04, 0);
     tone(990, 0.16, "sine", 0.035, 0.09);
@@ -694,13 +707,64 @@
     tone(520, 0.28, "sine", 0.04, 0, 880);
   }
 
-  function callPod() {
+  function splashAt(x, y) {
+    splashes.push({ x: x, y: y, r: 10, life: 1 });
+    burst(x, y, 14, "drop");
+  }
+
+  function startBreach() {
     if (state.mode !== "swim") return;
-    state.callUntil = performance.now() + 1800;
-    toast("Kawanan datang mengitari kamu.");
-    rings.push({ x: you.x, y: you.y, rad: 12, max: Math.min(180, Math.min(w, h) * 0.25), life: 1 });
-    tone(520, 0.2, "triangle", 0.04, 0, 780);
-    tone(780, 0.22, "sine", 0.03, 0.12);
+    if (state.breach && performance.now() - state.breach.t0 < 800) return;
+    state.heartUntil = 0;
+    state.whirl = null;
+    state.breach = {
+      t0: performance.now(),
+      slots: dolphins.map(function (d) { return { x: d.x, y: d.y, angle: d.angle, sprayed: false, landed: false }; })
+    };
+    dolphins.forEach(function (d) { splashAt(d.x, d.y); });
+    toast("Satu, dua, tiga — lompat.");
+    tone(392, 0.18, "sine", 0.04, 0, 620);
+    tone(523, 0.22, "triangle", 0.03, 0.12, 784);
+  }
+
+  function startHeart() {
+    if (state.mode !== "swim") return;
+    state.breach = null;
+    state.whirl = null;
+    state.heartT0 = performance.now();
+    state.heartUntil = state.heartT0 + (reduce ? 3200 : 5600);
+    toast("Mereka menggambar hati untukmu.");
+    tone(523, 0.2, "sine", 0.04, 0);
+    tone(659, 0.22, "sine", 0.035, 0.12);
+    tone(784, 0.3, "triangle", 0.03, 0.24);
+  }
+
+  function startWhirl(x, y) {
+    if (state.mode !== "swim") return;
+    if (state.breach && performance.now() - state.breach.t0 < 1100) return;
+    state.heartUntil = 0;
+    state.whirl = { x: x, y: y, until: performance.now() + 3800 };
+    toast("Arusnya berputar bersamamu.");
+    tone(330, 0.4, "sine", 0.04, 0, 520);
+    tone(494, 0.35, "triangle", 0.025, 0.08);
+  }
+
+  function heartPoint(t) {
+    const a = t * Math.PI * 2;
+    const hx = 16 * Math.pow(Math.sin(a), 3);
+    const hy = 13 * Math.cos(a) - 5 * Math.cos(2 * a) - 2 * Math.cos(3 * a) - Math.cos(4 * a);
+    const s = Math.min(w, h) * 0.023;
+    return { x: w * 0.5 + hx * s, y: h * 0.4 - hy * s };
+  }
+
+  function moveAlong(d, x, y, dt) {
+    d.vx = (x - d.x) / Math.max(dt, 0.001);
+    d.vy = (y - d.y) / Math.max(dt, 0.001);
+    const prev = d.angle;
+    d.x = x;
+    d.y = y;
+    const spd = Math.hypot(d.vx, d.vy);
+    if (spd > 8) d.angle = lerpAngle(prev, Math.atan2(d.vy, d.vx), 1 - Math.exp(-dt * 8));
   }
 
   function collect(p) {
@@ -754,212 +818,160 @@
     intro.setAttribute("aria-hidden", "true");
     hud.classList.add("show");
     hud.setAttribute("aria-hidden", "false");
-    setHint("Gerakkan jarimu. Ketuk laut untuk sonar, atau berenang menembus mutiara.");
+    setHint("Geser jarimu. Lompat bareng, putar arus, atau gambar hati.");
     tone(392, 0.3, "sine", 0.04, 0, 262);
     tone(523, 0.4, "triangle", 0.03, 0.12);
     if (andDance) startDance();
   }
 
-  function radii(u) {
-    let upper;
-    let lower;
-    if (u < 0.15) {
-      const k = u / 0.15;
-      upper = lerp(0.012, 0.05, k);
-      lower = lerp(0.01, 0.032, k);
-    } else if (u < 0.32) {
-      const k = (u - 0.15) / 0.17;
-      upper = lerp(0.05, 0.115, Math.sin(k * Math.PI * 0.5)) + Math.sin(k * Math.PI) * 0.02;
-      lower = lerp(0.032, 0.09, k);
-    } else if (u < 0.62) {
-      const k = (u - 0.32) / 0.3;
-      upper = lerp(0.112, 0.086, k);
-      lower = lerp(0.096, 0.08, k);
-    } else {
-      const k = (u - 0.62) / 0.38;
-      const taper = Math.pow(1 - k, 1.25);
-      upper = 0.086 * taper + 0.012;
-      lower = 0.078 * taper + 0.01;
-    }
-    return { upper: upper, lower: lower };
+  /* Side-view bottlenose. +x is the beak, -y is the back. Flukes are a separate horizontal tail. */
+  const BODY = [
+    [124, 1], [110, -1], [96, -2], [82, -5], [70, -12], [58, -19],
+    [42, -22], [24, -21], [8, -19], [-6, -18],
+    [-14, -20], [-22, -34], [-30, -44], [-40, -30], [-48, -17],
+    [-64, -12], [-82, -7], [-98, -3], [-108, 0],
+    [-98, 3], [-82, 7], [-64, 11], [-40, 15], [-12, 17],
+    [14, 17], [36, 14], [54, 10], [72, 7], [90, 4], [108, 3], [124, 1]
+  ];
+  const FLUKE = [
+    [12, -2], [2, -4], [-14, -8], [-32, -4], [-24, 0], [-32, 5], [-14, 9], [2, 5], [12, 2]
+  ];
+  const PEC = [
+    [0, 0], [8, 6], [4, 16], [-8, 26], [-24, 22], [-30, 12], [-16, 4], [-2, 0]
+  ];
+
+  function deform(pt, phase) {
+    const t = clamp((124 - pt[0]) / 232, 0, 1);
+    const k = Math.pow(clamp((t - 0.28) / 0.72, 0, 1), 1.65);
+    return { x: pt[0], y: pt[1] + Math.sin(phase - t * 4.6) * 13 * k };
   }
 
-  function spineOf(phase) {
-    const n = 24;
-    const pts = [];
-    for (let i = 0; i < n; i++) {
-      const u = i / (n - 1);
-      const wave = Math.sin(phase - u * 8.2) * (2.2 + u * u * 30);
-      pts.push({
-        u: u,
-        x: (0.46 - u) * LEN,
-        y: wave
-      });
-    }
-    return pts;
-  }
-
-  function traceCurve(ctx2, pts, move) {
-    if (!pts.length) return;
-    if (move) ctx2.moveTo(pts[0].x, pts[0].y);
-    else ctx2.lineTo(pts[0].x, pts[0].y);
-    for (let i = 1; i < pts.length - 1; i++) {
-      const mx = (pts[i].x + pts[i + 1].x) / 2;
-      const my = (pts[i].y + pts[i + 1].y) / 2;
-      ctx2.quadraticCurveTo(pts[i].x, pts[i].y, mx, my);
-    }
-    if (pts.length > 1) {
-      const last = pts[pts.length - 1];
-      ctx2.lineTo(last.x, last.y);
+  function traceThrough(ctx2, pts) {
+    ctx2.moveTo(pts[0].x, pts[0].y);
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[Math.max(0, i - 1)];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[Math.min(pts.length - 1, i + 2)];
+      ctx2.bezierCurveTo(
+        p1.x + (p2.x - p0.x) / 6,
+        p1.y + (p2.y - p0.y) / 6,
+        p2.x - (p3.x - p1.x) / 6,
+        p2.y - (p3.y - p1.y) / 6,
+        p2.x,
+        p2.y
+      );
     }
   }
 
   function drawDolphin(d) {
-    const spine = spineOf(d.phase);
-    const upper = [];
-    const lower = [];
-    for (let i = 0; i < spine.length; i++) {
-      const p = spine[i];
-      const q = spine[Math.min(spine.length - 1, i + 1)];
-      const r0 = spine[Math.max(0, i - 1)];
-      let tx = p.x - q.x;
-      let ty = p.y - q.y;
-      if (i === spine.length - 1) {
-        tx = r0.x - p.x;
-        ty = r0.y - p.y;
-      }
-      const mag = Math.hypot(tx, ty) || 1;
-      const ux = ty / mag;
-      const uy = -tx / mag;
-      const rad = radii(p.u);
-      upper.push({ x: p.x + ux * rad.upper * LEN, y: p.y + uy * rad.upper * LEN, nx: ux, ny: uy });
-      lower.push({ x: p.x - ux * rad.lower * LEN, y: p.y - uy * rad.lower * LEN, nx: -ux, ny: -uy });
-    }
-
     const petWave = d.pet > 0 ? Math.sin(clamp((2.5 - d.pet) / 2.5, 0, 1) * Math.PI) : 0;
-    const rollSquash = d.rolling ? 0.18 + 0.82 * Math.abs(Math.cos(d.roll)) : 1;
-    const sc = fit(d.scale);
+    const rollSquash = d.rolling ? 0.42 + 0.58 * Math.abs(Math.cos(d.roll)) : 1;
+    const sc = fit(d.scale) * 0.74;
+    let hop = 0;
+    if (d.leapT > 0) hop = Math.sin(clamp(1 - d.leapT / 0.48, 0, 1) * Math.PI) * 26;
+    const phase = d.phase + petWave * 1.4;
+
+    const body = BODY.map(function (pt) { return deform(pt, phase); });
+    const ped = deform([-108, 0], phase);
+    const kick = Math.sin(phase) * 0.62;
 
     ctx.save();
-    ctx.translate(d.x, d.y);
+    ctx.translate(d.x, d.y - hop);
     ctx.rotate(d.angle);
-    ctx.scale(sc, sc * rollSquash * (1 - 0.42 * petWave));
+    ctx.scale(sc, sc * rollSquash);
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
     ctx.shadowColor = d.colors.glow;
-    ctx.shadowBlur = d.i === 0 ? 16 : 8;
+    ctx.shadowBlur = d.i === 0 ? 18 : 10;
 
-    const grad = ctx.createLinearGradient(0, -30, 0, 28);
+    const grad = ctx.createLinearGradient(0, -36, 0, 22);
     grad.addColorStop(0, d.colors.top);
-    grad.addColorStop(0.38, d.colors.mid);
-    grad.addColorStop(0.66, d.colors.low);
+    grad.addColorStop(0.42, d.colors.mid);
+    grad.addColorStop(0.72, d.colors.low);
     grad.addColorStop(1, d.colors.belly);
 
     ctx.beginPath();
-    ctx.lineJoin = "round";
-    traceCurve(ctx, upper, true);
-    traceCurve(ctx, lower.slice().reverse(), false);
+    traceThrough(ctx, body);
     ctx.closePath();
     ctx.fillStyle = grad;
     ctx.fill();
     ctx.shadowBlur = 0;
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "rgba(3, 22, 48, 0.35)";
+    ctx.lineWidth = 2.2;
+    ctx.strokeStyle = "rgba(4, 22, 52, 0.35)";
     ctx.stroke();
-    ctx.lineWidth = 1.15;
-    ctx.strokeStyle = "rgba(236, 250, 255, 0.7)";
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = "rgba(240, 252, 255, 0.78)";
     ctx.stroke();
 
     ctx.save();
     ctx.clip();
-    ctx.globalAlpha = 0.45;
-    ctx.fillStyle = "#f7fdff";
+    ctx.globalAlpha = 0.55;
+    ctx.fillStyle = "#f4fbff";
     ctx.beginPath();
-    ctx.ellipse(-6, -9, 34, 7, -0.35, 0, Math.PI * 2);
+    ctx.ellipse(18, -12, 46, 7, -0.2, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
 
-    const dorsal = upper[Math.round(upper.length * 0.40)];
-    const dorsal2 = upper[Math.round(upper.length * 0.52)];
+    ctx.save();
+    ctx.translate(ped.x, ped.y);
+    ctx.rotate(kick);
     ctx.beginPath();
-    ctx.moveTo(dorsal.x - dorsal.nx * 6, dorsal.y - dorsal.ny * 6);
-    ctx.quadraticCurveTo(
-      dorsal.x + dorsal.nx * 32,
-      dorsal.y + dorsal.ny * 32,
-      dorsal2.x,
-      dorsal2.y
-    );
-    ctx.quadraticCurveTo(
-      (dorsal.x + dorsal2.x) / 2 - 6,
-      (dorsal.y + dorsal2.y) / 2 + 4,
-      dorsal.x - dorsal.nx * 6,
-      dorsal.y - dorsal.ny * 6
-    );
+    ctx.moveTo(FLUKE[0][0], FLUKE[0][1]);
+    for (let i = 1; i < FLUKE.length; i++) ctx.lineTo(FLUKE[i][0], FLUKE[i][1]);
+    ctx.closePath();
+    ctx.fillStyle = d.colors.mid;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(236, 250, 255, 0.7)";
+    ctx.lineWidth = 1.1;
+    ctx.stroke();
+    ctx.restore();
+
+    const pecAt = deform([46, 11], phase);
+    ctx.save();
+    ctx.translate(pecAt.x, pecAt.y);
+    ctx.rotate(0.35 + d.bank * 0.4 + Math.sin(phase * 2) * 0.08);
+    ctx.beginPath();
+    traceThrough(ctx, PEC.map(function (pt) { return { x: pt[0], y: pt[1] }; }));
+    ctx.closePath();
     ctx.fillStyle = d.colors.top;
     ctx.fill();
-
-    const pec = lower[Math.round(lower.length * 0.36)];
-    ctx.save();
-    ctx.translate(pec.x, pec.y);
-    ctx.rotate(Math.atan2(pec.ny, pec.nx) + 0.7 + d.bank);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.quadraticCurveTo(10, 12, 30, 7);
-    ctx.quadraticCurveTo(16, -1, 0, 0);
-    ctx.fillStyle = d.colors.mid;
-    ctx.fill();
     ctx.restore();
 
-    const tail = spine[spine.length - 1];
-    const kick = Math.sin(d.phase) * 12;
-    ctx.beginPath();
-    ctx.moveTo(tail.x + 6, tail.y);
-    ctx.quadraticCurveTo(tail.x - 24, tail.y - 16 + kick * 0.3, tail.x - 8, tail.y - 30 + kick);
-    ctx.quadraticCurveTo(tail.x - 2, tail.y - 12, tail.x + 6, tail.y);
-    ctx.quadraticCurveTo(tail.x - 22, tail.y + 14 + kick * 0.3, tail.x - 6, tail.y + 28 + kick);
-    ctx.quadraticCurveTo(tail.x - 2, tail.y + 10, tail.x + 6, tail.y);
-    ctx.fillStyle = d.colors.mid;
-    ctx.fill();
-    ctx.strokeStyle = "rgba(255,255,255,0.35)";
-    ctx.stroke();
-
-    const eyeU = 0.2;
-    const eye = spine[Math.round(eyeU * (spine.length - 1))];
-    const en = upper[Math.round(eyeU * (upper.length - 1))];
-    const ex = eye.x * 0.62 + en.x * 0.38;
-    const ey = eye.y * 0.62 + en.y * 0.38;
-    const squint = 1 - 0.62 * petWave;
+    const eye = deform([76, 1], phase);
+    const squint = 1 - petWave * 0.65;
     ctx.save();
-    ctx.translate(ex, ey);
-    ctx.scale(1, squint);
+    ctx.translate(eye.x, eye.y);
+    ctx.scale(1, Math.max(0.28, squint));
     ctx.beginPath();
-    ctx.arc(0, 0, 4.3, 0, Math.PI * 2);
-    ctx.fillStyle = "#f5fbff";
+    ctx.arc(0, 0, 4.4, 0, Math.PI * 2);
+    ctx.fillStyle = "#f7fdff";
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(1.3, 0.2, 2.25, 0, Math.PI * 2);
-    ctx.fillStyle = "#071a33";
+    ctx.arc(1.2, 0.2, 2.3, 0, Math.PI * 2);
+    ctx.fillStyle = "#071833";
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(2.3, -1.2, 0.9, 0, Math.PI * 2);
+    ctx.arc(2.2, -1.3, 1, 0, Math.PI * 2);
     ctx.fillStyle = "#ffffff";
     ctx.fill();
     ctx.restore();
 
+    const mouthA = deform([116, 3], phase);
+    const mouthB = deform([84, 6], phase);
     ctx.beginPath();
-    ctx.moveTo(eye.x + 28, eye.y + 8);
-    ctx.quadraticCurveTo(eye.x + 18, eye.y + 12 + petWave * 2, eye.x + 8, eye.y + 7);
-    ctx.strokeStyle = "rgba(6, 28, 58, 0.55)";
-    ctx.lineWidth = 1.2;
+    ctx.moveTo(mouthA.x, mouthA.y);
+    ctx.quadraticCurveTo((mouthA.x + mouthB.x) / 2, mouthB.y + 2 + petWave * 2, mouthB.x, mouthB.y);
+    ctx.strokeStyle = "rgba(6, 24, 48, 0.7)";
+    ctx.lineWidth = 1.35;
     ctx.stroke();
 
-    if (d.i === 0) {
-      ctx.save();
-      ctx.translate(18, 4);
-      ctx.rotate(-0.15);
-      ctx.font = "italic 600 16px Fraunces, Georgia, serif";
-      ctx.fillStyle = "rgba(255,255,255,0.82)";
-      ctx.fillText("S", 0, 0);
-      ctx.restore();
-    }
+    const blow = deform([52, -18], phase);
+    ctx.beginPath();
+    ctx.arc(blow.x, blow.y, 1.6, Math.PI * 1.1, Math.PI * 1.9);
+    ctx.strokeStyle = "rgba(230, 248, 255, 0.7)";
+    ctx.lineWidth = 1.1;
+    ctx.stroke();
 
     ctx.restore();
   }
@@ -1137,14 +1149,15 @@
     if ((d.prevY - surface) * (d.y - surface) < 0) burst(d.x, surface, 7, "drop");
     d.prevY = d.y;
 
+    if (d.leapT > 0) d.leapT = Math.max(0, d.leapT - dt);
     d.trailAcc += dt;
-    const sampleEvery = state.mode === "dance" && d.i === 0 ? 0.012 : 0.03;
+    const showy = (state.mode === "dance" && d.i === 0) || performance.now() < state.heartUntil || !!(state.breach && performance.now() - state.breach.t0 < 1600);
+    const sampleEvery = showy ? 0.012 : 0.03;
     if (d.trailAcc >= sampleEvery) {
       d.trailAcc = 0;
       const prev = d.trail[d.trail.length - 1];
-      const sticky = state.mode === "dance" && d.i === 0;
-      const br = prev ? Math.hypot(d.x - prev.x, d.y - prev.y) > (sticky ? 260 : 110) : false;
-      d.trail.push({ x: d.x, y: d.y, life: 1, sticky: sticky, br: br });
+      const br = prev ? Math.hypot(d.x - prev.x, d.y - prev.y) > (showy ? 260 : 110) : false;
+      d.trail.push({ x: d.x, y: d.y, life: 1, sticky: showy, br: br });
     }
     for (let i = d.trail.length - 1; i >= 0; i--) {
       const rate = d.trail[i].sticky ? (reduce ? 0.45 : 0.11) : 1.05;
@@ -1194,6 +1207,48 @@
         showFinale();
       }
     } else {
+      const nowMs = performance.now();
+      const breaching = state.breach && nowMs < state.breach.t0 + 1050 + 4 * 110;
+      const hearting = nowMs < state.heartUntil;
+      const whirling = state.whirl && nowMs < state.whirl.until;
+      if (breaching) {
+        dolphins.forEach(function (d, i) {
+          const slot = state.breach.slots[i];
+          const elapsed = nowMs - state.breach.t0 - i * 110;
+          if (elapsed < 0) return;
+          const u = clamp(elapsed / 1050, 0, 1);
+          const x = slot.x + Math.cos(slot.angle) * 170 * u;
+          const y = slot.y + Math.sin(slot.angle) * 50 * u - Math.sin(u * Math.PI) * (reduce ? 28 : 150);
+          moveAlong(d, x, y, dt);
+          d.angle = slot.angle - Math.sin(u * Math.PI) * 0.95;
+          if (!slot.sprayed && u > 0.45) {
+            slot.sprayed = true;
+            burst(d.x, d.y, 10, "drop");
+          }
+          if (!slot.landed && u >= 1) {
+            slot.landed = true;
+            splashAt(d.x, d.y);
+          }
+        });
+      } else if (hearting) {
+        const base = (nowMs - state.heartT0) / (reduce ? 3200 : 5600);
+        dolphins.forEach(function (d, i) {
+          const t = (base * 1.15 + i / dolphins.length) % 1;
+          const a = heartPoint(t);
+          const b = heartPoint((t + 0.02) % 1);
+          moveAlong(d, a.x, a.y, dt);
+          d.angle = Math.atan2(b.y - a.y, b.x - a.x);
+        });
+      } else if (whirling) {
+        dolphins.forEach(function (d, i) {
+          const ang = clock * (1.8 + i * 0.12) + i * 1.3;
+          const rad = 46 + i * 32;
+          const x = state.whirl.x + Math.cos(ang) * rad;
+          const y = state.whirl.y + Math.sin(ang) * rad * 0.7;
+          moveAlong(d, x, y, dt);
+          d.angle = ang + Math.PI / 2;
+        });
+      } else {
       let tx = pointer.alive ? pointer.x : you.x + Math.cos(clock * 0.6) * 80;
       let ty = pointer.alive ? pointer.y : you.y + Math.sin(clock * 0.6) * 50;
       let ax = 0;
@@ -1228,13 +1283,15 @@
       you.y = clamp(you.y, surfacePad, h - surfacePad);
       const spd = Math.hypot(you.vx, you.vy);
       if (spd > 12) you.angle = lerpAngle(you.angle, Math.atan2(you.vy, you.vx), 1 - Math.exp(-dt * 6));
+      }
     }
 
     pushHistory();
 
-    const calling = state.mode === "swim" && performance.now() < state.callUntil;
+    const nowMs = performance.now();
+    const busy = (state.breach && nowMs < state.breach.t0 + 1600) || nowMs < state.heartUntil || (state.whirl && nowMs < state.whirl.until);
     dolphins.forEach(function (d, i) {
-      if (i === 0) return;
+      if (i === 0 || busy) return;
       if (state.mode === "dance") {
         const ang = clock * (reduce ? 0.45 : 0.85) + i * (Math.PI * 2 / 4);
         const radX = Math.min(w, h) * 0.33;
@@ -1243,12 +1300,6 @@
         const y = h * 0.36 + Math.sin(ang) * radY;
         place(d, x, y, dt);
         d.angle = Math.atan2(Math.cos(ang) * radY, -Math.sin(ang) * radX);
-      } else if (calling) {
-        const k = 1 - (state.callUntil - performance.now()) / 1800;
-        const ang = clock * 2.5 + i * (Math.PI / 2);
-        const rad = 34 + Math.sin(k * Math.PI) * (80 + i * 14);
-        place(d, you.x + Math.cos(ang) * rad, you.y + Math.sin(ang) * rad * 0.78, dt);
-        d.angle = ang + Math.PI / 2;
       } else {
         const s0 = sampleHistory(d.lag);
         const s1 = sampleHistory(d.lag + 0.08);
@@ -1273,7 +1324,7 @@
       if (p.got) {
         p.fade -= dt * 1.4;
         p.pop = Math.max(0, p.pop - dt * 1.6);
-      } else if (state.mode === "swim") {
+      } else if (state.mode === "swim" && !busy) {
         const dist = Math.hypot(p.x - you.x, p.y - you.y);
         if (dist < 72) collect(p);
       }
@@ -1287,11 +1338,24 @@
         rings.splice(i, 1);
         continue;
       }
-      if (state.mode === "swim") {
+      if (state.mode === "swim" && !busy) {
         pearls.forEach(function (p) {
           if (p.got) return;
           const dist = Math.hypot(p.x - r.x, p.y - r.y);
           if (Math.abs(dist - r.rad) < 20 && dist <= r.max + 8) collect(p);
+        });
+      }
+      if (r.answer) {
+        dolphins.forEach(function (d, di) {
+          if (di === 0 || r.answered[di]) return;
+          const dist = Math.hypot(d.x - r.x, d.y - r.y);
+          if (Math.abs(dist - r.rad) < 34) {
+            r.answered[di] = true;
+            d.leapT = 0.48;
+            rings.push({ x: d.x, y: d.y, rad: 6, max: 130, life: 1, answer: false, answered: {} });
+            burst(d.x, d.y, 8, "drop");
+            tone(640 + di * 70, 0.16, "sine", 0.03, 0, 980);
+          }
         });
       }
     }
@@ -1303,6 +1367,11 @@
       if (p.x > w) p.x -= w;
       if (p.y < 0) p.y += h;
       if (p.y > h) p.y -= h;
+      if (state.whirl && performance.now() < state.whirl.until) {
+        p.x += (state.whirl.x - p.x) * dt * 0.45;
+        p.y += (state.whirl.y - p.y) * dt * 0.45;
+        p.glow = Math.max(p.glow, 0.55);
+      }
       let near = 0;
       for (let i = 0; i < dolphins.length; i++) {
         const dx = p.x - dolphins[i].x;
@@ -1416,14 +1485,53 @@
     rings.forEach(function (r) {
       ctx.beginPath();
       ctx.arc(r.x, r.y, r.rad, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(214, 248, 255," + (r.life * 0.75) + ")";
-      ctx.lineWidth = 2;
+      ctx.fillStyle = "rgba(186, 236, 255," + (r.life * 0.08) + ")";
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, r.rad, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(230, 252, 255," + (r.life * 0.85) + ")";
+      ctx.lineWidth = 3;
       ctx.stroke();
       ctx.beginPath();
-      ctx.arc(r.x, r.y, Math.max(0, r.rad - 10), 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(120, 200, 255," + (r.life * 0.35) + ")";
+      ctx.arc(r.x, r.y, Math.max(0, r.rad - 14), 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(120, 200, 255," + (r.life * 0.4) + ")";
+      ctx.lineWidth = 8;
       ctx.stroke();
     });
+
+    if (state.whirl && performance.now() < state.whirl.until) {
+      const life = (state.whirl.until - performance.now()) / 3800;
+      ctx.save();
+      ctx.translate(state.whirl.x, state.whirl.y);
+      ctx.rotate(clock * 2.4);
+      ctx.globalCompositeOperation = "screen";
+      ctx.lineWidth = 2;
+      for (let arm = 0; arm < 3; arm++) {
+        ctx.beginPath();
+        for (let a = 0; a < Math.PI * 6; a += 0.18) {
+          const rad = 6 + a * 16;
+          const x = Math.cos(a + arm * 2.1) * rad;
+          const y = Math.sin(a + arm * 2.1) * rad;
+          if (a === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = "rgba(210, 246, 255," + (0.28 * life) + ")";
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    for (let i = splashes.length - 1; i >= 0; i--) {
+      const s = splashes[i];
+      s.r += 90 * 0.016;
+      s.life -= 0.02;
+      if (s.life <= 0) { splashes.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.ellipse(s.x, s.y, s.r, s.r * 0.32, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(240, 252, 255," + (s.life * 0.8) + ")";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
 
     for (let i = dolphins.length - 1; i >= 1; i--) drawDolphin(dolphins[i]);
     drawDolphin(you);
@@ -1465,20 +1573,65 @@
   canvas.addEventListener("pointerdown", function (e) {
     if (state.mode !== "swim") return;
     pointer.down = true;
+    pointer.downT = performance.now();
     pointer.px = e.clientX;
     pointer.py = e.clientY;
+    pointer.spin = 0;
+    pointer.spinOn = false;
+    pointer.heading = null;
+    pointer.sumX = 0;
+    pointer.sumY = 0;
+    pointer.sumN = 0;
     pointerPos(e);
+    pointer.prevX = pointer.x;
+    pointer.prevY = pointer.y;
+    pointer.spinX = pointer.x;
+    pointer.spinY = pointer.y;
     canvas.setPointerCapture(e.pointerId);
   });
   canvas.addEventListener("pointermove", function (e) {
     if (state.mode === "intro") return;
     pointerPos(e);
+    if (pointer.down && state.mode === "swim") {
+      const vx = pointer.x - pointer.prevX;
+      const vy = pointer.y - pointer.prevY;
+      const step = Math.hypot(vx, vy);
+      if (step > 8) {
+        pointer.sumX += pointer.x;
+        pointer.sumY += pointer.y;
+        pointer.sumN += 1;
+        const heading = Math.atan2(vy, vx);
+        if (pointer.heading !== null) {
+          let da = heading - pointer.heading;
+          while (da > Math.PI) da -= Math.PI * 2;
+          while (da < -Math.PI) da += Math.PI * 2;
+          if (Math.abs(da) < 1.5) pointer.spin += da;
+        }
+        pointer.heading = heading;
+      }
+      if (!pointer.spinOn && Math.abs(pointer.spin) > 3.4) {
+        pointer.spinOn = true;
+        const cx = pointer.sumN ? pointer.sumX / pointer.sumN : pointer.x;
+        const cy = pointer.sumN ? pointer.sumY / pointer.sumN : pointer.y;
+        startWhirl(cx, cy);
+      }
+    }
+    pointer.prevX = pointer.x;
+    pointer.prevY = pointer.y;
   });
   window.addEventListener("pointerup", function (e) {
     const wasDown = pointer.down;
     pointer.down = false;
+    pointer.spinOn = false;
     if (!wasDown || state.mode !== "swim") return;
-    const moved = Math.hypot(e.clientX - pointer.px, e.clientY - pointer.py);
+    const dx = e.clientX - pointer.px;
+    const dy = e.clientY - pointer.py;
+    const moved = Math.hypot(dx, dy);
+    const held = performance.now() - pointer.downT;
+    if (dy < -70 && held < 380 && Math.abs(dx) < Math.abs(dy) * 0.85) {
+      startBreach();
+      return;
+    }
     if (moved > 18) return;
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -1511,6 +1664,8 @@
       e.preventDefault();
       if (intro.classList.contains("hide")) sonar();
     }
+    if (!e.repeat && (e.key === "l" || e.key === "L")) startBreach();
+    if (!e.repeat && (e.key === "h" || e.key === "H")) startHeart();
     if ((e.key === "m" || e.key === "M") && hud.classList.contains("show")) {
       btnMute.click();
     }
@@ -1525,7 +1680,8 @@
   document.getElementById("dive").addEventListener("click", function () { begin(false); });
   document.getElementById("skip").addEventListener("click", function () { begin(true); });
   document.getElementById("btnSonar").addEventListener("click", sonar);
-  document.getElementById("btnCall").addEventListener("click", callPod);
+  document.getElementById("btnLeap").addEventListener("click", startBreach);
+  document.getElementById("btnHeart").addEventListener("click", startHeart);
   document.getElementById("again").addEventListener("click", function () {
     finale.classList.remove("show");
     finale.setAttribute("aria-hidden", "true");

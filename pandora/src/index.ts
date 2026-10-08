@@ -35,10 +35,31 @@ function hash(s: string): number {
   return h >>> 0;
 }
 
-const json = (data: unknown, status = 200) =>
+const PAGES_ORIGIN = "https://vinkentg.github.io";
+
+function allowOrigin(req: Request): string {
+  const origin = req.headers.get("Origin");
+  if (!origin) return PAGES_ORIGIN;
+  if (
+    origin === PAGES_ORIGIN ||
+    origin.endsWith(".workers.dev") ||
+    origin.startsWith("http://localhost:") ||
+    origin.startsWith("http://127.0.0.1:")
+  ) {
+    return origin;
+  }
+  return PAGES_ORIGIN;
+}
+
+const json = (req: Request, data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
-    headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+      "Access-Control-Allow-Origin": allowOrigin(req),
+      Vary: "Origin",
+    },
   });
 
 async function listNames(env: Env): Promise<string[]> {
@@ -81,37 +102,54 @@ async function readName(req: Request): Promise<string> {
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
+    const pathname = url.pathname.replace(/\/+$/, "") || "/";
+
+    if (req.method === "OPTIONS" && pathname.startsWith("/api/")) {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": allowOrigin(req),
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Max-Age": "86400",
+          Vary: "Origin",
+        },
+      });
+    }
 
     try {
+      if (!env.KV) return json(req, { error: "kv_unbound" }, 500);
+
       // Daftar slot: nama yang BELUM terdaftar tidak pernah dikirim ke browser.
-      if (url.pathname === "/api/status" && req.method === "GET") {
+      if (pathname === "/api/status" && req.method === "GET") {
         const all = await snapshot(env);
-        return json({
+        return json(req, {
           total: all.length,
           registered: all.filter((x) => x.registered).map((x) => ticketFor(x.name, x.idx)),
         });
       }
 
       // Cek apakah nama ada di KV (belum mengubah apa pun).
-      if (url.pathname === "/api/lookup" && req.method === "POST") {
+      if (pathname === "/api/lookup" && req.method === "POST") {
         const q = fold(await readName(req));
-        if (!q) return json({ found: false });
+        if (!q) return json(req, { found: false });
         const hit = (await snapshot(env)).find((x) => fold(x.name) === q);
-        return hit ? json({ found: true, name: hit.name, registered: hit.registered }) : json({ found: false });
+        return hit ? json(req, { found: true, name: hit.name, registered: hit.registered }) : json(req, { found: false });
       }
 
       // Konfirmasi: ubah value jadi "true" lalu kembalikan data tiket.
-      if (url.pathname === "/api/confirm" && req.method === "POST") {
+      if (pathname === "/api/confirm" && req.method === "POST") {
         const q = fold(await readName(req));
         const hit = q ? (await snapshot(env)).find((x) => fold(x.name) === q) : undefined;
-        if (!hit) return json({ ok: false }, 404);
+        if (!hit) return json(req, { ok: false }, 404);
         if (!hit.registered) await env.KV.put(hit.name, "true");
-        return json({ ok: true, ticket: ticketFor(hit.name, hit.idx) });
+        return json(req, { ok: true, ticket: ticketFor(hit.name, hit.idx) });
       }
     } catch (e) {
-      return json({ error: "server_error" }, 500);
+      return json(req, { error: "server_error" }, 500);
     }
 
+    if (pathname.startsWith("/api/")) return json(req, { error: "not_found" }, 404);
     return new Response("Not found", { status: 404 });
   },
 } satisfies ExportedHandler<Env>;

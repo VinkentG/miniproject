@@ -272,9 +272,8 @@ button.btn.primary:hover{box-shadow:0 14px 34px -6px var(--blood)}
 const $=id=>document.getElementById(id);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-// Kosong = API satu origin dengan halaman (URL *.workers.dev setelah wrangler deploy).
-// Jangan isi URL GitHub Pages: host itu tidak punya binding KV, jadi /api/status selalu 404.
-const API_BASE="";
+// GitHub Pages tidak bisa membaca KV. Dari sana, panggil Worker yang memegang binding-nya.
+const API_BASE=location.hostname.endsWith("workers.dev")?"":"https://gonjiam-asylum-ticket.vinkent99.workers.dev";
 async function api(path,body){
   const url=API_BASE.replace(/\/$/,"")+path;
   const r=await fetch(url,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{cache:'no-store'});

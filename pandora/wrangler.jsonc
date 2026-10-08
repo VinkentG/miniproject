@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gonjiam-asylum-ticket",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-04",
+  "observability": {
+    "enabled": true
+  },
+
+  // Halaman (public/index.html) disajikan sebagai static asset.
+  // Request yang tidak cocok dengan file (mis. /api/*) diteruskan ke Worker.
+  "assets": {
+    "directory": "./public"
+  },
+
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "f27f5be1b64646b28757d91a48457aa9"
+    }
+  ]
+}

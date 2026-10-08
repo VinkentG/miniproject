@@ -1,0 +1,13 @@
+{
+  "name": "gonjiam-asylum-ticket",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev --remote",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250204.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^4.0.0"
+  }
+}

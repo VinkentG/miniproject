@@ -382,20 +382,15 @@ function applyStatus(d,first){
   });
   update();revealPending();
 }
-async function loadStatus(first){
-  try{applyStatus(await api('/api/status'),first);return true}
+async function loadStatus(){
+  try{applyStatus(await api('/api/status'),true)}
   catch(e){
-    if(first){
-      const pages=String(e&&e.message||'').includes('GitHub Pages');
-      $('count').textContent=pages?e.message:'Gerbang tidak merespons… mencoba lagi';
-      if(!pages)setTimeout(()=>loadStatus(true),4000);
-    }
-    return false;
+    $('count').textContent=String(e&&e.message||'').includes('GitHub Pages')
+      ?e.message
+      :'Gerbang tidak merespons. Muat ulang halaman.';
   }
 }
-loadStatus(true);
-setInterval(()=>{if(!document.hidden)loadStatus(false)},10000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadStatus(false)});
+loadStatus();
 
 // ---- flashlight + tilt loop ----
 const light=$('light');let fx=innerWidth/2,fy=innerHeight*.3,tx=fx,ty=fy,fine=matchMedia('(pointer:fine)').matches;
@@ -439,14 +434,20 @@ function openConfirm(name,already){
   show($('confirm'));setTimeout(()=>$('yes').focus(),400);
 }
 $('no').onclick=()=>{hide($('confirm'));$('nm').value='';setTimeout(()=>$('nm').focus(),500)};
+function showTicket(t){
+  registered.set(t.name,t);
+  const el=slotEls[t.idx];if(el&&!el.classList.contains('done'))queue(el,t);
+  hide($('confirm'));update();setTimeout(()=>issue(t),600);
+}
 $('yes').onclick=async()=>{
-  const b=$('yes');if(b.disabled)return;b.disabled=true;b.textContent='Menerbitkan…';
+  const b=$('yes');if(b.disabled)return;
+  const known=registered.get(current);
+  if(known){showTicket(known);return}
+  b.disabled=true;b.textContent='Menerbitkan…';
   try{
     const r=await api('/api/confirm',{name:current});
     if(!r.ok)throw 0;
-    const t=r.ticket;registered.set(t.name,t);
-    const el=slotEls[t.idx];if(el&&!el.classList.contains('done'))queue(el,t);
-    hide($('confirm'));update();setTimeout(()=>issue(t),600);
+    showTicket(r.ticket);
   }catch(e){$('cfmtxt').textContent='Gerbang gagal terbuka. Coba tekan sekali lagi.'}
   b.disabled=false;b.textContent='Ya, ini aku';
 };

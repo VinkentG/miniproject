@@ -14,12 +14,41 @@ const PERSONAS: Record<string, Persona> = {
   Wira: { alias: "The Last One Standing", quote: "When the lights go out, I’m the one still counting heads." },
 };
 
-// Dipakai kalau kamu menambah nama baru di KV yang belum ada di PERSONAS.
-const FALLBACK: Persona[] = [
+// 20 judul berbeda. Enam nama di atas mengambil judulnya sendiri.
+// Nama lain di KV mengantre ke judul yang belum terpakai, sesuai urutan nama.
+const POOL: Persona[] = [
+  PERSONAS.Andhika,
+  PERSONAS.Bona,
+  PERSONAS.Dei,
+  PERSONAS.Edwin,
+  PERSONAS.Vinkent,
+  PERSONAS.Wira,
   { alias: "The Fearless", quote: "I came for the fear. I’m staying for the screams." },
   { alias: "The Night Crawler", quote: "Darkness is just a door nobody opened yet." },
   { alias: "The Iron Nerve", quote: "My heartbeat is the only thing that’s allowed to run." },
+  { alias: "The Door Keeper", quote: "I don’t lock the doors. I remember who walked through." },
+  { alias: "The Quiet Flame", quote: "The lights failed. I didn’t." },
+  { alias: "The Lantern Bearer", quote: "If you can see me, you are still in the corridor." },
+  { alias: "The Unblinking", quote: "I watched the dark until it looked away." },
+  { alias: "The Hall Walker", quote: "Every step I take, the hallway takes one back." },
+  { alias: "The Still Heart", quote: "Panic is loud. I left mine at the gate." },
+  { alias: "The Whisper", quote: "Speak softly. The walls are taking notes." },
+  { alias: "The Threshold", quote: "I stand where the corridor decides." },
+  { alias: "The Last Light", quote: "When the bulb dies, I am what remains." },
+  { alias: "The Bone Listener", quote: "I can hear which floorboard is lying." },
+  { alias: "The One Who Stayed", quote: "They ran. I counted the doors and stayed." },
 ];
+
+function personaFor(name: string, names: string[]): Persona {
+  const own = PERSONAS[name];
+  if (own) return own;
+  const taken = new Set(names.flatMap((n) => (PERSONAS[n] ? [PERSONAS[n].alias] : [])));
+  const spare = POOL.filter((p) => !taken.has(p.alias));
+  const order = names.filter((n) => !PERSONAS[n]);
+  const at = Math.max(0, order.indexOf(name));
+  const list = spare.length ? spare : POOL;
+  return list[at % list.length];
+}
 
 const fold = (s: string) =>
   s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
@@ -79,8 +108,8 @@ async function snapshot(env: Env) {
   return names.map((name, idx) => ({ name, idx, registered: isTrue(values[idx]) }));
 }
 
-function ticketFor(name: string, idx: number) {
-  const p = PERSONAS[name] ?? FALLBACK[hash(name) % FALLBACK.length];
+function ticketFor(name: string, idx: number, names: string[]) {
+  const p = personaFor(name, names);
   return {
     name,
     idx,
@@ -123,9 +152,10 @@ export default {
       // Daftar slot: nama yang BELUM terdaftar tidak pernah dikirim ke browser.
       if (pathname === "/api/status" && req.method === "GET") {
         const all = await snapshot(env);
+        const names = all.map((x) => x.name);
         return json(req, {
           total: all.length,
-          registered: all.filter((x) => x.registered).map((x) => ticketFor(x.name, x.idx)),
+          registered: all.filter((x) => x.registered).map((x) => ticketFor(x.name, x.idx, names)),
         });
       }
 
@@ -140,10 +170,12 @@ export default {
       // Konfirmasi: ubah value jadi "true" lalu kembalikan data tiket.
       if (pathname === "/api/confirm" && req.method === "POST") {
         const q = fold(await readName(req));
-        const hit = q ? (await snapshot(env)).find((x) => fold(x.name) === q) : undefined;
+        const all = await snapshot(env);
+        const names = all.map((x) => x.name);
+        const hit = q ? all.find((x) => fold(x.name) === q) : undefined;
         if (!hit) return json(req, { ok: false }, 404);
         if (!hit.registered) await env.KV.put(hit.name, "true");
-        return json(req, { ok: true, ticket: ticketFor(hit.name, hit.idx) });
+        return json(req, { ok: true, ticket: ticketFor(hit.name, hit.idx, names) });
       }
     } catch (e) {
       return json(req, { error: "server_error" }, 500);

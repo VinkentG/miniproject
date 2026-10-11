@@ -26,7 +26,7 @@
   --hand:'Caveat',cursive;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
+html{scroll-behavior:auto}
 html,body{overflow-x:hidden;width:100%}
 body{
   font-family:var(--sans);
@@ -196,7 +196,10 @@ body.hero-titles .scroll-hint{opacity:.9}
 #scene-bali .sub{color:var(--g-800)}
 .bali-map-wrap{position:relative;width:100%;max-width:520px;margin:34px auto 0}
 .bali-map-wrap svg{display:block;width:100%;height:auto;filter:drop-shadow(0 16px 34px rgba(38,41,45,.3))}
-.map-pin{cursor:pointer}
+.map-pin{cursor:pointer;opacity:.35;transition:opacity .7s ease}
+#scene-bali.in-view .map-pin{opacity:1}
+#scene-montage.in-view .orbit{animation-duration:22s}
+#scene-montage.in-view .node-inner{animation-duration:22s}
 .map-pin circle.ring{fill:none;stroke:#fff;stroke-width:2;opacity:.9;transform-origin:center;animation:pinPulse 2.2s ease-out infinite}
 @keyframes pinPulse{0%{transform:scale(.5);opacity:.9}100%{transform:scale(1.8);opacity:0}}
 .map-popup{
@@ -214,7 +217,7 @@ body.hero-titles .scroll-hint{opacity:.9}
   position:relative;width:100%;max-width:420px;margin:26px auto;border-radius:22px;
   background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
   border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(4px);
-  touch-action:none;user-select:none;overflow:hidden;
+  touch-action:pan-y;user-select:none;overflow:hidden;
 }
 .slide-stage svg{display:block;width:100%;height:auto}
 .slide-stage.shake{animation:shake .5s ease-in-out}
@@ -326,7 +329,7 @@ body.hero-titles .scroll-hint{opacity:.9}
 .room svg{display:block;width:100%;height:auto}
 .window-glow{animation:moonGlow 6s ease-in-out infinite}
 @keyframes moonGlow{0%,100%{opacity:.75}50%{opacity:1}}
-#blanket{cursor:grab;touch-action:none}
+#blanket{cursor:grab;touch-action:pan-y}
 #blanket.open{transition:transform 1s cubic-bezier(.3,1,.4,1)}
 .pillow-btn{cursor:pointer}
 .pillow-btn.jiggle{animation:pillowJiggle .6s ease-in-out;transform-origin:center}
@@ -480,8 +483,54 @@ body.hero-titles .scroll-hint{opacity:.9}
 }
 #replayBtn.on{opacity:1;pointer-events:auto;transition:opacity 1s,transform .2s}
 #replayBtn:active{transform:scale(.95)}
+/* ============ SCROLL WORLD ============ */
+#worldTide{
+  position:fixed;top:0;right:0;bottom:0;width:4px;z-index:9920;pointer-events:none;
+  background:rgba(255,255,255,.14);
+}
+#tideFill{
+  display:block;width:100%;height:100%;transform:scaleY(0);transform-origin:top center;
+  background:linear-gradient(180deg,var(--aqua) 0%,var(--ocean) 42%,var(--ocean-deep) 68%,var(--sunset) 100%);
+}
+#worldChapters{
+  position:fixed;right:max(18px,env(safe-area-inset-right));top:50%;transform:translateY(-50%);
+  z-index:9928;display:flex;flex-direction:column;gap:9px;
+}
+#worldChapters button{
+  position:relative;width:11px;height:11px;border-radius:50%;padding:0;
+  background:rgba(255,255,255,.5);box-shadow:0 0 0 1px rgba(38,41,45,.3);
+  transition:transform .25s,background .25s,box-shadow .25s;
+}
+#worldChapters button.on{
+  background:var(--ocean-deep);transform:scale(1.25);
+  box-shadow:0 0 0 4px rgba(169,212,217,.5);
+}
+#worldChapters button span{
+  position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  font-family:var(--hand);font-size:1.2rem;line-height:1;color:var(--g-800);
+  background:rgba(245,245,243,.88);padding:2px 10px;border-radius:999px;
+  opacity:0;pointer-events:none;transition:opacity .3s;white-space:nowrap;
+}
+#worldChapters button.on span{opacity:1}
+.world-layer{position:absolute;inset:-14% 0 auto;height:128%;z-index:0;pointer-events:none;overflow:hidden}
+.world-layer span{
+  position:absolute;border-radius:999px;background:rgba(255,255,255,.28);filter:blur(8px);
+}
+.world-layer span:first-child{width:200px;height:40px;top:16%;left:-50px}
+.world-layer span:last-child{width:130px;height:26px;top:34%;right:-36px;opacity:.75}
+#scene-food .world-layer span,#scene-gray .world-layer span{background:rgba(127,168,184,.28)}
+#scene-bed .world-layer span,#scene-montage .world-layer span,#scene-birthday .world-layer span{background:rgba(255,255,255,.16)}
+body.world-moving .wave-band{animation-duration:5.2s}
+body.world-moving .wave-band.w2{animation-duration:7.4s}
+body.world-moving .wave-band.w3{animation-duration:9.2s}
 /* ============ misc ============ */
 .seashell-deco{position:absolute;opacity:.5;z-index:1}
+@media (max-width:980px){
+  #worldChapters button span{display:none}
+}
+@media (max-width:720px){
+  #worldChapters{display:none}
+}
 @media (max-width:480px){
   .swatch{width:60px;min-height:78px}
   .scene{padding:12vh 16px}
@@ -528,6 +577,8 @@ body.hero-titles .scroll-hint{opacity:.9}
 </div>
 <div id="toast" aria-live="polite"></div>
 <div id="bubbleLayer" aria-hidden="true"></div>
+<div id="worldTide" aria-hidden="true"><span id="tideFill"></span></div>
+<nav id="worldChapters" aria-label="Perjalanan"></nav>
 <canvas id="confettiCanvas" aria-hidden="true"></canvas>
 
 <!-- companion dolphin -->
@@ -656,7 +707,7 @@ body.hero-titles .scroll-hint{opacity:.9}
         </svg>
         <div class="map-popup" id="mapPopup"></div>
       </div>
-      <p class="hand reveal" data-delay="4" style="margin-top:16px;font-size:1.3rem;color:#3c4146">tap the pins ✦</p>
+      <p class="hand reveal" data-delay="4" style="margin-top:16px;font-size:1.3rem;color:#3c4146">scroll the island ✦</p>
     </div>
   </section>
 
@@ -666,7 +717,7 @@ body.hero-titles .scroll-hint{opacity:.9}
     <div class="scene-inner">
       <p class="eyebrow reveal">scene · the waterpark</p>
       <h2 class="big-title reveal" data-delay="1">And Then…</h2>
-      <p class="slide-instruction reveal" data-delay="2" id="slideHint">swipe / drag down to slide <span class="arrow">▾</span></p>
+      <p class="slide-instruction reveal" data-delay="2" id="slideHint">scroll to slide <span class="arrow">▾</span></p>
       <div class="slide-stage reveal" data-delay="3" id="slideStage">
         <svg viewBox="0 0 340 360">
           <defs>
@@ -726,7 +777,7 @@ body.hero-titles .scroll-hint{opacity:.9}
         <!-- CHOCOLATE -->
         <div class="food-block reveal">
           <h3>Chocolate</h3>
-          <p class="fb-sub">tap the pieces — break a piece, no regrets</p>
+          <p class="fb-sub">scroll past the bar — no regrets</p>
           <div class="choco-wrap"><div class="choco-grid" id="chocoGrid"></div></div>
           <p class="food-caption" id="chocoCaption"></p>
         </div>
@@ -734,7 +785,7 @@ body.hero-titles .scroll-hint{opacity:.9}
         <!-- PIE SUSU -->
         <div class="food-block reveal">
           <h3>Pie Susu Enak</h3>
-          <p class="fb-sub">tap to collect them all</p>
+          <p class="fb-sub">scroll to collect them all</p>
           <div class="pie-row" id="pieRow"></div>
           <p class="pie-caption" id="pieCaption">"A little taste of Bali."</p>
         </div>
@@ -742,7 +793,7 @@ body.hero-titles .scroll-hint{opacity:.9}
         <!-- GEMBLONG -->
         <div class="food-block reveal">
           <h3>Gemblong</h3>
-          <p class="fb-sub">it floats. obviously. tap it</p>
+          <p class="fb-sub">it floats. obviously.</p>
           <button class="gemblong-float" id="gemblong" aria-label="Gemblong">
             <svg viewBox="0 0 110 110">
               <ellipse cx="55" cy="60" rx="38" ry="30" fill="#a8763e"/>
@@ -757,7 +808,7 @@ body.hero-titles .scroll-hint{opacity:.9}
         <!-- TAHU NYUNYI -->
         <div class="food-block reveal">
           <h3>Tahu Nyunyi</h3>
-          <p class="fb-sub">a legend deserves a reveal</p>
+          <p class="fb-sub">a legend deserves a reveal — keep scrolling</p>
           <button class="tahu-card" id="tahuCard" aria-label="Buka kartu Tahu Nyunyi">
             <span class="tahu-cover">"The legendary Tahu Nyunyi."</span>
             <span class="tahu-hint hand" style="font-size:1.2rem;opacity:.7">tap to open ✦</span>
@@ -779,7 +830,7 @@ body.hero-titles .scroll-hint{opacity:.9}
         <!-- PASTA -->
         <div class="food-block reveal">
           <h3>Pasta</h3>
-          <p class="fb-sub">drag the fork over the plate & twirl</p>
+          <p class="fb-sub">scroll to twirl</p>
           <div class="pasta-stage" id="pastaStage">
             <div class="steam" aria-hidden="true"><i></i><i></i><i></i></div>
             <svg class="plate" viewBox="0 0 340 300">
@@ -866,7 +917,7 @@ body.hero-titles .scroll-hint{opacity:.9}
           </g>
         </svg>
       </div>
-      <p class="bed-hint" id="bedHint">swipe the blanket ⇢</p>
+      <p class="bed-hint" id="bedHint">scroll to pull the blanket ⇢</p>
       <button id="snoozeBtn">Just 5 more minutes…</button>
       <p class="snooze-caption" id="snoozeCaption"></p>
     </div>
@@ -912,7 +963,7 @@ body.hero-titles .scroll-hint{opacity:.9}
           </g>
         </svg>
       </div>
-      <p class="hand reveal" data-delay="5" id="grayHint" style="margin-top:14px;font-size:1.3rem;opacity:.75">pick your shade ✦</p>
+      <p class="hand reveal" data-delay="5" id="grayHint" style="margin-top:14px;font-size:1.3rem;opacity:.75">scroll through the shades ✦</p>
     </div>
   </section>
 
@@ -924,7 +975,7 @@ body.hero-titles .scroll-hint{opacity:.9}
     <div class="scene-inner">
       <p class="eyebrow reveal">scene · the celebration</p>
       <h2 class="big-title reveal" data-delay="1">Light Every Candle</h2>
-      <p class="sub reveal" data-delay="2">Eleven candles — one for the date that started it all.</p>
+      <p class="sub reveal" data-delay="2">Scroll to light eleven candles — one for the date that started it all.</p>
 
       <div class="cake-stage reveal" data-delay="3">
         <div class="candle-row" id="candleRow"></div>
@@ -1027,7 +1078,7 @@ function makeDrag(el, handlers){
     active = true; sx = lx = e.clientX; sy = ly = e.clientY;
     try { el.setPointerCapture(e.pointerId); } catch(_e){}
     if (handlers.onStart) handlers.onStart(e);
-    e.preventDefault();
+    if (!handlers.allowScroll) e.preventDefault();
   });
   el.addEventListener('pointermove', function(e){
     if (!active) return;
@@ -1220,6 +1271,7 @@ function finishIntro(){
     $('#companion').classList.add('visible');
   }, reducedMotion ? 400 : 3600);
   setTimeout(function(){ intro.remove(); }, 2200);
+  setTimeout(function(){ if (window.ScrollTrigger) ScrollTrigger.refresh(); }, 2400);
 }
 (function runIntro(){
   var l1 = $('#introL1'), l2 = $('#introL2'), skip = $('#skipIntro');
@@ -1262,7 +1314,8 @@ function finishIntro(){
     var y = 12 + p * 66;                       /* vh */
     var x = 4 + Math.sin(p * Math.PI * 5) * 4; /* vw */
     var flip = Math.cos(p * Math.PI * 5) < 0 ? -1 : 1;
-    comp.style.transform = 'translate(' + x + 'vw,' + y + 'vh) scaleX(' + flip + ')';
+    var rot = flip < 0 ? 10 : -8;
+    comp.style.transform = 'translate(' + x + 'vw,' + y + 'vh) scaleX(' + flip + ') rotate(' + rot + 'deg)';
     /* hide near very start & very end */
     comp.style.opacity = (p < 0.02 || p > 0.965 || !document.body.classList.contains('arrived')) ? 0 : 0.95;
   }
@@ -1301,31 +1354,67 @@ if (hasGsap && window.ScrollTrigger && !reducedMotion){
     yPercent: -30, opacity: 0, ease: 'none',
     scrollTrigger: { trigger: '#scene-hero', start: '30% top', end: 'bottom top', scrub: true }
   });
+  gsap.to('.sea', {
+    yPercent: 18, ease: 'none',
+    scrollTrigger: { trigger: '#scene-hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
+  gsap.to('.dream-ocean', {
+    yPercent: 22, ease: 'none',
+    scrollTrigger: { trigger: '#scene-sleep', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+  gsap.to('.final-sea', {
+    yPercent: 20, ease: 'none',
+    scrollTrigger: { trigger: '#scene-final', start: 'top bottom', end: 'bottom bottom', scrub: true }
+  });
 }
 
 /* ==================== BALI MAP ==================== */
 (function initBali(){
-  var popup = $('#mapPopup'), wrap = $('#baliMap');
-  var messages = ['Beach day!', 'Time for vacation.', 'Ocean therapy.'];
-  var mi = 0, hideTimer = null;
+  var popup = $('#mapPopup'), wrap = $('#baliMap'), section = $('#scene-bali');
+  var messages = ['Beach day!', 'Time for vacation.', 'Ocean therapy.', 'North shore light.'];
+  var mi = 0, hideTimer = null, shown = -1;
+  function placePopup(pin, text){
+    var rect = wrap.getBoundingClientRect();
+    var svg = wrap.querySelector('svg');
+    var srect = svg.getBoundingClientRect();
+    var m = pin.getAttribute('transform').match(/translate\(([\d.]+)\s+([\d.]+)\)/);
+    var px = parseFloat(m[1]) / 300 * srect.width + (srect.left - rect.left);
+    var py = parseFloat(m[2]) / 230 * srect.height + (srect.top - rect.top);
+    popup.textContent = text;
+    popup.style.left = px + 'px';
+    popup.style.top = py + 'px';
+    popup.classList.add('show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function(){ popup.classList.remove('show'); }, 1800);
+  }
   $$('.map-pin', wrap).forEach(function(pin){
     pin.addEventListener('click', function(e){
-      var rect = wrap.getBoundingClientRect();
-      var svg = wrap.querySelector('svg');
-      var srect = svg.getBoundingClientRect();
-      /* pin center in wrap coordinates */
-      var m = pin.getAttribute('transform').match(/translate\(([\d.]+)\s+([\d.]+)\)/);
-      var px = parseFloat(m[1]) / 300 * srect.width + (srect.left - rect.left);
-      var py = parseFloat(m[2]) / 230 * srect.height + (srect.top - rect.top);
-      popup.textContent = messages[mi % messages.length]; mi++;
-      popup.style.left = px + 'px';
-      popup.style.top = py + 'px';
-      popup.classList.add('show');
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(function(){ popup.classList.remove('show'); }, 1800);
+      placePopup(pin, messages[mi % messages.length]); mi++;
       e.stopPropagation();
     });
   });
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    var pins = $$('.map-pin', wrap);
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 70%',
+      end: 'bottom 45%',
+      onToggle: function(self){ section.classList.toggle('in-view', self.isActive); },
+      onUpdate: function(self){
+        if (self.progress < 0.08){ popup.classList.remove('show'); shown = -1; return; }
+        var idx = Math.min(pins.length - 1, Math.floor(self.progress * pins.length));
+        if (idx === shown) return;
+        shown = idx;
+        placePopup(pins[idx], messages[idx % messages.length]);
+      }
+    });
+    gsap.fromTo(wrap.querySelector('svg'),
+      { scale: 0.92, rotation: -2, transformOrigin: '50% 55%' },
+      { scale: 1.05, rotation: 1.4, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true } }
+    );
+  } else {
+    section.classList.add('in-view');
+  }
 })();
 
 /* ==================== WATERBOOM SLIDE ==================== */
@@ -1367,25 +1456,22 @@ var slideDone = false;
     $('#splashTitle').classList.add('on');
     $('#wbMode').classList.add('on');
     $('#miniPark').classList.add('on');
-    $('#slideHint').innerHTML = '<span style="opacity:.75">nice slide. tap it again for a rerun 〰</span>';
+    $('#slideHint').innerHTML = '<span style="opacity:.75">nice slide ✦</span>';
   }
 
-  makeDrag(stage, {
-    onMove: function(e, dx, dy, sx, sy){
-      if (slideDone) return;
-      if (sy > 0) progress = Math.min(1, progress + sy / 420);
-      setRider(progress);
-      if (progress >= 0.99) finishSlide();
-    },
-    onEnd: function(){
-      if (slideDone) return;
-      if (progress < 0.99 && progress > 0){
-        /* ease back a bit so it feels alive */
-        progress = Math.max(0, progress - 0.05);
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    ScrollTrigger.create({
+      trigger: '#scene-waterboom',
+      start: 'top 72%',
+      end: 'bottom 38%',
+      onUpdate: function(self){
+        if (slideDone) return;
+        progress = Math.min(1, self.progress / 0.78);
         setRider(progress);
+        if (progress >= 0.99) finishSlide();
       }
-    }
-  });
+    });
+  }
 
   /* Easter egg 6: click slide after done -> dolphin rerun */
   stage.addEventListener('click', function(){
@@ -1419,18 +1505,17 @@ var slideDone = false;
 /* ==================== CHOCOLATE ==================== */
 (function initChocolate(){
   var grid = $('#chocoGrid'), caption = $('#chocoCaption');
-  var eaten = 0, TOTAL = 12;
+  var eaten = 0, TOTAL = 12, pieces = [], refilling = false, hold = false;
   for (var i = 0; i < TOTAL; i++){
     var piece = document.createElement('button');
     piece.className = 'choco-piece';
     piece.setAttribute('aria-label', 'Chocolate piece');
     grid.appendChild(piece);
+    pieces.push(piece);
   }
-  grid.addEventListener('click', function(e){
-    var piece = e.target.closest('.choco-piece');
-    if (!piece || piece.classList.contains('eaten')) return;
+  function eat(piece, viaScroll){
+    if (!piece || piece.classList.contains('eaten') || refilling) return;
     piece.classList.add('eaten');
-    /* crumbs */
     for (var c = 0; c < 4; c++){
       var crumb = document.createElement('span');
       crumb.className = 'crumb';
@@ -1444,18 +1529,37 @@ var slideDone = false;
     else if (eaten === 6) caption.textContent = '"Definitely one more."';
     else if (eaten === TOTAL){
       caption.textContent = '"Chocolate supply: dangerously low."';
+      if (viaScroll) return;
       toast('Chocolate supply: dangerously low.');
-      /* refill after a moment — infinite chocolate, as it should be */
+      refilling = true;
+      hold = true;
       setTimeout(function(){
-        $$('.choco-piece', grid).forEach(function(p){
+        pieces.forEach(function(p){
           p.classList.remove('eaten');
           $$('.crumb', p).forEach(function(cr){ cr.remove(); });
         });
         eaten = 0;
+        refilling = false;
         caption.textContent = '"…it refilled itself. Suspicious. Delicious."';
       }, 2600);
     }
+  }
+  grid.addEventListener('click', function(e){
+    eat(e.target.closest('.choco-piece'));
   });
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    ScrollTrigger.create({
+      trigger: grid,
+      start: 'top 78%',
+      end: 'bottom 42%',
+      onUpdate: function(self){
+        if (self.progress < 0.12) hold = false;
+        if (hold || refilling) return;
+        var n = Math.round(self.progress * TOTAL);
+        for (var i = 0; i < n; i++) eat(pieces[i], true);
+      }
+    });
+  }
 })();
 
 /* ==================== PIE SUSU ==================== */
@@ -1470,15 +1574,16 @@ var slideDone = false;
     '<path d="M14 46 q6 8 12 0 q6 8 12 0 q6 8 12 0 q6 8 12 0 q6 8 12 0 q6 8 8 -2" stroke="#d8a752" stroke-width="3" fill="none"/>' +
     '<circle cx="40" cy="46" r="2" fill="#e8c069"/><circle cx="56" cy="50" r="2" fill="#e8c069"/>' +
     '</svg>';
+  var pies = [];
   for (var i = 0; i < TOTAL; i++){
     var b = document.createElement('button');
     b.className = 'pie-item';
     b.setAttribute('aria-label', 'Pie susu');
     b.innerHTML = pieSvg;
     row.appendChild(b);
+    pies.push(b);
   }
-  row.addEventListener('click', function(e){
-    var pie = e.target.closest('.pie-item');
+  function collect(pie, viaScroll){
     if (!pie || pie.classList.contains('collected')) return;
     pie.classList.add('collected');
     for (var s = 0; s < 6; s++){
@@ -1492,19 +1597,44 @@ var slideDone = false;
     collected++;
     if (collected === TOTAL){
       caption.classList.add('on');
-      toast('Pie susu: collected. All of them.');
+      if (!viaScroll) toast('Pie susu: collected. All of them.');
     }
+  }
+  row.addEventListener('click', function(e){
+    collect(e.target.closest('.pie-item'));
   });
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    ScrollTrigger.create({
+      trigger: row,
+      start: 'top 80%',
+      end: 'bottom 45%',
+      onUpdate: function(self){
+        var n = Math.round(self.progress * TOTAL);
+        for (var i = 0; i < n; i++) collect(pies[i], true);
+      }
+    });
+  }
 })();
 
 /* ==================== GEMBLONG ==================== */
-$('#gemblong').addEventListener('click', function(){
-  toast('"Sweet enough."');
+var gemblongNoted = false;
+function noteGemblong(quiet){
+  if (gemblongNoted) return;
+  gemblongNoted = true;
+  if (!quiet) toast('"Sweet enough."');
   spawnBubbles(5, 50, 55);
-});
+}
+$('#gemblong').addEventListener('click', function(){ noteGemblong(false); });
+if (hasGsap && window.ScrollTrigger && !reducedMotion){
+  ScrollTrigger.create({
+    trigger: '#gemblong',
+    start: 'center 70%',
+    onEnter: function(){ noteGemblong(true); }
+  });
+}
 
 /* ==================== TAHU NYUNYI ==================== */
-$('#tahuCard').addEventListener('click', function(){
+function openTahu(){
   var card = $('#tahuCard');
   if (!card.classList.contains('open')){
     card.classList.add('open');
@@ -1513,19 +1643,29 @@ $('#tahuCard').addEventListener('click', function(){
     void card.querySelector('.tahu-reveal').offsetWidth;
     card.querySelector('.tahu-reveal').style.animation = '';
   }
-});
+}
+$('#tahuCard').addEventListener('click', openTahu);
+if (hasGsap && window.ScrollTrigger && !reducedMotion){
+  ScrollTrigger.create({
+    trigger: '#tahuCard',
+    start: 'top 72%',
+    onEnter: function(){ if (!$('#tahuCard').classList.contains('open')) openTahu(); }
+  });
+}
 
 /* ==================== PASTA ==================== */
 (function initPasta(){
   var stage = $('#pastaStage'), fork = $('#fork'), caption = $('#pastaCaption');
   var swirl = $('#pastaSwirl');
-  var fx = 0, fy = 0, rot = 0, twirl = 0, done = false;
+  var fx = 0, fy = 0, rot = 0, twirl = 0, done = false, forkDrag = false;
   var NEED = 550;
 
   function place(){
     fork.style.transform = 'translate(' + fx + 'px,' + fy + 'px) rotate(' + rot + 'deg)';
   }
   makeDrag(fork, {
+    allowScroll: true,
+    onStart: function(){ forkDrag = true; },
     onMove: function(e, dx, dy, sx, sy){
       fx += sx; fy += sy;
       /* keep inside stage */
@@ -1557,18 +1697,41 @@ $('#tahuCard').addEventListener('click', function(){
           spawnBubbles(4, 50, 60);
         }
       }
-    }
+    },
+    onEnd: function(){ forkDrag = false; }
   });
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    ScrollTrigger.create({
+      trigger: stage,
+      start: 'top 78%',
+      end: 'bottom 36%',
+      onUpdate: function(self){
+        if (forkDrag || done) return;
+        var p = self.progress;
+        swirl.setAttribute('transform', 'translate(170 166) rotate(' + (p * 280) + ')');
+        fork.style.transform = 'translate(' + (24 + p * 80) + 'px,' + (16 + p * 36) + 'px) rotate(' + (p * 48) + 'deg)';
+        if (p > 0.16 && p < 0.84) caption.textContent = 'twirl… twirl…';
+        if (p >= 0.84){
+          done = true;
+          stage.classList.add('done');
+          caption.textContent = '"Perfect."';
+          spawnBubbles(4, 50, 60);
+        }
+      }
+    });
+  }
 })();
 
 /* ==================== BED ==================== */
 (function initBed(){
   var blanket = $('#blanket'), hint = $('#bedHint');
   var bedGroup = $('#bedGroup'), room = $('#bedRoom');
-  var opened = false, bx = 0;
+  var opened = false, bx = 0, blanketDrag = false;
 
-  blanket.style.touchAction = 'none';
+  blanket.style.touchAction = 'pan-y';
   makeDrag(blanket, {
+    allowScroll: true,
+    onStart: function(){ blanketDrag = true; },
     onMove: function(e, dx){
       if (opened) return;
       bx = dx;
@@ -1577,6 +1740,7 @@ $('#tahuCard').addEventListener('click', function(){
       blanket.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(' + (dx * 0.02) + 'deg)';
     },
     onEnd: function(e, dx){
+      blanketDrag = false;
       if (opened) return;
       if (dx > 110){
         opened = true;
@@ -1640,6 +1804,32 @@ $('#tahuCard').addEventListener('click', function(){
       }, 1200);
     }
   });
+
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    ScrollTrigger.create({
+      trigger: '#scene-bed',
+      start: 'top 60%',
+      end: 'bottom 30%',
+      onUpdate: function(self){
+        var p = self.progress;
+        if (!blanketDrag && !opened){
+          var tx = Math.min(260, p * 340);
+          blanket.style.transform = 'translate(' + tx + 'px,' + (p * 18) + 'px) rotate(' + (p * 8) + 'deg)';
+          if (p > 0.62){
+            opened = true;
+            blanket.classList.add('open');
+            blanket.style.transform = 'translate(300px,60px) rotate(14deg)';
+            hint.textContent = 'now tap the pillow ✦';
+          }
+        }
+        if (stage === 0){
+          dim.style.opacity = String(Math.max(0, (p - 0.55) * 1.5));
+          if (p > 0.9) cap.textContent = '"Sleep always wins."';
+          else if (p > 0.72) cap.textContent = '"5 minutes later…"';
+        }
+      }
+    });
+  }
 })();
 
 /* ==================== SLEEP MODE ==================== */
@@ -1658,25 +1848,40 @@ $('#tahuCard').addEventListener('click', function(){
     s.style.width = sz + 'px'; s.style.height = sz + 'px';
     field.appendChild(s);
   }
-  /* progress bar when visible */
+  /* progress bar follows the scroll through the night */
   var bar = $('#sleepBar'), pct = $('#sleepPct'), dnd = $('#dndText');
-  var started = false;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if (en.isIntersecting && !started){
-        started = true;
-        var v = 0;
-        var timer = setInterval(function(){
-          v += 2;
-          if (v >= 100){ v = 100; clearInterval(timer); dnd.classList.add('on'); }
-          bar.style.width = v + '%';
-          pct.textContent = '█'.repeat(Math.max(1, Math.round(v / 10))) + ' ' + v + '%';
-        }, reducedMotion ? 8 : 55);
-        io.disconnect();
-      }
+  function paintSleep(v){
+    v = Math.max(0, Math.min(100, Math.round(v)));
+    bar.style.width = v + '%';
+    pct.textContent = '█'.repeat(Math.max(1, Math.round(v / 10))) + ' ' + v + '%';
+    dnd.classList.toggle('on', v >= 96);
+  }
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    bar.style.transition = 'none';
+    ScrollTrigger.create({
+      trigger: '#scene-sleep',
+      start: 'top 68%',
+      end: 'bottom 42%',
+      onUpdate: function(self){ paintSleep(self.progress * 100); }
     });
-  }, { threshold: 0.5 });
-  io.observe($('#scene-sleep'));
+  } else {
+    var started = false;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting && !started){
+          started = true;
+          var v = 0;
+          var timer = setInterval(function(){
+            v += 2;
+            if (v >= 100){ v = 100; clearInterval(timer); }
+            paintSleep(v);
+          }, reducedMotion ? 8 : 55);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    io.observe($('#scene-sleep'));
+  }
 })();
 
 /* ==================== GRAY PALETTE ==================== */
@@ -1692,7 +1897,8 @@ $('#tahuCard').addEventListener('click', function(){
     { name: 'Charcoal',   hex: '#4a4f55' }
   ];
   var goA = $$('.go-a', section), goB = $$('.go-b', section), goC = $$('.go-c', section);
-  var seqIndex = 0, secretUnlocked = false;
+  var seqIndex = 0, secretUnlocked = false, userPicked = false, shadeIdx = -1;
+  var swatches = [];
 
   function shadeOf(hex, f){
     var n = parseInt(hex.slice(1), 16);
@@ -1714,7 +1920,9 @@ $('#tahuCard').addEventListener('click', function(){
     b.className = 'swatch';
     b.style.background = sh.hex;
     b.textContent = sh.name;
+    swatches.push(b);
     b.addEventListener('click', function(){
+      userPicked = true;
       $$('.swatch', palette).forEach(function(x){ x.classList.remove('active'); });
       b.classList.add('active');
       applyShade(sh.hex);
@@ -1743,6 +1951,22 @@ $('#tahuCard').addEventListener('click', function(){
     });
     palette.appendChild(b);
   });
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 68%',
+      end: 'bottom 36%',
+      onUpdate: function(self){
+        if (userPicked || secretUnlocked) return;
+        var idx = Math.min(shades.length - 1, Math.floor(self.progress * shades.length));
+        if (idx === shadeIdx) return;
+        shadeIdx = idx;
+        swatches.forEach(function(x){ x.classList.remove('active'); });
+        swatches[idx].classList.add('active');
+        applyShade(shades[idx].hex);
+      }
+    });
+  }
 })();
 
 /* ==================== BIRTHDAY / CANDLES ==================== */
@@ -1762,17 +1986,39 @@ $('#tahuCard').addEventListener('click', function(){
     c.innerHTML = '<span class="flame"></span><span class="stick"></span><span class="spark" style="--sx:8px"></span><span class="spark" style="--sx:-9px"></span>';
     row.appendChild(c);
   }
-  row.addEventListener('click', function(e){
-    var candle = e.target.closest('.candle');
-    if (!candle || candle.classList.contains('lit')) return;
-    candle.classList.add('lit');
-    lit++;
-    progress.textContent = lit + ' / ' + TOTAL;
+  var candles = $$('.candle', row);
+  function lightUpTo(n){
+    for (var i = 0; i < n && i < candles.length; i++){
+      if (!candles[i].classList.contains('lit')){
+        candles[i].classList.add('lit');
+        lit++;
+      }
+    }
+    progress.textContent = (lit === TOTAL ? '11 / 11 ✦ all lit' : lit + ' / ' + TOTAL);
     if (lit === TOTAL && !celebrated){
       celebrated = true;
       setTimeout(celebrate, 500);
     }
+  }
+  row.addEventListener('click', function(e){
+    var candle = e.target.closest('.candle');
+    if (!candle || candle.classList.contains('lit')) return;
+    lightUpTo(candles.indexOf(candle) + 1);
   });
+  if (hasGsap && window.ScrollTrigger && !reducedMotion){
+    ScrollTrigger.create({
+      trigger: '#scene-birthday',
+      start: 'top 62%',
+      end: 'center 28%',
+      onUpdate: function(self){
+        lightUpTo(Math.ceil(self.progress * TOTAL));
+      }
+    });
+    gsap.fromTo('.cake',
+      { y: 24 },
+      { y: -12, ease: 'none', scrollTrigger: { trigger: '#scene-birthday', start: 'top bottom', end: 'bottom top', scrub: true } }
+    );
+  }
   function celebrate(){
     var d = $('#bdDolphin');
     d.style.opacity = '1';
@@ -1854,6 +2100,110 @@ $('#tahuCard').addEventListener('click', function(){
     overlay.classList.add('show');
     setTimeout(function(){ location.reload(); }, 1400);
   });
+})();
+
+/* ==================== SCROLL WORLD ==================== */
+(function initScrollWorld(){
+  var tide = $('#tideFill');
+  var nav = $('#worldChapters');
+  var chapters = [
+    ['#scene-hero', 'Shore'],
+    ['#scene-happy', 'Beach'],
+    ['#scene-bali', 'Bali'],
+    ['#scene-waterboom', 'Waterboom'],
+    ['#scene-food', 'Table'],
+    ['#scene-bed', 'Bed'],
+    ['#scene-sleep', 'Sleep'],
+    ['#scene-gray', 'Gray'],
+    ['#scene-birthday', 'Birthday'],
+    ['#scene-montage', 'Day'],
+    ['#scene-final', 'Wish']
+  ];
+  chapters.forEach(function(item){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', item[1]);
+    var label = document.createElement('span');
+    label.textContent = item[1];
+    btn.appendChild(label);
+    btn.addEventListener('click', function(){
+      var el = $(item[0]);
+      if (el) el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+    nav.appendChild(btn);
+    item.push(btn);
+  });
+
+  if (!(hasGsap && window.ScrollTrigger) || reducedMotion){
+    if (tide) tide.style.transform = 'scaleY(1)';
+    return;
+  }
+
+  ScrollTrigger.create({
+    trigger: document.documentElement,
+    start: 'top top',
+    end: 'bottom bottom',
+    onUpdate: function(self){
+      if (tide) tide.style.transform = 'scaleY(' + self.progress + ')';
+    }
+  });
+
+  chapters.forEach(function(item){
+    ScrollTrigger.create({
+      trigger: item[0],
+      start: 'top center',
+      end: 'bottom center',
+      onToggle: function(self){ item[2].classList.toggle('on', self.isActive); }
+    });
+  });
+
+  $$('.scene').forEach(function(scene){
+    if (scene.id === 'scene-hero' || scene.id === 'scene-sleep') return;
+    var layer = document.createElement('div');
+    layer.className = 'world-layer';
+    layer.setAttribute('aria-hidden', 'true');
+    layer.innerHTML = '<span></span><span></span>';
+    scene.insertBefore(layer, scene.firstChild);
+    gsap.to(layer, {
+      yPercent: -28,
+      ease: 'none',
+      scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  });
+
+  gsap.fromTo('#scene-happy .beach-stage svg',
+    { scale: 1.08, transformOrigin: '50% 62%' },
+    { scale: 1, ease: 'none', scrollTrigger: { trigger: '#scene-happy', start: 'top bottom', end: 'bottom top', scrub: true } }
+  );
+  gsap.fromTo('#scene-gray .gray-ocean svg',
+    { scale: 1.08, transformOrigin: '50% 70%' },
+    { scale: 1, ease: 'none', scrollTrigger: { trigger: '#scene-gray', start: 'top bottom', end: 'bottom top', scrub: true } }
+  );
+
+  ScrollTrigger.create({
+    trigger: '#scene-montage',
+    start: 'top 70%',
+    end: 'bottom 40%',
+    onToggle: function(self){ $('#scene-montage').classList.toggle('in-view', self.isActive); }
+  });
+  ScrollTrigger.create({
+    trigger: '#scene-hero',
+    start: 'top 80%',
+    onEnter: function(){ spawnBubbles(8, 50, 70); }
+  });
+  ScrollTrigger.create({
+    trigger: '#scene-waterboom',
+    start: 'top 65%',
+    onEnter: function(){ spawnBubbles(14); },
+    onEnterBack: function(){ spawnBubbles(8); }
+  });
+
+  var movingTimer = null;
+  addEventListener('scroll', function(){
+    document.body.classList.add('world-moving');
+    clearTimeout(movingTimer);
+    movingTimer = setTimeout(function(){ document.body.classList.remove('world-moving'); }, 160);
+  }, { passive: true });
 })();
 
 /* keep ScrollTrigger fresh after fonts/layout settle */

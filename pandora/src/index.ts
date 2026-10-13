@@ -2,16 +2,16 @@ export interface Env {
   KV: KVNamespace;
 }
 
-type Persona = { alias: string; quote: string };
+type Persona = { alias: string; quote: string; fate: string };
 
 // Alias + kutipan per nama (kunci = nama persis seperti di KV).
 const PERSONAS: Record<string, Persona> = {
-  Andhika: { alias: "The Unshaken", quote: "Fear is a place. I just booked a room." },
-  Bona: { alias: "The Lionheart", quote: "If the doors open by themselves, I’ll hold them for everyone else." },
-  Dei: { alias: "The Shadow Walker", quote: "The dark is not empty. I’ve already said hello." },
-  Edwin: { alias: "The Calm Before the Scream", quote: "Stay quiet. Listen. Then run — gracefully." },
-  Vinkent: { alias: "The Brave One", quote: "Every corridor has an exit. I intend to find all of them." },
-  Wira: { alias: "The Last One Standing", quote: "When the lights go out, I’m the one still counting heads." },
+  Andhika: { alias: "The Unshaken", quote: "Fear is a place. I just booked a room.", fate: "Yang pertama membuka pintu yang jelas-jelas bertuliskan “JANGAN”." },
+  Bona: { alias: "The Lionheart", quote: "If the doors open by themselves, I’ll hold them for everyone else.", fate: "Yang bilang “tenang, itu cuma angin” — lalu lari paling depan." },
+  Dei: { alias: "The Shadow Walker", quote: "The dark is not empty. I’ve already said hello.", fate: "Yang tiba-tiba hilang dari barisan, dan baru sadar semua orang menunggunya di depan." },
+  Edwin: { alias: "The Calm Before the Scream", quote: "Stay quiet. Listen. Then run — gracefully.", fate: "Yang paling jago memecahkan teka-teki… sambil gemetar hebat." },
+  Vinkent: { alias: "The Brave One", quote: "Every corridor has an exit. I intend to find all of them.", fate: "Yang menenangkan semua orang, sambil menggenggam lengan temannya terlalu kuat." },
+  Wira: { alias: "The Last One Standing", quote: "When the lights go out, I’m the one still counting heads.", fate: "Yang melihat sesuatu di cermin, lalu memilih tidak memberi tahu siapa-siapa." },
 };
 
 // 20 judul berbeda. Enam nama di atas mengambil judulnya sendiri.
@@ -23,20 +23,20 @@ const POOL: Persona[] = [
   PERSONAS.Edwin,
   PERSONAS.Vinkent,
   PERSONAS.Wira,
-  { alias: "The Fearless", quote: "I came for the fear. I’m staying for the screams." },
-  { alias: "The Night Crawler", quote: "Darkness is just a door nobody opened yet." },
-  { alias: "The Iron Nerve", quote: "My heartbeat is the only thing that’s allowed to run." },
-  { alias: "The Door Keeper", quote: "I don’t lock the doors. I remember who walked through." },
-  { alias: "The Quiet Flame", quote: "The lights failed. I didn’t." },
-  { alias: "The Lantern Bearer", quote: "If you can see me, you are still in the corridor." },
-  { alias: "The Unblinking", quote: "I watched the dark until it looked away." },
-  { alias: "The Hall Walker", quote: "Every step I take, the hallway takes one back." },
-  { alias: "The Still Heart", quote: "Panic is loud. I left mine at the gate." },
-  { alias: "The Whisper", quote: "Speak softly. The walls are taking notes." },
-  { alias: "The Threshold", quote: "I stand where the corridor decides." },
-  { alias: "The Last Light", quote: "When the bulb dies, I am what remains." },
-  { alias: "The Bone Listener", quote: "I can hear which floorboard is lying." },
-  { alias: "The One Who Stayed", quote: "They ran. I counted the doors and stayed." },
+  { alias: "The Fearless", quote: "I came for the fear. I’m staying for the screams.", fate: "Yang tertawa paling keras, lalu berhenti lebih dulu." },
+  { alias: "The Night Crawler", quote: "Darkness is just a door nobody opened yet.", fate: "Yang merangkak di bawah meja dan mengaku itu strategi." },
+  { alias: "The Iron Nerve", quote: "My heartbeat is the only thing that’s allowed to run.", fate: "Yang tangannya tidak gemetar, tapi kuncinya jatuh tiga kali." },
+  { alias: "The Door Keeper", quote: "I don’t lock the doors. I remember who walked through.", fate: "Yang memegang pintu untuk semua orang, lalu lupa masuk sendiri." },
+  { alias: "The Quiet Flame", quote: "The lights failed. I didn’t.", fate: "Yang membawa korek, tapi lilinnya sudah habis dari rumah." },
+  { alias: "The Lantern Bearer", quote: "If you can see me, you are still in the corridor.", fate: "Yang senternya paling terang, dan paling sering mati." },
+  { alias: "The Unblinking", quote: "I watched the dark until it looked away.", fate: "Yang menatap sudut ruangan terlalu lama, lalu menggeleng pelan." },
+  { alias: "The Hall Walker", quote: "Every step I take, the hallway takes one back.", fate: "Yang bilang lorongnya lurus, padahal semua orang sudah berputar." },
+  { alias: "The Still Heart", quote: "Panic is loud. I left mine at the gate.", fate: "Yang paling tenang, sampai namanya dipanggil dari dalam." },
+  { alias: "The Whisper", quote: "Speak softly. The walls are taking notes.", fate: "Yang berbisik “di belakangmu”, padahal yang di belakang adalah dia sendiri." },
+  { alias: "The Threshold", quote: "I stand where the corridor decides.", fate: "Yang berdiri di ambang pintu sampai yang lain menyeretnya masuk." },
+  { alias: "The Last Light", quote: "When the bulb dies, I am what remains.", fate: "Yang terakhir melihat lampu menyala, dan tidak cerita apa yang dilihatnya." },
+  { alias: "The Bone Listener", quote: "I can hear which floorboard is lying.", fate: "Yang mendengar langkah tambahan, lalu menghitung ulang temannya." },
+  { alias: "The One Who Stayed", quote: "They ran. I counted the doors and stayed.", fate: "Yang tetap di ruangan setelah yang lain berteriak sudah keluar." },
 ];
 
 function personaFor(name: string, names: string[]): Persona {
@@ -115,6 +115,7 @@ function ticketFor(name: string, idx: number, names: string[]) {
     idx,
     alias: p.alias,
     quote: p.quote,
+    fate: p.fate,
     no: `GA-${String(idx + 1).padStart(2, "0")}-${(hash(name) % 9000) + 1000}`,
   };
 }

@@ -117,28 +117,27 @@ button.btn.primary:hover{box-shadow:0 14px 34px -6px var(--blood)}
 .cue span{display:block;margin-top:10px;font-size:24px;color:var(--blood);animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(9px)}}
 .world{position:relative;height:650vh;background:#020403}
+body.inworld .grain{animation:none}
+body.inworld .fog,body.inworld .dust{visibility:hidden}
 .wstick{position:sticky;top:0;height:100vh;overflow:hidden;background:#020403}
 .wpersp{position:absolute;inset:0;perspective:650px;perspective-origin:50% 48%}
 .wscene{position:absolute;inset:0;transform-style:preserve-3d}
-.cor{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
+.cor{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
 .wall,.floor,.ceil{position:absolute;top:0}
-.wall{height:420px;width:6400px;background:
-  linear-gradient(180deg,rgba(0,0,0,.55),transparent 20%,transparent 68%,rgba(0,0,0,.75)),
-  repeating-linear-gradient(90deg,rgba(0,0,0,.4) 0 5px,transparent 5px 340px),
-  radial-gradient(ellipse 380px 160px at 30% 62%,rgba(95,10,12,.28),transparent 70%),
-  linear-gradient(#1f2d29,#131c1a)}
+.wall{height:420px;width:6400px;background:repeating-linear-gradient(90deg,#182220 0 280px,#121b19 280px 300px)}
 .wall.l{left:0;transform-origin:0 0;transform:translate3d(-250px,-210px,0) rotateY(90deg)}
 .wall.r{left:-6400px;transform-origin:100% 0;transform:translate3d(250px,-210px,0) rotateY(-90deg)}
 .floor,.ceil{left:-250px;width:500px;height:6400px;transform-origin:0 0}
-.floor{transform:translate3d(0,210px,0) rotateX(-90deg);background:radial-gradient(ellipse 120px 100% at 50% 50%,rgba(90,10,12,.25),transparent 70%),repeating-linear-gradient(180deg,rgba(0,0,0,.6) 0 3px,transparent 3px 130px),repeating-linear-gradient(90deg,rgba(0,0,0,.4) 0 2px,transparent 2px 125px),#0e1513}
-.ceil{transform:translate3d(0,-210px,0) rotateX(-90deg);background:repeating-linear-gradient(180deg,transparent 0 540px,rgba(255,238,190,.35) 540px 580px,transparent 580px 680px),#0b1110}
+.floor{transform:translate3d(0,210px,0) rotateX(-90deg);background:repeating-linear-gradient(180deg,#141c1a 0 120px,#0c1211 120px 128px)}
+.ceil{transform:translate3d(0,-210px,0) rotateX(-90deg);background:#0b1110}
 .door{position:absolute;left:-70px;top:-60px;width:140px;height:270px;transform-style:preserve-3d;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .door.knock:not(.open) .leaf{animation:rattle .12s 4}
 .door.r.knock:not(.open) .leaf{animation-name:rattleR}
 .door .frame{position:absolute;inset:0;background:#010202;border:6px solid #2b3a35;border-bottom:0;overflow:hidden}
 .door .void{position:absolute;inset:0;display:flex;gap:18px;justify-content:center;padding-top:70px}
-.door .void i{width:12px;height:6px;border-radius:50%;background:radial-gradient(circle,#fff,#ff3b3b 40%,transparent 75%);box-shadow:0 0 14px 3px rgba(255,40,40,.7);opacity:0;animation:look 4s infinite}
-.door .leaf{position:absolute;inset:0;background:linear-gradient(135deg,#3c4d48,#18211f);border:6px solid #2b3a35;border-bottom:0;transform-origin:0 50%;transition:transform 1.05s cubic-bezier(.16,.84,.22,1);box-shadow:inset 0 0 30px rgba(0,0,0,.6)}
+.door .void i{width:12px;height:6px;border-radius:50%;background:#ff3b3b;opacity:0}
+.door.near .void i{animation:look 4s infinite}
+.door .leaf{position:absolute;inset:0;background:#24302c;border:6px solid #2b3a35;border-bottom:0;transform-origin:0 50%;transition:transform 1.05s cubic-bezier(.16,.84,.22,1)}
 .door.r .leaf{transform-origin:100% 50%}
 .door.open .leaf{transform:rotateY(-108deg)}
 .door.r.open .leaf{transform:rotateY(108deg)}
@@ -181,7 +180,7 @@ button.btn.primary:hover{box-shadow:0 14px 34px -6px var(--blood)}
 .fates button.on:hover{transform:translateY(-4px) scale(1.06)}
 .fates button.sel{background:rgba(196,22,28,.28)}
 .fate{min-height:4.4em;max-width:480px;font-size:15px;line-height:1.6;color:#f0caca;font-style:italic}
-.breath{position:absolute;z-index:8;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 128px);width:98px;padding:12px 8px 10px;border-radius:18px;font:inherit;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#cfe0da;background:rgba(0,0,0,.55);border:1px solid rgba(160,200,190,.35);backdrop-filter:blur(6px);cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .3s,border-color .4s,box-shadow .4s,color .4s,opacity .8s}
+.breath{position:absolute;z-index:8;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 128px);width:98px;padding:12px 8px 10px;border-radius:18px;font:inherit;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#cfe0da;background:rgba(0,0,0,.72);border:1px solid rgba(160,200,190,.35);cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .3s,border-color .4s,color .4s,opacity .8s}
 .breath small{display:block;margin-top:5px;font-size:8px;letter-spacing:.1em;color:#7c8a85;text-transform:none}
 .breath .bm{display:block;height:5px;margin-bottom:8px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
 .breath .bm i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#4fa3c7,#9fe3ff);box-shadow:0 0 8px #4fa3c7}
@@ -211,19 +210,16 @@ button.btn.primary:hover{box-shadow:0 14px 34px -6px var(--blood)}
 .chips button{font:inherit;font-size:14px;text-align:left;padding:12px 16px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:var(--ink);cursor:pointer;transition:border-color .4s,background .4s,transform .4s var(--ease),opacity .4s}
 .chips button:hover:not(:disabled){border-color:rgba(196,22,28,.8);background:rgba(196,22,28,.12);transform:translateX(4px)}
 .chips button:disabled{opacity:.4;cursor:default}
-.nvbtn{position:absolute;z-index:8;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 244px);width:58px;height:58px;border-radius:50%;font:inherit;font-size:12px;letter-spacing:.08em;color:#9fe3a8;background:rgba(0,0,0,.55);border:1px solid rgba(120,220,140,.4);cursor:pointer;backdrop-filter:blur(6px);-webkit-tap-highlight-color:transparent;transition:background .4s,box-shadow .4s,color .4s,opacity .8s}
+.nvbtn{position:absolute;z-index:8;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 244px);width:58px;height:58px;border-radius:50%;font:inherit;font-size:12px;letter-spacing:.08em;color:#9fe3a8;background:rgba(0,0,0,.72);border:1px solid rgba(120,220,140,.4);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .4s,color .4s,opacity .8s}
 .nvbtn small{display:block;font-size:8px;letter-spacing:.06em;opacity:.8}
 .nvbtn[aria-pressed=true]{background:rgba(40,160,70,.4);box-shadow:0 0 24px rgba(90,255,130,.65);color:#e0ffe6}
-.wstick.nv .wpersp{filter:sepia(1) hue-rotate(55deg) saturate(3.4) brightness(1.7) contrast(1.15)}
-.nvov{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;transition:opacity .5s;background:repeating-linear-gradient(0deg,rgba(0,22,0,.28) 0 2px,transparent 2px 4px),radial-gradient(ellipse at center,transparent 50%,rgba(0,35,0,.75))}
-.wstick.nv .nvov{opacity:1;animation:nvflick .15s steps(2) infinite}
-@keyframes nvflick{50%{opacity:.86}}
+.nvov{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;background:linear-gradient(rgba(8,48,16,.45),rgba(4,28,10,.55))}
+.wstick.nv .nvov{opacity:1}
 .nvtag{position:absolute;z-index:6;top:calc(env(safe-area-inset-top,0px) + 108px);right:16px;font-size:11px;letter-spacing:.25em;color:#8dff9f;opacity:0;text-shadow:0 0 8px #3f3}
 .wstick.nv .nvtag{opacity:1;animation:blink 1.2s steps(2) infinite}
 .ghost{position:absolute;left:var(--gx);top:-40px;width:110px;height:190px;opacity:0;transform:translate3d(0,0,var(--gz));pointer-events:none;transition:opacity .6s,filter .6s}
 .ghost svg{display:block}
-.wstick.nv .ghost:not(.shot){opacity:.92;pointer-events:auto;cursor:crosshair;animation:gh 2.6s infinite steps(1)}
-@keyframes gh{0%,68%,100%{opacity:.92}70%{opacity:.2}72%{opacity:.92}88%{opacity:.5}90%{opacity:.92}}
+.wstick.nv .ghost:not(.shot){opacity:.92;pointer-events:auto;cursor:crosshair}
 .ghost.shot{opacity:0!important;filter:blur(10px);pointer-events:none}
 .shut{position:absolute;inset:0;z-index:9;background:#fff;opacity:0;pointer-events:none}
 .shut.go{animation:shutter .55s ease-out}
@@ -778,9 +774,10 @@ function aim(t){
 }
 addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY});
 (function loop(t){
+  if(document.body.classList.contains('inworld')){requestAnimationFrame(loop);return}
   if(!fine&&t>nextAim)aim(t);
-  const k=fine?.08:.035;fx+=(tx-fx)*k+(fine?0:(Math.random()-.5)*1.2);fy+=(ty-fy)*k+(fine?0:(Math.random()-.5)*1.2);
-  light.style.setProperty('--fx',fx+'px');light.style.setProperty('--fy',fy+'px');
+  const k=fine?.08:.035;fx+=(tx-fx)*k;fy+=(ty-fy)*k;
+  light.style.setProperty('--fx',(fx|0)+'px');light.style.setProperty('--fy',(fy|0)+'px');
   const tl=document.getElementById('tilt');
   if(tl){cRx+=(tRx-cRx)*.1;cRy+=(tRy-cRy)*.1;cSx+=(tSx-cSx)*.1;tl.style.transform=`rotateY(${cRy}deg) rotateX(${cRx}deg)`;const sh=tl.querySelector('.shine');if(sh)sh.style.setProperty('--sx',cSx+'%')}
   requestAnimationFrame(loop)
@@ -906,6 +903,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
   const mk=(w,c)=>P.map(d=>`<path d="${d}" stroke="${c}" stroke-width="${w}"/>`).join('');
   const handSVG=`<svg viewBox="0 0 200 80" width="200" height="80"><g fill="none" stroke-linecap="round" stroke-linejoin="round">${mk(15,'#020303')}<ellipse cx="122" cy="40" rx="22" ry="19" fill="#020303"/>${mk(9,'#aab6b0')}<ellipse cx="122" cy="40" rx="19" ry="16" fill="#8d9a95"/></g></svg>`;
   const byIdx=i=>{for(const t of registered.values())if(t.idx===i)return t;return null};
+  let worldTop=0,worldH=1,nvOn=false;
+  function measureWorld(){worldTop=world.offsetTop;worldH=world.offsetHeight||1}
   function sizeHall(depth){
     const len=depth+700;
     document.querySelectorAll('.wall').forEach(w=>{w.style.width=len+'px'});
@@ -920,8 +919,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
     doors=[];$('fates').innerHTML='';fateBtns=[];
     const count=n+1;
     DEPTH=Z0+(count-1)*GAP+980;
-    world.style.height=Math.min(720,400+count*42)+'vh';
+    world.style.height=Math.min(460,280+count*22)+'vh';
     sizeHall(DEPTH);
+    measureWorld();
     for(let i=0;i<count;i++){
       const right=i%2===1,side=right?1:-1,z=Z0+i*GAP,locked=i===n;
       const d=document.createElement('div');d.className='door'+(right?' r':'');
@@ -985,6 +985,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
   let ghosts=[],handsTotal=0;
   function placeGhosts(){
     ghosts.forEach(g=>g.remove());ghosts=[];
+    if(!ghostsWanted)return;
     [[.28,-130],[.42,130],[.58,-120],[.74,125]].forEach(([f,x],i)=>{
       const g=document.createElement('div');g.className='ghost';
       g.style.cssText=`--gx:${x-55}px;--gz:${-Math.round(DEPTH*f)}px`;
@@ -993,8 +994,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
     });
     $('hev').textContent=evidence=0;
   }
+  let ghostsWanted=false;
   function setNV(on){
-    stick.classList.toggle('nv',on);nvb.setAttribute('aria-pressed',on);
+    nvOn=on;stick.classList.toggle('nv',on);nvb.setAttribute('aria-pressed',on);
+    if(on){ghostsWanted=true;if(!ghosts.length)placeGhosts()}
     if(on&&!nvSeen){nvSeen=true;say2('Mode malam aktif. Cari sosok di lorong — ketuk untuk memotret.',3400)}
   }
   nvb.addEventListener('click',()=>setNV(!stick.classList.contains('nv')));
@@ -1065,15 +1068,20 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
     capIdx=i;cap.classList.remove('in');clearTimeout(capTimer);
     capTimer=setTimeout(()=>{const st=stages[i];$('capT').textContent=st.t;$('capD').textContent=st.d;if(st.t)cap.classList.add('in')},280);
   }
+  let raf=0;
+  function kick(){if(!raf)raf=requestAnimationFrame(frame)}
   function frame(t){
-    const r=world.getBoundingClientRect(),vh=innerHeight;
-    const inW=r.top<vh&&r.bottom>0;inWorldNow=inW;
-    const hideLight=r.top<vh*.55&&r.bottom>vh*.45;
+    raf=0;
+    const y=scrollY,vh=innerHeight;
+    const inW=y+vh>worldTop&&y<worldTop+worldH;inWorldNow=inW;
+    if(inW!==document.body.classList.contains('inworld'))document.body.classList.toggle('inworld',inW);
+    const hideLight=inW;
     const lightMode=hideLight?'none':'';
     if(lightMode!==lastLight){light.style.display=lightMode;lastLight=lightMode}
-    if(inW){
-      const span=Math.max(1,r.height-vh);
-      const target=Math.min(1,Math.max(0,-r.top/span));
+    if(!inW){lastT=0;return}
+    {
+      const span=Math.max(1,worldH-vh);
+      const target=Math.min(1,Math.max(0,(y-worldTop)/span));
       const dt=lastT?Math.min(34,t-lastT):16;lastT=t;
       const dtSec=dt/1000;
       const k=1-Math.exp(-dt/120);
@@ -1081,13 +1089,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
       if(Math.abs(target-cur)<.0008)cur=target;
       worldP=cur;const cz=cur*DEPTH;
       cor.style.transform=`translate3d(0,0,${cz}px)`;
-      const sway=Math.sin(t/2400)*cur;
-      scene.style.transform=`rotateY(${(sway*1.6).toFixed(3)}deg) rotateX(${(Math.cos(t/2800)*cur*.7).toFixed(3)}deg)`;
       let rad=86-cur*46;if(cur>.9)rad=42+(cur-.9)*900;
       if(t>flickUntil&&cur>.62&&cur<.9&&((t/140)|0)%11===0)flickUntil=t+90;
       if(t<flickUntil)rad*=.55;
       if(holding&&!gasp)rad*=.72;
-      if(stick.classList.contains('nv'))rad*=1.25;
+      if(nvOn)rad*=1.25;
       if(holding&&!gasp){breath-=dtSec*24;if(breath<=0){breath=0;gasp=true;hold(false);bb.classList.add('gasp');say2('Kehabisan napas…',1800);sting('step')}}
       else{breath=Math.min(100,breath+dtSec*(gasp?10:16));if(gasp&&breath>=35){gasp=false;bb.classList.remove('gasp')}}
       const bw=breath|0;if(bw!==lastBr){$('bfill').style.width=bw+'%';lastBr=bw}
@@ -1138,10 +1144,13 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
           if(o.danger<=0){o.hand.classList.remove('on');if(!o.caught&&!o.noted){o.noted=true;say2('Mereka lewat… untuk sekarang.',2200)}}
         }
       }
+      if(Math.abs(target-cur)>.001||holding||gasp||breath<99||doors.some(o=>o.danger>0))kick();
     }
-    requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  addEventListener('scroll',kick,{passive:true});
+  addEventListener('resize',()=>{measureWorld();kick()});
+  measureWorld();
+  kick();
   worldReady=true;
   if(total)window.refreshWorld();
 })();

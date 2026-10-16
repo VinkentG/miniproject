@@ -157,6 +157,62 @@ button.btn.primary:hover{box-shadow:0 14px 34px -6px var(--blood)}
 .rlist .ix{font-family:var(--serif);color:var(--blood);letter-spacing:.08em}
 .rlist .nm{font-size:14px;letter-spacing:.03em}
 @media(prefers-reduced-motion:reduce){.disc{animation:none!important}.radio.live .eq b{animation:none;height:16px}}
+.gown{margin:84px auto 0;max-width:440px;text-align:center}
+.gown .gnum{font-family:var(--serif);font-size:13px;letter-spacing:.5em;color:var(--blood)}
+.gown h3{margin:8px 0;font-family:var(--serif);font-weight:500;letter-spacing:.22em;font-size:22px;text-transform:uppercase}
+.gown .lead{margin:0 auto 22px;max-width:380px;font-size:13px;line-height:1.6;color:var(--mute)}
+.alcove{position:relative;height:460px;margin:0 auto;max-width:320px;border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#241f1b 0%,#100e0c 58%,#080807 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.4);user-select:none}
+.alcove.lit{background:radial-gradient(ellipse at 16% 0%,#6d5c44 0%,#2a231c 42%,#100e0c 100%)}
+.alcove.dyed.lit{background:radial-gradient(ellipse at 16% 0%,#6a2428 0%,#2a1214 46%,#100c0c 100%)}
+.alcove.no{animation:quake .4s}
+.rod{position:absolute;z-index:1;left:28px;right:28px;top:92px;height:5px;border-radius:5px;background:linear-gradient(#a89480,#3e352c);box-shadow:0 6px 8px rgba(0,0,0,.35)}
+.bulb{position:absolute;z-index:4;top:0;left:18px;width:64px;height:78px;border:0;background:none;color:inherit;cursor:pointer;padding:0}
+.bulb::before{content:"";display:block;width:1px;height:16px;margin:0 auto;background:#6a6258}
+.bulb i{display:block;width:26px;height:32px;margin:-2px auto 0;border-radius:14px 14px 12px 12px;background:#2c2926;border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 -10px 0 #161412}
+.alcove.lit .bulb i{background:#f3e2b6;border-color:rgba(255,236,190,.8);box-shadow:0 0 22px 8px rgba(243,214,150,.42)}
+.alcove.dyed .bulb i{background:#ffc2be;border-color:#ffd0cc;box-shadow:0 0 22px 8px rgba(196,22,28,.55)}
+.hanger{position:absolute;z-index:1;left:50%;top:96px;width:92px;height:16px;transform:translateX(-50%);border:2px solid #8a8074;border-bottom:0;border-radius:80px 80px 0 0}
+.hanger::before{content:"";position:absolute;left:50%;top:-14px;width:10px;height:14px;border:2px solid #8a8074;border-bottom:0;border-radius:8px 8px 0 0;transform:translateX(-50%)}
+.shirt{position:absolute;z-index:2;left:50%;top:108px;width:196px;transform:translateX(-50%)}
+.shirt svg{display:block;width:100%;height:auto;filter:brightness(.55) drop-shadow(0 14px 10px rgba(0,0,0,.55));transition:filter .55s var(--ease)}
+.alcove.lit .shirt svg{filter:brightness(1) drop-shadow(0 16px 12px rgba(0,0,0,.45))}
+.alcove.dyed .shirt svg{filter:brightness(1.05) drop-shadow(0 0 16px rgba(176,16,22,.55))}
+.base .cloth{fill:#d7d0c4}.base .fold{fill:#b9b2a6}
+.dye .cloth{fill:#b10e16}.dye .fold{fill:#7c0c12}
+.dye{clip-path:inset(0 0 100% 0);transition:clip-path 1.6s cubic-bezier(.2,.75,.2,1)}
+.alcove.dyed .dye{clip-path:inset(0)}
+.ribbon{position:absolute;z-index:3;left:16%;right:16%;top:47%;height:36px;touch-action:none;cursor:ew-resize;opacity:.2;transition:opacity .4s}
+.alcove.lit .ribbon{opacity:1}
+.ribbon i{position:absolute;top:12px;height:11px;width:50%;background:repeating-linear-gradient(90deg,#141414 0 5px,#2a2a2a 5px 6px);box-shadow:0 1px 0 rgba(255,255,255,.12)}
+.ribbon i.l{left:0;border-radius:2px 0 0 2px;transform:translateX(calc(var(--pull, 0px) * -1))}
+.ribbon i.r{right:0;border-radius:0 2px 2px 0;transform:translateX(var(--pull, 0px))}
+.ribbon.torn i{transition:transform .45s var(--ease)}
+.ribbon.torn i.l{transform:translateX(-130%)}.ribbon.torn i.r{transform:translateX(130%)}
+.ribbon b{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#c8c0b4;pointer-events:none;text-shadow:0 1px 2px #000;opacity:0}
+.alcove.lit .ribbon b{opacity:1}
+.ribbon.torn b{opacity:0}
+.collar{position:absolute;z-index:4;left:50%;top:2%;width:62px;height:62px;transform:translate(-50%,0);border-radius:50%;border:1px dashed rgba(255,255,255,.55);background:transparent;color:#f3efe6;cursor:pointer;padding:0;opacity:0;pointer-events:none;touch-action:none;--p:0}
+.alcove.torn .collar{opacity:1;pointer-events:auto}
+.alcove.dyed .ribbon,.alcove.dyed .collar{opacity:0;pointer-events:none}
+.collar i{position:absolute;inset:4px;border-radius:50%;background:conic-gradient(#f3efe6 calc(var(--p) * 1%),transparent 0);-webkit-mask:radial-gradient(circle,transparent 56%,#000 58%);mask:radial-gradient(circle,transparent 56%,#000 58%)}
+.collar em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.drop{position:absolute;z-index:5;left:50%;top:30%;width:9px;height:13px;margin-left:-4px;border-radius:50% 50% 50% 50%/35% 35% 65% 65%;background:#8d1016;opacity:0;pointer-events:none}
+.alcove.drip .drop{animation:drip .55s var(--ease) forwards}
+@keyframes drip{0%{opacity:1;transform:translateY(0) scale(.55)}75%{opacity:1;transform:translateY(86px) scale(1)}100%{opacity:0;transform:translateY(108px) scale(1.15)}}
+.glabels{display:flex;justify-content:center;gap:22px;margin-top:12px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#5e584e}
+.glabels span.on{color:#f4efe4}
+.gown.told .glabels span{color:#e7e1d4}
+.gown.told .glabels span.done{color:var(--blood)}
+.ghint{min-height:2.6em;margin:14px auto 0;max-width:340px;font-size:13px;line-height:1.5;color:var(--mute)}
+.gcard{display:none;position:absolute;z-index:6;left:12px;right:12px;bottom:12px;margin:0;padding:14px 14px 12px;background:#e8e4d9;color:#141a18;border:1px dashed rgba(20,26,24,.28);box-shadow:0 16px 40px rgba(0,0,0,.45);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.gcard.show{display:block}
+.gcard.open{opacity:1;transform:none}
+.seal{width:42px;height:42px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 38% 32%,#c42a30,#5a0b0e 72%);color:#f8d8d6;font-family:var(--serif);font-size:12px;letter-spacing:.08em;transform:rotate(-8deg);box-shadow:inset 0 0 0 2px rgba(255,220,210,.25),0 8px 16px rgba(90,8,12,.35)}
+.gkicker{font-size:10px;letter-spacing:.38em;text-transform:uppercase}
+.gword{margin:4px 0 6px;font-family:var(--serif);font-size:32px;letter-spacing:.18em;text-indent:.18em;color:#9d1218}
+.gcard p{margin:0 auto 8px;max-width:260px;font-size:12px;line-height:1.45;color:#3a332c}
+.gcard .note{margin-top:-6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7a534e}
+.gcard .btn{color:#141a18;border-color:rgba(20,26,24,.35)}
 .world{position:relative;height:650vh;background:#020403}
 body.inworld .grain{animation:none}
 body.inworld .fog,body.inworld .dust{visibility:hidden}
@@ -495,6 +551,45 @@ body.inworld .fog,body.inworld .dust{visibility:hidden}
         <button type="button" class="rbtn" id="rnext" aria-label="Lagu berikutnya">⟩</button>
       </div>
       <ol class="rlist" id="rlist"></ol>
+    </section>
+    <section class="gown" id="gown" aria-label="Dress code">
+      <div class="gnum">IV</div>
+      <h3>Ruang Ganti</h3>
+      <p class="lead">Warna yang wajib dipakai masih dikunci. Kain yang tergantung ini yang akan mengatakannya — setelah tiga hal selesai.</p>
+      <div class="alcove" id="alcove">
+        <button type="button" class="bulb" id="gbulb" aria-label="Nyalakan bohlam"><i></i></button>
+        <div class="rod" aria-hidden="true"></div>
+        <div class="hanger" aria-hidden="true"></div>
+        <div class="shirt" id="gshirt">
+          <svg viewBox="0 0 200 250" aria-hidden="true">
+            <g class="base">
+              <path class="cloth" d="M100 16 L76 26 L58 44 L36 118 L62 128 L74 56 L82 64 L74 236 L126 236 L118 64 L126 56 L138 128 L164 118 L142 44 L124 26 Z"/>
+              <path class="fold" d="M100 22 L88 54 L100 66 L112 54 Z"/>
+              <path class="fold" d="M96 66 L94 228 L106 228 L104 66 Z"/>
+            </g>
+            <g class="dye">
+              <path class="cloth" d="M100 16 L76 26 L58 44 L36 118 L62 128 L74 56 L82 64 L74 236 L126 236 L118 64 L126 56 L138 128 L164 118 L142 44 L124 26 Z"/>
+              <path class="fold" d="M100 22 L88 54 L100 66 L112 54 Z"/>
+              <path class="fold" d="M96 66 L94 228 L106 228 L104 66 Z"/>
+            </g>
+          </svg>
+          <div class="ribbon" id="gribbon" role="button" tabindex="0" aria-label="Sobek pita ke samping">
+            <i class="l"></i><i class="r"></i><b>sobek</b>
+          </div>
+          <button type="button" class="collar" id="gcollar" aria-disabled="true" aria-label="Tahan kerah"><i></i><em>tahan</em></button>
+        </div>
+        <i class="drop" aria-hidden="true"></i>
+        <div class="gcard" id="gcard">
+          <div class="seal" aria-hidden="true">GA</div>
+          <div class="gkicker">Dress code</div>
+          <div class="gword">Merah</div>
+          <p>Semua kain di tubuh harus merah. Baju, jaket, rok, atau celana — asal merah. Sepatu dan ikat pinggang boleh hitam.</p>
+          <p class="note">Selain itu, pintu tidak akan membuka.</p>
+          <button type="button" class="btn" id="greset">Jalani lagi</button>
+        </div>
+      </div>
+      <div class="glabels" id="glabels"><span>Nyala</span><span>Sobek</span><span>Tahan</span></div>
+      <p class="ghint" id="ghint" aria-live="polite">Bohlamnya mati. Nyalakan dulu.</p>
     </section>
     <button class="cue" id="cue">Turun ke dalam<span>↓</span></button>
   </section>
@@ -1433,6 +1528,112 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
   audio.onpause=()=>{if(holdDuck){holdDuck=false;paint();return}duck(false);paint()};
   audio.onplay=()=>{duck(true);paint()};
   audio.onerror=()=>{holdDuck=false;duck(false);$('nsub').textContent='Lagu ini tidak ketemu';paint()};
+})();
+(function(){
+  const gown=$('gown'),alcove=$('alcove'),ribbon=$('gribbon'),collar=$('gcollar'),hint=$('ghint'),card=$('gcard');
+  const labels=[...$('glabels').children];
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const HOLD=RM?400:1400;
+  let lit=false,torn=false,dyed=false,dragging=false,travel=0,holdRaf=0;
+  function mark(i){labels[i].classList.add('on')}
+  function say(t){hint.textContent=t}
+  function nudge(){alcove.classList.remove('no');void alcove.offsetWidth;alcove.classList.add('no');say(lit?'Pita itu disobek ke samping.':'Gelap. Nyalakan bohlamnya dulu.')}
+  $('gbulb').onclick=()=>{
+    if(lit)return;
+    lit=true;alcove.classList.add('lit');mark(0);
+    say('Pita hitam menutup dada kain. Sobek ke samping.');
+    sting('key');vib(12);
+  };
+  function tear(){
+    if(!lit){nudge();return}
+    if(torn)return;
+    torn=true;ribbon.classList.add('torn');ribbon.setAttribute('aria-pressed','true');
+    alcove.classList.add('torn');collar.setAttribute('aria-disabled','false');mark(1);
+    say('Tahan kerahnya. Jangan lepas sampai kain mau minum.');
+    sting('creak');vib(18);
+  }
+  ribbon.addEventListener('pointerdown',e=>{
+    if(!lit||torn){if(!lit)nudge();return}
+    dragging=true;travel=0;ribbon.dataset.x=e.clientX;
+    try{ribbon.setPointerCapture(e.pointerId)}catch(_){}
+  });
+  ribbon.addEventListener('pointermove',e=>{
+    if(!dragging)return;
+    const dx=e.clientX-Number(ribbon.dataset.x);
+    travel=Math.max(travel,Math.abs(dx));
+    ribbon.style.setProperty('--pull',Math.min(22,travel/3)+'px');
+  });
+  function endDrag(){
+    if(!dragging)return;
+    dragging=false;
+    if(travel>56)tear();
+    else ribbon.style.setProperty('--pull','0px');
+  }
+  ribbon.addEventListener('pointerup',endDrag);
+  ribbon.addEventListener('pointercancel',endDrag);
+  ribbon.addEventListener('keydown',e=>{
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    e.preventDefault();tear();
+  });
+  function stopHold(done){
+    cancelAnimationFrame(holdRaf);holdRaf=0;
+    if(!done)collar.style.setProperty('--p','0');
+  }
+  function holdTick(t0){
+    const step=now=>{
+      const p=Math.min(1,(now-t0)/HOLD);
+      collar.style.setProperty('--p',(p*100).toFixed(1));
+      if(p>=1){stopHold(true);bloom();return}
+      holdRaf=requestAnimationFrame(step);
+    };
+    holdRaf=requestAnimationFrame(step);
+  }
+  function startHold(e){
+    if(!torn||dyed||collar.getAttribute('aria-disabled')==='true')return;
+    if(e&&e.cancelable)e.preventDefault();
+    if(holdRaf)return;
+    holdTick(performance.now());
+  }
+  collar.addEventListener('pointerdown',e=>{
+    if(!torn||dyed)return;
+    try{collar.setPointerCapture(e.pointerId)}catch(_){}
+    startHold(e);
+  });
+  collar.addEventListener('pointerup',()=>stopHold(false));
+  collar.addEventListener('pointercancel',()=>stopHold(false));
+  collar.addEventListener('keydown',e=>{
+    if(e.repeat||(e.key!==' '&&e.key!=='Enter'))return;
+    startHold(e);
+  });
+  collar.addEventListener('keyup',e=>{
+    if(e.key===' '||e.key==='Enter')stopHold(false);
+  });
+  function showCard(){
+    card.classList.add('show');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.add('open')));
+    gown.classList.add('told');
+    labels.forEach(el=>el.classList.add('done'));
+    say('Kainnya sudah bicara.');
+    sting('stamp');
+  }
+  function bloom(){
+    if(dyed)return;
+    dyed=true;mark(2);collar.setAttribute('aria-disabled','true');
+    vib(28);sting('splat');
+    if(RM){alcove.classList.add('dyed');showCard();return}
+    alcove.classList.add('drip');
+    setTimeout(()=>alcove.classList.add('dyed'),480);
+    setTimeout(showCard,1500);
+  }
+  $('greset').onclick=()=>{
+    lit=torn=dyed=false;stopHold(false);
+    alcove.className='alcove';gown.classList.remove('told');
+    ribbon.classList.remove('torn');ribbon.style.removeProperty('--pull');ribbon.removeAttribute('aria-pressed');
+    collar.setAttribute('aria-disabled','true');collar.style.setProperty('--p','0');
+    card.classList.remove('show','open');
+    labels.forEach(el=>el.classList.remove('on','done'));
+    say('Bohlamnya mati. Nyalakan dulu.');
+  };
 })();
 </script>
 </body>

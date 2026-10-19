@@ -163,22 +163,22 @@ button.btn.primary:hover{box-shadow:0 14px 34px -6px var(--blood)}
 .gown .lead{margin:0 auto 22px;max-width:380px;font-size:13px;line-height:1.6;color:var(--mute)}
 .alcove{position:relative;height:460px;margin:0 auto;max-width:320px;border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#241f1b 0%,#100e0c 58%,#080807 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.4);user-select:none}
 .alcove.lit{background:radial-gradient(ellipse at 16% 0%,#6d5c44 0%,#2a231c 42%,#100e0c 100%)}
-.alcove.dyed.lit{background:radial-gradient(ellipse at 16% 0%,#6a2428 0%,#2a1214 46%,#100c0c 100%)}
+.alcove.dyed.lit{background:radial-gradient(ellipse at 16% 0%,#d9ddd8 0%,#3a403c 42%,#121614 100%)}
 .alcove.no{animation:quake .4s}
 .rod{position:absolute;z-index:1;left:28px;right:28px;top:92px;height:5px;border-radius:5px;background:linear-gradient(#a89480,#3e352c);box-shadow:0 6px 8px rgba(0,0,0,.35)}
 .bulb{position:absolute;z-index:4;top:0;left:18px;width:64px;height:78px;border:0;background:none;color:inherit;cursor:pointer;padding:0}
 .bulb::before{content:"";display:block;width:1px;height:16px;margin:0 auto;background:#6a6258}
 .bulb i{display:block;width:26px;height:32px;margin:-2px auto 0;border-radius:14px 14px 12px 12px;background:#2c2926;border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 -10px 0 #161412}
 .alcove.lit .bulb i{background:#f3e2b6;border-color:rgba(255,236,190,.8);box-shadow:0 0 22px 8px rgba(243,214,150,.42)}
-.alcove.dyed .bulb i{background:#ffc2be;border-color:#ffd0cc;box-shadow:0 0 22px 8px rgba(196,22,28,.55)}
+.alcove.dyed .bulb i{background:#f7f7f4;border-color:#fff;box-shadow:0 0 22px 8px rgba(255,255,255,.55)}
 .hanger{position:absolute;z-index:1;left:50%;top:96px;width:92px;height:16px;transform:translateX(-50%);border:2px solid #8a8074;border-bottom:0;border-radius:80px 80px 0 0}
 .hanger::before{content:"";position:absolute;left:50%;top:-14px;width:10px;height:14px;border:2px solid #8a8074;border-bottom:0;border-radius:8px 8px 0 0;transform:translateX(-50%)}
 .shirt{position:absolute;z-index:2;left:50%;top:108px;width:196px;transform:translateX(-50%)}
 .shirt svg{display:block;width:100%;height:auto;filter:brightness(.55) drop-shadow(0 14px 10px rgba(0,0,0,.55));transition:filter .55s var(--ease)}
 .alcove.lit .shirt svg{filter:brightness(1) drop-shadow(0 16px 12px rgba(0,0,0,.45))}
-.alcove.dyed .shirt svg{filter:brightness(1.05) drop-shadow(0 0 16px rgba(176,16,22,.55))}
+.alcove.dyed .shirt svg{filter:brightness(1.15) drop-shadow(0 0 16px rgba(255,255,255,.65))}
 .base .cloth{fill:#d7d0c4}.base .fold{fill:#b9b2a6}
-.dye .cloth{fill:#b10e16}.dye .fold{fill:#7c0c12}
+.dye .cloth{fill:#fbfbf8}.dye .fold{fill:#e7e4dc}
 .dye{clip-path:inset(0 0 100% 0);transition:clip-path 1.6s cubic-bezier(.2,.75,.2,1)}
 .alcove.dyed .dye{clip-path:inset(0)}
 .ribbon{position:absolute;z-index:3;left:16%;right:16%;top:47%;height:36px;touch-action:none;cursor:ew-resize;opacity:.2;transition:opacity .4s}
@@ -196,22 +196,22 @@ button.btn.primary:hover{box-shadow:0 14px 34px -6px var(--blood)}
 .alcove.dyed .ribbon,.alcove.dyed .collar{opacity:0;pointer-events:none}
 .collar i{position:absolute;inset:4px;border-radius:50%;background:conic-gradient(#f3efe6 calc(var(--p) * 1%),transparent 0);-webkit-mask:radial-gradient(circle,transparent 56%,#000 58%);mask:radial-gradient(circle,transparent 56%,#000 58%)}
 .collar em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:9px;letter-spacing:.16em;text-transform:uppercase}
-.drop{position:absolute;z-index:5;left:50%;top:30%;width:9px;height:13px;margin-left:-4px;border-radius:50% 50% 50% 50%/35% 35% 65% 65%;background:#8d1016;opacity:0;pointer-events:none}
+.drop{position:absolute;z-index:5;left:50%;top:30%;width:9px;height:13px;margin-left:-4px;border-radius:50% 50% 50% 50%/35% 35% 65% 65%;background:#f4f1ea;opacity:0;pointer-events:none}
 .alcove.drip .drop{animation:drip .55s var(--ease) forwards}
 @keyframes drip{0%{opacity:1;transform:translateY(0) scale(.55)}75%{opacity:1;transform:translateY(86px) scale(1)}100%{opacity:0;transform:translateY(108px) scale(1.15)}}
 .glabels{display:flex;justify-content:center;gap:22px;margin-top:12px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#5e584e}
 .glabels span.on{color:#f4efe4}
 .gown.told .glabels span{color:#e7e1d4}
-.gown.told .glabels span.done{color:var(--blood)}
+.gown.told .glabels span.done{color:#f7f4ee}
 .ghint{min-height:2.6em;margin:14px auto 0;max-width:340px;font-size:13px;line-height:1.5;color:var(--mute)}
 .gcard{display:none;position:absolute;z-index:6;left:12px;right:12px;bottom:12px;margin:0;padding:14px 14px 12px;background:#e8e4d9;color:#141a18;border:1px dashed rgba(20,26,24,.28);box-shadow:0 16px 40px rgba(0,0,0,.45);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .gcard.show{display:block}
 .gcard.open{opacity:1;transform:none}
-.seal{width:42px;height:42px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 38% 32%,#c42a30,#5a0b0e 72%);color:#f8d8d6;font-family:var(--serif);font-size:12px;letter-spacing:.08em;transform:rotate(-8deg);box-shadow:inset 0 0 0 2px rgba(255,220,210,.25),0 8px 16px rgba(90,8,12,.35)}
+.seal{width:42px;height:42px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 38% 32%,#f7f4ee,#c8c2b6 72%);color:#2a2824;font-family:var(--serif);font-size:12px;letter-spacing:.08em;transform:rotate(-8deg);box-shadow:inset 0 0 0 2px rgba(255,255,255,.7),0 8px 16px rgba(0,0,0,.18)}
 .gkicker{font-size:10px;letter-spacing:.38em;text-transform:uppercase}
-.gword{margin:4px 0 6px;font-family:var(--serif);font-size:32px;letter-spacing:.18em;text-indent:.18em;color:#9d1218}
+.gword{margin:4px 0 6px;font-family:var(--serif);font-size:32px;letter-spacing:.18em;text-indent:.18em;color:#f4f1ea;background:#1c1a17;border-radius:2px;padding:6px 0 4px}
 .gcard p{margin:0 auto 8px;max-width:260px;font-size:12px;line-height:1.45;color:#3a332c}
-.gcard .note{margin-top:-6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7a534e}
+.gcard .note{margin-top:-6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5c564e}
 .gcard .btn{color:#141a18;border-color:rgba(20,26,24,.35)}
 .world{position:relative;height:650vh;background:#020403}
 body.inworld .grain{animation:none}
@@ -582,8 +582,8 @@ body.inworld .fog,body.inworld .dust{visibility:hidden}
         <div class="gcard" id="gcard">
           <div class="seal" aria-hidden="true">GA</div>
           <div class="gkicker">Dress code</div>
-          <div class="gword">Merah</div>
-          <p>Semua kain di tubuh harus merah. Baju, jaket, rok, atau celana — asal merah. Sepatu dan ikat pinggang boleh hitam.</p>
+          <div class="gword">Putih</div>
+          <p>Semua kain di tubuh harus putih. Baju, jaket, rok, atau celana — asal putih. Sepatu dan ikat pinggang boleh hitam.</p>
           <p class="note">Selain itu, pintu tidak akan membuka.</p>
           <button type="button" class="btn" id="greset">Jalani lagi</button>
         </div>
@@ -1619,7 +1619,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){hide($('confirm'));
   function bloom(){
     if(dyed)return;
     dyed=true;mark(2);collar.setAttribute('aria-disabled','true');
-    vib(28);sting('splat');
+    vib(28);sting('shutter');
     if(RM){alcove.classList.add('dyed');showCard();return}
     alcove.classList.add('drip');
     setTimeout(()=>alcove.classList.add('dyed'),480);
